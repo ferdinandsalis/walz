@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Website for Walz",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "sideEffects": false,
   "scripts": {
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
