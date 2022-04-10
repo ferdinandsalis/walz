@@ -4,7 +4,7 @@ export default function Index() {
       <div className="space-y-16">
         <div className="-mx-8 mb-16 md:-mx-12">
           <div className="bg-sky-50 p-8 md:p-20 lg:py-24">
-            <p className="max-w-xl text-xl font-light tracking-tight text-gray-800 md:text-4xl md:leading-tight">
+            <p className="max-w-xl text-2xl font-light tracking-tight text-gray-800 md:text-4xl md:leading-tight">
               Unser Bestreben ist es dich auf ein, gegenüber der Vergangenheit
               gesellschaftlich drastisch verändertes, selbst bestimmtes Leben
               vorzubereiten.
@@ -88,7 +88,7 @@ export default function Index() {
             </article>
           </div>
         </section>
-        <div className="max-w-xl rounded bg-amber-50 md:rounded-lg md:p-12 md:drop-shadow">
+        <div className="max-w-xl rounded bg-amber-50 p-12 md:rounded-lg md:drop-shadow">
           <h1 className="mb-4 font-serif text-2xl text-amber-500">
             Was ist die Walz?
           </h1>
@@ -120,7 +120,7 @@ export default function Index() {
 
         <section>
           <h1 className="mb-8 font-serif text-xl font-bold uppercase tracking-widest text-red-500">
-            Unser Kontakt
+            Kontakt
           </h1>
         </section>
       </div>

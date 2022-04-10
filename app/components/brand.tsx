@@ -1,8 +1,7 @@
 export function Logo(props: JSX.IntrinsicElements['svg']) {
   return (
     <svg
-      width={182}
-      height={175}
+      viewBox="0 0 182 175"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

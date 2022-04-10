@@ -25,9 +25,10 @@ export const meta: MetaFunction = () => {
 const navigation = {
   main: [
     { name: 'Die Schule', to: '/schule' },
-    { name: 'Das Team', to: '/team' },
+    { name: 'Unsere Philosophie', to: '/philosophie' },
+    { name: 'Akutelles', to: '/aktuelles' },
+    { name: 'Team', to: '/team' },
     { name: 'Kontakt', to: '/kontakt' },
-    { name: 'Impressum', to: '/impressum' },
   ],
   social: [],
 }
@@ -52,7 +53,7 @@ export default function App() {
                 <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
                   <Link to="/">
                     <span className="sr-only">Walz</span>
-                    <Icon className='w-8' />
+                    <Icon className="w-8" />
                   </Link>
                 </div>
               </div>
@@ -72,6 +73,7 @@ export default function App() {
           <main>
             <Outlet />
           </main>
+          <hr className="border-b border-gray-200" />
           <Footer />
         </div>
         <ScrollRestoration />
@@ -84,29 +86,38 @@ export default function App() {
 
 function Footer() {
   return (
-    <footer className="mt-16">
+    <footer>
       <div className="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
         <nav
-          className="flex flex-wrap justify-center items-center md:space-x-6 mb-8"
+          className="mb-8 flex flex-wrap items-center justify-center md:space-x-6"
           aria-label="Footer"
         >
           {navigation.main.map(item => (
-              <Link
-                key={item.name}
-                to={item.to}
-                prefetch="intent"
-                className="font-serif text-lg text-gray-600 hover:text-gray-800"
-              >
-                {item.name}
-              </Link>
+            <Link
+              key={item.name}
+              to={item.to}
+              prefetch="intent"
+              className="font-serif text-lg text-gray-600 hover:text-gray-800"
+            >
+              {item.name}
+            </Link>
           ))}
         </nav>
         <div className="flex flex-col items-center">
-          <Logo />
+          <Logo className="w-36" />
         </div>
-        <p className="mt-8 text-center text-base text-gray-400">
-          {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
-        </p>
+        <div className="mt-8 text-center">
+          <Link
+            to="/legal"
+            prefetch="intent"
+            className="font-serif text-lg text-gray-600 hover:text-gray-800"
+          >
+            Impressum
+          </Link>
+          <p className="text-center text-base text-gray-400">
+            {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
+          </p>
+        </div>
       </div>
     </footer>
   )
