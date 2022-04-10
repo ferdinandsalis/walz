@@ -1,4 +1,5 @@
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -8,7 +9,7 @@ import {
 } from 'remix'
 import type { MetaFunction } from 'remix'
 import styles from './styles/app.css'
-import { Icon } from './components/brand'
+import { Icon, Logo } from './components/brand'
 
 export function links() {
   return [
@@ -21,6 +22,16 @@ export const meta: MetaFunction = () => {
   return { title: 'Walz' }
 }
 
+const navigation = {
+  main: [
+    { name: 'Die Schule', to: '/schule' },
+    { name: 'Das Team', to: '/team' },
+    { name: 'Kontakt', to: '/kontakt' },
+    { name: 'Impressum', to: '/impressum' },
+  ],
+  social: [],
+}
+
 export default function App() {
   return (
     <html lang="en">
@@ -30,12 +41,37 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="text-slate-900">
-        <div className="max-w-7xl mx-auto p-8 md:p-12">
-          <header>
-            <Icon className="w-16" />
+      <body className="font-normal text-gray-700">
+        <div className="mx-auto max-w-7xl p-8 md:p-12">
+          <header className="mb-8">
+            <nav
+              aria-label="Global"
+              className="relative flex flex-wrap items-center justify-center"
+            >
+              <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
+                <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
+                  <Link to="/">
+                    <span className="sr-only">Walz</span>
+                    <Icon className='w-8' />
+                  </Link>
+                </div>
+              </div>
+              <div className="items-center md:flex md:space-x-10">
+                {navigation.main.map(item => (
+                  <Link
+                    to={item.to}
+                    prefetch="intent"
+                    className="font-serif text-lg text-gray-600 hover:text-gray-800"
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </nav>
           </header>
-          <Outlet />
+          <main>
+            <Outlet />
+          </main>
           <Footer />
         </div>
         <ScrollRestoration />
@@ -46,35 +82,28 @@ export default function App() {
   )
 }
 
-const navigation = {
-  main: [
-    { name: 'Die Schule', href: 'schule' },
-    { name: 'Das Team', href: 'team' },
-    { name: 'Kontakt', href: 'kontakt' },
-    { name: 'Impressum', href: 'impressum' },
-  ],
-  social: [],
-}
-
 function Footer() {
   return (
     <footer className="mt-16">
-      <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
         <nav
-          className="-mx-5 -my-2 flex flex-wrap justify-center"
+          className="flex flex-wrap justify-center items-center md:space-x-6 mb-8"
           aria-label="Footer"
         >
           {navigation.main.map(item => (
-            <div key={item.name} className="px-5 py-2">
-              <a
-                href={item.href}
-                className="text-lg text-gray-700 hover:text-gray-900"
+              <Link
+                key={item.name}
+                to={item.to}
+                prefetch="intent"
+                className="font-serif text-lg text-gray-600 hover:text-gray-800"
               >
                 {item.name}
-              </a>
-            </div>
+              </Link>
           ))}
         </nav>
+        <div className="flex flex-col items-center">
+          <Logo />
+        </div>
         <p className="mt-8 text-center text-base text-gray-400">
           {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
         </p>

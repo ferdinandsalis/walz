@@ -1,46 +1,34 @@
-import { Logo } from '~/components/brand'
-
 export default function Index() {
   return (
     <>
-      <div className="mb-8 md:mb-24 flex flex-col items-center">
-        <Logo />
-      </div>
       <div className="space-y-16">
-        <div className="-mx-8 md:-mx-12 mb-16">
-          <div className="bg-sky-50 p-8 md:p-12">
-            <p className="text-xl md:text-2xl font-light max-w-prose leading-relaxed mb-8 text-slate-900">
-              Unser Bestreben ist es, die Jugendlichen auf ein, gegenüber der
-              Vergangenheit gesellschaftlich drastisch verändertes, selbst
-              bestimmtes Leben vorzubereiten. Unser Ziel ist, dass unsere
-              Absolvent:innen eben diese Fähigkeiten in die Gesellschaft
-              einbringen und so einen Beitrag zu deren Gestaltung leisten. Der
-              für die Walz relevante Ort des Lernens ist das konkrete Tun –
-              neben dem regulären Unterricht in den Gegenständen laut Lehrplan
-              finden verschiedenste Projekte statt. Diese Projekte sollen
-              Lebenserfahrung ermöglichen und die Idee des lebenslangen Lernens
-              implementieren.
+        <div className="-mx-8 mb-16 md:-mx-12">
+          <div className="bg-sky-50 p-8 md:p-20 lg:py-24">
+            <p className="max-w-xl text-xl font-light tracking-tight text-gray-800 md:text-4xl md:leading-tight">
+              Unser Bestreben ist es dich auf ein, gegenüber der Vergangenheit
+              gesellschaftlich drastisch verändertes, selbst bestimmtes Leben
+              vorzubereiten.
             </p>
           </div>
         </div>
         <section>
-          <header className="mb-16 text-left">
-            <h1 className="text-xl text-sky-500 font-bold uppercase tracking-widest">
+          <header className="mb-16 text-center">
+            <h1 className="mb-2 font-serif text-lg font-bold uppercase tracking-widest text-sky-500">
               Die Drei Säulen
             </h1>
-            <h2 className="font-medium text-lg">
+            <h2 className="font-medium text-gray-500">
               Hierauf stützt sich alles was wir machen
             </h2>
           </header>
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-3">
             <article>
               <header className="mb-4">
-                <h1 className="text-4xl font-bold">Bildung</h1>
-                <h2 className="font-medium text-lg text-red-500">
-                  Verstehen, begreigen, erklaeren
+                <h1 className="font-serif text-4xl font-bold">Bildung</h1>
+                <h2 className="text-lg font-medium text-red-500">
+                  Verstehen, begreifen, erklären
                 </h2>
               </header>
-              <p className="font-light text-lg">
+              <p className="text-lg">
                 Anders als Ausbildung verändert Bildung Menschen. Vor diesem
                 Hintergrund verstehen wir unseren Auftrag daher im Sinne von
                 bilden und formen. Wesentliches Ziel ist es, dass die
@@ -54,12 +42,12 @@ export default function Index() {
             </article>
             <article>
               <header className="mb-4">
-                <h1 className="text-4xl font-bold">Praxis</h1>
-                <h2 className="font-medium text-lg text-red-500">
+                <h1 className="font-serif text-4xl font-bold">Praxis</h1>
+                <h2 className="text-lg font-medium text-red-500">
                   Dinge probieren
                 </h2>
               </header>
-              <p className="font-light text-lg">
+              <p className="text-lg">
                 Learning by doing- Ziel der Projekte in der Walz ist das
                 erworbene Wissen in der Praxis anzuwenden und auf andere Art und
                 Weise zu akquirieren. Auf dem Programm stehen neben Praktika in
@@ -72,12 +60,14 @@ export default function Index() {
             </article>
             <article>
               <header className="mb-4">
-                <h1 className="text-4xl font-bold">Persönlichkeit</h1>
-                <h2 className="font-medium text-lg text-red-500">
+                <h1 className="font-serif text-4xl font-bold">
+                  Persönlichkeit
+                </h1>
+                <h2 className="text-lg font-medium text-red-500">
                   Potenziale entfalten
                 </h2>
               </header>
-              <p className="font-light text-lg">
+              <p className="text-lg">
                 Trotz veränderter Anforderungen bleibt für Jugendliche die alles
                 bestimmende Frage des Jugendalters „Wer bin ich?“. In der Walz
                 schaffen wir Erfahrungsräume, um dieser Frage nachzugehen. Ein
@@ -91,15 +81,18 @@ export default function Index() {
               </p>
             </article>
             <article className="flex flex-col justify-center">
-              <p className="text-4xl text-red-500 font-medium leading-normal underline underline-offset-2">
-                Mehr über die drei Säulen erfahren
+              <p className="text-2xl font-medium leading-normal text-sky-500 underline underline-offset-2">
+                Mehr über die
+                <br /> drei Säulen erfahren
               </p>
             </article>
           </div>
         </section>
-        <div className="bg-sky-50 p-12 rounded">
-          <h1 className="text-2xl text-sky-500 mb-4">Was ist die Walz?</h1>
-          <p className="max-w-prose rounded-md text-lg font-light text-gray-700">
+        <div className="max-w-xl rounded bg-amber-50 md:rounded-lg md:p-12 md:drop-shadow">
+          <h1 className="mb-4 font-serif text-2xl text-amber-500">
+            Was ist die Walz?
+          </h1>
+          <p className="max-w-prose rounded-md text-lg">
             ist eine private Bildungseinrichtung mit Öffentlichkeitsrecht für
             Jugendliche im Alter von 14 bis 19 Jahren (9.-13. Schulstufe). Die
             Walz schließt mit Matura (Externistenreifeprüfung) ab. Der
@@ -109,25 +102,27 @@ export default function Index() {
         </div>
 
         <section>
-          <h1 className="text-xl text-sky-500 font-bold uppercase tracking-widest">
+          <h1 className="mb-8 font-serif text-xl font-bold uppercase tracking-widest text-red-500">
             Häufige Fragen
           </h1>
-          <section>
-            <h1>… der Schüler</h1>
-          </section>
-          <section>
-            <h1>… der Eltern</h1>
-          </section>
-          <section>
-            <h1>… der Ehemaligen</h1>
-          </section>
+          <nav className="flex items-center space-x-5">
+            <div className="rounded-full bg-blue-50 p-4 text-sky-500">
+              <h1>der Schüler</h1>
+            </div>
+            <div className="rounded-full bg-blue-50 p-4 text-sky-500">
+              <h1>der Eltern</h1>
+            </div>
+            <div className="rounded-full bg-blue-50 p-4 text-sky-500">
+              <h1>der Ehemaligen</h1>
+            </div>
+          </nav>
         </section>
 
-        <div>
-          <h1 className="text-xl text-sky-500 font-bold uppercase tracking-widest">
+        <section>
+          <h1 className="mb-8 font-serif text-xl font-bold uppercase tracking-widest text-red-500">
             Unser Kontakt
           </h1>
-        </div>
+        </section>
       </div>
     </>
   )

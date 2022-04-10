@@ -1,4 +1,4 @@
-export function Logo(props: JSX.IntrinsicElements["svg"]) {
+export function Logo(props: JSX.IntrinsicElements['svg']) {
   return (
     <svg
       width={182}
@@ -28,14 +28,13 @@ export function Logo(props: JSX.IntrinsicElements["svg"]) {
         </clipPath>
       </defs>
     </svg>
-  );
+  )
 }
 
 export function Icon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width={20}
-      height={19}
+      viewBox="0 0 20 19"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
@@ -45,6 +44,5 @@ export function Icon(props: React.SVGProps<SVGSVGElement>) {
         fill="#F15A29"
       />
     </svg>
-  );
+  )
 }
-
