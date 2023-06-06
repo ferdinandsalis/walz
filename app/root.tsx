@@ -6,10 +6,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from 'remix'
-import type { MetaFunction } from 'remix'
+} from '@remix-run/react'
+import type { MetaFunction } from '@remix-run/node'
 import styles from './styles/app.css'
-import { Icon, Logo } from './components/brand'
+import { LogoIcon, Logo, LogoType } from './components/brand'
 
 export function links() {
   return [
@@ -25,8 +25,8 @@ export const meta: MetaFunction = () => {
 const navigation = {
   main: [
     { name: 'Die Schule', to: '/schule' },
-    { name: 'Unsere Philosophie', to: '/philosophie' },
-    { name: 'Akutelles', to: '/aktuelles' },
+    { name: 'Philosophie', to: '/philosophie' },
+    { name: 'Aktuelles', to: '/aktuelles' },
     { name: 'Team', to: '/team' },
     { name: 'Kontakt', to: '/kontakt' },
   ],
@@ -35,13 +35,14 @@ const navigation = {
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="de">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
+
       <body className="font-normal text-gray-700">
         <div className="mx-auto max-w-7xl p-8 md:p-12">
           <header className="mb-8">
@@ -49,15 +50,14 @@ export default function App() {
               aria-label="Global"
               className="relative flex flex-wrap items-center justify-center"
             >
-              <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
-                <div className="flex flex-1 items-center md:absolute md:inset-y-0 md:left-0">
-                  <Link to="/">
-                    <span className="sr-only">Walz</span>
-                    <Icon className="w-8" />
-                  </Link>
-                </div>
+              <div className="flex-1">
+                <Link to="/" className="flex items-center gap-2">
+                  <LogoIcon className="w-10" />
+                  <LogoType className="w-16" />
+                </Link>
               </div>
-              <div className="items-center md:flex md:space-x-10">
+
+              <div className="items-center md:flex md:gap-6">
                 {navigation.main.map(item => (
                   <Link
                     to={item.to}
@@ -68,9 +68,10 @@ export default function App() {
                   </Link>
                 ))}
               </div>
+              <div className=""></div>
             </nav>
           </header>
-          <main>
+          <main className="px-8">
             <Outlet />
           </main>
           <hr className="border-b border-gray-200" />
