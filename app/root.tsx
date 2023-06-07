@@ -7,7 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import type { MetaFunction } from '@remix-run/node'
+import type { V2_MetaFunction } from '@remix-run/node'
 import styles from './styles/app.css'
 import { LogoIcon, Logo, LogoType } from './components/brand'
 
@@ -18,16 +18,15 @@ export function links() {
   ]
 }
 
-export const meta: MetaFunction = () => {
-  return { title: 'Walz' }
+export const meta: V2_MetaFunction = () => {
+  return [{ title: 'Walz' }]
 }
 
 const navigation = {
   main: [
-    { name: 'Die Schule', to: '/schule' },
     { name: 'Philosophie', to: '/philosophie' },
+    { name: 'Über Uns', to: '/ueber-uns' },
     { name: 'Aktuelles', to: '/aktuelles' },
-    { name: 'Team', to: '/team' },
     { name: 'Kontakt', to: '/kontakt' },
   ],
   social: [],
@@ -44,11 +43,11 @@ export default function App() {
       </head>
 
       <body className="font-normal text-gray-700">
-        <div className="mx-auto max-w-7xl p-8 md:p-12">
+        <div className="mx-auto max-w-7xl p-4 sm:p-8 md:p-12">
           <header className="mb-8">
             <nav
               aria-label="Global"
-              className="relative flex flex-wrap items-center justify-center"
+              className="relative flex flex-wrap md:items-center justify-center"
             >
               <div className="flex-1">
                 <Link to="/" className="flex items-center gap-2">
@@ -57,12 +56,12 @@ export default function App() {
                 </Link>
               </div>
 
-              <div className="items-center md:flex md:gap-6">
+              <div className="items-end md:items-center flex flex-col md:flex-row gap-4">
                 {navigation.main.map(item => (
                   <Link
                     to={item.to}
                     prefetch="intent"
-                    className="font-serif text-lg text-gray-600 hover:text-gray-800"
+                    className="font-bold text-lg text-gray-700 hover:text-gray-900"
                   >
                     {item.name}
                   </Link>
@@ -71,7 +70,7 @@ export default function App() {
               <div className=""></div>
             </nav>
           </header>
-          <main className="px-8">
+          <main className="">
             <Outlet />
           </main>
           <hr className="border-b border-gray-200" />
