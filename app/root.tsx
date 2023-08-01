@@ -42,12 +42,12 @@ export default function App() {
         <Links />
       </head>
 
-      <body className="font-normal text-gray-700">
+      <body className="bg-neutral-100 font-normal text-gray-700">
         <div className="mx-auto max-w-7xl p-4 sm:p-8 md:p-12">
           <header className="mb-8">
             <nav
               aria-label="Global"
-              className="relative flex flex-wrap md:items-center justify-center"
+              className="relative flex flex-wrap justify-center md:items-center"
             >
               <div className="flex-1">
                 <Link to="/" className="flex items-center gap-2">
@@ -56,12 +56,12 @@ export default function App() {
                 </Link>
               </div>
 
-              <div className="items-end md:items-center flex flex-col md:flex-row gap-4">
+              <div className="flex flex-col items-end gap-4 md:flex-row md:items-center">
                 {navigation.main.map(item => (
                   <Link
                     to={item.to}
                     prefetch="intent"
-                    className="font-bold text-lg text-gray-700 hover:text-gray-900"
+                    className="text-lg font-bold text-gray-700 hover:text-gray-900"
                   >
                     {item.name}
                   </Link>
@@ -87,7 +87,7 @@ export default function App() {
 function Footer() {
   return (
     <footer>
-      <div className="mx-auto max-w-7xl overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden px-4 py-12 sm:px-6 lg:px-8">
         <nav
           className="mb-8 flex flex-wrap items-center justify-center md:space-x-6"
           aria-label="Footer"
