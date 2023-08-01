@@ -83,7 +83,7 @@ export default function Index() {
               <div className="relative mb-4">
                 <img
                   src="/photos/walz-philosophie-praxis.jpg"
-                  className="ascpet-square object-cover w-full h-48 drop-shadow-lg shadow-lg grayscale"
+                  className="ascpet-square object-cover w-full h-48 w-48 drop-shadow-lg shadow-lg grayscale"
                 />
               </div>
               <h1 className="font-serif text-3xl font-bold">Bildung</h1>
@@ -96,7 +96,7 @@ export default function Index() {
               <div className="relative mb-4">
                 <img
                   src="/photos/walz-philosophie-praxis.jpg"
-                  className="ascpet-square object-cover w-full h-48 drop-shadow-lg shadow-lg grayscale group-hover:grayscale-0 transition-all"
+                  className="ascpet-square object-cover w-full h-48 w-48 drop-shadow-lg shadow-lg grayscale"
                 />
               </div>
               <h1 className="font-serif text-3xl font-bold">Praxis</h1>
@@ -109,7 +109,7 @@ export default function Index() {
               <div className="relative mb-4">
                 <img
                   src="/photos/walz-philosophie-praxis.jpg"
-                  className="ascpet-square object-cover w-full h-48 drop-shadow-xl grayscale"
+                  className="ascpet-square object-cover w-full h-48 w-48 drop-shadow-lg shadow-lg grayscale"
                 />
               </div>
               <h1 className="font-serif text-3xl font-bold">Persönlichkeit</h1>
