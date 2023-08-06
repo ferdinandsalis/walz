@@ -8,7 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import { LogoIcon, LogoType } from './components/brand.tsx'
+import { LogoSymbol, LogoType } from './components/brand.tsx'
 import styles from './styles/app.css'
 import { Footer, Navigation } from './components/shell.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
@@ -25,77 +25,74 @@ export const meta: V2_MetaFunction = () => {
 }
 
 function Document({
-	children,
-	nonce,
-	theme = 'light',
-	env = {},
+  children,
+  nonce,
+  theme = 'light',
+  env = {},
 }: {
-	children: React.ReactNode
-	nonce?: string
-	theme?: 'dark' | 'light'
-	env?: Record<string, string>
+  children: React.ReactNode
+  nonce?: string
+  theme?: 'dark' | 'light'
+  env?: Record<string, string>
 }) {
-	return (
-		<html lang="de" className={`${theme} h-full overflow-x-hidden`}>
-			<head>
-				<Meta />
-				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width,initial-scale=1" />
-				<Links />
-			</head>
-			{/* <body className="bg-background text-foreground"> */}
-      <body className="bg-neutral-100 font-normal text-gray-700">
-				{children}
-				<script
-					nonce={nonce}
-					dangerouslySetInnerHTML={{
-						__html: `window.ENV = ${JSON.stringify(env)}`,
-					}}
-				/>
-				<ScrollRestoration nonce={nonce} />
-				<Scripts nonce={nonce} />
-				<LiveReload nonce={nonce} />
-			</body>
-		</html>
-	)
+  return (
+    <html lang="de" className={`${theme} h-full overflow-x-hidden`}>
+      <head>
+        <Meta />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Links />
+      </head>
+      <body className="bg-background bg-neutral-100 text-foreground">
+        {children}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(env)}`,
+          }}
+        />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
+        <LiveReload nonce={nonce} />
+      </body>
+    </html>
+  )
 }
 
 export default function App() {
   return (
     <Document>
-      <div className="mx-auto max-w-7xl p-4 sm:p-8 md:p-12">
-        <header className="mb-8">
-          <nav
-            aria-label="Global"
-            className="relative flex flex-wrap justify-center md:items-center"
-          >
-            <div className="flex-1">
-              <Link to="/" className="flex items-center gap-2">
-                <LogoIcon className="w-10" />
-                <LogoType className="w-16" />
-              </Link>
-            </div>
-            <Navigation />
-            <div className=""></div>
-          </nav>
-        </header>
-        <main className="">
-          <Outlet />
-        </main>
-        <hr className="border-b border-gray-200" />
-        <Footer />
+      <div className="flex flex-col min-h-screen">
+      <header className="container my-8 flex flex-col px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:px-12">
+        <div className="flex-1">
+          <Link to="/" className="flex items-center gap-2">
+            <LogoSymbol className="relative top-1 w-10 text-primary hover:text-primary" />
+            <LogoType className="w-24 fill-secondary" />
+          </Link>
+        </div>
+        <Navigation />
+      </header>
+
+      <div className="flex-1 container px-4 sm:px-8 md:px-12">
+        <Outlet />
+      </div>
+
+      <div className="mt-24 bg-neutral-200/70">
+        <div className="container px-4 sm:px-8 md:px-12">
+          <Footer />
+        </div>
+      </div>
       </div>
     </Document>
   )
 }
 
 export function ErrorBoundary() {
-	// NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
-	// likely failed to run so we have to do the best we can.
-	return (
-		<Document>
-			<GeneralErrorBoundary />
-		</Document>
-	)
+  // NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
+  // likely failed to run so we have to do the best we can.
+  return (
+    <Document>
+      <GeneralErrorBoundary />
+    </Document>
+  )
 }
-

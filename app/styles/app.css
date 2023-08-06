@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --font-sans: 'museo-sans', sans-serif;
+    --font-condensed: 'museo-sans-condensed';
+    --font-mono: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New',
+      'monospace';
+
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --input-invalid: 0 84.2% 60.2%;
+    --primary: 14.99 89.26% 54.59%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 197.74 75.61% 51.76%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 90%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --foreground-danger: 345 82.7% 40.8%;
+    --ring: 215 20.2% 65.1%;
+    --radius: 0.5rem;
+  }
+}
+
 @layer utilities {
   .pattern {
     background-color: #f1f5f9;
