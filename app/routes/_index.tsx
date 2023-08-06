@@ -50,9 +50,9 @@ export default function Index() {
               Aktuelles
             </h1>
             <ol className="space-y-2">
-              {newEntries.map(entry => {
+              {newEntries.map((entry, idx) => {
                 return (
-                  <li className="-mx-8 rounded bg-gray-50 p-8">
+                  <li key={idx} className="-mx-8 rounded bg-gray-50 p-8">
                     <article className="space-y-4 text-black">
                       <h1 className="mb-2 text-lg font-bold text-sky-500 md:text-xl lg:text-2xl">
                         {entry.title}
