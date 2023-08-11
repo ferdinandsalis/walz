@@ -248,7 +248,7 @@ export default function Home() {
               <h1 className="font-condensed text-2xl font-bold text-secondary lg:text-4xl">
                 Agnes Chorherr
               </h1>
-              <h2 className="text-lg font-bold">Schulleiterin</h2>
+              <h2 className="text-lg font-bold">Asisstenz der pädagogischen Leitung</h2>
             </figcaption>
           </figure>
           <div className="col-span-2">
