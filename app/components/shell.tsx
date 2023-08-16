@@ -5,7 +5,7 @@ import { Home } from '@carbon/icons-react'
 
 const navigation = {
   main: [
-    { name: 'Philosophie', to: '/philosophie' },
+    { name: 'Schule', to: '/schule' },
     { name: 'Über Uns', to: '/ueber-uns' },
     { name: 'Aktuelles', to: '/aktuelles' },
     { name: 'Kontakt', to: '/kontakt' },
@@ -45,7 +45,7 @@ export function Footer() {
   return (
     <footer className="relative grid grid-cols-1 items-center justify-center justify-items-center py-8">
       <div role="presentation" className="col-start-1 row-start-1">
-        <LogoSymbol className="w-52 text-gray-300 opacity-30 md:w-60 lg:w-72" />
+        <LogoSymbol className="w-52 text-secondary opacity-10 md:w-60 lg:w-72" />
       </div>
       <div className="relative col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <nav
@@ -68,7 +68,7 @@ export function Footer() {
         </div>
         <div className="mt-8 text-center">
           <Link
-            to="/legal"
+            to="/impressum"
             prefetch="intent"
             className="font-condensed text-lg font-bold text-gray-600 hover:text-gray-800"
           >

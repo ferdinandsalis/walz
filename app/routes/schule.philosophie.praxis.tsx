@@ -1,6 +1,6 @@
 export default function Praxis() {
   return (
-    <div className="max-w-prose space-y-8">
+    <div className="space-y-8">
       <h1 className="mb-2 font-condensed text-4xl font-bold  text-secondary">
         Praxis
       </h1>

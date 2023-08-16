@@ -1,6 +1,6 @@
 export default function () {
   return (
-    <div className="space-y-12 mt-12 lg:mt-24">
+    <div className="mt-12 space-y-12 lg:mt-24">
       <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
         Über uns
       </h1>

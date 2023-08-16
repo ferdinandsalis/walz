@@ -1,6 +1,6 @@
 export default function Persoenlichkeit() {
   return (
-    <div className="max-w-prose space-y-8">
+    <div className="space-y-8">
       <h1 className="mb-2 font-condensed text-lg font-bold  text-secondary">
         Persönlichkeit
       </h1>
