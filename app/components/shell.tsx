@@ -5,10 +5,16 @@ import { Home } from '@carbon/icons-react'
 
 const navigation = {
   main: [
-    { name: 'Schule', to: '/schule' },
     { name: 'Über Uns', to: '/ueber-uns' },
+    { name: 'Aufnahme', to: '/aufnahme' },
+    { name: 'Curriculum', to: '/curriculum' },
     { name: 'Aktuelles', to: '/aktuelles' },
+  ],
+  secondary: [
+    { name: 'Impressum', to: '/impressum' },
+    { name: 'Datenschutz', to: '/datenschutz' },
     { name: 'Kontakt', to: '/kontakt' },
+    { name: 'Termine', to: '/aktuelles' },
   ],
   social: [],
 }
@@ -17,14 +23,14 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y rounded-lg bg-white px-2 shadow-lg shadow-gray-200 md:flex-row md:items-center md:divide-y-0 md:rounded-full md:px-6"
+      className="flex flex-col divide-y rounded-lg bg-card pr-2 shadow-lg shadow-gray-200 md:flex-row md:items-center md:divide-y-0 md:rounded-full md:pr-6"
     >
       <Link
         to="/"
         prefetch="intent"
-        className="inline-flex items-center gap-2 px-2 py-3 font-condensed text-lg font-bold text-gray-700 hover:text-gray-900 lg:px-4 lg:text-xl"
+        className="group inline-flex aspect-square items-center gap-2 rounded-full bg-primary/10 px-2 py-3 font-condensed text-lg font-bold text-gray-700 ring-4 ring-inset ring-card transition-all hover:scale-105 hover:text-gray-900 lg:px-4 lg:text-xl"
       >
-        <Home size={20} className="fill-primary" />
+        <Home size={20} className="fill-primary group-hover:scale-105" />
         <span className="sr-only">Home</span>
       </Link>
       {navigation.main.map(item => (
@@ -32,7 +38,7 @@ export function Navigation() {
           key={item.name}
           to={item.to}
           prefetch="intent"
-          className="px-2 py-3 font-condensed text-lg font-bold text-gray-700 hover:text-gray-900 lg:px-4 lg:text-xl"
+          className="px-2 py-3 font-condensed text-lg font-bold text-gray-700 transition-all hover:scale-105 hover:text-gray-900 lg:px-4 lg:text-xl"
         >
           {item.name}
         </Link>

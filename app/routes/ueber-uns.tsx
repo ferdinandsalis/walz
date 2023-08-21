@@ -1,28 +1,122 @@
-export default function () {
+import { persons } from '~/data/persons'
+
+function tStaffRole(role: string) {
+  switch (role) {
+    case 'mentor':
+      return 'Mentor:in'
+    case 'project-leader':
+      return 'Projektleiter:in'
+    case 'therapist':
+      return 'Therapeut:in'
+    case 'administrator':
+      return 'Administrator:in'
+    default:
+      return 'Mitarbeiter:in'
+  }
+}
+
+export default function UeberUns() {
   return (
     <div className="mt-12 space-y-12 lg:mt-24">
       <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
         Über uns
       </h1>
-      <section className="space-y-4">
-        <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary">
+      <p className="text-2xl">
+        In der Walz werden Jugendliche zwischen 14 und 19 Jahren auf die Matura
+        vorbereitet und können in einem geschützten Rahmen ihre Möglichkeiten
+        ausloten und ihre Potenziale entfalten.
+      </p>
+      <nav className="flex flex-col space-y-1">
+        <a href="#menschen" className="text-xl font-bold text-primary">
+          Menschen
+        </a>
+        <a href="#philosophie" className="text-xl font-bold text-primary">
+          Philosophie
+        </a>
+        <a href="#geschichte" className="text-xl font-bold text-primary">
+          Geschichte
+        </a>
+      </nav>
+      <hr className="border-primary" />
+      <section id="menschen" className="space-y-4">
+        <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
           Menschen
         </h1>
 
         <article>
-          <h1 className="font-bold">Mitarbeiter</h1>
-          <p>Mentor:innen</p>
-          <p>Projektleiter:innen</p>
-          <p>Therapeut:innen</p>
-          <p>Administrator:innen</p>
+          <h1 className="font-bold text-muted">Leitung</h1>
+          <figure className="space-y-2">
+            <img
+              src="/images/staff/Renate_Chorherr.jpg"
+              alt="Renate Chorherr"
+              className="aspect-square w-32 rounded-full object-cover"
+            />
+            <figcaption>
+              <h1 className="font-bold">Renate Chorherr</h1>
+              <p>Gründerin und Leitern</p>
+            </figcaption>
+          </figure>
+        </article>
+        <article className="space-y-8">
+          <h1 className="font-bold text-muted">Mitarbeitende</h1>
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Mentor:innen</h2>
+            <p className="max-w-prose">
+              Mentor:innen sind für Jahrgänge hauptverantwortlich und kümmern
+              sich organisatorische Aufgaben sowie Projekte. Ihre Kernfunktion
+              ist die Entwicklungsbegleitung der Jugendlichen, wobei sie deren
+              Stärken fördern, Begabungen unterstützen und sie in individuellen
+              Lernsituationen begleiten.
+            </p>
+            {/* vertical scrollable area of mentor images with caoption */}
+            <div className="flex flex-wrap gap-8">
+              {persons
+                .filter(person => person.roles.includes('mentor'))
+                .map(person => (
+                  <figure key={person.name} className="space-y-2 bg-card p-4">
+                    <img
+                      src={person.image}
+                      alt={person.name}
+                      className="aspect-square w-32 rounded-full object-cover"
+                    />
+                    <figcaption>
+                      <h1 className="font-bold">{person.name}</h1>
+                      <p>{person.email}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+            </div>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
+            <p className="max-w-prose">
+              Projektleiter:innen in der Walz bereiten die Jugendlichen auf
+              Externistenprüfungen vor. Sie agieren als "Trainer", erarbeiten
+              klar definierte Stoffgebiete und übernehmen nicht selbst die
+              Prüfung. Viele unterrichten blockweise und haben nebenbei einen
+              Hauptberuf. Einige sind Fachexperten statt Pädagogen, wodurch
+              Jugendliche realistische Einblicke in die Arbeitswelt erhalten.
+            </p>
+          </div>
+
+          <h2 className="text-2xl font-bold">Therapeut:innen</h2>
+          <h2 className="text-2xl font-bold">Administrator:innen</h2>
         </article>
         <article>
-          <h1 className="font-bold">Schüler</h1>
-          <p>Jetztige Jahrgäge</p>
-          <p>Ehemalige Jahrgäge</p>
+          <h1 className="font-bold">Jahrgänge</h1>
+          <p>Jetztige</p>
+          <p>Ehemalige</p>
         </article>
       </section>
-      <section>
+
+      <section id="philosophie">
+        <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary">
+          Philosophie
+        </h1>
+        <div className="max-w-prose space-y-4 text-lg"></div>
+      </section>
+
+      <section id="geschichte">
         <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary">
           Geschichte
         </h1>

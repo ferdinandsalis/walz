@@ -1,5 +1,14 @@
 export const news = [
   {
+    title: 'Tag der öffenen Tür',
+    time: '2023-10-07',
+    abstract: 'Die Walz stellt sich vor. Bei Workshops, Projektpräsentationen und einer …',
+    author: 'Agnes Chorrherr',
+    tags: ['Administratives'],
+    related: [],
+    body: 'Die Walz stellt sich vor! Bei interaktiven Workshops, Projektpräsentationen und einer Theateraufführung bieten sich zahlreiche Gelegenheiten, das Programm der Walz sowie die dahinterstehenden Menschen kennenzulernen.'
+  },
+  {
     title: 'Tourengehen',
     time: '2023-01-15',
     abstract:

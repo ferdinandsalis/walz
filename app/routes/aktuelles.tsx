@@ -1,3 +1,6 @@
+import { dates } from 'app/data/dates'
+import { take } from 'ramda'
+
 export default function News() {
   return (
     <div className="mt-12 lg:mt-24">
@@ -8,7 +11,21 @@ export default function News() {
         <h1>Beiträge</h1>
       </section>
       <section>
-        <h2>Termine</h2>
+        <h2 className="text-secondary">Nächste Termine</h2>
+        <select>
+          <option>Alle</option>
+          <option>Psi</option>
+          <option>Alpha</option>
+        </select>
+        {take(3, dates).map(date => (
+          <article key={date.date.toISOString()}>
+            <h1>{date.title}</h1>
+            <time dateTime={date.date.toISOString()}>
+              {date.date.toLocaleDateString()}
+            </time>
+            <p>{date.description}</p>
+          </article>
+        ))}
       </section>
     </div>
   )
