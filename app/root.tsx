@@ -63,7 +63,7 @@ export default function App() {
   return (
     <Document>
       <div className="flex min-h-screen flex-col">
-        <header className="container my-8 flex flex-col px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:px-12">
+        <header className="container my-8 flex flex-col space-y-4 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12">
           <div className="flex-1">
             <Link to="/" className="flex items-center gap-2">
               <LogoSymbol className="relative top-1 w-10 text-primary hover:text-primary" />

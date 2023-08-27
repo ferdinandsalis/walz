@@ -21,11 +21,23 @@ export default function UeberUns() {
       <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
         Über uns
       </h1>
-      <p className="text-2xl">
-        In der Walz werden Jugendliche zwischen 14 und 19 Jahren auf die Matura
-        vorbereitet und können in einem geschützten Rahmen ihre Möglichkeiten
-        ausloten und ihre Potenziale entfalten.
-      </p>
+      <div className="max-w-prose space-y-4">
+        <p className="text-2xl">
+          Die Walz ist eine private Bildungseinrichtung mit Öffentlichkeitsrecht
+          für Jugendliche im Alter von 14 bis 19 Jahren (9.-13. Schulstufe). Die
+          Walz schließt mit Matura (Externistenreifeprüfung) ab.
+        </p>
+        <p className="text-2xl">
+          Der Unterricht orientiert sich am Lehrplan des
+          Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
+          Werkerziehung.
+        </p>
+        <p className="text-2xl">
+          Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
+          Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
+          Leben in einer sich verändernden Welt vorbereiten sollen.
+        </p>
+      </div>
       <nav className="flex flex-col space-y-1">
         <a href="#menschen" className="text-xl font-bold text-primary">
           Menschen
@@ -45,17 +57,23 @@ export default function UeberUns() {
 
         <article>
           <h1 className="font-bold text-muted">Leitung</h1>
-          <figure className="space-y-2">
-            <img
-              src="/images/staff/Renate_Chorherr.jpg"
-              alt="Renate Chorherr"
-              className="aspect-square w-32 rounded-full object-cover"
-            />
-            <figcaption>
-              <h1 className="font-bold">Renate Chorherr</h1>
-              <p>Gründerin und Leitern</p>
-            </figcaption>
-          </figure>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(0,_1fr))] gap-8">
+            {persons
+              .filter(person => person.roles.includes('leadership'))
+              .map(person => (
+                <figure key={person.name} className="space-y-2 bg-card p-6">
+                  <img
+                    src={person.image || ''}
+                    alt={person.name}
+                    className="aspect-square w-32 rounded-full object-cover"
+                  />
+                  <figcaption>
+                    <h1 className="font-bold">{person.name}</h1>
+                    <p>{person.email}</p>
+                  </figcaption>
+                </figure>
+              ))}
+          </div>
         </article>
         <article className="space-y-8">
           <h1 className="font-bold text-muted">Mitarbeitende</h1>
@@ -75,7 +93,7 @@ export default function UeberUns() {
                 .map(person => (
                   <figure key={person.name} className="space-y-2 bg-card p-4">
                     <img
-                      src={person.image}
+                      src={person.image || ''}
                       alt={person.name}
                       className="aspect-square w-32 rounded-full object-cover"
                     />

@@ -7,14 +7,13 @@ export default function Bildung() {
 
       <div className="max-w-prose space-y-4 text-lg">
         <p className="text-lg">
-          Anders als Ausbildung verändert Bildung Menschen. Vor diesem
-          Hintergrund verstehen wir unseren Auftrag daher im Sinne von bilden
-          und formen. Wesentliches Ziel ist es, dass die Jugendlichen komplexe
-          gesellschaftliche Zusammenhänge verstehen, begreifen, erklären und
-          klären lernen. Über den klassischen Lehrplan einer AHS hinaus,
-          entstehen durch die ständig wechselnden Anforderungen der Gesellschaft
-          in der Walz immer wieder neue Erfahrungsräume, das Programm wird
-          laufend evaluiert und angepasst.
+          Anders als Ausbildung verändert Bildung Menschen. Wesentliches Ziel
+          ist es, dass die Jugendlichen komplexe gesellschaftliche Zusammenhänge
+          verstehen, begreifen, erklären und klären lernen. Die Walz entwickelt
+          als Antwort auf die ständig wechselnden Anforderungen der Gesellschaft
+          immer wieder neue Erfahrungs- und Lernräume (über den klassischen
+          Lehrplan einer AHS hinaus), so passen wir unser Programm laufend an
+          und entwickeln es weiter.
         </p>
         <p className="text-lg">
           Wir legen größten Wert auf die Pflege des sprachlichen Ausdrucks und
@@ -22,7 +21,7 @@ export default function Bildung() {
           der Zentralmatura kaum mehr eine Rolle spielt. Neben kognitiven
           Leistungen sind wir der Überzeugung, dass der Zugang zu Kunst einem
           tiefen humanen Bedürfnis entspricht, dem wir mit Bildhauerei, Malen,
-          Kunstreisen und Theaterspielen Raum geben.
+          Kunstreisen und vor allem Theater Raum geben.
         </p>
       </div>
     </div>

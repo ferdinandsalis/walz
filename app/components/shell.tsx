@@ -1,7 +1,7 @@
-import { Link } from '@remix-run/react'
-import { Logo, LogoSymbol, LogoType } from './brand'
-import { HomeIcon } from '@radix-ui/react-icons'
+import { Link, NavLink } from '@remix-run/react'
+import { LogoSymbol, LogoType } from './brand'
 import { Home } from '@carbon/icons-react'
+import { cn } from '~/utils/misc'
 
 const navigation = {
   main: [
@@ -23,25 +23,43 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y rounded-lg bg-card pr-2 shadow-lg shadow-gray-200 md:flex-row md:items-center md:divide-y-0 md:rounded-full md:pr-6"
+      className="flex flex-col divide-y divide-stone-200 overflow-hidden rounded-lg bg-card px-2 shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:px-0 md:pr-6"
     >
-      <Link
+      <NavLink
         to="/"
         prefetch="intent"
-        className="group inline-flex aspect-square items-center gap-2 rounded-full bg-primary/10 px-2 py-3 font-condensed text-lg font-bold text-gray-700 ring-4 ring-inset ring-card transition-all hover:scale-105 hover:text-gray-900 lg:px-4 lg:text-xl"
+        className={({ isActive }) =>
+          cn(
+            'group flex-none items-center p-3 font-condensed text-lg font-bold text-gray-700 outline-none ring-4 ring-inset ring-card transition-all hover:text-gray-900 focus:ring-primary/20 md:aspect-square md:rounded-l-full md:p-4 lg:text-xl',
+            {
+              'md:bg-primary/10': isActive,
+            },
+          )
+        }
       >
-        <Home size={20} className="fill-primary group-hover:scale-105" />
-        <span className="sr-only">Home</span>
-      </Link>
+        <Home
+          size={20}
+          className="order-1 hidden fill-primary md:block md:group-hover:scale-105"
+        />
+        <span className="md:sr-only">Home</span>
+      </NavLink>
       {navigation.main.map(item => (
-        <Link
+        <NavLink
           key={item.name}
           to={item.to}
           prefetch="intent"
-          className="px-2 py-3 font-condensed text-lg font-bold text-gray-700 transition-all hover:scale-105 hover:text-gray-900 lg:px-4 lg:text-xl"
+          className={({ isActive }) =>
+            cn(
+              'px-3 py-3 font-condensed text-lg font-bold text-stone-700 outline-none ring-4 ring-inset ring-card transition-transform focus:ring-primary/20 lg:px-4 lg:text-xl',
+              {
+                'bg-primary/5 text-stone-900': isActive,
+                'hover:text-stone-900': !isActive,
+              },
+            )
+          }
         >
           {item.name}
-        </Link>
+        </NavLink>
       ))}
     </nav>
   )
@@ -51,11 +69,11 @@ export function Footer() {
   return (
     <footer className="relative grid grid-cols-1 items-center justify-center justify-items-center py-8">
       <div role="presentation" className="col-start-1 row-start-1">
-        <LogoSymbol className="w-52 text-secondary opacity-10 md:w-60 lg:w-72" />
+        <LogoSymbol className="w-52 text-secondary opacity-20 md:w-60 lg:w-72" />
       </div>
       <div className="relative col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <nav
-          className="mb-8 flex flex-wrap items-center justify-center md:space-x-6"
+          className="mb-8 flex flex-wrap items-center justify-center gap-4 md:gap-8"
           aria-label="Footer"
         >
           {navigation.main.map(item => (
@@ -76,7 +94,7 @@ export function Footer() {
           <Link
             to="/impressum"
             prefetch="intent"
-            className="font-condensed text-lg font-bold text-gray-600 hover:text-gray-800"
+            className="font-condensed text-lg font-bold text-gray-600 underline underline-offset-2 hover:text-gray-800"
           >
             Impressum
           </Link>

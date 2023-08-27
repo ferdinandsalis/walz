@@ -6,22 +6,34 @@ export default function Persoenlichkeit() {
       </h1>
       <div className="max-w-prose text-lg">
         <p>
-          Trotz sich ständig verändernder Rahmenbedingungen und Kontext besteht
-          für Jugendliche die alles bestimmende Frage des Jugendalters „Wer bin
-          ich?“ Diesen Suchprozess wollen wir bewusst unterstützen und fördern.
-          Wir sehen es als unsere Aufgabe, unterschiedlichste Erfahrungsräume zu
-          schaffen, um dieser zentralen Frage des Jugendalters nachgehen zu
-          können.
+          Auch wenn sich die Gesellschaft rapide ändert bleibt für Jugendliche
+          die alles bestimmende Frage ihres Alters: „Wer bin ich?“ Diesen
+          Suchprozess wollen wir bewusst unterstützen und fördern. Wir sehen es
+          als unsere Aufgabe, unterschiedlichste Erfahrungsräume zu schaffen, um
+          dieser Frage nachgehen zu können.
         </p>
         <p>
-          In der Walz spielen Reflexionen (jeden Freitag) eine
-          selbstverständliche Rolle ebenso wie Mentoring. Ein
-          Förder-Assessment-Center, individuelle Lernverträge, wöchentliche
-          Reflexionen über den Lernprozess, individuelle Entwicklungsbegleitung
-          und -förderung, therapeutische Unterstützung sind wichtige Bausteine
-          des Walz Programms.
+          In der Walz spielen Reflexionen (jeden Freitag) über den Lernprozess
+          eine selbstverständliche Rolle ebenso wie Mentoring. Ein
+          Förder-Assessment-Center, individuelle Lernverträge, individuelle
+          Entwicklungsbegleitung und -förderung, sowie therapeutische
+          Unterstützung sind wichtige Bausteine des Walz Programms.
         </p>
-      </div>{' '}
+        <p>
+          Die vielen Theaterprojekte sind Eckpfeiler der Walz: Sie ermöglichen
+          es einerseits, Bildung zu erfahren, andererseits bieten sie auch
+          vielfältige Möglichkeiten, Emotionen Ausdruck zu verleihen und sich
+          auszuprobieren. Theater ermöglicht den Jugendlichen sich selbst neu
+          kennenzulernen und ihr einzigartiges Potenzial an Begabungen und
+          Fähigkeiten zu erkunden und zu aktivieren. Sich in eine andere Rolle
+          hineinzuversetzen, so andere Perspektiven kennenzulernen ist ein Weg,
+          um Empathie und Toleranz zu entwickeln. Vielleicht werden sogar bisher
+          unterdrückte Eigenschaften der eigenen Persönlichkeit entdeckt?
+          Zusätzlich wird ein Bewusstsein dafür entwickelt, wie man auf andere
+          wirkt- oder was man der Umwelt zeigt. Nebenbei werden selbstbewusstes
+          Auftreten und die Präsentationsfähigkeiten geschult.
+        </p>
+      </div>
     </div>
   )
 }

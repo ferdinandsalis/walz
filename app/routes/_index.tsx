@@ -1,34 +1,17 @@
 import { ArrowRight, Calendar } from '@carbon/icons-react'
 import { Link } from '@remix-run/react'
 import { take } from 'ramda'
-import { LogoSymbol } from '~/components/brand'
-import { news } from '~/data/news'
-import { testimonials } from '~/data/testimonials'
-
-const faq = [
-  {
-    question: 'Was heißt eigentlich Walz?',
-    answer:
-      'Walz ist das mittelalterliche Gesellenwandern, die Tradition, einige Jahre in die Fremde zu reisen, dort zu arbeiten, um die eigenen Kenntnisse und Fähigkeiten zu erweitern. Vom 16. Bis zum 19. Jahrhundert war die Wanderpflicht eine Vorbedingung für die Zulassung zum Handwerksmeisterprüfung. Dieses Lernen und Arbeiten wollen wir mit der Walz ins 21. Jahrhundert holen.',
-  },
-  {
-    question: 'Wie kann ich die Walz kennenlernen?',
-  },
-  {
-    question: 'Was kostet die Walz?',
-  },
-  {
-    question: 'Wie funktioniert die Aufnahme?',
-  },
-  {
-    question: 'Was unterscheidet die Walz von anderen Schulen?',
-  },
-]
+import { LogoSymbol } from '~/components/brand.tsx'
+import { Button } from '~/components/ui/button.tsx'
+import { Input } from '~/components/ui/input.tsx'
+import { questions } from '~/data/faq.ts'
+import { news } from '~/data/news.ts'
+import { testimonials } from '~/data/testimonials.ts'
 
 export default function Home() {
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24">
-      <div className="relative -mx-8 grid grid-cols-1 grid-rows-1 md:-mx-12">
+      <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 md:-mx-12">
         <h1 className="sr-only">Einleitung</h1>
         <div className="col-end col-start-1 row-start-1">
           <img
@@ -38,13 +21,13 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/40 p-12 sm:p-16 md:p-20 lg:py-24">
-          <p className="max-w-xl font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
+        <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:p-16 md:p-20 lg:py-24">
+          <LogoSymbol className="absolute bottom-12 right-12 w-72 text-primary opacity-50 sm:-bottom-32 sm:-right-10 sm:w-72 md:w-80 md:opacity-70 lg:right-10 lg:w-96" />
+          <p className="relative max-w-xl font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
             Die <strong className="font-bold text-primary">Walz</strong> soll
-            darauf vor&shy;bereiten, mit Liebe die Welt und Gesell&shy;schaft
-            mitzuge&shy;stalten.
+            darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
+            mitzuge­stalten.
           </p>
-          <LogoSymbol className="absolute -bottom-32 -right-10 w-56 text-primary opacity-70 sm:w-72 md:w-80 lg:right-10 lg:w-96" />
         </div>
 
         <article className="col-start-1 row-start-2 flex items-center gap-2 bg-stone-200 p-3 px-4 shadow-inner sm:px-8 md:px-12">
@@ -107,12 +90,12 @@ export default function Home() {
                       {entry.abstract}
                     </p>
                     <footer>
-                      <p className="mt-6 font-condensed text-white">
-                        Verfasst von{' '}
-                        <span className="underline underline-offset-2">
-                          {entry.author}
-                        </span>{' '}
-                      </p>
+                      <Link
+                        to="./ueber-uns"
+                        className="mt-4 inline-flex items-center gap-1 font-condensed text-lg text-background underline underline-offset-2"
+                      >
+                        Artikel lesen
+                      </Link>
                     </footer>
                   </article>
                 </li>
@@ -130,7 +113,7 @@ export default function Home() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Link
             to="./ueber-uns/philosophie/bildung"
-            className="group rounded-lg bg-white p-6 shadow-md"
+            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
           >
             <div className="relative mb-6 border-8 border-secondary">
               <img
@@ -142,7 +125,31 @@ export default function Home() {
               Bildung
             </h1>
             <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Verstehen, begreifen, erklären
+              Zusammenhänge erkennen
+            </h2>
+            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+              <span className="underline-offset-4 group-hover/more:underline">
+                Mehr erfahren
+              </span>
+              <ArrowRight size={24} className="fill-secondary" />
+            </span>
+          </Link>
+
+          <Link
+            to="./ueber-uns/philosophie/praxis"
+            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+          >
+            <div className="relative mb-6 border-8 border-secondary">
+              <img
+                src="/images/praxis_uhrenwerkstatt.jpg"
+                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
+              />
+            </div>
+            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+              Praxis
+            </h1>
+            <h2 className="font-condensed text-2xl font-bold text-stone-700">
+              Erfahrungen sammeln
             </h2>
             <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
               <span className="underline-offset-4 group-hover/more:underline">
@@ -154,7 +161,7 @@ export default function Home() {
 
           <Link
             to="./ueber-uns/philosophie/persoenlichkeit"
-            className="group rounded-lg bg-white p-6 shadow-md"
+            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
           >
             <div className="relative mb-6 border-8 border-secondary">
               <img
@@ -175,30 +182,6 @@ export default function Home() {
               <ArrowRight size={24} className="fill-secondary" />
             </span>
           </Link>
-
-          <Link
-            to="./ueber-uns/philosophie/praxis"
-            className="group rounded-lg bg-white p-6 shadow-md"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/praxis_uhrenwerkstatt.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Praxis
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Dinge probieren
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </span>
-          </Link>
         </div>
       </section>
 
@@ -207,10 +190,10 @@ export default function Home() {
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
         <div>
-          {faq.map((entry, idx) => {
+          {questions.map((entry, idx) => {
             return (
               <div key={idx} className="mb-1">
-                <p className="rounded bg-primary/10 p-1 px-4 text-2xl font-bold text-primary">
+                <p className="rounded bg-primary/10 px-4 py-2 text-2xl font-bold text-primary">
                   {entry.question}
                 </p>
               </div>
@@ -249,27 +232,7 @@ export default function Home() {
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
         </header>
         <div className="grid grid-cols-6 grid-rows-2 gap-8">
-          <figure className="col-span-6 flex flex-col justify-center space-y-4 lg:col-span-2">
-            <img
-              src=""
-              className="ascpet-square h-48 w-48 rounded-full bg-white object-cover shadow-lg grayscale"
-            />
-            <figcaption>
-              <h1 className="mb-1 font-condensed text-2xl font-bold text-secondary lg:text-4xl">
-                Agnes Chorherr
-              </h1>
-              <h2 className="font-bold">Asisstenz der pädagogischen Leitung</h2>
-              agnes.chorherr@walz.at
-            </figcaption>
-          </figure>
-          <div className="col-span-4 col-start-1 row-start-2 overflow-hidden rounded border border-stone-300 bg-stone-200 shadow-inner shadow-stone-300 ring-1 ring-stone-50 lg:row-span-2 lg:row-start-1">
-            <iframe
-              width="100%"
-              height="100%"
-              title="Felt Map"
-              src="https://felt.com/embed/map/Untitled-Map-Ag3CcAa2QjCnwRh9BYb8kOB?loc=48.19875,16.29845,14.76z"
-            ></iframe>
-          </div>
+          <div className="col-span-4 col-start-1 row-start-2 overflow-hidden rounded border border-stone-300 bg-stone-200 shadow-inner shadow-stone-300 ring-1 ring-stone-50 lg:row-span-2 lg:row-start-1"></div>
           <div className="col-span-2 col-start-5 row-start-2 lg:row-auto">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
               Adresse
@@ -290,28 +253,29 @@ export default function Home() {
         <form
           name="newsletter"
           method="POST"
-          className="grid grid-cols-1 gap-4"
+          className="grid max-w-xl grid-cols-1 gap-4 rounded-md bg-card p-8 shadow-md"
         >
-          <p>
-            Möchtest du am laufenden bleiben dann melde dich für unseren
-            Newsletter an.
+          <p className="text-2xl">
+            Möchtest du auf dem laufenden bleiben? Dann melde dich für unseren
+            Newsletter an!
           </p>
           <input type="hidden" name="form-name" value="newsletter" />
           <input type="hidden" name="bot-field" />
           <label className="sr-only">E-Mail</label>
-          <input
+          <Input
             name="email"
             type="email"
             placeholder="E-Mail"
             className="rounded-lg bg-white p-6 shadow-md"
           />
           <div>
-            <button
+            <Button
               type="submit"
-              className="rounded-lg bg-primary p-6 shadow-md"
+              size="lg"
+              className="rounded-lg bg-primary p-6 text-xl shadow-md"
             >
               Anmelden
-            </button>
+            </Button>
           </div>
         </form>
       </section>
@@ -321,7 +285,11 @@ export default function Home() {
 
 function SectionHeading({ children, id }: { children: any; id: string }) {
   return (
-    <Link to={`.#${id}`} className="grid grid-cols-12 items-center">
+    <Link
+      to={`.#${id}`}
+      className="grid grid-cols-12 items-center outline-none"
+      tabIndex={-1}
+    >
       <h1
         id={id}
         className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-stone-400"
