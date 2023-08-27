@@ -6,8 +6,8 @@ import { cn } from '~/utils/misc'
 const navigation = {
   main: [
     { name: 'Über Uns', to: '/ueber-uns' },
-    { name: 'Aufnahme', to: '/aufnahme' },
     { name: 'Curriculum', to: '/curriculum' },
+    { name: 'Aufnahme', to: '/aufnahme' },
     { name: 'Aktuelles', to: '/aktuelles' },
   ],
   secondary: [
@@ -23,7 +23,7 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y divide-stone-200 overflow-hidden rounded-lg bg-card px-2 shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:px-0 md:pr-6"
+      className="flex flex-col divide-y divide-stone-200 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:pr-6"
     >
       <NavLink
         to="/"
@@ -41,7 +41,7 @@ export function Navigation() {
           size={20}
           className="order-1 hidden fill-primary md:block md:group-hover:scale-105"
         />
-        <span className="md:sr-only">Home</span>
+        <span className="md:sr-only">Startseite</span>
       </NavLink>
       {navigation.main.map(item => (
         <NavLink
@@ -67,13 +67,13 @@ export function Navigation() {
 
 export function Footer() {
   return (
-    <footer className="relative grid grid-cols-1 items-center justify-center justify-items-center py-8">
-      <div role="presentation" className="col-start-1 row-start-1">
-        <LogoSymbol className="w-52 text-secondary opacity-20 md:w-60 lg:w-72" />
+    <footer className="relative grid grid-cols-1 items-center justify-center justify-items-center overflow-hidden py-8">
+      <div role="presentation" className="absolute -bottom-24 lg:-bottom-48">
+        <LogoSymbol className="w-52 text-secondary opacity-20 md:w-72 lg:w-96" />
       </div>
       <div className="relative col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <nav
-          className="mb-8 flex flex-wrap items-center justify-center gap-4 md:gap-8"
+          className="mb-2 flex flex-wrap items-center justify-center gap-4 md:gap-8"
           aria-label="Footer"
         >
           {navigation.main.map(item => (
@@ -87,21 +87,34 @@ export function Footer() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-col items-center">
+
+        <div className="mb-12">
+          {/* Legal Links */}
+          <div className="flex justify-center gap-4">
+            <Link
+              to="/impressum"
+              prefetch="intent"
+              className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
+            >
+              Impressum
+            </Link>
+            <Link
+              to="/datenschutz"
+              prefetch="intent"
+              className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
+            >
+              Datenschutz
+            </Link>
+          </div>
+        </div>
+
+        <div className="mb-4 flex flex-col items-center">
           <LogoType className="w-24 fill-secondary" />
         </div>
-        <div className="mt-8 text-center">
-          <Link
-            to="/impressum"
-            prefetch="intent"
-            className="font-condensed text-lg font-bold text-gray-600 underline underline-offset-2 hover:text-gray-800"
-          >
-            Impressum
-          </Link>
-          <p className="text-center font-condensed text-base text-gray-400">
-            {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
-          </p>
-        </div>
+
+        <p className="text-center font-condensed text-base text-gray-400">
+          {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
+        </p>
       </div>
     </footer>
   )

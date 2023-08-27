@@ -30,22 +30,26 @@ export default function Home() {
           </p>
         </div>
 
-        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-stone-200 p-3 px-4 shadow-inner sm:px-8 md:px-12">
-          <h1 className="sr-only">Nächster Termin:</h1>
-          <Calendar size={24} className="inline-block text-primary" />
-          <p className="font-bold">
-            <span className="">Schulstart</span> am{' '}
-            <time dateTime="2023-09-04" className="">
-              4. September 2023
-            </time>
-          </p>
-          <Link
-            to="./aktuelles"
-            className="inline-flex items-center gap-1 font-condensed text-secondary"
-          >
-            Alle Termine
-            <ArrowRight size="16" />
-          </Link>
+        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-stone-200/60 p-3 px-4 shadow-inner sm:px-8 md:px-12">
+          <div className="flex flex-col gap-2 md:flex-row">
+            <h1 className="flex items-center gap-1">
+              <span className="md:sr-only">Nächster Termin</span>
+              <Calendar size={24} className="inline-block text-primary" />
+            </h1>
+            <p className="font-bold">
+              <span className="">Schulstart</span> am{' '}
+              <time dateTime="2023-09-04" className="">
+                4. September 2023
+              </time>
+            </p>
+            <Link
+              to="./aktuelles"
+              className="inline-flex items-center gap-1 font-condensed text-secondary"
+            >
+              Alle Termine
+              <ArrowRight size="16" />
+            </Link>
+          </div>
         </article>
       </div>
 
@@ -77,7 +81,7 @@ export default function Home() {
               return (
                 <li
                   key={idx}
-                  className="max-w-prose rounded-lg bg-secondary p-6 shadow shadow-slate-400"
+                  className="max-w-prose rounded-lg bg-secondary p-6 shadow-md shadow-slate-400"
                 >
                   <article className="relative text-foreground">
                     <div className="absolute right-0 rounded-full bg-primary p-4 text-white">
@@ -192,8 +196,8 @@ export default function Home() {
         <div>
           {questions.map((entry, idx) => {
             return (
-              <div key={idx} className="mb-1">
-                <p className="rounded bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl">
+              <div key={idx} className="mb-1 flex">
+                <p className="rounded-xl bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl lg:px-6">
                   {entry.question}
                 </p>
               </div>

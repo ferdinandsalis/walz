@@ -18,7 +18,7 @@ export const persons = [
   {
     name: 'Agnes Chorherr',
     position: 'Assistentin der pädagogischen Leiterin',
-    email: 'andrea.schuster@walz.at',
+    email: 'agnes.chorherr@walz.at',
     phone: '01/804 29 39 - DW 1012',
     image: '/images/staff/Agnes_Chorherr.jpg',
     roles: ['leadership'],

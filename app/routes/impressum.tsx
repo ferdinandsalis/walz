@@ -16,6 +16,28 @@ export default function Legal() {
           <a href="mailto:office@walz.at">office@walz.at</a>
         </p>
       </div>
+      <div>
+        <dl>
+          <div>
+            <dt className="font-bold">Pädagogische Leiterin</dt>
+            <dd>Renate Chorherr</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Leiterin der Administration</dt>
+            <dd>Brigitte Fasching</dd>
+          </div>
+          <div>
+            <dt className="font-bold">
+              Für den Inhalt der Seite verantwortlich
+            </dt>
+            <dd>Andrea Schuster</dd>
+          </div>
+          <div>
+            <dt className="font-bold">Design &amp; technische Umsetzung</dt>
+            <dd>Ferdinand Salis-Samaden</dd>
+          </div>
+        </dl>
+      </div>
       <div className="max-w-prose">
         <p>
           Alle auf dieser Seite veröffentlichten Texte und Bilder sind - wenn
@@ -24,7 +46,7 @@ export default function Legal() {
           derselben verbreitet werden.
         </p>
         <p>
-          Die Fotos wurden von Jugendlichen der w@lz, im Besonderen von Georg
+          Die Fotos wurden von Jugendlichen der Walz, im Besonderen von Georg
           Prenn zur Verfügung gestellt. Unser ausdrücklicher Dank gilt Frau
           Gabriele Adam, die zahlreiche Theateraufführungen fotografisch
           dokumentiert hat.
@@ -32,7 +54,7 @@ export default function Legal() {
         <p>
           Diese Website enthält Verknüpfungen ("Hyperlinks") zu Websites
           Dritter. Diese Websites sind vollkommen unabhängig und liegen
-          außerhalb der Kontrolle der w@lz. Die w@lz übernimmt keine
+          außerhalb der Kontrolle der Walz. Die Walz übernimmt keine
           Verantwortung für die Inhalte von externen Websites Dritter, die über
           Hyperlinks von dieser Website erreicht werden können oder die
           ihrerseits auf diese Website verweisen und sie übernimmt auch
