@@ -193,7 +193,7 @@ export default function Home() {
           {questions.map((entry, idx) => {
             return (
               <div key={idx} className="mb-1">
-                <p className="rounded bg-primary/10 px-4 py-2 text-2xl font-bold text-primary">
+                <p className="rounded bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl">
                   {entry.question}
                 </p>
               </div>
@@ -231,9 +231,9 @@ export default function Home() {
         <header className="mb-16 lg:mb-20">
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
         </header>
-        <div className="grid grid-cols-6 grid-rows-2 gap-8">
-          <div className="col-span-4 col-start-1 row-start-2 overflow-hidden rounded border border-stone-300 bg-stone-200 shadow-inner shadow-stone-300 ring-1 ring-stone-50 lg:row-span-2 lg:row-start-1"></div>
-          <div className="col-span-2 col-start-5 row-start-2 lg:row-auto">
+        <div className="grid gap-8 md:grid-cols-6">
+          <div className="h-64 overflow-hidden rounded border border-stone-300 bg-stone-200 shadow-inner shadow-stone-300 ring-1 ring-stone-50 md:col-span-4 md:col-start-1"></div>
+          <div className="md:col-span-2 md:col-start-5">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
               Adresse
             </h2>
