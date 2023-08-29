@@ -67,11 +67,8 @@ export function Navigation() {
 
 export function Footer() {
   return (
-    <footer className="relative grid grid-cols-1 items-center justify-center justify-items-center overflow-hidden py-8">
-      <div role="presentation" className="absolute -bottom-24 lg:-bottom-48">
-        <LogoSymbol className="w-52 text-secondary opacity-20 md:w-72 lg:w-96" />
-      </div>
-      <div className="relative col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer className="grid grid-cols-1 items-center justify-center justify-items-center overflow-hidden py-8">
+      <div className="relative z-10 col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <nav
           className="mb-2 flex flex-wrap items-center justify-center gap-4 md:gap-8"
           aria-label="Footer"
@@ -88,7 +85,7 @@ export function Footer() {
           ))}
         </nav>
 
-        <div className="mb-12">
+        <div className="relative z-10 mb-12">
           {/* Legal Links */}
           <div className="flex justify-center gap-4">
             <Link
@@ -108,12 +105,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mb-4 flex flex-col items-center">
+        <Link to="." className="group mb-4 flex flex-col items-center">
           <LogoType className="w-24 fill-secondary" />
-        </div>
+          <div
+            role="presentation"
+            className="pointer-events-none absolute -bottom-24 transition-all group-hover:-bottom-24 lg:-bottom-24"
+          >
+            <LogoSymbol className="w-52 text-secondary opacity-10 group-hover:animate-ping group-hover:opacity-30 md:w-72 lg:w-96" />
+          </div>
+        </Link>
 
-        <p className="text-center font-condensed text-base text-gray-400">
-          {new Date().getFullYear()} &copy; Walz. Alle Rechte vorbehalten.
+        <p className="text-center text-base text-gray-400">
+          {new Date().getFullYear()} &copy; Walz Wiener Lernzentrum
+          <br />
+          Alle Rechte vorbehalten
         </p>
       </div>
     </footer>

@@ -1,21 +1,15 @@
-import { Outlet } from '@remix-run/react'
-
 export default function Curriculum() {
   return (
-    <div className="mt-12 lg:mt-24">
+    <div className="mt-12 space-y-12 lg:mt-24">
       <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
         Curriculum
       </h1>
-      <div className="max-w-prose">
-        <div className="space-y-8">
-          <h1 className="text-2xl font-bold text-secondary">
-            Unterricht &amp; Projekte
+      <div className="space-y-8">
+        <article>
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+            Unterricht
           </h1>
-
-          <article>
-            <p>
-              <strong>Unterricht</strong>
-            </p>
+          <div className="mb-8 max-w-prose space-y-4 text-xl">
             <p>
               Die Walz&nbsp; dauert in der Regel fünf Jahre (9. - 13.
               Schulstufe) und schließt mit Matura ab. Die Prüfungen werden
@@ -32,40 +26,129 @@ export default function Curriculum() {
               Fremdsprache) geht über mehrere Jahre; auch hier wird nach einer
               intensiveren Lernphase die Prüfung abgelegt.
             </p>
+          </div>
 
-            <table border="1" cellpadding="1" cellspacing="1">
-              <tbody>
-                <tr>
-                  <td align="center">
-                    <strong>1. Walz-Jahr </strong>9. Schulstufe
-                  </td>
-                  <td align="center">
-                    <strong>2. Walz-Jahr</strong> 10. Schulstufe
-                  </td>
-                  <td align="center">
-                    <strong>3. Walz-Jahr </strong>11. Schulstufe
-                  </td>
-                  <td align="center">
-                    <strong>4. Walz-Jahr </strong>12. Schulstufe
-                  </td>
-                  <td align="center">
-                    <strong>5. Walz-Jahr </strong>13. Schulstufe
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center">keine Prüfungen</td>
-                  <td align="center">fünf Prüfungen über 5./6. Klasse AHS</td>
-                  <td align="center" colSpan="3">
-                    übrige Zulassungsprüfungen und Matura
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </article>
-          <article>
-            <p>
-              <strong>Projekte</strong>
-            </p>
+          <table border={0} className="table max-w-prose">
+            <thead>
+              <tr>
+                <th className="">
+                  <div>Walz-Jahr</div>
+                </th>
+                <th>
+                  <div>Prüfungen </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>
+                  <div className="relative flex items-center justify-between gap-2 overflow-hidden">
+                    <div
+                      role="presentation"
+                      className="absolute left-0 right-0 flex w-full items-center justify-center"
+                    >
+                      <span className="scale-[5] font-extrabold text-secondary opacity-10">
+                        1
+                      </span>
+                    </div>
+                    <span className="text-primary">1.</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      9. Schulstufe
+                    </span>
+                  </div>
+                </th>
+                <td>
+                  <div>keine</div>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <div className="relative flex items-center justify-between gap-2 overflow-hidden">
+                    <div
+                      role="presentation"
+                      className="absolute left-0 right-0 flex w-full items-center justify-center"
+                    >
+                      <span className="scale-[5] font-extrabold text-secondary opacity-10">
+                        2
+                      </span>
+                    </div>
+                    <span className="text-primary">2.</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      10. Schulstufe
+                    </span>
+                  </div>
+                </th>
+                <td>
+                  <div>fünf Prüfungen über 5./6. Klasse AHS </div>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <div className="relative flex items-center justify-between gap-2 overflow-hidden">
+                    <div
+                      role="presentation"
+                      className="absolute left-0 right-0 flex w-full items-center justify-center"
+                    >
+                      <span className="scale-[5] font-extrabold text-secondary opacity-10">
+                        3
+                      </span>
+                    </div>
+                    <span className="text-primary">3.</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      11. Schulstufe
+                    </span>
+                  </div>
+                </th>
+                <td rowSpan={3}>
+                  <div>übrige Zulassungsprüfungen und Matura </div>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <div className="relative flex items-center justify-between gap-2 overflow-hidden">
+                    <div
+                      role="presentation"
+                      className="absolute left-0 right-0 flex w-full items-center justify-center"
+                    >
+                      <span className="scale-[5] font-extrabold text-secondary opacity-10">
+                        4
+                      </span>
+                    </div>
+                    <span className="text-primary">4.</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      12. Schulstufe
+                    </span>
+                  </div>
+                </th>
+                <td></td>
+              </tr>
+              <tr>
+                <th>
+                  <div className="relative flex items-center justify-between gap-2 overflow-hidden">
+                    <div
+                      role="presentation"
+                      className="absolute left-0 right-0 flex w-full items-center justify-center"
+                    >
+                      <span className="scale-[5] font-extrabold text-secondary opacity-10">
+                        5
+                      </span>
+                    </div>
+                    <span className="text-primary">5.</span>
+                    <span className="text-sm font-normal text-muted-foreground">
+                      13. Schulstufe
+                    </span>
+                  </div>
+                </th>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+        <article>
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+            Projekte
+          </h1>
+          <div className="mb-8 max-w-prose space-y-4 text-xl">
             <p>
               Zwischen den einzelnen Prüfungsvorbereitungen finden in der Walz
               viele Projekte, zum Teil auch außer Haus, statt. Manche Projekte
@@ -129,11 +212,9 @@ export default function Curriculum() {
               <br /> In der Walz gibt es auch jahrgangsübergreifende Projekte
               und Veranstaltungen - mehr dazu lesen Sie hier...
             </p>{' '}
-          </article>
-        </div>
+          </div>
+        </article>
       </div>
-
-      <Outlet />
     </div>
   )
 }
