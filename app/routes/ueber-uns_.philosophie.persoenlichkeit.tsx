@@ -1,10 +1,10 @@
 export default function Persoenlichkeit() {
   return (
-    <div className="space-y-8">
-      <h1 className="mb-2 font-condensed text-lg font-bold  text-secondary">
+    <div className="space-y-8 md:mt-12">
+      <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
         Persönlichkeit
       </h1>
-      <div className="max-w-prose text-lg">
+      <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
         <p>
           Auch wenn sich die Gesellschaft rapide ändert bleibt für Jugendliche
           die alles bestimmende Frage ihres Alters: „Wer bin ich?“ Diesen

@@ -5,32 +5,34 @@ import { persons } from '~/data/persons'
 
 export default function UeberUns() {
   return (
-    <div className="mt-12 space-y-12 lg:mt-24">
-      <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
+    <div className="md:mt-12">
+      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Über uns
       </h1>
-      <div className="max-w-prose space-y-4">
-        <p className="text-2xl">
+
+      <div className="mb-12 max-w-[45ch] space-y-4 text-lg md:mb-16 md:text-xl lg:text-2xl">
+        <p>
           Die Walz ist eine private Bildungseinrichtung mit Öffentlichkeitsrecht
           für Jugendliche im Alter von 14 bis 19 Jahren (9.-13. Schulstufe). Die
           Walz schließt mit Matura (Externistenreifeprüfung) ab.
         </p>
-        <p className="text-2xl">
+        <p>
           Der Unterricht orientiert sich am Lehrplan des
           Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
           Werkerziehung.
         </p>
-        <p className="text-2xl">
+        <p>
           Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
           Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
           Leben in einer sich verändernden Welt vorbereiten sollen.
         </p>
       </div>
-      <nav className="flex flex-col space-y-1">
+
+      <nav className="mb-12 flex flex-col space-y-1 md:mb-16">
         <h2 className="mb-1 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-          Inhaltverzeichniss
+          Inhalt
         </h2>
-        <ol className="list-decimal space-y-1">
+        <ol className="list-inside list-decimal space-y-1 md:list-outside">
           <li>
             <Link to="#menschen" className="text-xl font-bold">
               Menschen
@@ -54,291 +56,321 @@ export default function UeberUns() {
         </ol>
       </nav>
 
-      <hr className="h-[4px] border-none bg-stone-200/70" />
+      <div className="space-y-12 md:space-y-16">
+        <hr className="h-[4px] border-none bg-stone-200/70" />
 
-      <section id="menschen">
-        <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
-          Menschen
-        </h1>
-
-        <article className="mb-12">
-          <h1 className="mb-4 font-bold text-muted-foreground">Leitung</h1>
-          <StaffRoll>
-            {persons
-              .filter(person => person.roles.includes('leadership'))
-              .map(person => (
-                <StaffCard person={person} />
-              ))}
-          </StaffRoll>
-        </article>
-
-        <article className="mb-12">
-          <h1 className="mb-4 font-bold text-muted-foreground">
-            Mitarbeitende
+        <section id="menschen">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+            Menschen
           </h1>
 
-          <div className="mb-8 space-y-4">
-            <h2 className="text-2xl font-bold">Mentor:innen</h2>
-            <p className="mb-4 max-w-prose">
-              Mentor:innen sind für Jahrgänge hauptverantwortlich und kümmern
-              sich organisatorische Aufgaben sowie Projekte. Ihre Kernfunktion
-              ist die Entwicklungsbegleitung der Jugendlichen, wobei sie deren
-              Stärken fördern, Begabungen unterstützen und sie in individuellen
-              Lernsituationen begleiten.
-            </p>
+          <article className="mb-12">
+            <h1 className="mb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+              Leitung
+            </h1>
             <StaffRoll>
               {persons
-                .filter(person => person.roles.includes('mentor'))
+                .filter(person => person.roles.includes('leadership'))
                 .map(person => (
                   <StaffCard person={person} />
                 ))}
             </StaffRoll>
-          </div>
+          </article>
 
-          <div className="mb-8 space-y-4">
-            <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
-            <p className="max-w-prose">
-              Projektleiter:innen in der Walz bereiten die Jugendlichen auf
-              Externistenprüfungen vor. Sie agieren als "Trainer", erarbeiten
-              klar definierte Stoffgebiete und übernehmen nicht selbst die
-              Prüfung. Viele unter&shy;richten blockweise und haben nebenbei
-              einen Hauptberuf. Einige sind Fachexperten statt Pädagogen,
-              wodurch Jugendliche realistische Einblicke in die Arbeitswelt
-              erhalten.
+          <article className="mb-12">
+            <h1 className="mb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+              Mitarbeitende
+            </h1>
+
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Mentor:innen</h2>
+                <p className="mb-4 max-w-prose">
+                  Mentor:innen sind für Jahrgänge hauptverantwortlich und
+                  kümmern sich organisatorische Aufgaben sowie Projekte. Ihre
+                  Kernfunktion ist die Entwicklungsbegleitung der Jugendlichen,
+                  wobei sie deren Stärken fördern, Begabungen unterstützen und
+                  sie in individuellen Lernsituationen begleiten.
+                </p>
+                <StaffRoll>
+                  {persons
+                    .filter(person => person.roles.includes('mentor'))
+                    .map(person => (
+                      <StaffCard person={person} />
+                    ))}
+                </StaffRoll>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
+                <div className="max-w-prose">
+                  <p>
+                    Projektleiter:innen in der Walz bereiten die Jugendlichen
+                    auf Externistenprüfungen vor. Sie agieren als "Trainer",
+                    erarbeiten klar definierte Stoffgebiete und übernehmen nicht
+                    selbst die Prüfung. Viele unter&shy;richten blockweise und
+                    haben nebenbei einen Hauptberuf. Einige sind Fachexperten
+                    statt Pädagogen, wodurch Jugendliche realistische Einblicke
+                    in die Arbeitswelt erhalten.
+                  </p>
+                </div>
+                <StaffRoll>
+                  {persons
+                    .filter(person => person.roles.includes('project leader'))
+                    .map(person => (
+                      <StaffCard person={person} />
+                    ))}
+                </StaffRoll>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Administrator:innen</h2>
+                <div className="max-w-prose">
+                  <p>
+                    Um ein anspruchsvolles Projekt wie die Walz verwirklichen zu
+                    können, braucht es viele Menschen im Hintergrund, die den
+                    notwendigen Arbeits&shy;rahmen schaffen und zur Verfügung
+                    stellen. Projekt- und Reiseorganisation, Abrechnungen,
+                    Prüfungs&shy;anmeldungen sind nur einige der vielfältigen
+                    Aufgaben der Verwaltungs&shy;mitarbeiter:innen.
+                  </p>
+                </div>
+                <StaffRoll>
+                  {persons
+                    .filter(person => person.roles.includes('administrator'))
+                    .map(person => (
+                      <StaffCard person={person} />
+                    ))}
+                </StaffRoll>
+              </div>
+
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Therapeut:innen</h2>
+                <div className="max-w-prose">
+                  <p>
+                    Jede Woche stehen eine erfahrene Psychologin und ein
+                    Psychotherapeut für Gespräche mit den Jugendlichen zur
+                    Verfügung. Zusätzlich legen wir mit Angeboten wie
+                    Drogenpräventionsprogrammen und Stressbewältigungstechniken
+                    wie „Therapeutic Touch“ einen besonderen Fokus auf das Wohl
+                    der Jugendlichen. Wir bieten auch Aufklärungsseminare und
+                    Elternabende an, um das Wohlsein und die persönliche
+                    Entwicklung aller Beteiligten zu fördern.
+                  </p>
+                </div>
+                <StaffRoll>
+                  {persons
+                    .filter(person => person.roles.includes('therapeut'))
+                    .map(person => (
+                      <StaffCard person={person} />
+                    ))}
+                </StaffRoll>
+              </div>
+            </div>
+          </article>
+
+          <article>
+            <h1 className="font-bold">Jahrgänge</h1>
+            <p>Jetztige</p>
+            <p>Ehemalige</p>
+          </article>
+        </section>
+
+        <hr className="h-[4px] border-none bg-stone-200/70" />
+
+        <section id="philosophie">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+            Philosophie
+          </h1>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <Link
+              to="/ueber-uns/philosophie/bildung"
+              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            >
+              <div className="relative mb-6 border-8 border-secondary">
+                <img
+                  src="/images/bildung_anders.jpg"
+                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
+                />
+              </div>
+              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Bildung
+              </h1>
+              <h2 className="font-condensed text-2xl font-bold text-stone-700">
+                Zusammenhänge erkennen
+              </h2>
+              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+                <span className="underline-offset-4 group-hover/more:underline">
+                  Mehr erfahren
+                </span>
+                <ArrowRight size={24} className="fill-secondary" />
+              </span>
+            </Link>
+
+            <Link
+              to="/ueber-uns/philosophie/praxis"
+              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            >
+              <div className="relative mb-6 border-8 border-secondary">
+                <img
+                  src="/images/praxis_uhrenwerkstatt.jpg"
+                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
+                />
+              </div>
+              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Praxis
+              </h1>
+              <h2 className="font-condensed text-2xl font-bold text-stone-700">
+                Erfahrungen sammeln
+              </h2>
+              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+                <span className="underline-offset-4 group-hover/more:underline">
+                  Mehr erfahren
+                </span>
+                <ArrowRight size={24} className="fill-secondary" />
+              </span>
+            </Link>
+
+            <Link
+              to="/ueber-uns/philosophie/persoenlichkeit"
+              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            >
+              <div className="relative mb-6 border-8 border-secondary">
+                <img
+                  src="/images/persoenlichkeit_theater.jpg"
+                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
+                />
+              </div>
+              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Persönlichkeit
+              </h1>
+              <h2 className="font-condensed text-2xl font-bold text-stone-700">
+                Potenziale entfalten
+              </h2>
+              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+                <span className="underline-offset-4 group-hover/more:underline">
+                  Mehr erfahren
+                </span>
+                <ArrowRight size={24} className="fill-secondary" />
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        <hr className="h-[4px] border-none bg-stone-200/70" />
+
+        <section id="leitbild" className="space-y-8">
+          <h1 className="font-condensed text-4xl font-bold text-secondary">
+            Leitbild
+          </h1>
+
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              <span className="italic">
+                Folgende Fragestellung hat zur Gründung der Walz geführt:
+              </span>
+              <br />
+              Was sind die bestmöglichen organisatorischen und institutionellen
+              Rahmenbedingungen, um die vielfältigen Potenziale und Fähigkeiten,
+              die in jungen Menschen schlummern, optimal zur Entfaltung zu
+              bringen?
             </p>
-            <StaffRoll>
-              {persons
-                .filter(person => person.roles.includes('project leader'))
-                .map(person => (
-                  <StaffCard person={person} />
-                ))}
-            </StaffRoll>
           </div>
 
-          <div className="mb-8 space-y-4">
-            <div className="max-w-prose">
-              <h2 className="text-2xl font-bold">Administrator:innen</h2>
+          <article className="space-y-4">
+            <h2 className="text-2xl font-bold">Fundamentaler Wandel</h2>
+
+            <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
               <p>
-                Um ein anspruchsvolles Projekt wie die Walz verwirklichen zu
-                können, braucht es viele Menschen im Hintergrund, die den
-                notwendigen Arbeits&shy;rahmen schaffen und zur Verfügung
-                stellen. Projekt- und Reiseorganisation, Abrechnungen,
-                Prüfungs&shy;anmeldungen sind nur einige der vielfältigen
-                Aufgaben der Verwaltungs&shy;mitarbeiter:innen.
+                Bildung hat sich immer auf jene gesellschaftliche Realität zu
+                beziehen, in der sich junge Menschen einmal bewähren müssen. Die
+                gesellschaftliche Wirklichkeit, auf die Bildung heute
+                vorbereiten soll, hat sich v.a. in zwei Bereichen fundamental
+                verändert.
+              </p>
+
+              <ol className="list-inside list-decimal space-y-4 sm:list-outside">
+                <li>
+                  <p>
+                    <span className="text-primary">
+                      Garantierter Wandel ist die einzige Konstante, die sicher
+                      scheint
+                    </span>
+                    . Ein Großteil jener Berufe, in denen junge Menschen einmal
+                    arbeiten werden, existiert heute noch nicht. Die Zeit, in
+                    der ein junger Mensch einen Beruf erlernt, und diesen dann
+                    ein Leben lang ausübt, ist mit Sicherheit vorbei.
+                    Arbeitslosigkeit bzw. der Umstieg von einem
+                    Arbeitsverhältnis auf ein anderes, laufendes Erlernen neuer
+                    Kenntnisse, Wechsel zwischen selbständiger und angestellter
+                    Tätigkeit, Mitarbeit in internationalen Organisations- und
+                    Kommunikationsformen werden zum Normalfall werden.
+                  </p>
+                </li>
+
+                <li>
+                  <p>
+                    <span className="text-primary">
+                      Auch die grundlegenden Werte unserer Gesellschaft sind
+                      unsicher geworden
+                    </span>
+                    : Die Rolle der Geschlechter zueinander oder die Frage
+                    nationaler Identität (um nur zwei Beispiele zu nennen) sind
+                    verhandelbar geworden. Vor diesem Hintergrund wollen wir in
+                    der Walz dem Lernen einen optimalen Rahmen geben. Lernen
+                    heißt für uns nicht mehr, Wissen in einer vom wirklichen
+                    Leben getrennt geschaffenen Institution (Schule) vermittelt
+                    zu bekommen.
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </article>
+
+          <article className="space-y-4">
+            <h2 className="text-2xl font-bold">Lernen ist zweifach Programm</h2>
+
+            <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+              <p>
+                Einerseits ist die Walz ein Ort des Lernens für junge Menschen,
+                andererseits bezieht die Walz Lernen auch auf sich selbst, auf
+                ihre Mitarbeiter/-innen und ihre Struktur. Die Walz bemüht sich
+                als gesamte Organisation um ein hohes Maß an Offenheit,
+                Innovationskraft und Veränderungsbereitschaft.
               </p>
             </div>
-            <StaffRoll>
-              {persons
-                .filter(person => person.roles.includes('administrator'))
-                .map(person => (
-                  <StaffCard person={person} />
-                ))}
-            </StaffRoll>
+          </article>
+        </section>
+
+        <section id="geschichte">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+            Geschichte
+          </h1>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Die Walz wurde im Jahr 2000 von Renate Chorherr gegründet und
+              startete zunächst mit einem Jahrgang, den „Alphas“ in
+              Räumlichkeiten auf dem Gelände des Wiener Kabelwerks im 12.
+              Bezirk. Als im Jahr 2003 die Walz mit 5 Jahrgängen (9.-13.
+              Schulstufe) komplett war, war es an der Zeit, sich nach einer
+              neuen Bleibe mit ausreichend Platz umzusehen.
+            </p>
+
+            <p>
+              Nach eineinhalb Jahren suchen, Sponsoren finden, Planung und Umbau
+              wurde die "neue" Walz im Herbst 2005 eröffnet – der jetzige
+              Standort befindet sich im 14. Bezirk, gegenüber dem
+              Hanusch-Krankenhaus.
+            </p>
+
+            <p>
+              Seit dem Schuljahr 2002/03 hat die Walz das Öffentlichkeitsrecht
+              für die 9. Schulstufe, seit 2006/07 auch für die 10.-13.
+              Schulstufe.
+            </p>
           </div>
-
-          <div>
-            <div className="max-w-prose">
-              <h2 className="text-2xl font-bold">Therapeut:innen</h2>
-              <p className="">
-                Jede Woche stehen eine erfahrene Psychologin und ein
-                Psychotherapeut für Gespräche mit den Jugendlichen zur
-                Verfügung. Zusätzlich legen wir mit Angeboten wie
-                Drogenpräventionsprogrammen und Stressbewältigungstechniken wie
-                „Therapeutic Touch“ einen besonderen Fokus auf das Wohl der
-                Jugendlichen. Wir bieten auch Aufklärungsseminare und
-                Elternabende an, um das Wohlsein und die persönliche Entwicklung
-                aller Beteiligten zu fördern.
-              </p>
-            </div>
-            <StaffRoll>
-              {persons
-                .filter(person => person.roles.includes('therapeut'))
-                .map(person => (
-                  <StaffCard person={person} />
-                ))}
-            </StaffRoll>
-          </div>
-        </article>
-
-        <article>
-          <h1 className="font-bold">Jahrgänge</h1>
-          <p>Jetztige</p>
-          <p>Ehemalige</p>
-        </article>
-      </section>
-
-      <hr className="h-[4px] border-none bg-stone-200/70" />
-
-      <section id="philosophie">
-        <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
-          Philosophie
-        </h1>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <Link
-            to="/ueber-uns/philosophie/bildung"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/bildung_anders.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Bildung
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Zusammenhänge erkennen
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </span>
-          </Link>
-
-          <Link
-            to="/ueber-uns/philosophie/praxis"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/praxis_uhrenwerkstatt.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Praxis
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Erfahrungen sammeln
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </span>
-          </Link>
-
-          <Link
-            to="/ueber-uns/philosophie/persoenlichkeit"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/persoenlichkeit_theater.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Persönlichkeit
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Potenziale entfalten
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      <hr className="h-[4px] border-none bg-stone-200/70" />
-
-      <section id="leitbild">
-        <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
-          Leitbild
-        </h1>
-        <div className="text-md max-w-prose space-y-2 md:text-lg">
-          <p className="font-bold">
-            Folgende Fragestellung hat zur Gründung der Walz geführt:
-          </p>
-
-          <p>
-            Was sind die bestmöglichen organisatorischen und institutionellen
-            Rahmenbedingungen, um die vielfältigen Potenziale und Fähigkeiten,
-            die in jungen Menschen schlummern, optimal zur Entfaltung zu
-            bringen?
-          </p>
-
-          <h2 className="text-2xl font-bold">Fundamentaler Wandel</h2>
-
-          <p>
-            Bildung hat sich immer auf jene gesellschaftliche Realität zu
-            beziehen, in der sich junge Menschen einmal bewähren müssen. Die
-            gesellschaftliche Wirklichkeit, auf die Bildung heute vorbereiten
-            soll, hat sich v.a. in zwei Bereichen fundamental verändert.
-          </p>
-
-          <p>
-            1. <em>Garantierter Wandel ist die einzige Konstante</em>, die
-            sicher scheint. Ein Großteil jener Berufe, in denen junge Menschen
-            einmal arbeiten werden, existiert heute noch nicht. Die Zeit, in der
-            ein junger Mensch einen Beruf erlernt, und diesen dann ein Leben
-            lang ausübt, ist mit Sicherheit vorbei. Arbeitslosigkeit bzw. der
-            Umstieg von einem Arbeitsverhältnis auf ein anderes, laufendes
-            Erlernen neuer Kenntnisse, Wechsel zwischen selbständiger und
-            angestellter Tätigkeit, Mitarbeit in internationalen Organisations-
-            und Kommunikationsformen werden zum Normalfall werden.
-          </p>
-
-          <p>
-            2. Auch{' '}
-            <em>
-              die grundlegenden Werte unserer Gesellschaft sind unsicher
-              geworden
-            </em>
-            : Die Rolle der Geschlechter zueinander oder die Frage nationaler
-            Identität (um nur zwei Beispiele zu nennen) sind verhandelbar
-            geworden. Vor diesem Hintergrund wollen wir in der Walz dem Lernen
-            einen optimalen Rahmen geben. Lernen heißt für uns nicht mehr,
-            Wissen in einer vom wirklichen Leben getrennt geschaffenen
-            Institution (Schule) vermittelt zu bekommen.
-          </p>
-
-          <h2 className="text-2xl font-bold">Lernen ist zweifach Programm</h2>
-
-          <p>
-            Einerseits ist die Walz ein Ort des Lernens für junge Menschen,
-            andererseits bezieht die Walz Lernen auch auf sich selbst, auf ihre
-            Mitarbeiter/-innen und ihre Struktur. Die Walz bemüht sich als
-            gesamte Organisation um ein hohes Maß an Offenheit, Innovationskraft
-            und Veränderungsbereitschaft.
-          </p>
-        </div>
-      </section>
-
-      <section id="geschichte">
-        <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
-          Geschichte
-        </h1>
-        <div className="text-md max-w-prose space-y-4 md:text-lg">
-          <p>
-            Die Walz wurde im Jahr 2000 von Renate Chorherr gegründet und
-            startete zunächst mit einem Jahrgang, den „Alphas“ in Räumlichkeiten
-            auf dem Gelände des Wiener Kabelwerks im 12. Bezirk. Als im Jahr
-            2003 die Walz mit 5 Jahrgängen (9.-13. Schulstufe) komplett war, war
-            es an der Zeit, sich nach einer neuen Bleibe mit ausreichend Platz
-            umzusehen.
-          </p>
-
-          <p>
-            Nach eineinhalb Jahren suchen, Sponsoren finden, Planung und Umbau
-            wurde die "neue" Walz im Herbst 2005 eröffnet – der jetzige Standort
-            befindet sich im 14. Bezirk, gegenüber dem Hanusch-Krankenhaus.
-          </p>
-
-          <p>
-            Seit dem Schuljahr 2002/03 hat die Walz das Öffentlichkeitsrecht für
-            die 9. Schulstufe, seit 2006/07 auch für die 10.-13. Schulstufe.
-          </p>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   )
 }
@@ -393,9 +425,9 @@ function StaffRoll({ children }: { children: React.ReactNode }) {
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="h-1 rounded-full bg-stone-400/30"
+        className="-mx-4 flex h-[8px] items-center bg-card px-[3px] sm:rounded-full"
       >
-        <ScrollArea.Thumb className="relative !h-1 rounded-full bg-primary" />
+        <ScrollArea.Thumb className="relative !h-[4px] rounded-full bg-primary" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   )

@@ -1,7 +1,7 @@
 import { Link, NavLink } from '@remix-run/react'
 import { LogoSymbol, LogoType } from './brand'
-import { Home } from '@carbon/icons-react'
 import { cn } from '~/utils/misc'
+import { Home } from 'lucide-react'
 
 const navigation = {
   main: [
@@ -23,23 +23,24 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y divide-stone-200 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:pr-6"
+      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none  md:rounded-full md:bg-transparent md:pr-6 md:shadow-none"
     >
       <NavLink
         to="/"
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'group flex-none items-center p-3 font-condensed text-lg font-bold text-gray-700 outline-none ring-4 ring-inset ring-card transition-all hover:text-gray-900 focus:ring-primary/20 md:aspect-square md:rounded-l-full md:p-4 lg:text-xl',
+            'focu:ring-2 group flex-none items-center px-3 py-3 font-condensed text-lg font-bold text-gray-700 outline-none transition-all hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl',
             {
-              'md:bg-primary/10': isActive,
+              'ring-0': isActive,
+              'hover:text-stone-900': !isActive,
             },
           )
         }
       >
         <Home
-          size={20}
-          className="order-1 hidden fill-primary md:block md:group-hover:scale-105"
+          size={24}
+          className="order-1 hidden stroke-secondary md:block md:group-hover:scale-105"
         />
         <span className="md:sr-only">Startseite</span>
       </NavLink>
@@ -50,10 +51,12 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'px-3 py-3 font-condensed text-lg font-bold text-stone-700 outline-none ring-4 ring-inset ring-card transition-transform focus:ring-primary/20 lg:px-4 lg:text-xl',
+              'px-3 py-3 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-all focus:ring-2 focus:ring-primary/20 md:rounded-md md:py-2 lg:text-xl',
               {
-                'bg-primary/5 text-stone-900': isActive,
+                'text-stone-900 ring-0': isActive,
                 'hover:text-stone-900': !isActive,
+                'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2.5px] after:w-10 after:bg-primary after:content-[""]':
+                  isActive,
               },
             )
           }
@@ -106,7 +109,7 @@ export function Footer() {
         </div>
 
         <Link to="." className="group mb-4 flex flex-col items-center">
-          <LogoType className="w-24 fill-secondary" />
+          <LogoType className="w-20 fill-secondary" />
           <div
             role="presentation"
             className="pointer-events-none absolute -bottom-24 transition-all group-hover:-bottom-24 lg:-bottom-24"

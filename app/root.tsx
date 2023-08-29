@@ -63,26 +63,26 @@ export default function App() {
   return (
     <Document>
       <div className="flex min-h-screen flex-col">
-        <header className="container my-8 flex flex-col space-y-4 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12">
+        <header className="container my-8 flex flex-col space-y-4 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12 2xl:my-16">
           <div className="flex-1">
             <Link
               to="/"
-              className="flex items-center gap-2 outline-none"
+              className="group flex items-center gap-2 outline-none"
               tabIndex={-1}
             >
-              <LogoSymbol className="relative top-1 w-10 text-primary hover:text-primary" />
-              <LogoType className="w-24 fill-secondary" />
+              <LogoSymbol className="relative top-1 w-10 text-primary" />
+              <LogoType className="w-20 fill-foreground/80" />
             </Link>
           </div>
           <Navigation />
         </header>
 
-        <div className="container flex-1 px-4 sm:px-8 md:px-12">
+        <div className="container relative flex-1 px-4 sm:px-8 md:px-12">
           <Outlet />
         </div>
 
         <div className="mt-24 bg-stone-200/60">
-          <div className="container px-4 sm:px-8 md:px-12">
+          <div className="px-4 sm:px-8 md:px-12">
             <Footer />
           </div>
         </div>

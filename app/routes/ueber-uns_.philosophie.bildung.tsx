@@ -1,12 +1,12 @@
 export default function Bildung() {
   return (
     <div className="space-y-8">
-      <h1 className="mb-2 font-condensed text-lg font-bold  text-secondary">
+      <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
         Bildung
       </h1>
 
-      <div className="max-w-prose space-y-4 text-lg">
-        <p className="text-lg">
+      <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+        <p>
           Anders als Ausbildung verändert Bildung Menschen. Wesentliches Ziel
           ist es, dass die Jugendlichen komplexe gesellschaftliche Zusammenhänge
           verstehen, begreifen, erklären und klären lernen. Die Walz entwickelt
@@ -15,7 +15,7 @@ export default function Bildung() {
           Lehrplan einer AHS hinaus), so passen wir unser Programm laufend an
           und entwickeln es weiter.
         </p>
-        <p className="text-lg">
+        <p>
           Wir legen größten Wert auf die Pflege des sprachlichen Ausdrucks und
           wollen einen Zugang zur Literatur legen, nicht zuletzt, weil es bei
           der Zentralmatura kaum mehr eine Rolle spielt. Neben kognitiven

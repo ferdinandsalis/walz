@@ -24,13 +24,13 @@ export default function Home() {
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:p-16 md:p-20 lg:py-24">
           <LogoSymbol className="absolute bottom-12 right-12 w-72 text-primary opacity-50 sm:-bottom-32 sm:-right-10 sm:w-72 md:w-80 md:opacity-70 lg:right-10 lg:w-96" />
           <p className="relative max-w-xl font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
-            Die <strong className="font-bold text-primary">Walz</strong> soll
+            Die <strong className="font-bold text-secondary">Walz</strong> soll
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
             mitzuge­stalten.
           </p>
         </div>
 
-        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-stone-200/60 p-3 px-4 shadow-inner sm:px-8 md:px-12">
+        <article className="col-start-1 row-start-2 flex items-center gap-2 rounded-b-md bg-stone-200/60 p-3 px-4 shadow-inner sm:px-8 md:px-12">
           <div className="flex flex-col gap-2 md:flex-row">
             <h1 className="flex items-center gap-1">
               <span className="md:sr-only">Nächster Termin</span>
@@ -117,7 +117,7 @@ export default function Home() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Link
             to="./ueber-uns/philosophie/bildung"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
           >
             <div className="relative mb-6 border-8 border-secondary">
               <img
@@ -125,23 +125,25 @@ export default function Home() {
                 className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
               />
             </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Bildung
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Zusammenhänge erkennen
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+            <hgroup className="flex-1">
+              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Bildung
+              </h1>
+              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
+                Zusammenhänge erkennen
+              </p>
+            </hgroup>
+            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
               <span className="underline-offset-4 group-hover/more:underline">
                 Mehr erfahren
               </span>
               <ArrowRight size={24} className="fill-secondary" />
-            </span>
+            </div>
           </Link>
 
           <Link
             to="./ueber-uns/philosophie/praxis"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
           >
             <div className="relative mb-6 border-8 border-secondary">
               <img
@@ -149,23 +151,25 @@ export default function Home() {
                 className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
               />
             </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Praxis
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Erfahrungen sammeln
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+            <hgroup className="flex-1">
+              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Praxis
+              </h1>
+              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
+                Erfahrungen sammeln
+              </p>
+            </hgroup>
+            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
               <span className="underline-offset-4 group-hover/more:underline">
                 Mehr erfahren
               </span>
               <ArrowRight size={24} className="fill-secondary" />
-            </span>
+            </div>
           </Link>
 
           <Link
             to="./ueber-uns/philosophie/persoenlichkeit"
-            className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
+            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
           >
             <div className="relative mb-6 border-8 border-secondary">
               <img
@@ -173,18 +177,20 @@ export default function Home() {
                 className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
               />
             </div>
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-              Persönlichkeit
-            </h1>
-            <h2 className="font-condensed text-2xl font-bold text-stone-700">
-              Potenziale entfalten
-            </h2>
-            <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
+            <hgroup className="flex-1">
+              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
+                Persönlichkeit
+              </h1>
+              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
+                Potenziale entfalten
+              </p>
+            </hgroup>
+            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
               <span className="underline-offset-4 group-hover/more:underline">
                 Mehr erfahren
               </span>
               <ArrowRight size={24} className="fill-secondary" />
-            </span>
+            </div>
           </Link>
         </div>
       </section>
