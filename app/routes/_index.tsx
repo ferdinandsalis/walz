@@ -251,6 +251,12 @@ export default function Home() {
             <p>Email: office@walz.at</p>
           </div>
         </div>
+        <Link
+          to="/rundgang"
+          className="mt-2 inline-flex text-secondary underline underline-offset-2"
+        >
+          <p>Lerne die Walz auf einen virtuellen Rundgang kennen.</p>
+        </Link>
       </section>
 
       <section className="">
