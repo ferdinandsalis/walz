@@ -1,7 +1,9 @@
-# base node image
-FROM node:16-bullseye-slim as base
+# base node image# base node image
+FROM node:18-bookworm-slim as base
 
-# Install openssl for Prisma
+# set for base and all layer that inherit from it
+ENV NODE_ENV production
+
 RUN apt-get update && apt-get install -y openssl
 
 # Install all node_modules, including dev dependencies
