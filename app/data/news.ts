@@ -1,7 +1,8 @@
 export const news = [
   {
-    title: 'Tag der öffenen Tür',
-    time: '2023-10-07',
+    title: 'Tag der offenen Tür',
+    publishedAt: new Date('2023-10-07'),
+    to: '/news/2023-10-07-tag-der-offenen-tuer',
     abstract: 'Die Walz stellt sich vor. Bei Workshops, Projektpräsentationen und einer …',
     author: 'Agnes Chorrherr',
     tags: ['Administratives'],
@@ -10,7 +11,8 @@ export const news = [
   },
   {
     title: 'Tourengehen',
-    time: '2023-01-15',
+    publishedAt: new Date('2023-01-15'),
+    to: '/news/2023-01-15-tourengehen',
     abstract:
       'Eine Woche lang verließen sich die Psis auf ihre Muskelkraft, um im Schnee Gipfel zu erklimmen.',
     author: 'Psis',
@@ -19,7 +21,8 @@ export const news = [
   },
   {
     title: 'Wir stellen einen neuen Jahrgang vor.',
-    time: '2023-08-06',
+    publishedAt: new Date('2023-08-06'),
+    to: '/news/2023-08-06-neuer-jahrgang',
     author: 'Psis',
     tags: ['Jahrgang', 'Psi'],
     body: '',

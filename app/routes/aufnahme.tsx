@@ -18,7 +18,7 @@ export default function Aufnahme() {
             </Link>
           </li>
           <li>
-            <Link to="#" className="text-xl font-bold">
+            <Link to="#vorraussetzungen" className="text-xl font-bold">
               Vorraussetzungen
             </Link>
           </li>
@@ -48,7 +48,7 @@ export default function Aufnahme() {
           </p>
         </div>
 
-        <article>
+        <article id="vorgehensweise">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
             Vorgehensweise
           </h1>
@@ -67,7 +67,7 @@ export default function Aufnahme() {
 
         <hr className="h-[4px] border-none bg-stone-200/70" />
 
-        <article>
+        <article id="vorraussetzungen">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
             Vorraussetzungen
           </h1>
@@ -87,7 +87,7 @@ export default function Aufnahme() {
 
         <hr className="h-[4px] border-none bg-stone-200/70" />
 
-        <article>
+        <article id="kosten">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
             Kosten
           </h1>
@@ -126,7 +126,7 @@ export default function Aufnahme() {
 
         <hr className="h-[4px] border-none bg-stone-200/70" />
 
-        <article>
+        <article id="stipendien">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
             Stipendien
           </h1>

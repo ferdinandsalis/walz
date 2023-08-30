@@ -85,7 +85,12 @@ export default function Home() {
                 >
                   <article className="relative text-foreground">
                     <div className="absolute right-0 rounded-full bg-primary p-4 text-white">
-                      <time className="font-condensed">{entry.time}</time>
+                      <time className="font-condensed">
+                        {entry.publishedAt.toLocaleString('de-AT', {
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </time>
                     </div>
                     <h1 className="mb-4 max-w-xs font-condensed text-2xl leading-tight text-white md:text-3xl lg:text-3xl xl:text-4xl">
                       {entry.title}
@@ -224,7 +229,7 @@ export default function Home() {
               key={idx}
               className="relative mb-8 max-w-prose after:absolute after:-bottom-0  after:translate-y-48 after:text-[10em] after:text-secondary after:content-['”'] "
             >
-              <p className="relative text-lg font-light italic text-stone-700 md:text-xl lg:text-2xl">
+              <p className="relative text-lg italic text-stone-700 md:text-xl lg:text-2xl">
                 {entry.text}
               </p>
               <footer className="mt-4">
@@ -242,7 +247,17 @@ export default function Home() {
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
         </header>
         <div className="grid gap-8 md:grid-cols-6">
-          <div className="h-64 overflow-hidden rounded border border-stone-300 bg-stone-200 shadow-inner shadow-stone-300 ring-1 ring-stone-50 md:col-span-4 md:col-start-1"></div>
+          <Link
+            to="https://goo.gl/maps/sb3LQfsePwU3zMPg8"
+            className="relative h-72 overflow-hidden rounded border border-stone-300 bg-stone-200 md:col-span-4 md:col-start-1 lg:h-80"
+          >
+            <img
+              src="https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=AIzaSyCQlA0vV3_JzkHchLJvxuqkNcWaPeRcqNA&scale=2&map_id=8811b5d90ece1ea5"
+              alt="Karte"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-stone-300/80"></div>
+          </Link>
           <div className="md:col-span-2 md:col-start-5">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
               Adresse
@@ -266,34 +281,7 @@ export default function Home() {
       </section>
 
       <section className="">
-        <form
-          name="newsletter"
-          method="POST"
-          className="grid max-w-xl grid-cols-1 gap-4 rounded-md bg-card p-8 shadow-md"
-        >
-          <p className="text-2xl">
-            Möchtest du auf dem laufenden bleiben? Dann melde dich für unseren
-            Newsletter an!
-          </p>
-          <input type="hidden" name="form-name" value="newsletter" />
-          <input type="hidden" name="bot-field" />
-          <label className="sr-only">E-Mail</label>
-          <Input
-            name="email"
-            type="email"
-            placeholder="E-Mail"
-            className="rounded-lg bg-white p-6 shadow-md"
-          />
-          <div>
-            <Button
-              type="submit"
-              size="lg"
-              className="rounded-lg bg-primary p-6 text-xl shadow-md"
-            >
-              Anmelden
-            </Button>
-          </div>
-        </form>
+        <Newsletter />
       </section>
     </div>
   )
@@ -314,5 +302,46 @@ function SectionHeading({ children, id }: { children: any; id: string }) {
       </h1>
       <hr className="-order-1 col-start-1 col-end-13 row-start-1 h-[4px] rounded border-none bg-stone-200/70" />
     </Link>
+  )
+}
+
+export function Newsletter() {
+  return (
+    <form
+      name="newsletter"
+      method="POST"
+      className="grid max-w-xl rounded-md bg-card p-6 shadow-md xl:p-8"
+    >
+      <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
+        Newsletter
+      </h1>
+
+      <p className="mb-8 max-w-[28ch] text-2xl">
+        <span className="font-bold">
+          Möchtest du auf dem laufenden bleiben?
+        </span>{' '}
+        Dann melde dich für unseren Newsletter an!
+      </p>
+      <input type="hidden" name="form-name" value="newsletter" />
+      <input type="hidden" name="bot-field" />
+      <div className="mb-4">
+        <label className="sr-only">E-Mail</label>
+        <Input
+          name="email"
+          type="email"
+          placeholder="E-Mail"
+          className="rounded-lg bg-white p-6 text-xl shadow-md"
+        />
+      </div>
+      <div>
+        <Button
+          type="submit"
+          size="lg"
+          className="rounded-lg bg-primary p-6 text-xl shadow-md"
+        >
+          Anmelden
+        </Button>
+      </div>
+    </form>
   )
 }
