@@ -2,6 +2,11 @@ import { ArrowRight } from '@carbon/icons-react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { Link } from '@remix-run/react'
 import { persons } from '#app/data/persons.ts'
+import { Divider } from '#app/components/ui/divider.tsx'
+import { ArrowUp } from 'lucide-react'
+import { LinkPhotoCard } from './_index.tsx'
+import { pillars } from './ueber-uns_.philosophie.tsx'
+import { BackToTop } from '#app/components/back-to-top.tsx'
 
 export default function UeberUns() {
   return (
@@ -12,6 +17,11 @@ export default function UeberUns() {
 
       <div className="mb-12 max-w-[45ch] space-y-4 text-lg md:mb-16 md:text-xl lg:text-2xl">
         <p>
+          Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
+          Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
+          Leben in einer sich verändernden Welt vorbereiten sollen.
+        </p>
+        <p>
           Die Walz ist eine private Bildungseinrichtung mit Öffentlichkeitsrecht
           für Jugendliche im Alter von 14 bis 19 Jahren (9.-13. Schulstufe). Die
           Walz schließt mit Matura (Externistenreifeprüfung) ab.
@@ -20,11 +30,6 @@ export default function UeberUns() {
           Der Unterricht orientiert sich am Lehrplan des
           Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
           Werkerziehung.
-        </p>
-        <p>
-          Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
-          Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
-          Leben in einer sich verändernden Welt vorbereiten sollen.
         </p>
       </div>
 
@@ -57,10 +62,10 @@ export default function UeberUns() {
       </nav>
 
       <div className="space-y-12 md:space-y-16">
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
         <section id="menschen">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Menschen
           </h1>
 
@@ -70,7 +75,7 @@ export default function UeberUns() {
             </h1>
             <StaffRoll>
               {persons
-                .filter(person => person.roles.includes('leadership'))
+                .filter(person => person?.roles?.includes('leadership'))
                 .map(person => (
                   <StaffCard key={person.name} person={person} />
                 ))}
@@ -94,7 +99,7 @@ export default function UeberUns() {
                 </p>
                 <StaffRoll>
                   {persons
-                    .filter(person => person.roles.includes('mentor'))
+                    .filter(person => person?.roles?.includes('mentor'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -116,7 +121,7 @@ export default function UeberUns() {
                 </div>
                 <StaffRoll>
                   {persons
-                    .filter(person => person.roles.includes('project leader'))
+                    .filter(person => person?.roles?.includes('project leader'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -137,7 +142,7 @@ export default function UeberUns() {
                 </div>
                 <StaffRoll>
                   {persons
-                    .filter(person => person.roles.includes('administrator'))
+                    .filter(person => person?.roles?.includes('administrator'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -160,7 +165,7 @@ export default function UeberUns() {
                 </div>
                 <StaffRoll>
                   {persons
-                    .filter(person => person.roles.includes('therapeut'))
+                    .filter(person => person?.roles?.includes('therapeut'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -169,98 +174,34 @@ export default function UeberUns() {
             </div>
           </article>
 
-          <article>
-            <h1 className="font-bold">Jahrgänge</h1>
-            <p>Jetztige</p>
-            <p>Ehemalige</p>
-          </article>
+          <BackToTop />
         </section>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <section id="philosophie">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+        <section id="philosophie" className="space-y-8">
+          <h1 className="font-condensed text-4xl font-bold text-primary">
             Philosophie
           </h1>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <Link
-              to="/ueber-uns/philosophie/bildung"
-              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-            >
-              <div className="relative mb-6 border-8 border-secondary">
-                <img
-                  src="/images/bildung_anders.jpg"
-                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-                />
-              </div>
-              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Bildung
-              </h1>
-              <h2 className="font-condensed text-2xl font-bold text-stone-700">
-                Zusammenhänge erkennen
-              </h2>
-              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-                <span className="underline-offset-4 group-hover/more:underline">
-                  Mehr erfahren
-                </span>
-                <ArrowRight size={24} className="fill-secondary" />
-              </span>
-            </Link>
-
-            <Link
-              to="/ueber-uns/philosophie/praxis"
-              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-            >
-              <div className="relative mb-6 border-8 border-secondary">
-                <img
-                  src="/images/praxis_uhrenwerkstatt.jpg"
-                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-                />
-              </div>
-              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Praxis
-              </h1>
-              <h2 className="font-condensed text-2xl font-bold text-stone-700">
-                Erfahrungen sammeln
-              </h2>
-              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-                <span className="underline-offset-4 group-hover/more:underline">
-                  Mehr erfahren
-                </span>
-                <ArrowRight size={24} className="fill-secondary" />
-              </span>
-            </Link>
-
-            <Link
-              to="/ueber-uns/philosophie/persoenlichkeit"
-              className="group rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-            >
-              <div className="relative mb-6 border-8 border-secondary">
-                <img
-                  src="/images/persoenlichkeit_theater.jpg"
-                  className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-                />
-              </div>
-              <h1 className="font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Persönlichkeit
-              </h1>
-              <h2 className="font-condensed text-2xl font-bold text-stone-700">
-                Potenziale entfalten
-              </h2>
-              <span className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-                <span className="underline-offset-4 group-hover/more:underline">
-                  Mehr erfahren
-                </span>
-                <ArrowRight size={24} className="fill-secondary" />
-              </span>
-            </Link>
+            {pillars.map(pillar => (
+              <LinkPhotoCard
+                key={pillar.title}
+                title={pillar.title}
+                abstract={pillar.abstract}
+                image={pillar.image}
+                link={pillar.link}
+              />
+            ))}
           </div>
+          
+          <BackToTop />
         </section>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
         <section id="leitbild" className="space-y-8">
-          <h1 className="font-condensed text-4xl font-bold text-secondary">
+          <h1 className="font-condensed text-4xl font-bold text-primary">
             Leitbild
           </h1>
 
@@ -292,7 +233,7 @@ export default function UeberUns() {
               <ol className="list-inside list-decimal space-y-4 sm:list-outside">
                 <li>
                   <p>
-                    <span className="text-primary">
+                    <span className="font-bold text-secondary">
                       Garantierter Wandel ist die einzige Konstante, die sicher
                       scheint
                     </span>
@@ -310,7 +251,7 @@ export default function UeberUns() {
 
                 <li>
                   <p>
-                    <span className="text-primary">
+                    <span className="font-bold text-secondary">
                       Auch die grundlegenden Werte unserer Gesellschaft sind
                       unsicher geworden
                     </span>
@@ -340,10 +281,14 @@ export default function UeberUns() {
               </p>
             </div>
           </article>
+          
+          <BackToTop />
         </section>
 
+        <Divider />
+
         <section id="geschichte">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Geschichte
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -369,26 +314,29 @@ export default function UeberUns() {
               Schulstufe.
             </p>
           </div>
+
+          <BackToTop />
         </section>
       </div>
     </div>
   )
 }
 
-type Person = {
+export type Person = {
   name: string
-  position: string
-  email: string
-  phone: string
-  image: string
-  roles: string[]
+  position?: string | null
+  email?: string | null
+  phone?: string | null
+  image?: string | null
+  website?: string | null
+  roles?: string[]
 }
 
 function StaffCard({ person }: { person: Partial<Person> }) {
   return (
     <figure
       key={person.name}
-      className="w-60 flex-none space-y-2 overflow-hidden rounded-md bg-card p-6 shadow-md"
+      className="w-60 flex-none space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
       <div className="grid grid-cols-1 grid-rows-6">
         <img
@@ -403,7 +351,7 @@ function StaffCard({ person }: { person: Partial<Person> }) {
       </div>
       <figcaption>
         <hgroup className="mb-2">
-          <h1 className="text-lg font-bold leading-tight text-primary">
+          <h1 className="text-lg mb-1 font-bold leading-tight text-primary">
             {person.name}
           </h1>
           <h2 className="max-w-[18ch] font-condensed text-sm leading-tight text-muted-foreground">

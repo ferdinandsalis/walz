@@ -1,3 +1,10 @@
+export const handle = {
+  title: 'Praxis',
+  abstract: 'Erfahrungen sammeln',
+  image: '/images/praxis_uhrenwerkstatt.jpg',
+  link: '/ueber-uns/philosophie/praxis',
+}
+
 export default function Praxis() {
   return (
     <div className="space-y-8">
@@ -17,10 +24,10 @@ export default function Praxis() {
         </p>
       </div>
       <blockquote>
-        <p className="mb-2 max-w-[30ch] text-xl font-black leading-tight text-stone-700">
+        <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
           „Who I am—and what I need—is something I have to find out myself.
         </p>
-        <p className="text-primary">Chinua Achebe</p>
+        <p className="font-bold text-primary">Chinua Achebe</p>
       </blockquote>
     </div>
   )

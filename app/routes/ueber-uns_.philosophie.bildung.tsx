@@ -1,3 +1,10 @@
+export const handle = {
+  title: 'Bildung',
+  abstract: 'Zusammenhänge erkennen',
+  image: '/images/bildung_anders.jpg',
+  link: '/ueber-uns/philosophie/bildung',
+}
+
 export default function Bildung() {
   return (
     <div className="space-y-8">

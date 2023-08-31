@@ -1,4 +1,6 @@
-export const persons = [
+import { Person } from '#app/routes/ueber-uns.tsx'
+
+export const persons: Person[] = [
   {
     name: 'Renate Chorherr',
     position: 'Gründerin und Leiterin',

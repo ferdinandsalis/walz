@@ -1,5 +1,5 @@
 ---
-question: Was heißt eigentlich Walz?
+title: Was heißt eigentlich Walz?
 ---
 
 Walz ist das mittelalterliche Gesellenwandern, die Tradition, einige Jahre in

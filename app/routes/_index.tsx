@@ -1,4 +1,3 @@
-import { ArrowRight, Calendar } from '@carbon/icons-react'
 import { Link } from '@remix-run/react'
 import { take } from 'ramda'
 import { LogoSymbol } from '#app/components/brand.tsx'
@@ -7,7 +6,9 @@ import { Input } from '#app/components/ui/input.tsx'
 import { questions } from '#app/data/faq.ts'
 import { news } from '#app/data/news.ts'
 import { testimonials } from '#app/data/testimonials.ts'
-import { shuffle } from '#app/utils/misc.tsx'
+import { SectionHeading } from '#app/components/section-heading.tsx'
+import { pillars } from './ueber-uns_.philosophie.tsx'
+import { ArrowRight, Calendar } from 'lucide-react'
 
 export default function Home() {
   return (
@@ -121,83 +122,17 @@ export default function Home() {
         </header>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <Link
-            to="./ueber-uns/philosophie/bildung"
-            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/bildung_anders.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
+          {pillars.map((entry, idx) => {
+            return (
+              <LinkPhotoCard
+                key={idx}
+                title={entry.title}
+                abstract={entry.abstract}
+                image={entry.image}
+                link={entry.link}
               />
-            </div>
-            <hgroup className="flex-1">
-              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Bildung
-              </h1>
-              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
-                Zusammenhänge erkennen
-              </p>
-            </hgroup>
-            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </div>
-          </Link>
-
-          <Link
-            to="./ueber-uns/philosophie/praxis"
-            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/praxis_uhrenwerkstatt.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <hgroup className="flex-1">
-              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Praxis
-              </h1>
-              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
-                Erfahrungen sammeln
-              </p>
-            </hgroup>
-            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </div>
-          </Link>
-
-          <Link
-            to="./ueber-uns/philosophie/persoenlichkeit"
-            className="group flex flex-col rounded-lg bg-white p-6 shadow-md focus:outline-primary"
-          >
-            <div className="relative mb-6 border-8 border-secondary">
-              <img
-                src="/images/persoenlichkeit_theater.jpg"
-                className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale backdrop-sepia transition-all group-hover:grayscale-0"
-              />
-            </div>
-            <hgroup className="flex-1">
-              <h1 className="mb-1 font-condensed text-2xl font-bold text-primary md:text-3xl lg:text-4xl xl:text-5xl">
-                Persönlichkeit
-              </h1>
-              <p className="font-condensed text-2xl font-bold leading-none text-stone-700">
-                Potenziale entfalten
-              </p>
-            </hgroup>
-            <div className="group/more mt-4 inline-flex items-center gap-1 font-condensed text-lg text-secondary md:text-xl lg:text-2xl">
-              <span className="underline-offset-4 group-hover/more:underline">
-                Mehr erfahren
-              </span>
-              <ArrowRight size={24} className="fill-secondary" />
-            </div>
-          </Link>
+            )
+          })}
         </div>
       </section>
 
@@ -283,27 +218,59 @@ export default function Home() {
         </Link>
       </section>
 
-      <section className="">
+      <section className="flex items-center justify-center">
         <Newsletter />
       </section>
     </div>
   )
 }
 
-function SectionHeading({ children, id }: { children: any; id: string }) {
+export function LinkPhotoCard({
+  title,
+  abstract,
+  image,
+  link,
+}: {
+  title: string
+  abstract: string
+  image: string
+  link: string
+}) {
   return (
     <Link
-      to={`.#${id}`}
-      className="grid grid-cols-12 items-center outline-none"
-      tabIndex={-1}
+      to={link}
+      className="group flex flex-col rounded-lg focus:outline-primary"
     >
-      <h1
-        id={id}
-        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-stone-400"
-      >
-        <span className="rounded bg-stone-100 px-8 py-2">{children}</span>
-      </h1>
-      <hr className="-order-1 col-start-1 col-end-13 row-start-1 h-[4px] rounded border-none bg-stone-200/70" />
+      <div className="relative border-8 border-transparent border-b-primary px-2">
+        <div className="relative translate-y-4 group-hover:translate-y-2 shadow-xl shadow-stone-800/50 group-hover:rotate-1 transition-all rounded-lg overflow-hidden">
+        <img
+          src={image}
+          className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale group-hover:grayscale-0"
+        />
+        <div 
+          role="presentation"
+          className="absolute inset-0 rounded-lg ring-1 ring-foreground/20 ring-inset"
+          // className="absolute inset-0 bg-gradient-to-t from-secondary/40 to-transparent"
+          />
+          </div>
+      </div>
+
+      <div className="p-6 shadow-md rounded-b-lg bg-card pt-6 relative border-t-4 border-t-primary">
+      <hgroup className="flex-1">
+        <h1 className="mb-1 font-condensed text-xl font-bold text-secondary md:text-3xl lg:text-4xl">
+          {title}
+        </h1>
+        <p className="text-lg leading-none font-bold">
+          {abstract}
+        </p>
+      </hgroup>
+      <div className="group/more mt-4 flex items-center gap-1 text-muted-foreground font-condensed text-lg">
+        <span className="underline-offset-4 group-hover/more:underline">
+          Mehr erfahren
+        </span>
+        <ArrowRight size="24" className="stroke-primary group-hover/more:translate-x-1 transition-transform" />
+      </div>
+      </div>
     </Link>
   )
 }

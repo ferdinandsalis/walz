@@ -1,6 +1,14 @@
+export const handle = {
+  id: 'persoenlichkeit',
+  title: 'Persönlichkeit',
+  abstract: 'Potenziale entfalten',
+  image: '/images/persoenlichkeit_theater.jpg',
+  link: '/ueber-uns/philosophie/persoenlichkeit',
+}
+
 export default function Persoenlichkeit() {
   return (
-    <div className="space-y-8 md:mt-12">
+    <div className="space-y-8">
       <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
         Persönlichkeit
       </h1>
