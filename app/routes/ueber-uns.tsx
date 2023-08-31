@@ -1,7 +1,7 @@
 import { ArrowRight } from '@carbon/icons-react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { Link } from '@remix-run/react'
-import { persons } from '~/data/persons'
+import { persons } from '#app/data/persons.ts'
 
 export default function UeberUns() {
   return (
@@ -72,7 +72,7 @@ export default function UeberUns() {
               {persons
                 .filter(person => person.roles.includes('leadership'))
                 .map(person => (
-                  <StaffCard person={person} />
+                  <StaffCard key={person.name} person={person} />
                 ))}
             </StaffRoll>
           </article>
@@ -96,7 +96,7 @@ export default function UeberUns() {
                   {persons
                     .filter(person => person.roles.includes('mentor'))
                     .map(person => (
-                      <StaffCard person={person} />
+                      <StaffCard key={person.name} person={person} />
                     ))}
                 </StaffRoll>
               </div>
@@ -118,7 +118,7 @@ export default function UeberUns() {
                   {persons
                     .filter(person => person.roles.includes('project leader'))
                     .map(person => (
-                      <StaffCard person={person} />
+                      <StaffCard key={person.name} person={person} />
                     ))}
                 </StaffRoll>
               </div>
@@ -139,7 +139,7 @@ export default function UeberUns() {
                   {persons
                     .filter(person => person.roles.includes('administrator'))
                     .map(person => (
-                      <StaffCard person={person} />
+                      <StaffCard key={person.name} person={person} />
                     ))}
                 </StaffRoll>
               </div>
@@ -162,7 +162,7 @@ export default function UeberUns() {
                   {persons
                     .filter(person => person.roles.includes('therapeut'))
                     .map(person => (
-                      <StaffCard person={person} />
+                      <StaffCard key={person.name} person={person} />
                     ))}
                 </StaffRoll>
               </div>

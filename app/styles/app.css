@@ -9,16 +9,16 @@
     --font-mono: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New',
       'monospace';
 
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --background: 60 5% 96%;
+    --foreground: 28 9% 10%;
+    --muted: 18 7% 90%;
+    --muted-foreground: 32 5% 32%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 13 6% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --card-foreground: 13 6% 15%;
+    --border: 28 5% 83%;
+    --input: 28 5% 83%;
     --input-invalid: 0 84.2% 60.2%;
     --primary: 14.99 89.26% 54.59%;
     --primary-foreground: 210 40% 98%;

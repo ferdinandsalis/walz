@@ -10,5 +10,5 @@ export const dates = [
   {
     date: new Date('2023-10-26'),
     title: 'Nationalfeiertag',
-  }
+  },
 ]

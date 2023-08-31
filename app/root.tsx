@@ -43,7 +43,7 @@ function Document({
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Links />
       </head>
-      <body className="bg-background bg-stone-100 text-foreground">
+      <body className="bg-background text-foreground">
         {children}
         <script
           nonce={nonce}
@@ -81,7 +81,7 @@ export default function App() {
           <Outlet />
         </div>
 
-        <div className="mt-24 bg-stone-200/60">
+        <div className="mt-24 bg-muted/40">
           <div className="px-4 sm:px-8 md:px-12">
             <Footer />
           </div>

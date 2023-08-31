@@ -1,8 +1,10 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-const animatePlugin = require('tailwindcss-animate')
-const radixPlugin = require('tailwindcss-radix')
+import { type Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme.js'
+import animatePlugin from 'tailwindcss-animate'
+import radixPlugin from 'tailwindcss-radix'
+import typographyPlugin from '@tailwindcss/typography'
 
-module.exports = {
+export default {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
@@ -85,5 +87,5 @@ module.exports = {
       },
     },
   },
-  plugins: [animatePlugin, radixPlugin],
-}
+  plugins: [animatePlugin, radixPlugin, typographyPlugin],
+} satisfies Config

@@ -1,9 +1,9 @@
 import { Link } from '@remix-run/react'
-import { dates } from 'app/data/dates'
 import { take } from 'ramda'
-import { news } from '~/data/news'
-import { currentYears } from '~/data/years'
-import { Newsletter } from './_index'
+import { dates } from '#app/data/dates.ts'
+import { news } from '#app/data/news.ts'
+import { currentYears } from '#app/data/years.ts'
+import { Newsletter } from './_index.tsx'
 
 export default function Aktuelles() {
   return (

@@ -1,12 +1,13 @@
 import { ArrowRight, Calendar } from '@carbon/icons-react'
 import { Link } from '@remix-run/react'
 import { take } from 'ramda'
-import { LogoSymbol } from '~/components/brand.tsx'
-import { Button } from '~/components/ui/button.tsx'
-import { Input } from '~/components/ui/input.tsx'
-import { questions } from '~/data/faq.ts'
-import { news } from '~/data/news.ts'
-import { testimonials } from '~/data/testimonials.ts'
+import { LogoSymbol } from '#app/components/brand.tsx'
+import { Button } from '#app/components/ui/button.tsx'
+import { Input } from '#app/components/ui/input.tsx'
+import { questions } from '#app/data/faq.ts'
+import { news } from '#app/data/news.ts'
+import { testimonials } from '#app/data/testimonials.ts'
+import { shuffle } from '#app/utils/misc.tsx'
 
 export default function Home() {
   return (
@@ -208,7 +209,7 @@ export default function Home() {
           {questions.map((entry, idx) => {
             return (
               <div key={idx} className="mb-1 flex">
-                <p className="rounded-xl bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl lg:px-6">
+                <p className="rounded-lg bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl">
                   {entry.question}
                 </p>
               </div>
@@ -223,23 +224,25 @@ export default function Home() {
             Stimmen aus der Walz
           </SectionHeading>
         </header>
-        {testimonials.map((entry, idx) => {
-          return (
-            <blockquote
-              key={idx}
-              className="relative mb-8 max-w-prose after:absolute after:-bottom-0  after:translate-y-48 after:text-[10em] after:text-secondary after:content-['”'] "
-            >
-              <p className="relative text-lg italic text-stone-700 md:text-xl lg:text-2xl">
-                {entry.text}
-              </p>
-              <footer className="mt-4">
-                <p className="font-condensed text-lg font-bold text-stone-700 md:text-xl lg:text-2xl">
-                  —&thinsp;{entry.name}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+          {take(4, testimonials).map((entry, idx) => {
+            return (
+              <blockquote
+                key={idx}
+                className="relative max-w-prose bg-background"
+              >
+                <p className="text-md relative rounded-r-lg border-l-4 border-l-secondary bg-card p-4 !leading-snug text-card-foreground lg:p-6 lg:text-lg xl:text-xl">
+                  {entry.text}
                 </p>
-              </footer>
-            </blockquote>
-          )
-        })}
+                <footer className="ml-4 mt-2 lg:ml-6">
+                  <p className="text-md font-condensed font-bold text-primary lg:text-lg xl:text-lg">
+                    —&thinsp;{entry.name}
+                  </p>
+                </footer>
+              </blockquote>
+            )
+          })}
+        </div>
       </section>
 
       <section>

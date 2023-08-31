@@ -1,5 +1,6 @@
 import clsx, { ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { curry } from 'ramda'
 
 export function getErrorMessage(error: unknown) {
   if (typeof error === 'string') return error
@@ -18,3 +19,18 @@ export function getErrorMessage(error: unknown) {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+const shuffler = curry(function (random, list) {
+  const len = list.length
+  let idx = -1
+  let position
+  const result: any[] = []
+  while (++idx < len) {
+    position = Math.floor((idx + 1) * random())
+    result[idx] = result[position]
+    result[position] = list[idx]
+  }
+  return result
+})
+
+export const shuffle = shuffler(Math.random)

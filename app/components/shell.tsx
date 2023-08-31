@@ -1,6 +1,6 @@
 import { Link, NavLink } from '@remix-run/react'
-import { LogoSymbol, LogoType } from './brand'
-import { cn } from '~/utils/misc'
+import { LogoSymbol, LogoType } from './brand.tsx'
+import { cn } from '#app/utils/misc.tsx'
 import { Home } from 'lucide-react'
 
 const navigation = {
