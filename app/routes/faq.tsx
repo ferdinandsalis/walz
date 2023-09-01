@@ -1,86 +1,113 @@
 import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
 import fs from 'fs/promises'
 import path from 'path'
-import process from 'process'
 
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkGfm from 'remark-gfm'
-import remarkRehype from 'remark-rehype'
-import remarkStringify from 'remark-stringify'
-import rehypeStringify from 'rehype-stringify'
-import remarkParseFrontmatter from 'remark-parse-frontmatter'
+function postFromModule(module: any) {
+  return {
+    slug: module.filename.replace(/\.mdx?$/, ''),
+    ...module.attributes,
+  }
+}
 
-const FAQ_DIR = path.join(process.cwd(), 'app/routes/faq')
+const POSTS_DIR = path.join(process.cwd(), 'app/routes/questions')
 
-async function parseQuestions(questionFiles) {
+export async function loader() {
+  const questionFiles = await fs.readdir(POSTS_DIR)
+
   const questions = await Promise.all(
     questionFiles.map(async filename => {
-      const source = await fs.readFile(path.join(FAQ_DIR, filename), 'utf8')
-
-      // Step 1: Parse Markdown and frontmatter
-      let file = await unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter, ['yaml'])
-        .use(remarkParseFrontmatter)
-        .use(remarkStringify)
-        .process(source)
-
-      // Step 2: Capture the frontmatter
-      const frontmatter = file.data.frontmatter
-      console.log('Frontmatter:', frontmatter)
-
-      // Step 3: Convert Markdown to HTML
-      file = await unified()
-        .use(remarkParse)
-        .use(remarkFrontmatter)
-        .use(remarkGfm)
-        .use(remarkRehype)
-        .use(rehypeStringify)
-        .process(source)
-
-      return {
-        filename,
-        slug: filename.replace(/\.mdx?$/, ''),
-        html: file.toString(),
-        frontmatter,
-      }
+      const source = await fs.readFile(path.join(POSTS_DIR, filename), 'utf8')
+      return { filename, source }
     }),
   )
 
-  return questions
-}
-
-export async function loader() {
-  const questionFiles = await fs.readdir(FAQ_DIR)
-  const questions = await parseQuestions(questionFiles)
-
-  return json({ questions })
+  return json(questions.map(postFromModule))
 }
 
 export default function Faq() {
-  const loaderData = useLoaderData<typeof loader>()
-  const questions = loaderData.questions
-
   return (
-    <div className="md:mt-12">
+    <div className="">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Häufige Fragen
       </h1>
 
       <div className="space-y-8">
-        {questions.map(question => (
-          <article key={question.slug}>
-            <h1 className="mb-4 text-2xl font-bold text-secondary">
-              {question.frontmatter.title}
-            </h1>
-            <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
-              <div dangerouslySetInnerHTML={{ __html: question.html }} />
-            </div>
-          </article>
-        ))}
+        <article>
+          <h2 className="mb-2 text-2xl font-bold text-secondary">
+            Was heißt eigentlich Walz?
+          </h2>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Walz ist das mittelalterliche Gesellenwandern, die Tradition,
+              einige Jahre in die Fremde zu reisen, dort zu arbeiten, um die
+              eigenen Kenntnisse und Fähigkeiten zu erweitern. Vom 16. Bis zum
+              19. Jahrhundert war die Wanderpflicht eine Vorbedingung für die
+              Zulassung zum Handwerksmeisterprüfung. Dieses Lernen und Arbeiten
+              wollen wir mit der Walz ins 21. Jahrhundert holen.
+            </p>
+          </div>
+        </article>
+        <article>
+          <h2 className="mb-2 text-2xl font-bold text-secondary">
+            Wieso gibt es Externistenprüfungen?
+          </h2>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Die Walz hat doch ein Öffentlichkeitsrecht, warum der Aufwand, die
+              Leistungsbeurteilung extern durchzuführen? Ein wichtiges Prinzip
+              der Walz ist es, dass die Personalunion von Vorbereitenden und
+              Prüfenden aufgehoben ist. In keiner Sportart ist bei einem Turnier
+              der/die Trainer:in auch der/die Schiedrichter:in, oder? Die
+              Externistenprüfungen erfüllen aber auch mehrere Zwecke.
+              Vordergründig sollte es bei Prüfungen um die Beherrschung des
+              Stoffs gehen, die Überprüfung soll möglichst objektiv ablaufen-
+              das Argument „Der/die mag mich nicht“ wird entkräftet. Zusätzlich
+              bereitet dieser Modus auf eine mögliche Uni-Karriere vor. Um sich
+              das umfangreiche Wissen eines Gegenstandes aneignen zu können,
+              steht ein Fach geblockt auf dem Stundenplan. In einer intensiven
+              Unterrichtzeit wird Themengebiet um Themengebiet durchgenommen, je
+              nach Fach der Stoff von zwei bis vier Jahren behandelt und
+              erarbeitet. Bei der externen Prüfung müssen die Jugendlichen dann
+              beweisen, dass sie den Stoff im gesamten Umfang beherrschen.
+            </p>
+          </div>
+        </article>
+        <article>
+          <h2 className="mb-2 text-2xl font-bold text-secondary">
+            Wie kann ich die Walz kennenlernen?
+          </h2>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Jeder Jahrgang bereitet mindestens einmal pro Jahr ein
+              Theaterstück vor. Die Aufführungen sind eine wunderbare
+              Gelegenheit, die Walz kennenzulernen! Bei den Informationsabenden
+              (Link zu ?) gibt es für alle Jugendlichen und Eltern Gelegenheit,
+              sich über die Walz, das Programm und die Kosten zu informieren und
+              sich auch für den Aufnahmetag anzumelden. Einmal pro Jahr findet
+              unser Tag der offenen Tür statt. Hier werden Projekte vorgestellt,
+              es gibt Mitmach-Stationen und man kann sich von Walzist:innen
+              durch die Schule führen lassen. (Link Ankündigung TATÜ) Jedes Jahr
+              entsteht das Book oft he Year- mit Erfahrungsberichten,
+              ausgewählten Fotos etc. (LINK letztes BOTY) Für einen Beitrag von
+              XX € schicken wir dir auch gerne das eine oder andere Book oft he
+              Year per Post. Schick uns einfach eine E-Mail an info@walz.at
+            </p>
+          </div>
+        </article>
+        <article>
+          <h2 className="mb-2 text-2xl font-bold text-secondary">
+            Was kostet die Walz?
+          </h2>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Die Walz finanziert sich zu einem großen Teil selbst. Daher müssen
+              wir Schulgeld einheben. Durch private Sponsoren steht der Walz ein
+              gewisser Betrag für Stipendien zur Verfügung. Dieser Betrag wird
+              auf mehrere Jugendliche aufgeteilt. Im Bedarfsfall kann ein Antrag
+              (inkl. Einkommensnachweise und Begründung) gestellt werden.
+            </p>
+          </div>
+        </article>
       </div>
     </div>
   )

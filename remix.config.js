@@ -19,16 +19,6 @@ export default {
     v2_routeConvention: true,
     v2_dev: true,
   },
-  serverDependenciesToBundle: [
-    'remark-parse',
-    'remark-frontmatter',
-    'remark-gfm',
-    'remark-rehype',
-    'remark-stringify',
-    'remark-parse-frontmatter',
-    'rehype-stringify',
-    'unified'
-  ],
   routes: async defineRoutes => {
     return flatRoutes('routes', defineRoutes, {
       ignoredRouteFiles: [
