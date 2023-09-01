@@ -1,3 +1,5 @@
+import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Divider } from '#app/components/ui/divider.tsx'
 import { Link } from '@remix-run/react'
 
 export default function Curriculum() {
@@ -31,13 +33,13 @@ export default function Curriculum() {
       </nav>
 
       <div className="space-y-12 md:space-y-16">
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <section id="unterricht">
-          <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary md:text-4xl">
+        <section id="unterricht" className="space-y-8">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Unterricht
           </h1>
-          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+          <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Die Walz dauert in der Regel fünf Jahre (9.–13. Schulstufe) und
               schließt mit Matura ab. Die Prüfungen werden extern über den Stoff
@@ -131,15 +133,17 @@ export default function Curriculum() {
               </tr>
             </tbody>
           </table>
+
+          <BackToTop />
         </section>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <section id="projekte">
-          <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary md:text-4xl">
+        <section id="projekte" className="space-y-8">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Projekte
           </h1>
-          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+          <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Zwischen den einzelnen Prüfungsvorbereitungen finden in der Walz
               viele Projekte, zum Teil auch außer Haus, statt. Manche Projekte
@@ -164,10 +168,10 @@ export default function Curriculum() {
           </div>
         </section>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <section id="in-jahren">
-          <h1 className="mb-8 font-condensed text-2xl font-bold text-secondary md:text-4xl">
+        <section id="in-jahren" className="space-y-8">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             In Jahren
           </h1>
           <div className="space-y-8 md:space-y-12">
@@ -175,12 +179,12 @@ export default function Curriculum() {
               <hgroup>
                 <span
                   role="presentation"
-                  className="absolute scale-[10] font-black opacity-5"
+                  className="absolute scale-[8] font-black opacity-5"
                 >
                   1
                 </span>
                 <h1 className="text-2xl font-bold text-stone-800">1. Jahr</h1>
-                <p className="font-bold text-primary md:text-xl">
+                <p className="font-bold text-secondary md:text-xl">
                   Praktische Erfahrungen
                 </p>
               </hgroup>
@@ -202,12 +206,12 @@ export default function Curriculum() {
               <hgroup>
                 <span
                   role="presentation"
-                  className="absolute scale-[10] font-black opacity-5"
+                  className="absolute scale-[8] font-black opacity-5"
                 >
                   2
                 </span>
                 <h1 className="text-2xl font-bold text-stone-800">2. Jahr</h1>
-                <p className="font-bold text-primary md:text-xl">
+                <p className="font-bold text-secondary md:text-xl">
                   Bei einer Gastfamilie
                 </p>
               </hgroup>
@@ -230,12 +234,12 @@ export default function Curriculum() {
               <hgroup>
                 <span
                   role="presentation"
-                  className="absolute scale-[10] font-black opacity-5"
+                  className="absolute scale-[8] font-black opacity-5"
                 >
                   3
                 </span>
                 <h1 className="text-2xl font-bold text-stone-800">3. Jahr</h1>
-                <p className="font-bold text-primary md:text-xl">
+                <p className="font-bold text-secondary md:text-xl">
                   Theater, Radio und Toskana
                 </p>
               </hgroup>
@@ -259,12 +263,12 @@ export default function Curriculum() {
               <hgroup>
                 <span
                   role="presentation"
-                  className="absolute scale-[10] font-black opacity-5"
+                  className="absolute scale-[8] font-black opacity-5"
                 >
                   4
                 </span>
                 <h1 className="text-2xl font-bold text-stone-800">4. Jahr</h1>
-                <p className="font-bold text-primary md:text-xl">
+                <p className="font-bold text-secondary md:text-xl">
                   Eigene Fähigkeiten auch anderen zur Verfügung stellen
                 </p>
               </hgroup>
@@ -286,12 +290,12 @@ export default function Curriculum() {
               <hgroup>
                 <span
                   role="presentation"
-                  className="absolute scale-[10] font-black opacity-5"
+                  className="absolute scale-[8] font-black opacity-5"
                 >
                   5
                 </span>
                 <h1 className="text-2xl font-bold text-stone-800">5. Jahr</h1>
-                <p className="font-bold text-primary md:text-xl">
+                <p className="font-bold text-secondary md:text-xl">
                   Der große Endspurt
                 </p>
               </hgroup>
@@ -314,6 +318,8 @@ export default function Curriculum() {
               </div>
             </article>
           </div>
+
+          <BackToTop />
         </section>
       </div>
     </div>

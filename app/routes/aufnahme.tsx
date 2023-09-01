@@ -1,3 +1,5 @@
+import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Divider } from '#app/components/ui/divider.tsx'
 import { Link, Outlet } from '@remix-run/react'
 
 export default function Aufnahme() {
@@ -36,7 +38,7 @@ export default function Aufnahme() {
       </nav>
 
       <div className="space-y-12 md:space-y-16">
-        <div className="max-w-lg rounded-md border border-primary/20 bg-primary/10 p-6 text-primary">
+        <div className="max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
           <p className="leading-snug">
             Anmeldungen der Geburtsjahrgänge 2009 und 2010 für das Schuljahr
             2024/25 nehmen wir gerne bis{' '}
@@ -48,8 +50,10 @@ export default function Aufnahme() {
           </p>
         </div>
 
-        <article id="vorgehensweise">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+        <Divider />
+
+        <article id="vorgehensweise" className="space-y-8">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Vorgehensweise
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -63,12 +67,14 @@ export default function Aufnahme() {
               der Einzahlung des Aufnahmebeitrags ist die Anmeldung fix.
             </p>
           </div>
+
+          <BackToTop />
         </article>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
         <article id="vorraussetzungen">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Vorraussetzungen
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -83,12 +89,14 @@ export default function Aufnahme() {
               bitten wir um Kontaktaufnahme unter office@walz.at.
             </p>
           </div>
+
+          <BackToTop />
         </article>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <article id="kosten">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+        <article id="kosten" className="space-y-8">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Kosten
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -122,12 +130,14 @@ export default function Aufnahme() {
               2.600,- EUR.
             </p>
           </div>
+
+          <BackToTop />
         </article>
 
-        <hr className="h-[4px] border-none bg-stone-200/70" />
+        <Divider />
 
-        <article id="stipendien">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+        <article id="stipendien" className="space-y-8">
+          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Stipendien
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -138,6 +148,8 @@ export default function Aufnahme() {
               Einkommensnachweise und Begründung) gestellt werden.
             </p>
           </div>
+
+          <BackToTop />
         </article>
       </div>
     </div>

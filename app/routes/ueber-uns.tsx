@@ -194,7 +194,7 @@ export default function UeberUns() {
               />
             ))}
           </div>
-          
+
           <BackToTop />
         </section>
 
@@ -281,7 +281,7 @@ export default function UeberUns() {
               </p>
             </div>
           </article>
-          
+
           <BackToTop />
         </section>
 
@@ -342,6 +342,7 @@ function StaffCard({ person }: { person: Partial<Person> }) {
         <img
           src={person.image || ''}
           alt={person.name}
+          loading="lazy"
           className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
         />
         <div
@@ -351,14 +352,18 @@ function StaffCard({ person }: { person: Partial<Person> }) {
       </div>
       <figcaption>
         <hgroup className="mb-2">
-          <h1 className="text-lg mb-1 font-bold leading-tight text-primary">
+          <h1 className="mb-1 text-lg font-bold leading-tight text-primary">
             {person.name}
           </h1>
           <h2 className="max-w-[18ch] font-condensed text-sm leading-tight text-muted-foreground">
             {person.position}
           </h2>
         </hgroup>
-        <p className="text-sm">{person.email}</p>
+        {person.email && (
+          <a href={`mailto:${person.email}`} className="text-sm text-secondary">
+            {person.email}
+          </a>
+        )}
         <p className="text-sm">{person.phone}</p>
       </figcaption>
     </figure>
@@ -367,13 +372,15 @@ function StaffCard({ person }: { person: Partial<Person> }) {
 
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
-    <ScrollArea.Root type="always">
+    <ScrollArea.Root type="hover">
       <ScrollArea.Viewport className="-mx-4 rounded-md bg-stone-200/30 sm:-mx-8 md:-mx-12 xl:-mx-24">
-        <div className="flex gap-4 p-4 py-8 lg:px-8 lg:py-8">{children}</div>
+        <div className="flex gap-4 px-4 py-8 sm:px-8 md:px-12 xl:px-24">
+          {children}
+        </div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="-mx-4 flex h-[8px] items-center bg-card px-[3px] sm:rounded-full"
+        className="-mx-4 flex h-[8px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12 xl:-mx-24"
       >
         <ScrollArea.Thumb className="relative !h-[4px] rounded-full bg-primary" />
       </ScrollArea.Scrollbar>
