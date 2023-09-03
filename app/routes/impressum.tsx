@@ -1,7 +1,7 @@
 export default function Legal() {
   return (
     <div className="md:mt-8">
-      <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
+      <h1 className="xl:text-6xl mb-12 font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl">
         Impressum
       </h1>
 
@@ -42,7 +42,7 @@ export default function Legal() {
           </dl>
         </div>
 
-        <section className="max-w-prose">
+        <section className="max-w-prose space-y-4">
           <p>
             Alle auf dieser Seite veröffentlichten Texte und Bilder sind - wenn
             nicht anders angegeben - geistiges Eigentum ihrer Autor/-innen und

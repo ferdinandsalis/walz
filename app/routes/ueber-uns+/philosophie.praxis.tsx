@@ -13,19 +13,19 @@ export default function Praxis() {
       </h1>
       <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
         <p>
-          Learning by doing – Ziel der Projekte in der Walz ist es, das
+          Learning by Doing – Ziel der Projekte in der Walz ist es, das
           erworbene Wissen in der Praxis anzuwenden und sich in der realen Welt
           außerhalb der Schule zu bewähren. Auf dem Programm stehen neben
-          Praktika in der Landwirtschaft, im Forst und in Handwerksbetrieben die
-          Gründung einer Firma im Rahmen der Junior Company sowie zahlreiche
-          Projekte im Ausland. So können die Jugendlichen nicht nur ihre
-          Sprachkenntnisse verbessern, sondern auch fachliche Kompetenzen
-          dazugewinnen und soziale Fähigkeiten erweitern.
+          Praktika in der Landwirtschaft, im Forst und in Handwerksbetrieben
+          auch die Gründung einer Firma im Rahmen der Junior Company sowie
+          zahlreiche Projekte im Ausland. Dadurch können die Jugendlichen nicht
+          nur ihre Sprachkenntnisse verbessern, sondern auch fachliche
+          Kompetenzen erwerben und soziale Fähigkeiten ausbauen.
         </p>
       </div>
       <blockquote>
         <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
-          „Who I am—and what I need—is something I have to find out myself.
+          Who I am—and what I need—is something I have to find out myself.
         </p>
         <p className="font-bold text-primary">Chinua Achebe</p>
       </blockquote>

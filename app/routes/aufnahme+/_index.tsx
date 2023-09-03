@@ -1,8 +1,8 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { Link, Outlet } from '@remix-run/react'
-import { InfoIcon } from 'lucide-react'
+import { costs } from '#app/data/costs.ts'
+import { DownloadIcon, InfoIcon } from 'lucide-react'
 
 export default function Aufnahme() {
   return (
@@ -15,7 +15,7 @@ export default function Aufnahme() {
         <Toc
           links={[
             { name: 'Vorgehensweise', to: '#vorgehensweise' },
-            { name: 'Vorraussetzungen', to: '#vorraussetzungen' },
+            { name: 'Voraussetzungen', to: '#voraussetzungen' },
             { name: 'Kosten', to: '#kosten' },
             { name: 'Stipendien', to: '#stipendien' },
           ]}
@@ -28,12 +28,17 @@ export default function Aufnahme() {
           </div>
           <p className="leading-snug">
             Anmeldungen der Geburtsjahrgänge 2009 und 2010 für das Schuljahr
-            2024/25 nehmen wir gerne bis{' '}
-            <em className="not-italic underline underline-offset-2">
-              24. Februar 2024
-            </em>{' '}
-            entgegen. Bitte senden Sie dafür das ausgefüllte Anmeldeformular an
-            office@walz.at.
+            2024/25 nehmen wir gerne bis <em className="">24. Februar 2024</em>{' '}
+            entgegen. Bitte senden Sie dafür das ausgefüllte Anmeldeformular (
+            <a
+              download="Anmeldeformular.pdf"
+              href="/downloads/anmeldeformular.pdf"
+              className="inline-flex items-center gap-1 underline underline-offset-2"
+            >
+              Herunterladen
+              <DownloadIcon size={20} />
+            </a>
+            ) an office@walz.at.
           </p>
         </div>
 
@@ -60,9 +65,9 @@ export default function Aufnahme() {
 
         <Divider />
 
-        <article id="vorraussetzungen">
+        <article id="voraussetzungen">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
-            Vorraussetzungen
+            Voraussetzungen
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
@@ -87,35 +92,29 @@ export default function Aufnahme() {
             Kosten
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
-            Im Jahr 2023/2024 gelten für die Walz Wiener LernZentrum folgende
-            Tarife:
-            <p>
-              Unterrichtsbeitrag Monatlich Der Beitrag für den Unterricht in der
-              Walz beträgt 650,- EUR pro Monat und wird 12-mal von September bis
-              August eingezogen.
-            </p>
-            <p>
-              Beitrag für Sport/Bewegung/Werkstätte Der Beitrag für
-              Sport/Bewegung/Werkstätte beträgt 66,- EUR pro Monat und wird
-              10-mal von September bis Juni eingezogen.
-            </p>
-            <p>
-              Projektbeitrag Der Beitrag für Reise-Projekte (außerhäusig) und
-              Schwerpunkt-Projekte (innerhäusig) beträgt 780,- EUR pro Quartal
-              und wird jeweils im September, Dezember, März und Juni eingezogen.
-              Aufgrund der sehr individuellen Gestaltungsmöglichkeiten
-              beinhaltet er nicht die Kosten für die Auslandspraktika im Land
-              der ersten und zweiten Fremdsprache, die meist in den Sommer-,
-              fallweise in anderen Ferien stattfinden.
-            </p>
-            <p>
-              Essensbeitrag Das Beitrag für die Verpflegung in der Walz beträgt
-              117,- EUR pro Monat und wird in 10 Monatsraten eingezogen.
-            </p>
-            <p>
-              Aufnahmebeitrag Einmalig Der einmalige Aufnahmebeitrag beträgt
-              2.600,- EUR.
-            </p>
+            <dl>
+              {costs.map(cost => {
+                return (
+                  <div className="grid grid-cols-2 items-center border-b-2 border-b-background bg-card px-2">
+                    <dt className="">
+                      <div className="font-bold">{cost.name}</div>
+                    </dt>
+                    <dd className="grid grid-cols-2 justify-items-end py-1">
+                      <div>{cost.multiplier} &times;</div>
+                      <div>
+                        {Intl.NumberFormat('de-AT', {
+                          style: 'currency',
+                          currency: 'EUR',
+                          maximumFractionDigits: 0,
+                          signDisplay: 'never',
+                        }).format(cost.cost)}
+                      </div>
+                    </dd>
+                  </div>
+                )
+              })}
+            </dl>
+            <p className="text-base">Tarife 2023/2024</p>
           </div>
 
           <BackToTop />

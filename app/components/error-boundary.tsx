@@ -32,13 +32,21 @@ export function GeneralErrorBoundary({
   }
 
   return (
-    <div className="text-h2 container flex items-center justify-center p-20">
-      {isRouteErrorResponse(error)
-        ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
-            error,
-            params,
-          })
-        : unexpectedErrorHandler(error)}
+    <div className="container bg-card p-6 text-xl">
+      <p className="mb-2 font-bold">
+        Entschuldige, leider ist ein Fehler passiert.
+      </p>
+      <details className="bg-secondary/5 p-2">
+        <summary>Detail</summary>
+        <pre>
+          {isRouteErrorResponse(error)
+            ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
+                error,
+                params,
+              })
+            : unexpectedErrorHandler(error)}
+        </pre>
+      </details>
     </div>
   )
 }

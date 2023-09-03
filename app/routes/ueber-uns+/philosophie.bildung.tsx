@@ -26,11 +26,19 @@ export default function Bildung() {
           Wir legen größten Wert auf die Pflege des sprachlichen Ausdrucks und
           wollen einen Zugang zur Literatur legen, nicht zuletzt, weil es bei
           der Zentralmatura kaum mehr eine Rolle spielt. Neben kognitiven
-          Leistungen sind wir der Überzeugung, dass der Zugang zu Kunst einem
-          tiefen humanen Bedürfnis entspricht, dem wir mit Bildhauerei, Malen,
-          Kunstreisen und vor allem Theater Raum geben.
+          Leistungen sind wir der Überzeugung, dass Kunst einem tiefen humanen
+          Bedürfnis entspricht, dem wir mit Bildhauerei, Malen, Kunstreisen und
+          vor allem Theater Raum geben.
         </p>
       </div>
+
+      <blockquote>
+        <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
+          Bildung ist die mächtigste Waffe, die du verwenden kannst, um die Welt
+          zu verändern.
+        </p>
+        <p className="font-bold text-primary">Nelson Mandela</p>
+      </blockquote>
     </div>
   )
 }

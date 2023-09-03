@@ -2,6 +2,7 @@ import { Link, NavLink } from '@remix-run/react'
 import { LogoSymbol, LogoType } from './brand.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import { Home } from 'lucide-react'
+import { Newsletter } from '#app/routes/_index.tsx'
 
 const navigation = {
   main: [
@@ -69,59 +70,66 @@ export function Navigation() {
 
 export function Footer() {
   return (
-    <footer className="grid grid-cols-1 items-center justify-center justify-items-center overflow-hidden py-8">
-      <div className="relative z-10 col-start-1 row-start-1 mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <nav
-          className="mb-2 flex flex-wrap items-center justify-center gap-4 md:gap-8"
-          aria-label="Footer"
-        >
-          {navigation.main.map(item => (
-            <Link
-              key={item.name}
-              to={item.to}
-              prefetch="intent"
-              className="font-condensed text-lg font-bold text-gray-600 hover:text-gray-800 md:text-xl"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
+    <footer className="overflow-hidden">
+      <div className="relative z-10 col-start-1 row-start-1 mx-auto max-w-7xl space-y-12 py-12 lg:space-y-24 lg:py-24">
+        <div className="flex items-center justify-center">
+          <Newsletter />
+        </div>
+        <div>
+          <nav
+            className="mb-1 flex flex-wrap items-center justify-center gap-4 md:gap-8"
+            aria-label="Footer"
+          >
+            {navigation.main.map(item => (
+              <Link
+                key={item.name}
+                to={item.to}
+                prefetch="intent"
+                className="font-condensed text-lg font-bold text-gray-600 hover:text-gray-800 md:text-xl"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="relative z-10 mb-12">
-          {/* Legal Links */}
-          <div className="flex justify-center gap-4">
-            <Link
-              to="/impressum"
-              prefetch="intent"
-              className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
-            >
-              Impressum
-            </Link>
-            <Link
-              to="/datenschutz"
-              prefetch="intent"
-              className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
-            >
-              Datenschutz
-            </Link>
+          <div className="relative z-10">
+            {/* Legal Links */}
+            <div className="flex justify-center gap-4">
+              <Link
+                to="/impressum"
+                prefetch="intent"
+                className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
+              >
+                Impressum
+              </Link>
+              <Link
+                to="/datenschutz"
+                prefetch="intent"
+                className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
+              >
+                Datenschutz
+              </Link>
+            </div>
           </div>
         </div>
 
-        <Link to="." className="group mb-4 flex flex-col items-center">
-          <LogoType className="w-20 fill-secondary" />
-          <div
-            role="presentation"
-            className="pointer-events-none absolute -bottom-24 transition-all group-hover:-bottom-24 lg:-bottom-24"
-          >
-            <LogoSymbol className="w-52 text-secondary opacity-10 group-hover:animate-ping group-hover:opacity-30 md:w-72 lg:w-96" />
-          </div>
-        </Link>
+        <div>
+          <Link to="." className="group mb-4 flex flex-col items-center">
+            <LogoType className="w-20 fill-secondary" />
+            <div
+              role="presentation"
+              className="pointer-events-none absolute transition-all"
+            >
+              <LogoSymbol className="w-52 text-secondary opacity-10 group-hover:animate-ping group-hover:opacity-30 md:w-72 lg:w-96" />
+            </div>
+          </Link>
 
-        <p className="text-center text-base text-gray-400">
-          {new Date().getFullYear()} &copy; Walz Wiener Lernzentrum
-          <br />
-          Alle Rechte vorbehalten
-        </p>
+          <p className="text-center text-base text-gray-400">
+            {new Date().getFullYear()} &copy; Walz Wiener Lernzentrum
+            <br />
+            Alle Rechte vorbehalten
+          </p>
+        </div>
       </div>
     </footer>
   )

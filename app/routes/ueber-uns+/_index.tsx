@@ -5,6 +5,7 @@ import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
+import { SmileIcon } from 'lucide-react'
 
 export default function UeberUns() {
   return (
@@ -25,11 +26,12 @@ export default function UeberUns() {
 
         <Divider />
 
-        <div className="max-w-2xl space-y-4 text-base md:text-xl">
+        <div className="max-w-2xl space-y-4 hyphens-auto text-base md:text-xl">
           <p>
-            Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
-            Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
-            Leben in einer sich verändernden Welt vorbereiten sollen.
+            Die Walz bietet fünf Jahrgängen von etwa 30 Jugendlichen
+            verschiedenste Lernumwelten an, die Jugendlichen auf ein
+            selbstbestimmtes Leben in einer sich verändernden Welt vorbereiten
+            sollen.
           </p>
           <p>
             Die Walz ist eine private Bildungseinrichtung mit
@@ -70,9 +72,8 @@ export default function UeberUns() {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">Mentor:innen</h2>
-                <p className="mb-4 max-w-prose">
-                  Mentor:innen sind für Jahrgänge hauptverantwortlich und
-                  kümmern sich organisatorische Aufgaben sowie Projekte. Ihre
+                <p className="mb-4 max-w-prose hyphens-auto">
+                  Mentor:innen sind für ihren Jahrgang verantwortlich. Ihre
                   Kernfunktion ist die Entwicklungsbegleitung der Jugendlichen,
                   wobei sie deren Stärken fördern, Begabungen unterstützen und
                   sie in individuellen Lernsituationen begleiten.
@@ -88,15 +89,16 @@ export default function UeberUns() {
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
-                <div className="max-w-prose">
+                <div className="max-w-prose hyphens-auto">
                   <p>
                     Projektleiter:innen in der Walz bereiten die Jugendlichen
                     auf Externistenprüfungen vor. Sie agieren als "Trainer",
-                    erarbeiten klar definierte Stoffgebiete und übernehmen nicht
-                    selbst die Prüfung. Viele unter&shy;richten blockweise und
-                    haben nebenbei einen Hauptberuf. Einige sind Fachexperten
-                    statt Pädagogen, wodurch Jugendliche realistische Einblicke
-                    in die Arbeitswelt erhalten.
+                    erarbeiten klar definierte Stoffgebiete und übernehmen die
+                    Prüfung nicht selbst. Viele unterrichten blockweise und
+                    haben nebenbei einen Hauptberuf. Einige sind
+                    Fachexpert:innen statt Pädagog:innen, wodurch die
+                    Jugendlichen realistische Einblicke in die Arbeitswelt
+                    erhalten.
                   </p>
                 </div>
                 <StaffRoll>
@@ -110,7 +112,7 @@ export default function UeberUns() {
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">Administrator:innen</h2>
-                <div className="max-w-prose">
+                <div className="max-w-prose hyphens-auto">
                   <p>
                     Um ein anspruchsvolles Projekt wie die Walz verwirklichen zu
                     können, braucht es viele Menschen im Hintergrund, die den
@@ -131,12 +133,12 @@ export default function UeberUns() {
 
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">Therapeut:innen</h2>
-                <div className="max-w-prose">
+                <div className="max-w-prose hyphens-auto">
                   <p>
                     Jede Woche stehen eine erfahrene Psychologin und ein
-                    Psychotherapeut für Gespräche mit den Jugendlichen zur
+                    Psychotherapeutin für Gespräche mit den Jugendlichen zur
                     Verfügung. Zusätzlich legen wir mit Angeboten wie
-                    Drogenpräventionsprogrammen und Stressbewältigungstechniken
+                    Drogenpräventionsprogrammen und Stressbewältigungstechniken,
                     wie „Therapeutic Touch“ einen besonderen Fokus auf das Wohl
                     der Jugendlichen. Wir bieten auch Aufklärungsseminare und
                     Elternabende an, um das Wohlsein und die persönliche
@@ -210,7 +212,7 @@ export default function UeberUns() {
                 verändert.
               </p>
 
-              <ol className="list-inside list-decimal space-y-4 sm:list-outside">
+              <ol className="space-y-4 sm:list-outside">
                 <li>
                   <p>
                     <span className="font-bold text-secondary">
@@ -267,11 +269,11 @@ export default function UeberUns() {
 
         <Divider />
 
-        <section id="geschichte">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+        <section id="geschichte" className="space-y-8">
+          <h1 className="font-condensed text-4xl font-bold text-primary">
             Geschichte
           </h1>
-          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+          <div className="max-w-prose space-y-4 hyphens-auto text-base md:text-xl">
             <p>
               Die Walz wurde im Jahr 2000 von Renate Chorherr gegründet und
               startete zunächst mit einem Jahrgang, den „Alphas“ in
@@ -307,22 +309,28 @@ function StaffCard({ person }: { person: Partial<Person> }) {
     <figure
       id={person.name}
       key={person.name}
-      className="w-60 flex-none space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
+      className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
       <div className="grid grid-cols-1 grid-rows-6">
-        <img
-          src={person.image || ''}
-          alt={person.name}
-          loading="lazy"
-          className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
-        />
+        {person.image ? (
+          <img
+            src={person.image || ''}
+            alt={person.name}
+            loading="lazy"
+            className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
+          />
+        ) : (
+          <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary ring-4 ring-secondary">
+            <SmileIcon size={96} className="w-10 stroke-white/20 md:w-16" />
+          </div>
+        )}
         <div
           role="presentation"
-          className="col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b-4 border-secondary bg-secondary/30"
+          className="to-secondary-30 order-secondary col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b bg-secondary/30 bg-gradient-to-t from-secondary/70"
         />
       </div>
-      <figcaption>
-        <hgroup className="mb-2">
+      <figcaption className="flex flex-1 flex-col">
+        <hgroup className="mb-2 flex-1">
           <h1 className="mb-1 text-lg font-bold leading-tight text-primary">
             {person.name}
           </h1>
@@ -330,12 +338,17 @@ function StaffCard({ person }: { person: Partial<Person> }) {
             {person.position}
           </h2>
         </hgroup>
-        {person.email && (
-          <a href={`mailto:${person.email}`} className="text-sm text-secondary">
-            {person.email}
-          </a>
-        )}
-        <p className="text-sm">{person.phone}</p>
+        <div>
+          {person.email && (
+            <a
+              href={`mailto:${person.email}`}
+              className="text-sm text-secondary"
+            >
+              {person.email}
+            </a>
+          )}
+          <p className="text-sm">{person.phone}</p>
+        </div>
       </figcaption>
     </figure>
   )
@@ -344,14 +357,14 @@ function StaffCard({ person }: { person: Partial<Person> }) {
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
     <ScrollArea.Root type="hover">
-      <ScrollArea.Viewport className="-mx-4 rounded-md bg-stone-200/30 sm:-mx-8 md:-mx-12 xl:-mx-24">
-        <div className="flex gap-4 px-4 py-8 sm:px-8 md:px-12 xl:px-24">
+      <ScrollArea.Viewport className="xl:-mx-24 -mx-4 rounded-md bg-stone-200/30 sm:-mx-8 md:-mx-12">
+        <div className="xl:px-24 flex gap-4 px-4 py-8 sm:px-8 md:px-12">
           {children}
         </div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="-mx-4 flex h-[8px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12 xl:-mx-24"
+        className="xl:-mx-24 -mx-4 flex h-[8px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12"
       >
         <ScrollArea.Thumb className="relative !h-[4px] rounded-full bg-primary" />
       </ScrollArea.Scrollbar>

@@ -12,6 +12,12 @@ import { LogoSymbol, LogoType } from './components/brand.tsx'
 import styles from './styles/app.css'
 import { Footer, Navigation } from './components/shell.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
+import { MenuIcon } from 'lucide-react'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from './components/ui/collapsible.tsx'
 
 export function links() {
   return [
@@ -42,6 +48,11 @@ function Document({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Links />
+        <script
+          defer
+          data-domain="walz.at"
+          src="https://plausible.io/js/script.js"
+        ></script>
       </head>
       <body className="bg-background text-foreground">
         {children}
@@ -63,19 +74,29 @@ export default function App() {
   return (
     <Document>
       <div className="flex min-h-screen flex-col">
-        <header className="container my-8 flex flex-col space-y-4 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12 2xl:my-16">
-          <div className="flex-1">
-            <Link
-              to="/"
-              className="group flex items-center gap-2 outline-none"
-              tabIndex={-1}
-            >
-              <LogoSymbol className="relative top-1 w-10 text-primary" />
-              <LogoType className="w-20 fill-foreground/80" />
-            </Link>
-          </div>
-          <Navigation />
-        </header>
+        <Collapsible>
+          <header className="2xl:my-16 container my-8 flex flex-col space-y-8 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12">
+            <div className="flex flex-1 items-center justify-between">
+              <Link
+                to="/"
+                className="group flex items-center gap-2 outline-none"
+                tabIndex={-1}
+              >
+                <LogoSymbol className="relative top-1 w-10 text-primary" />
+                <LogoType className="w-20 fill-foreground/80" />
+              </Link>
+              <CollapsibleTrigger className="relative top-1 rounded-md bg-card/50 p-2 hover:bg-card md:hidden">
+                <MenuIcon className="stroke-primary" />
+              </CollapsibleTrigger>
+            </div>
+            <CollapsibleContent className="md:hidden">
+              <Navigation />
+            </CollapsibleContent>
+            <div className="hidden md:block">
+              <Navigation />
+            </div>
+          </header>
+        </Collapsible>
 
         <div className="container relative flex-1 px-4 sm:px-8 md:px-12">
           <Outlet />

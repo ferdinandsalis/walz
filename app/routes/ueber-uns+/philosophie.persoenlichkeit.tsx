@@ -14,34 +14,40 @@ export default function Persoenlichkeit() {
       </h1>
       <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
         <p>
-          Auch wenn sich die Gesellschaft rapide ändert bleibt für Jugendliche
+          Auch wenn sich die Gesellschaft rapide ändert, bleibt für Jugendliche
           die alles bestimmende Frage ihres Alters: „Wer bin ich?“ Diesen
           Suchprozess wollen wir bewusst unterstützen und fördern. Wir sehen es
-          als unsere Aufgabe, unterschiedlichste Erfahrungsräume zu schaffen, um
-          dieser Frage nachgehen zu können.
+          als unsere Aufgabe an, unterschiedlichste Erfahrungsräume zu schaffen,
+          um dieser Frage nachgehen zu können.
         </p>
         <p>
           In der Walz spielen Reflexionen (jeden Freitag) über den Lernprozess
-          eine selbstverständliche Rolle ebenso wie Mentoring. Ein
-          Förder-Assessment-Center, individuelle Lernverträge, individuelle
-          Entwicklungsbegleitung und -förderung, sowie therapeutische
-          Unterstützung sind wichtige Bausteine des Walz Programms.
+          eine selbstverständliche Rolle, ebenso wie Mentoring. Ein
+          Förder-Assessment-Center, maßgeschneiderte Lernverträge, gezielte
+          Entwicklungsbegleitung und -förderung sowie therapeutische
+          Unterstützung sind wichtige Bausteine des Walz-Programms.
         </p>
         <p>
           Die vielen Theaterprojekte sind Eckpfeiler der Walz: Sie ermöglichen
-          es einerseits, Bildung zu erfahren, andererseits bieten sie auch
+          es einerseits, Bildung zu erfahren, und bieten andererseits auch
           vielfältige Möglichkeiten, Emotionen Ausdruck zu verleihen und sich
-          auszuprobieren. Theater ermöglicht den Jugendlichen sich selbst neu
+          auszuprobieren. Theater ermöglicht den Jugendlichen, sich selbst neu
           kennenzulernen und ihr einzigartiges Potenzial an Begabungen und
           Fähigkeiten zu erkunden und zu aktivieren. Sich in eine andere Rolle
-          hineinzuversetzen, so andere Perspektiven kennenzulernen ist ein Weg,
-          um Empathie und Toleranz zu entwickeln. Vielleicht werden sogar bisher
-          unterdrückte Eigenschaften der eigenen Persönlichkeit entdeckt?
+          hineinzuversetzen und so andere Perspektiven kennenzulernen, ist ein
+          Weg, um Empathie und Toleranz zu entwickeln. Vielleicht werden sogar
+          bisher unterdrückte Eigenschaften der eigenen Persönlichkeit entdeckt?
           Zusätzlich wird ein Bewusstsein dafür entwickelt, wie man auf andere
-          wirkt- oder was man der Umwelt zeigt. Nebenbei werden selbstbewusstes
-          Auftreten und die Präsentationsfähigkeiten geschult.
+          wirkt – oder was man der Umwelt zeigt. Nebenbei werden selbstbewusstes
+          Auftreten und Präsentationsfähigkeiten geschult.
         </p>
       </div>
+      <blockquote>
+        <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
+          Who is it who can tell me who I am?
+        </p>
+        <p className="font-bold text-primary">William Shakespeare</p>
+      </blockquote>
     </div>
   )
 }

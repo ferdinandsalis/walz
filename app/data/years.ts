@@ -7,6 +7,7 @@ export type Year = {
   graduatedAt: Date | null
   mentor: Person | undefined
   currentCover: string | null
+  currentPlanHref: string | null
 }
 
 export const currentYears = [
@@ -17,6 +18,7 @@ export const currentYears = [
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Max Seifert'),
     currentCover: null,
+    currentPlanHref: '/downloads/Beta_Jahresplan_2023_24.pdf'
   },
   {
     name: 'Alpha',
@@ -25,6 +27,7 @@ export const currentYears = [
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Valentin Rendl'),
     currentCover: '/images/years/alpha_22.jpg',
+    currentPlanHref: '/downloads/Alpha_Jahresplan_2023_24.pdf'
   },
   {
     name: 'Psi',
@@ -33,6 +36,7 @@ export const currentYears = [
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Tamara Galhuber'),
     currentCover: '/images/years/psi_21.jpg',
+    currentPlanHref: '/downloads/Psi_Jahresplan_2023_24.pdf'
   },
   {
     name: 'Theta',
@@ -41,6 +45,7 @@ export const currentYears = [
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Michaela Pichler'),
     currentCover: '/images/years/theta_20.jpg',
+    currentPlanHref: '/downloads/Theta_Jahresplan_2023_24.pdf'
   },
   {
     name: 'Phi',
@@ -49,6 +54,7 @@ export const currentYears = [
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Georg Smolle'),
     currentCover: '/images/years/phi_19.jpg',
+    currentPlanHref: '/downloads/Phi_Jahresplan_2023_24.pdf'
   },
   {
     name: 'Omikron',
@@ -57,5 +63,6 @@ export const currentYears = [
     graduatedAt: new Date('2023-06-29'),
     mentor: persons.find(p => p.name === 'Max Seifert'),
     currentCover: '/images/years/omikron_18.jpg',
+    currentPlanHref: '/downloads/Omikron_Jahresplan_2023_24.pdf'
   },
 ] satisfies Year[]

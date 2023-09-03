@@ -15,8 +15,11 @@ export function Toc({
       <ol className="list-inside list-decimal space-y-1 md:list-outside">
         {links.map(link => {
           return (
-            <li>
-              <Link to={link.to} className="text-xl font-bold">
+            <li key={link.to} className="text-secondary">
+              <Link
+                to={link.to}
+                className="text-base font-bold text-foreground md:text-xl"
+              >
                 {link.name}
               </Link>
             </li>

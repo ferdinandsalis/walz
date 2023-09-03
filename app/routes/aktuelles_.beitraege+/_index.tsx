@@ -5,7 +5,7 @@ import * as postB from './infoabend.mdx'
 import * as postC from './tag_der_offenen_tuer.mdx'
 import { Link, useLoaderData } from '@remix-run/react'
 
-function postFromModule(mod) {
+function postFromModule(mod: any) {
   const slug = mod.filename.replace(/\.mdx?$/, '')
   return {
     slug,
@@ -16,8 +16,8 @@ function postFromModule(mod) {
 
 export async function loader({ request }: LoaderArgs) {
   return json([
-    postFromModule(postC),
     postFromModule(postA),
+    postFromModule(postC),
     postFromModule(postB),
   ])
 }
