@@ -41,6 +41,16 @@ let devBuild = build
 
 const app = express()
 
+app.use((req, res, next) => {
+  // Check if the request header contains 'www.'
+  if (req?.headers?.host && req?.headers?.host.slice(0, 4) === 'www.') {
+    // Remove 'www.' and redirect to non-www domain
+    const newHost = req.headers.host.slice(4)
+    return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl)
+  }
+  next()
+})
+
 const getHost = (req: { get: (key: string) => string | undefined }) =>
   req.get('X-Forwarded-Host') ?? req.get('host') ?? ''
 
@@ -54,6 +64,10 @@ app.use((req, res, next) => {
     return
   }
   next()
+})
+
+app.get(['/index.php', '/index.php/*'], (req, res) => {
+  res.redirect('/')
 })
 
 // no ending slashes for SEO reasons
@@ -179,8 +193,8 @@ const server = app.listen(portToUse, () => {
     desiredPort === portToUse
       ? desiredPort
       : addy && typeof addy === 'object'
-      ? addy.port
-      : 0
+        ? addy.port
+        : 0
 
   if (portUsed !== desiredPort) {
     console.warn(
