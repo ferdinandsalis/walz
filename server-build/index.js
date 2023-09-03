@@ -28,6 +28,13 @@ const BUILD_PATH = "../build/index.js";
 const build = remixBuild;
 let devBuild = build;
 const app = express();
+app.use((req, res, next) => {
+  if (req?.headers?.host && req?.headers?.host.slice(0, 4) === "www.") {
+    const newHost = req.headers.host.slice(4);
+    return res.redirect(301, req.protocol + "://" + newHost + req.originalUrl);
+  }
+  next();
+});
 const getHost = (req) => req.get("X-Forwarded-Host") ?? req.get("host") ?? "";
 app.use((req, res, next) => {
   const proto = req.get("X-Forwarded-Proto");
@@ -38,6 +45,9 @@ app.use((req, res, next) => {
     return;
   }
   next();
+});
+app.get(["/index.php", "/index.php/*"], (req, res) => {
+  res.redirect("/");
 });
 app.use((req, res, next) => {
   if (req.path.endsWith("/") && req.path.length > 1) {

@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { withSentry } from '@sentry/remix'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import styles from './styles/app.css'
 import { Footer, Navigation } from './components/shell.tsx'
@@ -70,7 +71,7 @@ function Document({
   )
 }
 
-export default function App() {
+function App() {
   return (
     <Document>
       <div className="flex min-h-screen flex-col">
@@ -111,6 +112,8 @@ export default function App() {
     </Document>
   )
 }
+
+export default withSentry(App)
 
 export function ErrorBoundary() {
   // NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader

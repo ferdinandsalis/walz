@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 const getHost = (req: { get: (key: string) => string | undefined }) =>
   req.get('X-Forwarded-Host') ?? req.get('host') ?? ''
 
-// ensure HTTPS only (X-Forwarded-Proto comes from Fly)
+// Ensure HTTPS only (X-Forwarded-Proto comes from Fly)
 app.use((req, res, next) => {
   const proto = req.get('X-Forwarded-Proto')
   const host = getHost(req)
@@ -66,11 +66,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// Redirect old php routes
 app.get(['/index.php', '/index.php/*'], (req, res) => {
   res.redirect('/')
 })
 
-// no ending slashes for SEO reasons
+// No ending slashes for SEO reasons
 // https://github.com/epicweb-dev/epic-stack/discussions/108
 app.use((req, res, next) => {
   if (req.path.endsWith('/') && req.path.length > 1) {
