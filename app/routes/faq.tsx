@@ -26,12 +26,12 @@ export async function loader() {
 
 export default function Faq() {
   return (
-    <div className="">
+    <div className="md:mt-8">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Häufige Fragen
       </h1>
 
-      <div className="space-y-8">
+      <div className="space-y-12 md:space-y-16">
         <article>
           <h2 className="mb-2 text-2xl font-bold text-secondary">
             Was heißt eigentlich Walz?

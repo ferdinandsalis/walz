@@ -41,6 +41,12 @@
 @layer utilities {
 }
 
+.prose {
+  h1 {
+    @apply mb-4 font-condensed text-4xl font-bold;
+  }
+}
+
 .table {
   @apply w-full border-spacing-1 overflow-hidden rounded-md text-lg shadow;
 

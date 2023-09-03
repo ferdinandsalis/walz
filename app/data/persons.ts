@@ -1,4 +1,13 @@
-import { Person } from '#app/routes/ueber-uns+/_index.tsx'
+export type Person = {
+  name: string
+  position?: string | null
+  email?: string | null
+  phone?: string | null
+  image?: string | null
+  website?: string | null
+  roles?: string[]
+}
+
 
 function createSlug(name: string) {
   const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "")

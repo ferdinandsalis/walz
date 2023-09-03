@@ -1,10 +1,10 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { persons } from '#app/data/persons.ts'
+import { Person, persons } from '#app/data/persons.ts'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { Link } from '@remix-run/react'
 import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
+import { Toc } from '#app/components/toc.tsx'
 
 export default function UeberUns() {
   return (
@@ -13,54 +13,36 @@ export default function UeberUns() {
         Über uns
       </h1>
 
-      <div className="mb-12 max-w-[45ch] space-y-4 text-lg md:mb-16 md:text-xl lg:text-2xl">
-        <p>
-          Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
-          Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
-          Leben in einer sich verändernden Welt vorbereiten sollen.
-        </p>
-        <p>
-          Die Walz ist eine private Bildungseinrichtung mit Öffentlichkeitsrecht
-          für Jugendliche im Alter von 14 bis 19 Jahren (9.-13. Schulstufe). Die
-          Walz schließt mit Matura (Externistenreifeprüfung) ab.
-        </p>
-        <p>
-          Der Unterricht orientiert sich am Lehrplan des
-          Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
-          Werkerziehung.
-        </p>
-      </div>
-
-      <nav className="mb-12 flex flex-col space-y-1 md:mb-16">
-        <h2 className="mb-1 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-          Inhalt
-        </h2>
-        <ol className="list-inside list-decimal space-y-1 md:list-outside">
-          <li>
-            <Link to="#menschen" className="text-xl font-bold">
-              Menschen
-            </Link>
-          </li>
-          <li>
-            <Link to="#philosophie" className="text-xl font-bold">
-              Philosophie
-            </Link>
-          </li>
-          <li>
-            <Link to="#leitbild" className="text-xl font-bold">
-              Leitbild
-            </Link>
-          </li>
-          <li>
-            <Link to="#geschichte" className="text-xl font-bold">
-              Geschichte
-            </Link>
-          </li>
-        </ol>
-      </nav>
-
       <div className="space-y-12 md:space-y-16">
+        <Toc
+          links={[
+            { name: 'Menschen', to: '#menschen' },
+            { name: 'Philosophie', to: '#philosophie' },
+            { name: 'Leitbild', to: '#leitbild' },
+            { name: 'Geschichte', to: '#geschichte' },
+          ]}
+        />
+
         <Divider />
+
+        <div className="max-w-2xl space-y-4 text-base md:text-xl">
+          <p>
+            Die Walz bietet 5 Jahrgängen zu ca. 30 Jugendlichen verschiedenste
+            Lernumwelten an welche die Jugendlichen auf ein selbst bestimmtes
+            Leben in einer sich verändernden Welt vorbereiten sollen.
+          </p>
+          <p>
+            Die Walz ist eine private Bildungseinrichtung mit
+            Öffentlichkeitsrecht für Jugendliche im Alter von 14 bis 19 Jahren
+            (9.-13. Schulstufe). Die Walz schließt mit Matura
+            (Externistenreifeprüfung) ab.
+          </p>
+          <p>
+            Der Unterricht orientiert sich am Lehrplan des
+            Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
+            Werkerziehung.
+          </p>
+        </div>
 
         <section id="menschen">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
@@ -318,16 +300,6 @@ export default function UeberUns() {
       </div>
     </div>
   )
-}
-
-export type Person = {
-  name: string
-  position?: string | null
-  email?: string | null
-  phone?: string | null
-  image?: string | null
-  website?: string | null
-  roles?: string[]
 }
 
 function StaffCard({ person }: { person: Partial<Person> }) {

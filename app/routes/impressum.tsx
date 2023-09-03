@@ -1,6 +1,6 @@
 export default function Legal() {
   return (
-    <div className="mt-12">
+    <div className="md:mt-8">
       <h1 className="font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl xl:text-6xl">
         Impressum
       </h1>

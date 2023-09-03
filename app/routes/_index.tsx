@@ -1,16 +1,27 @@
-import { Link } from '@remix-run/react'
-import { take } from 'ramda'
 import { LogoSymbol } from '#app/components/brand.tsx'
+import { SectionHeading } from '#app/components/section-heading.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { questions } from '#app/data/faq.ts'
-import { news } from '#app/data/news.ts'
 import { testimonials } from '#app/data/testimonials.ts'
-import { SectionHeading } from '#app/components/section-heading.tsx'
-import { pillars } from './ueber-uns+/philosophie.tsx'
+import { Link, useLoaderData } from '@remix-run/react'
 import { ArrowRight, CalendarClockIcon } from 'lucide-react'
+import { take } from 'ramda'
+import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
+import { pillars } from './ueber-uns+/philosophie.tsx'
+import { LoaderArgs, json } from '@remix-run/node'
+
+export async function loader(loaderArgs: LoaderArgs) {
+  const response = await newsLoader(loaderArgs)
+  const data = await response.json()
+
+  return json({ news: data.length >= 1 ? data[0] : null })
+}
 
 export default function Home() {
+  const loaderData = useLoaderData<typeof loader>()
+  const news = loaderData.news
+
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24">
       <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 rounded-md sm:-mx-8 md:-mx-12">
@@ -81,46 +92,35 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Aktuelles
           </h1>
-          <ol className="space-y-2">
-            {take(1, news).map((entry, idx) => {
-              return (
-                <li
-                  key={idx}
-                  className="relative max-w-prose rounded-lg bg-secondary p-6 shadow-md shadow-slate-400"
-                >
-                  <article className="text-foreground">
-                    <div className="absolute right-0 top-0 rounded-bl-lg rounded-tr-lg bg-card px-4 py-1 text-foreground shadow-[inset_1px_-1px_0px_1px] shadow-secondary/40 sm:py-2 md:py-3">
-                      <time className="font-condensed text-muted-foreground">
-                        {entry.publishedAt.toLocaleString('de-AT', {
-                          dateStyle: 'medium',
-                        })}
-                      </time>
-                    </div>
-                    <h1 className="mb-4 max-w-xs font-condensed text-2xl leading-tight text-white md:text-3xl lg:text-3xl xl:text-4xl">
-                      {entry.title}
-                    </h1>
-                    <p className="max-w-sm text-lg leading-snug md:text-xl lg:text-2xl">
-                      {entry.abstract}
-                    </p>
-                    <footer>
-                      <Link
-                        to="./aktuelles"
-                        className="group/more mt-4 flex items-center font-condensed text-lg tracking-wide text-card/80"
-                      >
-                        <span className="underline-offset-2 group-hover/more:underline">
-                          Meldung lesen
-                        </span>
-                        <ArrowRight
-                          size="20"
-                          className="stroke-primary transition-transform group-hover/more:translate-x-1"
-                        />
-                      </Link>
-                    </footer>
-                  </article>
-                </li>
-              )
-            })}
-          </ol>
+          <article className="relative max-w-prose rounded-lg bg-secondary p-6 shadow-md shadow-slate-400">
+            <div className="absolute right-0 top-0 rounded-bl-lg rounded-tr-lg bg-card px-4 py-1 text-foreground shadow-[inset_1px_-1px_0px_1px] shadow-secondary/40 sm:py-2 md:py-3">
+              <time className="font-condensed text-muted-foreground">
+                {new Date(news.publishedAt).toLocaleString('de-AT', {
+                  dateStyle: 'medium',
+                })}
+              </time>
+            </div>
+            <h1 className="mb-4 max-w-xs font-condensed text-2xl font-bold leading-tight text-white md:text-3xl lg:text-3xl xl:text-4xl">
+              {news.title}
+            </h1>
+            <p className="max-w-sm text-lg leading-snug md:text-xl lg:text-2xl">
+              {news.abstract} <span>…</span>
+            </p>
+            <footer>
+              <Link
+                to={news.to}
+                className="group/more mt-4 flex items-center font-condensed text-lg text-card"
+              >
+                <span className="underline-offset-2 group-hover/more:underline">
+                  Beitrag lesen
+                </span>
+                <ArrowRight
+                  size="20"
+                  className="stroke-primary transition-transform group-hover/more:translate-x-1"
+                />
+              </Link>
+            </footer>
+          </article>
         </section>
       </div>
 
@@ -270,7 +270,7 @@ export function LinkPhotoCard({
           </h1>
           <p className="text-lg font-bold leading-none">{abstract}</p>
         </hgroup>
-        <div className="group/more mt-4 flex items-center font-condensed text-lg text-muted-foreground">
+        <div className="group/more mt-4 flex items-center font-condensed text-lg font-bold text-muted-foreground">
           <span className="underline-offset-2 group-hover/more:underline">
             Mehr erfahren
           </span>

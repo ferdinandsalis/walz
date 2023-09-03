@@ -1,4 +1,13 @@
-import { persons } from './persons.ts'
+import { Person, persons } from './persons.ts'
+
+export type Year = {
+  name: string
+  symbol: string
+  startedAt: Date
+  graduatedAt: Date | null
+  mentor: Person | undefined
+  currentCover: string | null
+}
 
 export const currentYears = [
   {
@@ -49,4 +58,4 @@ export const currentYears = [
     mentor: persons.find(p => p.name === 'Max Seifert'),
     currentCover: '/images/years/omikron_18.jpg',
   },
-]
+] satisfies Year[]

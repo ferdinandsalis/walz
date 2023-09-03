@@ -1,4 +1,5 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { Link } from '@remix-run/react'
 
@@ -9,30 +10,15 @@ export default function Curriculum() {
         Curriculum
       </h1>
 
-      <nav className="mb-12 flex flex-col space-y-1 md:mb-16">
-        <h2 className="mb-1 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-          Inhalt
-        </h2>
-        <ol className="list-inside list-decimal space-y-1 md:list-outside">
-          <li>
-            <Link to="#unterricht" className="text-xl font-bold">
-              Unterricht
-            </Link>
-          </li>
-          <li>
-            <Link to="#projekte" className="text-xl font-bold">
-              Projekte
-            </Link>
-          </li>
-          <li>
-            <Link to="#in-jahren" className="text-xl font-bold">
-              In Jahren
-            </Link>
-          </li>
-        </ol>
-      </nav>
-
       <div className="space-y-12 md:space-y-16">
+        <Toc
+          links={[
+            { name: 'Unterricht', to: '#unterricht' },
+            { name: 'Projekte', to: '#projekte' },
+            { name: 'In Jahren', to: '#in-jahren' },
+          ]}
+        />
+
         <Divider />
 
         <section id="unterricht" className="space-y-8">

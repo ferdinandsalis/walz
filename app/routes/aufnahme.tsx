@@ -1,4 +1,5 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { Link, Outlet } from '@remix-run/react'
 import { InfoIcon } from 'lucide-react'
@@ -10,35 +11,16 @@ export default function Aufnahme() {
         Aufnahme
       </h1>
 
-      <nav className="mb-12 flex flex-col space-y-1 md:mb-16">
-        <h2 className="mb-1 text-sm font-bold uppercase tracking-widest text-muted-foreground">
-          Inhalt
-        </h2>
-        <ol className="list-inside list-decimal space-y-1 md:list-outside">
-          <li>
-            <Link to="#vorgehensweise" className="text-xl font-bold">
-              Vorgehensweise
-            </Link>
-          </li>
-          <li>
-            <Link to="#vorraussetzungen" className="text-xl font-bold">
-              Vorraussetzungen
-            </Link>
-          </li>
-          <li>
-            <Link to="#kosten" className="text-xl font-bold">
-              Kosten
-            </Link>
-          </li>
-          <li>
-            <Link to="#stipendien" className="text-xl font-bold">
-              Stipendien
-            </Link>
-          </li>
-        </ol>
-      </nav>
-
       <div className="space-y-12 md:space-y-16">
+        <Toc
+          links={[
+            { name: 'Vorgehensweise', to: '#vorgehensweise' },
+            { name: 'Vorraussetzungen', to: '#vorraussetzungen' },
+            { name: 'Kosten', to: '#kosten' },
+            { name: 'Stipendien', to: '#stipendien' },
+          ]}
+        />
+
         <div className="max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
           <div className="mb-2 flex items-center gap-1">
             <InfoIcon size={20} />

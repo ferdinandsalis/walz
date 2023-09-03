@@ -6,10 +6,11 @@ import * as postC from './tag_der_offenen_tuer.mdx'
 import { Link, useLoaderData } from '@remix-run/react'
 
 function postFromModule(mod) {
-  console.log(JSON.stringify(mod))
+  const slug = mod.filename.replace(/\.mdx?$/, '')
   return {
-    slug: mod.filename.replace(/\.mdx?$/, ''),
-    ...mod.attributes.meta,
+    slug,
+    to: `/aktuelles/beitraege/${slug}`,
+    ...mod.attributes,
   }
 }
 
