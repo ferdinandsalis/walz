@@ -1,6 +1,14 @@
-import { persons } from './persons'
+import { persons } from './persons.ts'
 
 export const currentYears = [
+  {
+    name: 'Beta',
+    symbol: 'β',
+    startedAt: new Date('2023-09-04'),
+    graduatedAt: null,
+    mentor: persons.find(p => p.name === 'Max Seifert'),
+    currentCover: null,
+  },
   {
     name: 'Alpha',
     symbol: 'α',

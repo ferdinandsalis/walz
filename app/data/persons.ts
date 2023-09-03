@@ -1,4 +1,11 @@
-import { Person } from '#app/routes/ueber-uns.tsx'
+import { Person } from '#app/routes/ueber-uns+/_index.tsx'
+
+function createSlug(name: string) {
+  const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  const slug = cleanName.toLowerCase().replace(/\s+/g, '-');
+
+  return slug;
+}
 
 export const persons: Person[] = [
   {

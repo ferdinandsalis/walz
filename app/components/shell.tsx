@@ -14,7 +14,6 @@ const navigation = {
     { name: 'Impressum', to: '/impressum' },
     { name: 'Datenschutz', to: '/datenschutz' },
     { name: 'Kontakt', to: '/kontakt' },
-    { name: 'Termine', to: '/aktuelles' },
   ],
   social: [],
 }

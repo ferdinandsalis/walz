@@ -1,12 +1,10 @@
-import { ArrowRight } from '@carbon/icons-react'
+import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Divider } from '#app/components/ui/divider.tsx'
+import { persons } from '#app/data/persons.ts'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { Link } from '@remix-run/react'
-import { persons } from '#app/data/persons.ts'
-import { Divider } from '#app/components/ui/divider.tsx'
-import { ArrowUp } from 'lucide-react'
-import { LinkPhotoCard } from './_index.tsx'
-import { pillars } from './ueber-uns_.philosophie.tsx'
-import { BackToTop } from '#app/components/back-to-top.tsx'
+import { LinkPhotoCard } from '../_index.tsx'
+import { pillars } from './philosophie.tsx'
 
 export default function UeberUns() {
   return (
@@ -335,6 +333,7 @@ export type Person = {
 function StaffCard({ person }: { person: Partial<Person> }) {
   return (
     <figure
+      id={person.name}
       key={person.name}
       className="w-60 flex-none space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >

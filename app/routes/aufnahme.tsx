@@ -1,6 +1,7 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { Link, Outlet } from '@remix-run/react'
+import { InfoIcon } from 'lucide-react'
 
 export default function Aufnahme() {
   return (
@@ -39,6 +40,10 @@ export default function Aufnahme() {
 
       <div className="space-y-12 md:space-y-16">
         <div className="max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
+          <div className="mb-2 flex items-center gap-1">
+            <InfoIcon size={20} />
+            <span className="font-bold">Information</span>
+          </div>
           <p className="leading-snug">
             Anmeldungen der Geburtsjahrgänge 2009 und 2010 für das Schuljahr
             2024/25 nehmen wir gerne bis{' '}

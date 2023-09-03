@@ -6,9 +6,11 @@ export const news = [
     abstract:
       'Die Walz stellt sich vor. Bei Workshops, Projektpräsentationen und einer …',
     author: 'Agnes Chorrherr',
+    type: 'notice',
     tags: ['Administratives'],
     related: [],
-    body: 'Die Walz stellt sich vor! Bei interaktiven Workshops, Projektpräsentationen und einer Theateraufführung bieten sich zahlreiche Gelegenheiten, das Programm der Walz sowie die dahinterstehenden Menschen kennenzulernen.',
+    body: 'Die Walz stellt sich vor! Am 7. Oktober kannst du bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und auch die Besonderheiten der Walz kennenlernen. Am Abend findet noch eine Theateraufführung statt. Der Jahrgang Theta bringt „einer flog übers Kuckucksnest“ auf die Bühne. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen.',
+
   },
   {
     title: 'Tourengehen',
@@ -17,6 +19,7 @@ export const news = [
     abstract:
       'Eine Woche lang verließen sich die Psis auf ihre Muskelkraft, um im Schnee Gipfel zu erklimmen.',
     author: 'Psis',
+    type: 'notice',
     tags: ['Jahrgang', 'Psi'],
     body: '',
   },
@@ -25,6 +28,7 @@ export const news = [
     publishedAt: new Date('2023-08-06'),
     to: '/news/2023-08-06-neuer-jahrgang',
     author: 'Psis',
+    type: 'notice',
     tags: ['Jahrgang', 'Psi'],
     body: '',
     abstract:
