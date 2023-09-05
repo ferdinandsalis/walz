@@ -1,6 +1,5 @@
 // all mdx posts in this directory
 import { LoaderArgs, json } from '@remix-run/node'
-import * as postA from './das_neue_schuljahr_beginnt.mdx'
 import * as postB from './infoabend.mdx'
 import * as postC from './tag_der_offenen_tuer.mdx'
 import { Link, useLoaderData } from '@remix-run/react'
@@ -15,11 +14,7 @@ function postFromModule(mod: any) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  return json([
-    postFromModule(postA),
-    postFromModule(postC),
-    postFromModule(postB),
-  ])
+  return json([postFromModule(postC), postFromModule(postB)])
 }
 
 export default function Index() {

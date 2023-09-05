@@ -8,7 +8,6 @@ import { LoaderArgs, json } from '@remix-run/node'
 import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
-import { Collapsible } from '#app/components/ui/collapsible.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import {
   Accordion,
