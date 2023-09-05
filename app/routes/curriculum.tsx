@@ -1,7 +1,6 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { Link } from '@remix-run/react'
 
 export default function Curriculum() {
   return (
@@ -206,14 +205,13 @@ export default function Curriculum() {
               <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
                 <p>
                   Gute Nachrichten für alle, die nach 8 Jahren Schulbank genug
-                  haben! Die Walz beginnt mit einem „Time-Out“ von der Schule –
-                  hier lernst du neue und andere Lebenswelten kennen und kannst
+                  haben! Die Walz beginnt mit einem „Time-Out“ von der Schule -
+                  du lernst neue und andere Lebenswelten kennen und kannst
                   außerhalb des traditionellen Schulalltags verschiedenste
                   Fertigkeiten erlernen. Die praktischen Erfahrungen auf dem
-                  Bauernhof, im Forst und vom Wasserprojekt in diversen
-                  Handwerksbetrieben werden später aufgearbeitet und sind
-                  bereiten bereits auf die Externistenprüfungen in den folgenden
-                  Jahren vor.
+                  Bauernhof, im Forst und in diversen Handwerksbetrieben werden
+                  später aufgearbeitet und bereiten dich auch auf die
+                  Externistenprüfungen in den folgenden Jahren vor.
                 </p>
               </div>
             </article>
