@@ -7,7 +7,7 @@ export default function Legal() {
 
       <div className="space-y-12">
         <div>
-          <p className="font-bold">Walz Wiener Lernzentrum</p>
+          <p className="font-bold">W@lz Wiener Lernzentrum</p>
           <p>Heinrich-Collin-Straße 9</p>
           <p>1140 Wien</p>
           <p>ZVR-Nr. 667889397</p>
@@ -50,10 +50,10 @@ export default function Legal() {
             derselben verbreitet werden.
           </p>
           <p>
-            Die Fotos wurden von Jugendlichen der Walz, im Besonderen von Georg
-            Prenn zur Verfügung gestellt. Unser ausdrücklicher Dank gilt Frau
-            Gabriele Adam, die zahlreiche Theateraufführungen fotografisch
-            dokumentiert hat.
+            Die Fotos wurden von Jugendlichen und Mitarbeiter:innen der Walz zur
+            Verfügung gestellt. Unser ausdrücklicher Dank gilt Frau Gabriele
+            Adam, die zahlreiche Theateraufführungen fotografisch dokumentiert
+            hat.
           </p>
           <p>
             Diese Website enthält Verknüpfungen ("Hyperlinks") zu Websites

@@ -8,12 +8,11 @@ export type Person = {
   roles?: string[]
 }
 
-
 function createSlug(name: string) {
-  const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-  const slug = cleanName.toLowerCase().replace(/\s+/g, '-');
+  const cleanName = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const slug = cleanName.toLowerCase().replace(/\s+/g, '-')
 
-  return slug;
+  return slug
 }
 
 export const persons: Person[] = [
@@ -274,7 +273,7 @@ export const persons: Person[] = [
     position: 'Theater',
     email: null,
     phone: null,
-    image: null,
+    image: '/images/staff/Juergen_Matzat.jpg',
     website: 'http://www.matz-art.at',
     roles: ['project leader'],
   },
