@@ -54,9 +54,9 @@ export default function Home() {
                 />
               </h1>
               <p className="font-condensed font-bold">
-                <span className="">Schulstart</span> am{' '}
+                <span className="">Tag der offenen Tür</span> am{' '}
                 <time dateTime="2023-09-04" className="">
-                  4. September 2023
+                  7. Oktober
                 </time>
               </p>
             </div>{' '}

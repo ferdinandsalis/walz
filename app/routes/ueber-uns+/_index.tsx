@@ -347,6 +347,11 @@ function StaffCard({ person }: { person: Partial<Person> }) {
               {person.email}
             </a>
           )}
+          {person.website && (
+            <a href={person.website} className="text-sm text-secondary">
+              {person.website}
+            </a>
+          )}
           <p className="text-sm">{person.phone}</p>
         </div>
       </figcaption>
