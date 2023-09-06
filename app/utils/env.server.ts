@@ -3,6 +3,7 @@ import { z } from 'zod'
 const schema = z.object({
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
   SENTRY_DSN: z.string(),
+  GOOGLE_MAPS_API_KEY: z.string(),
   // DATABASE_PATH: z.string(),
   // DATABASE_URL: z.string(),
   // SESSION_SECRET: z.string(),
@@ -12,7 +13,7 @@ const schema = z.object({
 
 declare global {
   namespace NodeJS {
-    interface ProcessEnv extends z.infer<typeof schema> { }
+    interface ProcessEnv extends z.infer<typeof schema> {}
   }
 }
 
@@ -36,12 +37,13 @@ export function init() {
  *
  * NOTE: Do *not* add any environment variables in here that you do not wish to
  * be included in the client.
- * @returns all public ENV variables
+ * @returns all *PUBLIC* ENV variables
  */
 export function getEnv() {
   return {
     MODE: process.env.NODE_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
   }
 }
 

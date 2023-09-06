@@ -219,7 +219,7 @@ export default function Home() {
             className="relative h-72 overflow-hidden rounded border border-stone-300 bg-stone-200 md:col-span-4 md:col-start-1 lg:h-80"
           >
             <img
-              src="https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=AIzaSyCQlA0vV3_JzkHchLJvxuqkNcWaPeRcqNA&scale=2&map_id=8811b5d90ece1ea5"
+              src={`https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=${ENV.GOOGLE_MAPS_API_KEY}&scale=2&map_id=8811b5d90ece1ea5`}
               alt="Karte"
               className="h-full w-full object-cover"
             />
