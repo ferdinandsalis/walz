@@ -17,7 +17,7 @@ export const currentYears = [
     startedAt: new Date('2023-09-04'),
     graduatedAt: null,
     mentor: persons.find(p => p.name === 'Max Seifert'),
-    currentCover: null,
+    currentCover: '/images/years/beta_23.jpg',
     currentPlanHref: '/downloads/Beta_Jahresplan_2023_24.pdf'
   },
   {
