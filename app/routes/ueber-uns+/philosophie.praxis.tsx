@@ -17,9 +17,9 @@ export default function Praxis() {
           erworbene Wissen in der Praxis anzuwenden und sich in der realen Welt
           außerhalb der Schule zu bewähren. Auf dem Programm stehen neben
           Praktika in der Landwirtschaft, im Forst und in Handwerksbetrieben
-          auch die Gründung einer Firma im Rahmen der Junior Company sowie
-          zahlreiche Projekte im Ausland. Dadurch können die Jugendlichen nicht
-          nur ihre Sprachkenntnisse verbessern, sondern auch fachliche
+          auch die Gründung eines Unternehmens im Rahmen der Junior Company
+          sowie zahlreiche Projekte im Ausland. Dadurch können die Jugendlichen
+          nicht nur ihre Sprachkenntnisse verbessern, sondern auch fachliche
           Kompetenzen erwerben und soziale Fähigkeiten ausbauen.
         </p>
       </div>
