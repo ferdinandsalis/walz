@@ -348,7 +348,10 @@ function StaffCard({ person }: { person: Partial<Person> }) {
             </a>
           )}
           {person.website && (
-            <a href={person.website} className="text-sm text-secondary">
+            <a
+              href={person.website}
+              className="truncate whitespace-nowrap text-sm text-secondary"
+            >
               {person.website}
             </a>
           )}

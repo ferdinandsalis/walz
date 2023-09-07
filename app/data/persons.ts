@@ -228,7 +228,7 @@ export const persons: Person[] = [
     email: null,
     phone: null,
     image: null,
-    website: 'https://bernadettemarialeitner.com/Home',
+    website: 'https://bernadettemarialeitner.com',
     roles: ['project leader'],
   },
   {
@@ -281,7 +281,7 @@ export const persons: Person[] = [
     position: 'Französisch',
     email: null,
     phone: null,
-    image: '/images/staff/Prevost_Cecile.jpg',
+    image: '/images/staff/Cecile_Prevost.jpg',
     website: null,
     roles: ['project leader'],
   },
