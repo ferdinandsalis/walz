@@ -73,10 +73,13 @@ export default function Aktuelles() {
                   value={date.startDate.toISOString()}
                 >
                   <div
-                    className={cn('border-b-2 border-b-background bg-card/50', {
-                      'border-b-secondary':
-                        idx === 0 || idx === dates.length - 2,
-                    })}
+                    className={cn(
+                      'border-b-2 border-b-background bg-card/50 transition-colors hover:bg-card',
+                      {
+                        'border-b-secondary':
+                          idx === 0 || idx === dates.length - 2,
+                      },
+                    )}
                   >
                     <AccordionTrigger asChild>
                       <div
@@ -84,6 +87,7 @@ export default function Aktuelles() {
                           'grid w-full grid-cols-3 gap-4 px-4 py-1',
                           'transition-all [&[data-state=open]>svg]:rotate-180',
                           'cursor-pointer items-center',
+                          '[&[data-state=open]>h1]:text-primary',
                         )}
                       >
                         <time
@@ -97,19 +101,68 @@ export default function Aktuelles() {
                         </time>
                         <h1
                           className={cn('', {
-                            'font-bold text-primary': date.type === 'internal',
+                            'font-bold': date.type === 'internal',
                           })}
                         >
                           {date.title}
                         </h1>
-                        <ChevronDown className="h-4 w-4 shrink-0 justify-self-end transition-transform duration-200" />
+                        <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
                       </div>
                     </AccordionTrigger>
                   </div>
                   {date.description && (
                     <AccordionContent asChild>
-                      <div className="transform-gpu overflow-hidden bg-card p-4 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                        <p className="max-w-prose">{date?.description}</p>
+                      <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                        <dl className="space-y-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            {date.startTime && (
+                              <div>
+                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                  Beginn
+                                </dt>
+                                <dd className="">{date.startTime} Uhr</dd>
+                              </div>
+                            )}
+                            {date.endTime && (
+                              <div>
+                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                  Ende
+                                </dt>
+                                <dd className="">{date.endTime} Uhr</dd>
+                              </div>
+                            )}
+                            {date.downloads && (
+                              <div className="col-span-2">
+                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                  Downloads
+                                </dt>
+                                <dd className="">
+                                  <ul className="list-inside list-disc">
+                                    {date.downloads.map(download => (
+                                      <li key={download.href}>
+                                        <a
+                                          download={download.title}
+                                          className="underline underline-offset-2"
+                                          href={download.href}
+                                        >
+                                          {download.title}
+                                        </a>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </dd>
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                              Beschreibung
+                            </dt>
+                            <dd>
+                              <p className="max-w-prose">{date?.description}</p>
+                            </dd>
+                          </div>
+                        </dl>
                       </div>
                     </AccordionContent>
                   )}

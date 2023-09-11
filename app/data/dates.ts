@@ -5,11 +5,25 @@ export const dates = [
     description: undefined,
   },
   {
+    title: 'Theateraufführung',
+    startDate: new Date('2023-10-06'),
+    startTime: '19:00',
+    type: 'internal',
+    description: 'Der Jahrgang Theta spielt „Einer flog übers Kuckucksnest“',
+  },
+  {
     title: 'Tag der offenen Tür',
     startDate: new Date('2023-10-07'),
+    startTime: '15:00',
+    downloads: [
+      {
+        title: 'Flyer Tag der offenen Tür 2023',
+        href: '/downloads/flyer-tatue-2023.pdf',
+      }
+    ],
+    endTime: '18:00',
     type: 'internal',
-    description:
-      'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und auch die Besonderheiten der Walz kennenlernen. Am Abend findet noch eine Theateraufführung statt. Der Jahrgang Theta bringt „Einer flog übers Kuckucksnest“ auf die Bühne. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen',
+    description: 'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und die Besonderheiten der Walz kennenlernen. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen. Um 18:00 findet dann eine Theateraufführung in unserem Theatersaal statt: Der Jahrgang Theta zeigt „Einer flog übers Kuckucksnest“.'
   },
   {
     title: 'Nationalfeiertag',
@@ -30,9 +44,11 @@ export const dates = [
   {
     title: 'Infoabend',
     startDate: new Date('2023-11-23'),
+    startTime: '19:00',
+    endTime: '20:30',
     type: 'internal',
     description:
-      'Von 19:00 bis 20:30 findet der erste von zwei Infoabenden statt. Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
+      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
   },
   {
     title: 'Weihnachtsferien (Beginn)',

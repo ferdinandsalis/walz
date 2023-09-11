@@ -10,6 +10,8 @@ import { take } from 'ramda'
 import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
 import { pillars } from './ueber-uns+/philosophie.tsx'
 import { LoaderArgs, json } from '@remix-run/node'
+import { dates } from '#app/data/dates.ts'
+import { date } from 'zod'
 
 export async function loader(loaderArgs: LoaderArgs) {
   const response = await newsLoader(loaderArgs)
@@ -53,12 +55,22 @@ export default function Home() {
                   className="inline-block text-secondary"
                 />
               </h1>
-              <p className="font-condensed font-bold">
-                <span className="">Tag der offenen Tür</span> am{' '}
-                <time dateTime="2023-09-04" className="">
-                  7. Oktober
-                </time>
-              </p>
+              {take(
+                1,
+                dates.filter(date => date.startDate > new Date()),
+              ).map(date => {
+                return (
+                  <p className="font-condensed font-bold">
+                    <span className="">{date.title}</span> am{' '}
+                    <time dateTime={date.startDate.toISOString()} className="">
+                      {date.startDate.toLocaleDateString('de-AT', {
+                        day: 'numeric',
+                        month: 'long',
+                      })}
+                    </time>
+                  </p>
+                )
+              })}
             </div>{' '}
             <Link
               to="./aktuelles#termine"
