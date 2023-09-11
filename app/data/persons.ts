@@ -141,7 +141,7 @@ export const persons: Person[] = [
   {
     name: 'Dimitrichka Vasileva',
     position: 'Reinigungskraft',
-    image: '/images/staff/Dimitrichka_Vasileva.jpg',
+    image: '/images/staff/Dimi_Vasileva.jpg',
     email: null,
     phone: null,
     roles: ['administrator'],
