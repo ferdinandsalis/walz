@@ -1,6 +1,6 @@
 export const dates = [
   {
-    title: 'Schulbeginn',
+    title: 'Schulbeginn 🏫',
     startDate: new Date('2023-09-04'),
     description: undefined,
   },
@@ -21,7 +21,7 @@ export const dates = [
         href: '/downloads/flyer-tatue-2023.pdf',
       }
     ],
-    endTime: '18:00',
+    endTime: 'ca 20:00',
     type: 'internal',
     description: 'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und die Besonderheiten der Walz kennenlernen. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen. Um 18:00 findet dann eine Theateraufführung in unserem Theatersaal statt: Der Jahrgang Theta zeigt „Einer flog übers Kuckucksnest“.'
   },
@@ -90,7 +90,7 @@ export const dates = [
     description: undefined,
   },
   {
-    title: 'Abschluss',
+    title: 'Abschluss 🎓',
     startDate: new Date('2024-06-27'),
     description: undefined,
   },

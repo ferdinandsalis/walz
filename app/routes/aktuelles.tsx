@@ -74,7 +74,7 @@ export default function Aktuelles() {
                 >
                   <div
                     className={cn(
-                      'border-b-2 border-b-background bg-card/50 transition-colors hover:bg-card',
+                      'border-b-2 border-b-background bg-card bg-card/50 transition-colors',
                       {
                         'border-b-secondary':
                           idx === 0 || idx === dates.length - 2,
@@ -87,7 +87,11 @@ export default function Aktuelles() {
                           'grid w-full grid-cols-3 gap-4 px-4 py-1',
                           'transition-all [&[data-state=open]>svg]:rotate-180',
                           'cursor-pointer items-center',
-                          '[&[data-state=open]>h1]:text-primary',
+                          'data-[state=open]:bg-primary/10',
+                          {
+                            'font-bold': date.type === 'internal',
+                            'text-muted-foreground': date.type !== 'internal',
+                          },
                         )}
                       >
                         <time
@@ -95,17 +99,11 @@ export default function Aktuelles() {
                           dateTime={date.startDate.toISOString()}
                         >
                           {date.startDate.toLocaleString('de-AT', {
-                            month: 'short',
+                            month: 'long',
                             day: '2-digit',
                           })}
                         </time>
-                        <h1
-                          className={cn('', {
-                            'font-bold': date.type === 'internal',
-                          })}
-                        >
-                          {date.title}
-                        </h1>
+                        <h1>{date.title}</h1>
                         <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
                       </div>
                     </AccordionTrigger>
@@ -173,20 +171,19 @@ export default function Aktuelles() {
                     'border-b-secondary': idx === 0 || idx === dates.length - 2,
                   })}
                 >
-                  <div className={cn('grid grid-cols-3 gap-4 px-4 py-1', {})}>
+                  <div
+                    className={cn('grid grid-cols-3 gap-4 px-4 py-1', {
+                      'font-bold': date.type === 'internal',
+                      'text-muted-foreground': date.type !== 'internal',
+                    })}
+                  >
                     <time className="" dateTime={date.startDate.toISOString()}>
                       {date.startDate.toLocaleString('de-AT', {
-                        month: 'short',
+                        month: 'long',
                         day: '2-digit',
                       })}
                     </time>
-                    <h1
-                      className={cn('', {
-                        'font-bold text-primary': date.type === 'internal',
-                      })}
-                    >
-                      {date.title}
-                    </h1>
+                    <h1>{date.title}</h1>
                   </div>
                 </div>
               ),
