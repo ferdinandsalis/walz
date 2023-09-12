@@ -15,41 +15,80 @@ export const dates = [
     title: 'Tag der offenen Tür',
     startDate: new Date('2023-10-07'),
     startTime: '15:00',
-    downloads: [
+    links: [
       {
         title: 'Flyer Tag der offenen Tür 2023',
-        href: '/downloads/flyer-tatue-2023.pdf',
+        href: '/links/flyer-tatue-2023.pdf',
+        download: true
       }
     ],
-    endTime: 'ca 20:00',
     type: 'internal',
     description: 'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und die Besonderheiten der Walz kennenlernen. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen. Um 18:00 findet dann eine Theateraufführung in unserem Theatersaal statt: Der Jahrgang Theta zeigt „Einer flog übers Kuckucksnest“.'
   },
   {
-    title: 'Nationalfeiertag',
-    startDate: new Date('2023-10-26'),
-    description: undefined,
+    title: 'Theateraufführung',
+    startDate: new Date('2023-10-07'),
+    startTime: '18:00',
+    type: 'internal',
+    description: 'Der Jahrgang Theta spielt „Einer flog übers Kuckucksnest“',
   },
   {
-    title: 'Allerheiligen (Beginn)',
-    startDate: new Date('2023-11-01'),
-    endDate: new Date('2023-11-02'),
-    description: undefined,
-  },
-  {
-    title: 'Maria Empfägnis',
-    startDate: new Date('2023-12-08'),
-    description: undefined,
+    title: 'Theaterworkshop',
+    startDate: new Date('2023-11-16'),
+    startTime: '19:00',
+    type: 'internal',
+    description: ' ',
   },
   {
     title: 'Infoabend',
     startDate: new Date('2023-11-23'),
     startTime: '19:00',
-    endTime: '20:30',
     type: 'internal',
+    links: [
+      {
+        title: 'Aufnahme',
+        href: '/aufnahme'
+      }
+    ],
     description:
       'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
   },
+  {
+    title: 'Schattentheater',
+    startDate: new Date('2023-12-20'),
+    startTime: '18:00',
+    type: 'internal',
+    description: 'Der Jahrgang Beta spielt ein Schattentheater',
+  },
+  {
+    title: 'Infoabend',
+    startDate: new Date('2024-02-21'),
+    startTime: '19:00',
+    type: 'internal',
+    description:
+      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
+    links: [
+      {
+        title: 'Aufnahme',
+        href: '/aufnahme'
+      }
+    ],
+  },
+  {
+    title: 'Aufnahmetag Gamma',
+    startDate: new Date('2024-03-02'),
+    startTime: '10:00',
+    type: 'internal',
+    description: 'Der Aufnahmetag für den Jahrgang Gamma findet statt.',
+  },
+  {
+    title: 'Abschluss 🎓',
+    startDate: new Date('2024-06-27'),
+    description: undefined,
+  },
+]
+
+const external = [
   {
     title: 'Weihnachtsferien (Beginn)',
     startDate: new Date('2023-12-22'),
@@ -90,8 +129,19 @@ export const dates = [
     description: undefined,
   },
   {
-    title: 'Abschluss 🎓',
-    startDate: new Date('2024-06-27'),
+    title: 'Nationalfeiertag',
+    startDate: new Date('2023-10-26'),
+    description: undefined,
+  },
+  {
+    title: 'Allerheiligen (Beginn)',
+    startDate: new Date('2023-11-01'),
+    endDate: new Date('2023-11-02'),
+    description: undefined,
+  },
+  {
+    title: 'Maria Empfägnis',
+    startDate: new Date('2023-12-08'),
     description: undefined,
   },
 ]

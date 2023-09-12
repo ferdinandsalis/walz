@@ -69,12 +69,12 @@ export default function Aktuelles() {
             {dates.map((date, idx) =>
               date.description ? (
                 <AccordionItem
-                  key={date.startDate.toISOString()}
-                  value={date.startDate.toISOString()}
+                  key={`${date.startDate.toISOString()}_${date.title}`}
+                  value={`${date.startDate.toISOString()}_${date.title}`}
                 >
                   <div
                     className={cn(
-                      'border-b-2 border-b-background bg-card bg-card/50 transition-colors',
+                      'border-b-2 border-b-background bg-card/50 transition-colors',
                       {
                         'border-b-secondary':
                           idx === 0 || idx === dates.length - 2,
@@ -129,22 +129,31 @@ export default function Aktuelles() {
                                 <dd className="">{date.endTime} Uhr</dd>
                               </div>
                             )}
-                            {date.downloads && (
+                            {date.links && (
                               <div className="col-span-2">
                                 <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                  Downloads
+                                  Links
                                 </dt>
                                 <dd className="">
                                   <ul className="list-inside list-disc">
-                                    {date.downloads.map(download => (
-                                      <li key={download.href}>
-                                        <a
-                                          download={download.title}
+                                    {date.links.map(link => (
+                                      <li key={link.href}>
+                                        {link.download ? (
+                                          <a href={link.href} download={link.download} className="inline-flex items-center gap-1">
+                                            {link.title}
+                                          <DownloadIcon
+                                          size={16}
+                                            className="inline-block stroke-primary"
+                                          />
+                                          </a>
+                                        ) : (
+                                        <Link
                                           className="underline underline-offset-2"
-                                          href={download.href}
+                                          to={link.href}
                                         >
-                                          {download.title}
-                                        </a>
+                                          {link.title}
+                                        </Link>
+                                        )}
                                       </li>
                                     ))}
                                   </ul>

@@ -32,7 +32,7 @@ export default function Aufnahme() {
             entgegen. Bitte senden Sie dafür das ausgefüllte Anmeldeformular (
             <a
               download="Anmeldeformular.pdf"
-              href="/downloads/anmeldeformular.pdf"
+              href="/links/anmeldeformular.pdf"
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
               Herunterladen

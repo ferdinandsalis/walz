@@ -239,7 +239,7 @@ export const persons: Person[] = [
     roles: ['project leader'],
   },
   {
-    name: 'Helmut Habinger',
+    name: 'Helmut Habiger',
     position: 'Design',
     image: null,
     email: null,
