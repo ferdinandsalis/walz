@@ -18,7 +18,7 @@ export const dates = [
     links: [
       {
         title: 'Flyer Tag der offenen Tür 2023',
-        href: '/links/flyer-tatue-2023.pdf',
+        href: '/downloads/flyer-tatue-2023.pdf',
         download: true
       }
     ],
