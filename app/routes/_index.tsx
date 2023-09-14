@@ -328,7 +328,7 @@ export function Newsletter() {
     >
       <p className="mb-4 max-w-[28ch] text-lg md:text-xl">
         <span className="font-bold">
-          Möchtest du auf dem laufenden bleiben?
+          Möchtest du auf dem Laufenden bleiben?
         </span>{' '}
         Dann melde dich für unseren Newsletter an!
       </p>
