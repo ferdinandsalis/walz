@@ -33,11 +33,11 @@ export const dates = [
     description: 'Der Jahrgang Theta spielt „Einer flog übers Kuckucksnest“',
   },
   {
-    title: 'Theaterworkshop',
+    title: 'Präsentation Theaterworkshop',
     startDate: new Date('2023-11-16'),
     startTime: '19:00',
     type: 'internal',
-    description: ' ',
+    description: 'Präsentation der Theaterwerkstatt des Jahrgangs Psi.',
   },
   {
     title: 'Infoabend',

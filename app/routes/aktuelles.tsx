@@ -139,20 +139,24 @@ export default function Aktuelles() {
                                     {date.links.map(link => (
                                       <li key={link.href}>
                                         {link.download ? (
-                                          <a href={link.href} download={link.download} className="inline-flex items-center gap-1">
+                                          <a
+                                            href={link.href}
+                                            download={link.download}
+                                            className="inline-flex items-center gap-1"
+                                          >
                                             {link.title}
-                                          <DownloadIcon
-                                          size={16}
-                                            className="inline-block stroke-primary"
-                                          />
+                                            <DownloadIcon
+                                              size={16}
+                                              className="inline-block stroke-primary"
+                                            />
                                           </a>
                                         ) : (
-                                        <Link
-                                          className="underline underline-offset-2"
-                                          to={link.href}
-                                        >
-                                          {link.title}
-                                        </Link>
+                                          <Link
+                                            className="underline underline-offset-2"
+                                            to={link.href}
+                                          >
+                                            {link.title}
+                                          </Link>
                                         )}
                                       </li>
                                     ))}
@@ -163,7 +167,7 @@ export default function Aktuelles() {
                           </div>
                           <div>
                             <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                              Beschreibung
+                              Info
                             </dt>
                             <dd>
                               <p className="max-w-prose">{date?.description}</p>
