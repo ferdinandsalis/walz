@@ -87,7 +87,7 @@ export const persons: Person[] = [
     position: 'Leiterin der Administration',
     email: 'brigitte.fasching@walz.at',
     phone: '01/804 29 39 - DW 1014',
-    image: '/images/staff/Brigitte_Fasching.jpg',
+    image: '/images/staff/Brigitte_Fasching.jpg?v=1',
     roles: ['administrator'],
   },
   {
@@ -95,7 +95,7 @@ export const persons: Person[] = [
     position: 'Verwaltungsassistentin',
     email: 'frauke.raetz@walz.at',
     phone: '01/804 29 39 - DW 1013',
-    image: '/images/staff/Frauke_Raetz.jpg',
+    image: '/images/staff/frauke_raetz.jpg?v=1',
     roles: ['administrator'],
   },
   {
@@ -379,7 +379,7 @@ export const persons: Person[] = [
     position: 'Musik',
     email: null,
     phone: null,
-    image: null,
+    image: '/images/staff/Marianne_Rutner-Schoeftner.jpg',
     website: 'https://www.marianne-schoeftner.at/',
     roles: ['project leader'],
   },
@@ -404,7 +404,7 @@ export const persons: Person[] = [
   {
     name: 'Lea Sumey',
     position: 'Deutsch',
-    image: null,
+    image: '/images/staff/Lea_Sumey.jpg',
     email: null,
     phone: null,
     website: null,

@@ -5,7 +5,7 @@ import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
-import { SmileIcon } from 'lucide-react'
+import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 
 export default function UeberUns() {
   return (
@@ -348,9 +348,9 @@ function StaffCard({ person }: { person: Partial<Person> }) {
           {person.website && (
             <a
               href={person.website}
-              className="truncate whitespace-nowrap text-sm text-secondary"
+              className="inline-flex items-center gap-1 truncate whitespace-nowrap text-sm text-secondary"
             >
-              {person.website}
+              Webseite <ExternalLinkIcon size={16} />
             </a>
           )}
           <p className="text-sm">{person.phone}</p>
@@ -362,7 +362,7 @@ function StaffCard({ person }: { person: Partial<Person> }) {
 
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
-    <ScrollArea.Root type="hover">
+    <ScrollArea.Root type="always">
       <ScrollArea.Viewport className="xl:-mx-24 -mx-4 rounded-md bg-stone-200/30 sm:-mx-8 md:-mx-12">
         <div className="xl:px-24 flex gap-4 px-4 py-8 sm:px-8 md:px-12">
           {children}

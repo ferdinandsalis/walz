@@ -2,7 +2,7 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { costs } from '#app/data/costs.ts'
-import { DownloadIcon, InfoIcon } from 'lucide-react'
+import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
 
 export default function Aufnahme() {
   return (
@@ -27,18 +27,27 @@ export default function Aufnahme() {
             <span className="font-bold">Information</span>
           </div>
           <p className="leading-snug">
-            Anmeldungen der Geburtsjahrgänge 2009 und 2010 für das Schuljahr
-            2024/25 nehmen wir gerne bis <em className="">24. Februar 2024</em>{' '}
-            entgegen. Bitte senden Sie dafür das ausgefüllte Anmeldeformular (
+            Anmeldungen der Geburts&shy;jahrgänge 2009 und 2010 für das
+            Schuljahr 2024/25 nehmen wir gerne bis{' '}
+            <em className="">24. Februar 2024</em> entgegen. Bitte senden Sie
+            dafür das ausgefüllte{' '}
             <a
               download="Anmeldeformular.pdf"
               href="/downloads/anmeldeformular.pdf"
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
-              Herunterladen
+              Anmelde&shy;formular
               <DownloadIcon size={20} />
+            </a>{' '}
+            an{' '}
+            <a
+              href="mailto:office@walz.at"
+              className="inline-flex items-center gap-1 underline underline-offset-2"
+            >
+              office@walz.at
+              <ExternalLinkIcon size={20} />
             </a>
-            ) an office@walz.at.
+            .
           </p>
         </div>
 
@@ -80,7 +89,32 @@ export default function Aufnahme() {
             <p>
               Zu den Möglichkeiten einer Aufnahme in einen bestehenden Jahrgang
               bitten wir um Kontaktaufnahme unter{' '}
-              <a href="mailto:office@walz.at">office@walz.at</a>.
+              <a
+                href="mailto:office@walz.at"
+                className="inline-flex items-center gap-1 underline underline-offset-2"
+              >
+                office@walz.at <ExternalLinkIcon size={20} />
+              </a>
+              .
+            </p>
+          </div>
+
+          <div className="mb-8 max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
+            <div className="mb-2 flex items-center gap-1">
+              <InfoIcon size={20} />
+              <span className="font-bold">Information</span>
+            </div>
+            <p className="leading-snug">
+              Informationen und Rahmenbedingungen für einen Schulbesuch in der
+              Walz.{' '}
+              <a
+                download="Informationen und Rahmenbedingungen 23-24.pdf"
+                href="/downloads/Informationen_und_Rahmenbedingungen_23-24.pdf"
+                className="inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
+              >
+                Hier herunterladen
+                <DownloadIcon size={20} className="flex-none" />
+              </a>{' '}
             </p>
           </div>
 
