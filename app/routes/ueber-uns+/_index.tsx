@@ -28,10 +28,9 @@ export default function UeberUns() {
 
         <div className="max-w-2xl space-y-4 hyphens-auto text-base md:text-xl">
           <p>
-            Die Walz bietet fünf Jahrgängen von etwa 30 Jugendlichen
-            verschiedenste Lernumwelten an, die Jugendlichen auf ein
-            selbstbestimmtes Leben in einer sich verändernden Welt vorbereiten
-            sollen.
+            Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
+            verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben
+            in einer sich verändernden Welt vorbereiten sollen.
           </p>
           <p>
             Die Walz ist eine private Bildungseinrichtung mit
@@ -40,7 +39,7 @@ export default function UeberUns() {
             (Externistenreifeprüfung) ab.
           </p>
           <p>
-            Der Unterricht orientiert sich am Lehrplan des
+            Der Unterricht orientiert sich am Lehrplan eines
             Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
             Werkerziehung.
           </p>
@@ -91,11 +90,10 @@ export default function UeberUns() {
                 <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
-                    Projektleiter:innen in der Walz bereiten die Jugendlichen
-                    auf Externistenprüfungen vor. Sie agieren als "Trainer",
-                    erarbeiten klar definierte Stoffgebiete und übernehmen die
-                    Prüfung nicht selbst. Viele unterrichten blockweise und
-                    haben nebenbei einen Hauptberuf. Einige sind
+                    Projektleiter:innen agieren als "Trainer:innen", sie
+                    begleiten Projekte, unterstützen Jugendliche bei der
+                    Erreichung ihrer Ziele und bereiten sie auf die externen
+                    Prüfungen vor. Viele unterrichten blockweise. Einige sind
                     Fachexpert:innen statt Pädagog:innen, wodurch die
                     Jugendlichen realistische Einblicke in die Arbeitswelt
                     erhalten.
@@ -135,14 +133,14 @@ export default function UeberUns() {
                 <h2 className="text-2xl font-bold">Therapeut:innen</h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
-                    Jede Woche stehen eine erfahrene Psychologin und ein
+                    Jede Woche stehen eine erfahrene Psychologin und eine
                     Psychotherapeutin für Gespräche mit den Jugendlichen zur
-                    Verfügung. Zusätzlich legen wir mit Angeboten wie
-                    Drogenpräventionsprogrammen und Stressbewältigungstechniken,
-                    wie „Therapeutic Touch“ einen besonderen Fokus auf das Wohl
-                    der Jugendlichen. Wir bieten auch Aufklärungsseminare und
-                    Elternabende an, um das Wohlsein und die persönliche
-                    Entwicklung aller Beteiligten zu fördern.
+                    Verfügung. Zusätzlich runden wir das Angebot mit
+                    Stressbewältigungstechniken, Drogenpräventionsprogrammen,
+                    Bewegungstherapie und „Therapeutic Touch“ ab. Wir bieten
+                    Aufklärungsseminare und Elternabende an, um das Wohlbefinden
+                    und die persönliche Entwicklung aller Beteiligten zu
+                    fördern.
                   </p>
                 </div>
                 <StaffRoll>
@@ -208,8 +206,8 @@ export default function UeberUns() {
                 Bildung hat sich immer auf jene gesellschaftliche Realität zu
                 beziehen, in der sich junge Menschen einmal bewähren müssen. Die
                 gesellschaftliche Wirklichkeit, auf die Bildung heute
-                vorbereiten soll, hat sich v.a. in zwei Bereichen fundamental
-                verändert.
+                vorbereiten soll, hat sich vor allem in zwei Bereichen
+                fundamental verändert.
               </p>
 
               <ol className="space-y-4 sm:list-outside">
@@ -223,11 +221,6 @@ export default function UeberUns() {
                     arbeiten werden, existiert heute noch nicht. Die Zeit, in
                     der ein junger Mensch einen Beruf erlernt, und diesen dann
                     ein Leben lang ausübt, ist mit Sicherheit vorbei.
-                    Arbeitslosigkeit bzw. der Umstieg von einem
-                    Arbeitsverhältnis auf ein anderes, laufendes Erlernen neuer
-                    Kenntnisse, Wechsel zwischen selbständiger und angestellter
-                    Tätigkeit, Mitarbeit in internationalen Organisations- und
-                    Kommunikationsformen werden zum Normalfall werden.
                   </p>
                 </li>
 
@@ -237,13 +230,12 @@ export default function UeberUns() {
                       Auch die grundlegenden Werte unserer Gesellschaft sind
                       unsicher geworden
                     </span>
-                    : Die Rolle der Geschlechter zueinander oder die Frage
-                    nationaler Identität (um nur zwei Beispiele zu nennen) sind
-                    verhandelbar geworden. Vor diesem Hintergrund wollen wir in
-                    der Walz dem Lernen einen optimalen Rahmen geben. Lernen
-                    heißt für uns nicht mehr, Wissen in einer vom wirklichen
-                    Leben getrennt geschaffenen Institution (Schule) vermittelt
-                    zu bekommen.
+                    : So sind zum Beispiel die Rolle der Geschlechter oder die
+                    Frage der Identität verhandelbar geworden. Vor diesem
+                    Hintergrund wollen wir in der Walz dem Lernen einen
+                    optimalen Rahmen geben. Lernen heißt für uns, Wissen nicht
+                    in einer vom wirklichen Leben getrennt geschaffenen
+                    Institution (Schule) zu vermitteln.
                   </p>
                 </li>
               </ol>
@@ -256,9 +248,9 @@ export default function UeberUns() {
             <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
               <p>
                 Einerseits ist die Walz ein Ort des Lernens für junge Menschen,
-                andererseits bezieht die Walz Lernen auch auf sich selbst, auf
-                ihre Mitarbeiter/-innen und ihre Struktur. Die Walz bemüht sich
-                als gesamte Organisation um ein hohes Maß an Offenheit,
+                andererseits bezieht die Walz Lernen auch auf sich selbst, ihre
+                Mitarbeiter:innen und ihre Struktur. Die Walz bemüht sich als
+                gesamte Organisation um ein hohes Maß an Offenheit,
                 Innovationskraft und Veränderungsbereitschaft.
               </p>
             </div>
@@ -276,24 +268,30 @@ export default function UeberUns() {
           <div className="max-w-prose space-y-4 hyphens-auto text-base md:text-xl">
             <p>
               Die Walz wurde im Jahr 2000 von Renate Chorherr gegründet und
-              startete zunächst mit einem Jahrgang, den „Alphas“ in
-              Räumlichkeiten auf dem Gelände des Wiener Kabelwerks im 12.
-              Bezirk. Als im Jahr 2003 die Walz mit 5 Jahrgängen (9.-13.
-              Schulstufe) komplett war, war es an der Zeit, sich nach einer
-              neuen Bleibe mit ausreichend Platz umzusehen.
+              startete zunächst mit einem Jahrgang, den „Alphas“, auf dem
+              Gelände des Wiener Kabelwerks im 12. Bezirk. Als im Jahr 2003 die
+              Walz mit 5 Jahrgängen (9.-13. Schulstufe) komplett war, war es an
+              der Zeit, sich nach einer neuen Bleibe mit ausreichend Platz
+              umzusehen.
             </p>
-
             <p>
-              Nach eineinhalb Jahren suchen, Sponsoren finden, Planung und Umbau
-              wurde die "neue" Walz im Herbst 2005 eröffnet – der jetzige
-              Standort befindet sich im 14. Bezirk, gegenüber dem
-              Hanusch-Krankenhaus.
+              Nach eineinhalb Jahren Suche, Sponsorenfinden, Planung und Umbau
+              wurde die "neue" Walz feierlich im Herbst 2005 eröffnet. Die
+              Räumlichkeiten wurden sukzessive erweitert und an den sich
+              verändernden Bedarf angepasst. So schaffen gemütliche Sofas, viel
+              Platz in der Aula, ein großzügiger Speisesaal, ein Atelier und
+              eine Theaterhalle für verschiedenste Veranstaltungen eine
+              Atmosphäre, die einer „normalen Schule“ nicht entspricht.
             </p>
-
             <p>
               Seit dem Schuljahr 2002/03 hat die Walz das Öffentlichkeitsrecht
               für die 9. Schulstufe, seit 2006/07 auch für die 10.-13.
               Schulstufe.
+            </p>
+            <p>
+              Im Sommer 2020 wurde die neue Sporthalle fertiggestellt. Damit
+              kann nun auch in der Walz Sport und Bewegung ein bedeutender Platz
+              eingeräumt werden.
             </p>
           </div>
 

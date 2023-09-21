@@ -33,7 +33,7 @@ export const dates = [
     description: 'Der Jahrgang Theta spielt „Einer flog übers Kuckucksnest“',
   },
   {
-    title: 'Präsentation Theaterworkshop',
+    title: 'Präsentation Theaterwerkstatt',
     startDate: new Date('2023-11-16'),
     startTime: '19:00',
     type: 'internal',
@@ -58,7 +58,7 @@ export const dates = [
     startDate: new Date('2023-12-20'),
     startTime: '18:00',
     type: 'internal',
-    description: 'Der Jahrgang Beta spielt ein Schattentheater',
+    description: 'Der Jahrgang Beta spielt vor und hinter der Schattenleinwand.'
   },
   {
     title: 'Infoabend',

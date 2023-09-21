@@ -53,10 +53,11 @@ export default function Aufnahme() {
               Der Aufnahmetag für das folgende Schuljahr findet im März statt.
               Hier haben die Jugendlichen bei einigen Übungen und persönlichen
               Gesprächen die Möglichkeit, sich mit der Arbeitsweise in der Walz
-              vertraut zu machen. Im Anschluss daran treffen wir gemeinsam die
-              Entscheidung, wem wir die Aufnahme in den neuen Jahrgang anbieten.
-              Nach der Zusage von Seiten der Eltern und des/der Jugendlichen und
-              der Einzahlung des Aufnahmebeitrags ist die Anmeldung fix.
+              vertraut zu machen. Im Anschluss daran trifft das Aufnahmeteam der
+              Walz gemeinsam die Entscheidung, wem die Aufnahme in den neuen
+              Jahrgang angeboten wird. Nach der Zusage von Seiten der Eltern und
+              des/der Jugendlichen und der Einzahlung des Aufnahmebeitrags ist
+              der Platz im neuen Jahrgang fix.
             </p>
           </div>
 
@@ -78,7 +79,8 @@ export default function Aufnahme() {
             </p>
             <p>
               Zu den Möglichkeiten einer Aufnahme in einen bestehenden Jahrgang
-              bitten wir um Kontaktaufnahme unter office@walz.at.
+              bitten wir um Kontaktaufnahme unter{' '}
+              <a href="mailto:office@walz.at">office@walz.at</a>.
             </p>
           </div>
 

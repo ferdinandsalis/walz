@@ -42,12 +42,13 @@ export default function Curriculum() {
               <p>
                 Der Unterricht findet von Montag bis Freitag zwischen 8:30 und
                 16:30 Uhr statt. Wir setzen auf geblockte Prüfungsvorbereitungen
-                für spezielle Fächer wie Biologie und Geografie. Diese
-                intensiven Lernphasen dauern in der Regel 6–8 Wochen und münden
-                in einer Prüfung. Für Kernfächer wie Mathematik, Deutsch und
-                Fremdsprachen erstreckt sich die Prüfungsvorbereitung über
-                mehrere Jahre, ebenfalls gefolgt von einer Prüfung nach
-                intensiver Vorbereitung.
+                für Fächer wie Biologie und Geografie. Diese intensiven
+                Lernphasen dauern in der Regel 6–8 Wochen und werden mit einer
+                extern abgelegten Prüfung abgeschlossen. Kernfächer wie
+                Mathematik, Deutsch und Fremdsprachen ziehen sich durch die
+                ganze Walz-Zeit. Vor den Prüfungen gibt es zusätzlich eine
+                intensive Vorbereitungszeit, damit die Jugendlichen bestens
+                vorbereitet antreten können.
               </p>
             </div>
           </div>
@@ -59,7 +60,7 @@ export default function Curriculum() {
             <div className="max-w-prose space-y-4 text-base md:text-xl">
               <p>
                 Die Prüfungen orientieren sich am Lehrplan eines
-                Oberstufenrealgymnasiums mit Bildnerisches Gestalten und
+                Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
                 Werkerziehung.
               </p>
             </div>
@@ -153,29 +154,24 @@ export default function Curriculum() {
           <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Zwischen den einzelnen Prüfungsvorbereitungen finden in der Walz
-              viele Projekte, zum Teil auch außer Haus, statt. Manche Projekte
-              stellen einen praktischen Bezug zum Lernstoff dar, so wird zum
-              Beispiel der Biologie-Prüfungsstoff zu einem großen Teil in der
-              Natur erlebt und anschließend für die Prüfung aufgearbeitet (zum
-              Beispiel im Forst).
+              zahlreiche Projekte, zum Teil auch außer Haus, statt. Viele
+              stellen einen praktischen Bezug zum Lernstoff her, beispielsweise
+              fahren die Jugendlichen in den Forst. Dort wird der
+              Biologie-Prüfungsstoff in der Natur erlebt und anschließend für
+              die Prüfung aufgearbeitet.
             </p>
             <p>
-              Andere Projekte, wie zum Beispiel das Autonomietraining, dienen
-              dazu, speziellere Themen der Persönlichkeitsentwicklung
-              aufzugreifen. Bei den verschiedenen Auslandsreisen und Praktika im
-              Ausland können die Jugendlichen all ihre erworbenen Fähigkeiten
-              praktisch anwenden. So werden gleichzeitig fachliche und soziale
-              Kompetenzen entwickelt.
+              Andere Projekte, wie das Autonomietraining, dienen dazu,
+              unterschiedliche Themen der Persönlichkeitsentwicklung
+              aufzugreifen. Bei diversen Aufenthalten im Ausland können die
+              Jugendlichen all ihre erworbenen Fähigkeiten praktisch anwenden.
+              So werden gleichzeitig fachliche und soziale Kompetenzen
+              entwickelt.
             </p>
             <p>
               Das genaue Programm der verschiedenen Schulstufen orientiert sich
               am jeweiligen Lebensalter der Jugendlichen und den damit
-              verbundenen Fragen. Zwischen den einzelnen Prüfungsvorbereitungen
-              finden in der Walz viele Projekte, zum Teil auch außer Haus,
-              statt. Manche Projekte stellen einen praktischen Bezug zum
-              Lernstoff dar, so wird z.B. der Biologie-Prüfungsstoff zu einem
-              großen Teil in der Natur erlebt und anschließend für die Prüfung
-              aufgearbeitet (z.B. im Forst)
+              verbundenen Fragen.
             </p>
           </div>
 
@@ -205,12 +201,12 @@ export default function Curriculum() {
               <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
                 <p>
                   Gute Nachrichten für alle, die nach 8 Jahren Schulbank genug
-                  haben! Die Walz beginnt mit einem „Time-Out“ von der Schule -
-                  du lernst neue und andere Lebenswelten kennen und kannst
-                  außerhalb des traditionellen Schulalltags verschiedenste
-                  Fertigkeiten erlernen. Die praktischen Erfahrungen auf dem
-                  Bauernhof, im Forst und in diversen Handwerksbetrieben werden
-                  später aufgearbeitet und bereiten dich auch auf die
+                  haben! Die Walz beginnt mit einem „Time-Out“ von der Schule –
+                  du lernst neue Lebenswelten kennen und kannst außerhalb des
+                  traditionellen Schulalltags verschiedenste Fertigkeiten
+                  erlernen. Die praktischen Erfahrungen auf dem Bauernhof, im
+                  Forst und in diversen Handwerksbetrieben werden später
+                  aufgearbeitet und bereiten dich auch auf die
                   Externistenprüfungen in den folgenden Jahren vor.
                 </p>
               </div>
@@ -231,13 +227,14 @@ export default function Curriculum() {
               </hgroup>
               <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
                 <p>
-                  Es wird ernst! Die ersten Prüfungen stehen an! Der erste
-                  Auslandsaufenthalt führt euch als ganze Gruppe nach Penzance.
-                  Dort kannst du an einem Arbeitsplatz deiner Wahl ( z.B.
-                  Second-Hand-Shops, Kindergarten, etc.) deine
-                  Englischkenntnisse verbessern. Im Winter geht’s in den Kühtai
-                  zum Tourengehen und im Frühling sind wir in St. Margarethen,
-                  unser erstes Kunstprojekt außer Haus.
+                  Es wird ernst, die ersten Prüfungen stehen an! Zusätzlich
+                  fahrt ihr in diesem Jahr als ganze Gruppe nach Irland. Dort
+                  kannst du an diversen Arbeitsplätzen (z.B. kleine
+                  Handwerksbetriebe, Hotels, etc.) deine Englischkenntnisse
+                  verbessern und Land und Leute kennenlernen. Im Winter geht’s
+                  ins Kühtai zum Tourengehen und im Frühling findet in St.
+                  Margarethen unser erstes Kunstprojekt außer Haus statt:
+                  Steinhauen.
                 </p>
               </div>
             </article>
@@ -257,20 +254,17 @@ export default function Curriculum() {
               </hgroup>
               <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
                 <p>
-                  Im Mythentheater geht es auf eine spannende und groß
-                  inszenierte Reise zu verschiedenen Archetypen der
-                  Kulturgeschichte. Im Förder-Assessment-Center werden unter
-                  Anleitung erfahrener Beobachter die eigenen Stärken und
-                  Entwicklungsfelder analysiert – die Ergebnisse sind die
-                  Grundlage für die individuellen Lernvereinbarungen, die von
-                  den Jugendlichen selbst verfasst werden. Nach Weihnachten
+                  Bei der eintägigen Potentialanalyse werden unter Anleitung
+                  erfahrener Beobachter:innen die eigenen Stärken und
+                  Entwicklungsfelder analysiert – die Gespräche sind die
+                  Grundlage für deine individuelle Lernvereinbarung. Im Frühling
                   tauchst du in die Sprache und Zeit William Shakespeares ein
-                  und kannst auch alle Theaterbesucher/-innen in diese spannende
-                  Welt mitnehmen. Im Radioprojekt lernst du, selbständig eine
-                  Radiosendung zu moderieren und produzieren. Den Abschluss des
-                  Schuljahres bildet das „Mann-Frau-Projekt“, bei dem du dich
-                  mit dem Erwachsenwerden und einem differenzierten
-                  Geschlechterbild auseinander setzt.
+                  und kannst auch alle Theaterbesucher:innen in diese spannende
+                  Welt mitnehmen. Im Radioprojekt lernst du selbständig eine
+                  Radiosendung moderieren und produzieren. Den Abschluss des
+                  Jahres bildet das „Mann-Frau-Projekt“. Dort setzt du dich mit
+                  dem Erwachsenwerden und einem differenzierten Geschlechterbild
+                  auseinander.
                 </p>
               </div>
             </article>
@@ -290,14 +284,18 @@ export default function Curriculum() {
               </hgroup>
               <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
                 <p>
-                  Hier geht es darum, alle deine Fähigkeiten, die du in drei
-                  Jahren Walz entdeckt hast, bewusst in die Gruppe einzubringen.
-                  In der 12. Schulstufe beginnst du bereits mit der Arbeit an
-                  deiner Vorwissenschaftlichen Arbeit, und die Matura rückt in
-                  greifbare Nähe. Am Ende des Jahres erlebst du in einer
-                  Kunstreise in der Toskana „Kunstgeschichte hautnah“ – alle für
-                  die Kunstgeschichteprüfung relevanten Sehenswürdigkeiten
-                  werden vor Ort besichtigt!
+                  Das Schuljahr startet mit einem Projekt, bei dem du mit
+                  unserem Theaterpädagogen daran arbeitest, wie du deine
+                  individuellen Stärken, die du in drei Jahren Walz entwickelt
+                  hast, bewusst in die Gruppe einbringen kannst. Beim
+                  Sozialprojekt um Ostern geht es unter anderem darum, diese
+                  Fähigkeiten weiterzugeben, sich einzubringen und einen
+                  positiven Beitrag zu leisten. Im Frühling erlebst du in der
+                  Toskana „Kunstgeschichte hautnah“ und trittst damit gut
+                  vorbereitet zur Prüfung im Fach Bildnerisches Gestalten und
+                  Werken an. Am Ende des Schuljahres beginnst du mit deiner
+                  Vorwissenschaftlichen Arbeit: du konkretisierst dein Thema und
+                  legst die Literaturliste fest.
                 </p>
               </div>
             </article>
@@ -319,19 +317,18 @@ export default function Curriculum() {
                 <p>
                   Schneller als du denkst ist das letzte Walz-Jahr erreicht und
                   damit die Matura in Sicht! Zu Beginn des Jahres wird noch
-                  einmal der holden Kunst gefrönt: Die zweite große Kunstreise
-                  in der Walz geht nach Frankreich – wieder werden vor Ort alle
-                  wichtigen Stationen und Zeitepochen für die zweite
-                  Kunstgeschichteprüfung besichtigt. Als letzte Hürde vor der
-                  Matura ist dann im November noch die Prüfung in der zweiten
-                  lebenden Fremdsprache zu absolvieren. Für die
+                  einmal der Kunst gefrönt: Die letzte große Kunstreise in der
+                  Walz geht nach Frankreich –wichtige Stationen und Kunstwerke
+                  werden für die Kunstgeschichteprüfung besichtigt, besprochen
+                  und teilweise in Eigeninterpretation gemalt. Als letzte Hürde
+                  vor der Matura ist im November die Prüfung in der zweiten
+                  lebenden Fremdsprache zu absolvieren. Für die folgende
                   Maturavorbereitung ist selbstständiges Arbeiten unabdingbare
                   Voraussetzung: Der Stoff wird kompakt vorgetragen und die
-                  Prüfungsvorbereitungen haben Universitätscharakter. Am Ende
-                  des Jahres, also nach der Matura, kannst du bei der
-                  Abschlussreise noch einmal zurückblicken: „Wie bin ich in die
-                  Walz gekommen, was hat mich in diesen Jahren geprägt und
-                  verändert?“
+                  Prüfungsvorbereitungen haben Universitätscharakter. Bei der
+                  Abschlussreise kannst du noch einmal zurückblicken: „Wie bin
+                  ich in die Walz gekommen, was hat mich in diesen Jahren
+                  geprägt und verändert?“
                 </p>
               </div>
             </article>

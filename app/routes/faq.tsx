@@ -22,10 +22,10 @@ export default function Faq() {
             <p>
               Walz ist das mittelalterliche Gesellenwandern, die Tradition,
               einige Jahre in die Fremde zu reisen, dort zu arbeiten, um die
-              eigenen Kenntnisse und Fähigkeiten zu erweitern. Vom 16. Bis zum
+              eigenen Kenntnisse und Fähigkeiten zu erweitern. Vom 16. bis zum
               19. Jahrhundert war die Wanderpflicht eine Vorbedingung für die
-              Zulassung zum Handwerksmeisterprüfung. Dieses Lernen und Arbeiten
-              wollen wir ins 21. Jahrhundert holen.
+              Zulassung zur Meisterprüfung. Dieses Lernen und Arbeiten wollen
+              wir ins 21. Jahrhundert holen.
             </p>
           </div>
         </article>
@@ -72,9 +72,9 @@ export default function Faq() {
           </Link>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
-              Jeder Jahrgang bereitet mindestens einmal pro Jahr ein
-              Theaterstück vor. Die Aufführungen sind eine wunderbare
-              Gelegenheit, die Walz kennenzulernen!
+              Einmal im Jahr findet unser Tag der offenen Tür statt. Hier werden
+              Projekte vorgestellt, es gibt Mitmach-Stationen und man kann sich
+              von Walzist:innen durch die Schule führen lassen.
             </p>
             <p>
               Bei den Informationsabenden gibt es für interessierte Eltern und
@@ -82,21 +82,32 @@ export default function Faq() {
               die Kosten zu informieren und sich für den Aufnahmetag anzumelden.
             </p>
             <p>
-              Einmal im Jahr findet unser Tag der offenen Tür statt. Hier werden
-              Projekte vorgestellt, es gibt Mitmach-Stationen und man kann sich
-              von Walzist:innen durch die Schule führen lassen.
+              Jeder Jahrgang bereitet mindestens einmal pro Jahr ein
+              Theaterstück vor. Die Aufführungen sind öffentlich und eine
+              wunderbare Gelegenheit, die Walz von einer anderen Seite
+              kennenzulernen!
             </p>
             <p>
-              Jedes Jahr entsteht das Book of the Year mit Erfahrungsberichten,
+              Jährlich entsteht das Book of the Year mit Erfahrungsberichten,
               ausgewählten Fotos und vielem mehr. Zum Durchblättern schicken wir
-              dir auch gerne eines oder mehrere per Post zu. Dafür schicke uns
-              eine Mail an{' '}
+              dir auch gerne gegen einen Unkostenbeitrag eines oder mehrere per
+              Post zu. Dafür schicke uns eine Mail an
               <a
                 href="mailto:info@walz.at"
                 className="underline underline-offset-2"
               >
                 info@walz.at
               </a>
+              .
+            </p>
+            <p>
+              Alle Termine findest du{' '}
+              <Link
+                to="/aktuelles#termine"
+                className="underline underline-offset-2"
+              >
+                hier
+              </Link>
               .
             </p>
           </div>
