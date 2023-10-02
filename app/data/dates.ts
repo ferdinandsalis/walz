@@ -55,7 +55,7 @@ export const dates = [
   },
   {
     title: 'Schattentheater',
-    startDate: new Date('2023-12-20'),
+    startDate: new Date('2023-12-19'),
     startTime: '18:00',
     type: 'internal',
     description: 'Der Jahrgang Beta spielt vor und hinter der Schattenleinwand.'
