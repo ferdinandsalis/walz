@@ -125,34 +125,69 @@ export default function Aufnahme() {
 
         <article id="kosten" className="space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
-            Kosten
+            Kosten und Finanzierung
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
-            <dl>
+            <p>
+              Die Walz ist ein gemeinnütziger Verein und finanziert sich zu
+              einem großen Teil (über 90 %) selbst. Wir müssen, um unsere Kosten
+              decken zu können, Schulgeld einheben.
+            </p>
+            <p>
+              Während bei konfessionellen Privatschulen die Personalkosten (also
+              80 - 90% der Gesamtkosten) von der öffentlichen Hand übernommen
+              werden, müssen Privatschulen (ohne kirchlichem Träger) für alle
+              Kosten selbst aufkommen. Die einzige Förderung, welche die Walz,
+              so wie alle anderen Privatschulen in freier Trägerschaft, im
+              Moment vom Bildungsministerium erhält, hat eine Höhe von ca. 700,-
+              pro Jahr pro Schüler:in. Die Walz muss sich daher durch die
+              Beiträge der Eltern finanzieren.
+            </p>
+            <p>
+              Wir bemühen uns sehr, die Kosten so niedrig wie möglich zu halten.
+              Zum Vergleich betragen laut OECD die Kosten der öffentlichen
+              Schule für die Sekundarstufe € 15.729 pro Jahr (letzter
+              verfügbarer Wert aus dem Jahr 2019).
+            </p>
+          </div>
+          <p className="font-bold md:text-xl">
+            Für das Schuljahr 2023/2024 gelten für die Walz folgende Beträge:
+          </p>
+          <div className="mb-8 max-w-prose text-base">
+            <dl className="grid grid-cols-1 gap-8">
               {costs.map(cost => {
                 return (
-                  <div className="grid grid-cols-2 items-center border-b-2 border-b-background bg-card px-2">
-                    <dt className="">
-                      <div className="font-bold">{cost.name}</div>
-                    </dt>
-                    <dd className="grid grid-cols-2 justify-items-end py-1">
-                      <div>{cost.multiplier} &times;</div>
-                      <div>
-                        {Intl.NumberFormat('de-AT', {
-                          style: 'currency',
-                          currency: 'EUR',
-                          maximumFractionDigits: 0,
-                          signDisplay: 'never',
-                        }).format(cost.cost)}
+                  <div className="border-t border-t-border">
+                    <div className="grid grid-cols-2 py-2">
+                      <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
+                        <div className="">
+                          <dt className="text-xl font-bold text-secondary md:text-2xl">
+                            {cost.name}
+                          </dt>
+                        </div>
+                        <dd className="">
+                          <p>{cost.description}</p>
+                        </dd>
                       </div>
-                    </dd>
+                      <div className="flex justify-start gap-2 justify-self-end">
+                        <span className="text-primary">
+                          {cost.multiplier} &times;
+                        </span>
+                        <span className="font-bold">
+                          {Intl.NumberFormat('de-AT', {
+                            style: 'currency',
+                            currency: 'EUR',
+                            maximumFractionDigits: 0,
+                            signDisplay: 'never',
+                          }).format(cost.cost)}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )
               })}
             </dl>
-            <p className="text-base">Tarife 2023/2024</p>
           </div>
-
           <BackToTop />
         </article>
 
