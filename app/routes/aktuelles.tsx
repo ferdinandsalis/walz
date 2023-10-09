@@ -245,7 +245,7 @@ function Year({
   return (
     <article key={name} className="flex rounded-md bg-card shadow-md">
       <div className="relative flex flex-1 flex-col overflow-hidden py-6 pl-6">
-        <div className="text-1xl absolute right-14 top-10 scale-[7] font-black text-primary opacity-10">
+        <div className="text-1xl absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
           {symbol}
         </div>
 
