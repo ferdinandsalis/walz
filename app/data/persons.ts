@@ -87,7 +87,7 @@ export const persons: Person[] = [
     position: 'Leiterin der Administration',
     email: 'brigitte.fasching@walz.at',
     phone: '01/804 29 39 - DW 1014',
-    image: '/images/staff/Brigitte_Fasching.jpg?v=1',
+    image: '/images/staff/Brigitte_Fasching-v2.jpg',
     roles: ['administrator'],
   },
   {
@@ -95,7 +95,7 @@ export const persons: Person[] = [
     position: 'Verwaltungsassistentin',
     email: 'frauke.raetz@walz.at',
     phone: '01/804 29 39 - DW 1013',
-    image: '/images/staff/frauke_raetz.jpg?v=1',
+    image: '/images/staff/Frauke_Raetz-v2.jpg',
     roles: ['administrator'],
   },
   {
