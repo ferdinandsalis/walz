@@ -14,7 +14,7 @@ function postFromModule(mod: any) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  return json([postFromModule(postC), postFromModule(postB)])
+  return json([postFromModule(postB)])
 }
 
 export default function Index() {
