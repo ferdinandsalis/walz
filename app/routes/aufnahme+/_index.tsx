@@ -2,6 +2,7 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { costs } from '#app/data/costs.ts'
+import { cn } from '#app/utils/misc.tsx'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
 
 export default function Aufnahme() {
@@ -154,10 +155,17 @@ export default function Aufnahme() {
             Für das Schuljahr 2023/2024 gelten für die Walz folgende Beträge:
           </p>
           <div className="mb-8 max-w-prose text-base">
-            <dl className="grid grid-cols-1 gap-8">
-              {costs.map(cost => {
+            <dl className="grid grid-cols-1 gap-2">
+              {costs.map((cost, idx) => {
+                const first = idx === 0
+
                 return (
-                  <div className="border-t border-t-border">
+                  <div
+                    className={cn('-mx-4 p-4', {
+                      'rounded bg-card/80': first,
+                    })}
+                    key={cost.name}
+                  >
                     <div className="grid grid-cols-2 py-2">
                       <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">

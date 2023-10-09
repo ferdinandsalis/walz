@@ -108,11 +108,14 @@ export default function Home() {
             <h1 className="xl:text-4xl mb-1 max-w-xs font-condensed text-2xl font-bold leading-tight text-white md:text-3xl lg:text-3xl">
               {news.title}
             </h1>
-            <time className="font-condensed text-card">
-              {new Date(news.publishedAt).toLocaleString('de-AT', {
-                dateStyle: 'medium',
-              })}
-            </time>
+            <p className="font-condensed text-card/70">
+              Veröffentlicht am{' '}
+              <time className="">
+                {new Date(news.publishedAt).toLocaleString('de-AT', {
+                  dateStyle: 'medium',
+                })}
+              </time>
+            </p>
             <p className="mt-2 max-w-sm text-lg leading-snug md:text-xl lg:text-2xl">
               {news.abstract} <span>…</span>
             </p>
