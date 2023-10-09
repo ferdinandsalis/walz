@@ -1,10 +1,10 @@
 export const costs = [
   {
-    name: 'Schulbeitrag',
+    name: 'Schulgeld',
     multiplier: 12,
     cost: 650,
     interval: 'MONTHLY',
-    description: 'Der Beitrag für den Unterricht und die Betreuung in der Walz. Wird monatlich bezahlt.'
+    description: 'Für den Unterricht und die Ganztagesbetreuung in der Walz.'
   },
   {
     name: 'Aufnahmebeitrag',
