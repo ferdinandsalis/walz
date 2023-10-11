@@ -4,7 +4,7 @@ import animatePlugin from 'tailwindcss-animate'
 import radixPlugin from 'tailwindcss-radix'
 
 export default {
-  content: ['./app/**/*.{js,ts,jsx,tsx}'],
+  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   darkMode: 'class',
   theme: {
     container: {
