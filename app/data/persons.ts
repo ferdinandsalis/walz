@@ -179,7 +179,7 @@ export const persons: Person[] = [
     email: null,
     phone: null,
     image: '/images/staff/Sabine_Kaiser.jpg',
-    website: null,
+    website: 'www.isib.org',
     roles: ['therapeut'],
   },
   {

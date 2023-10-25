@@ -33,11 +33,17 @@ export const dates = [
     description: 'Der Jahrgang Theta spielt „Einer flog übers Kuckucksnest“',
   },
   {
-    title: 'Präsentation Theaterwerkstatt',
+    title: 'Theateraufführung',
     startDate: new Date('2023-11-16'),
-    startTime: '19:00',
+    startTime: '18:00 und 19:30',
     type: 'internal',
-    description: 'Präsentation der Theaterwerkstatt des Jahrgangs Psi.',
+    description: `
+Wir möchten Sie herzlich ins Theater einladen:
+Eines Tages ist er einfach da: Lucas. Niemand weiß, wer er ist, woher er kommt.
+Misstrauisch beobachten die Inselbewohner den Fremden und hängen ihm
+jede Schandtat an, die auf der Insel passiert. Eine Hetzjagd beginnt.
+Eine Theaterproduktion des Jahrgangs Psi 3.
+`
   },
   {
     title: 'Infoabend',
