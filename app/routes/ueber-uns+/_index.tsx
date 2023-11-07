@@ -137,10 +137,10 @@ export default function UeberUns() {
                     Psychotherapeutin für Gespräche mit den Jugendlichen zur
                     Verfügung. Zusätzlich runden wir das Angebot mit
                     Stressbewältigungstechniken, Drogenpräventionsprogrammen,
-                    Bewegungstherapie und „Therapeutic Touch“ ab. Wir bieten
-                    Aufklärungsseminare und Elternabende an, um das Wohlbefinden
-                    und die persönliche Entwicklung aller Beteiligten zu
-                    fördern.
+                    „Systemische und Integrative Bewegungslehre“ und
+                    „Therapeutic Touch“ ab. Wir bieten Aufklärungsseminare und
+                    Elternabende an, um das Wohlbefinden und die persönliche
+                    Entwicklung aller Beteiligten zu fördern.
                   </p>
                 </div>
                 <StaffRoll>
