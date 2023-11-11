@@ -4,11 +4,9 @@ const schema = z.object({
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
   SENTRY_DSN: z.string(),
   GOOGLE_MAPS_API_KEY: z.string(),
-  // DATABASE_PATH: z.string(),
-  // DATABASE_URL: z.string(),
-  // SESSION_SECRET: z.string(),
-  // INTERNAL_COMMAND_TOKEN: z.string(),
-  // CACHE_DATABASE_PATH: z.string(),
+  SANITY_PUBLIC_PROJECT_ID: z.string(),
+  SANITY_PUBLIC_DATASET: z.string(),
+  SANITY_PUBLIC_API_VERSION: z.string(),
 })
 
 declare global {
@@ -44,6 +42,9 @@ export function getEnv() {
     MODE: process.env.NODE_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+    SANITY_PUBLIC_PROJECT_ID: process.env.SANITY_PUBLIC_PROJECT_ID,
+    SANITY_PUBLIC_DATASET: process.env.SANITY_PUBLIC_DATASET,
+    SANITY_PUBLIC_API_VERSION: process.env.SANITY_PUBLIC_API_VERSION,
   }
 }
 

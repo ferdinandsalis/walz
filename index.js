@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { installGlobals } from '@remix-run/node'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'

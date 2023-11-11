@@ -1,18 +1,16 @@
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
+import { projectDetails } from '#app/sanity/project-details.ts'
+import { schemaTypes } from '#app/sanity/schema/index.ts'
 
-import { projectDetails } from '~/sanity/projectDetails'
-import schema from '~/sanity/schema'
-import { defaultDocumentNode, structure } from '~/sanity/structure'
-
-export const config = defineConfig({
+export default defineConfig({
   ...projectDetails(),
-  name: 'sanity-remix',
-  title: 'Sanity Remix',
-  plugins: [deskTool({ structure, defaultDocumentNode }), visionTool()],
+  name: 'walz',
+  title: 'Walz',
+  plugins: [deskTool(), visionTool()],
   basePath: `/studio`,
   schema: {
-    types: schema,
+    types: schemaTypes,
   },
 })

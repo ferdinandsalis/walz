@@ -1,6 +1,5 @@
 import { defineCliConfig } from 'sanity/cli'
-
-import { projectDetails } from '~/sanity/projectDetails'
+import { projectDetails } from '#app/sanity/project-details.ts'
 
 export default defineCliConfig({
   api: projectDetails(),

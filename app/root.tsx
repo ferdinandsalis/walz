@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
@@ -72,44 +73,61 @@ function Document({
 }
 
 function App() {
+  const { pathname } = useLocation()
+  const isStudioRoute = pathname.startsWith('/studio')
+
   return (
     <Document>
-      <div className="flex min-h-screen flex-col">
-        <Collapsible>
-          <header className="2xl:my-16 container my-8 flex flex-col space-y-8 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12">
-            <div className="flex flex-1 items-center justify-between">
-              <Link
-                to="/"
-                className="group flex items-center gap-2 outline-none"
-                tabIndex={-1}
-              >
-                <LogoSymbol className="relative top-1 w-10 text-primary" />
-                <LogoType className="w-20 fill-foreground/80" />
-              </Link>
-              <CollapsibleTrigger className="relative top-1 rounded-md bg-card/50 p-2 hover:bg-card md:hidden">
-                <MenuIcon className="stroke-primary" />
-              </CollapsibleTrigger>
-            </div>
-            <CollapsibleContent className="md:hidden">
-              <Navigation />
-            </CollapsibleContent>
-            <div className="hidden md:block">
-              <Navigation />
-            </div>
-          </header>
-        </Collapsible>
-
-        <div className="container relative flex-1 px-4 sm:px-8 md:px-12">
+      {isStudioRoute ? (
+        <div className="grid min-h-screen">
           <Outlet />
         </div>
+      ) : (
+        <Layout>
+          <Outlet />
+        </Layout>
+      )}
+    </Document>
+  )
+}
 
-        <div className="mt-24 bg-muted/40">
-          <div className="px-4 sm:px-8 md:px-12">
-            <Footer />
+function Layout({ children }: any) {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Collapsible>
+        <header className="2xl:my-16 container my-8 flex flex-col space-y-8 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12">
+          <div className="flex flex-1 items-center justify-between">
+            <Link
+              to="/"
+              className="group flex items-center gap-2 outline-none"
+              tabIndex={-1}
+            >
+              <LogoSymbol className="relative top-1 w-10 text-primary" />
+              <LogoType className="w-20 fill-foreground/80" />
+            </Link>
+            <CollapsibleTrigger className="relative top-1 rounded-md bg-card/50 p-2 hover:bg-card md:hidden">
+              <MenuIcon className="stroke-primary" />
+            </CollapsibleTrigger>
           </div>
+          <CollapsibleContent className="md:hidden">
+            <Navigation />
+          </CollapsibleContent>
+          <div className="hidden md:block">
+            <Navigation />
+          </div>
+        </header>
+      </Collapsible>
+
+      <div className="container relative flex-1 px-4 sm:px-8 md:px-12">
+        {children}
+      </div>
+
+      <div className="mt-24 bg-muted/40">
+        <div className="px-4 sm:px-8 md:px-12">
+          <Footer />
         </div>
       </div>
-    </Document>
+    </div>
   )
 }
 
