@@ -386,7 +386,7 @@ export const persons: Person[] = [
   {
     name: 'Andrea Schuster',
     position: 'Skills & Mathematikunterstützung',
-    email: 'andrea.schuster@walz.at',
+    email: null,
     phone: null,
     image: '/images/staff/Andrea_Schuster.jpg',
     website: null,
