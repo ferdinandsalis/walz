@@ -26,7 +26,7 @@ export const persons: Person[] = [
   },
   {
     name: 'Agnes Chorherr',
-    position: 'Assistentin der pädagogischen Leiterin',
+    position: 'Organisation und Koordination',
     email: 'agnes.chorherr@walz.at',
     phone: '01/804 29 39 - DW 1012',
     image: '/images/staff/Agnes_Chorherr.jpg',
@@ -390,7 +390,7 @@ export const persons: Person[] = [
     phone: null,
     image: '/images/staff/Andrea_Schuster.jpg',
     website: null,
-    roles: ['project_leader'],
+    roles: ['project leader'],
   },
   {
     name: 'Julia Silber',
