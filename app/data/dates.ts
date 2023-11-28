@@ -64,7 +64,15 @@ Eine Theaterproduktion des Jahrgangs Psi 3.
     startDate: new Date('2023-12-19'),
     startTime: '18:00',
     type: 'internal',
-    description: 'Der Jahrgang Beta spielt vor und hinter der Schattenleinwand.'
+    description: `
+Wir laden herzlich zu einer Inszenierung für Kinder und Junggebliebene ein:
+
+Menschenschattentheater vor und hinter der Leinwand, in seiner Schlichtheit magisch und zauberhaft – gleich einem riesigen, lebendig gewordenen Bilderbuch aus Scherenschnitten.
+
+Unter der Leitung des Regisseurs und Theaterpädagogen Jürgen Matzat werden die Jugendlichen des jüngsten Walz-Jahrgangs Beta 1 diese Produktion erarbeiten.
+
+Mit fachkundiger Begleitung werden fantasievolle Kostüme und eindrucksvolle Dia-Projektionen kreiert. Das Stück ist für Kinder ab 6 Jahren geeignet – daher beginnen wir schon um 18:00 Uhr.
+Der Jahrgang Beta spielt vor und hinter der Schattenleinwand.`
   },
   {
     title: 'Infoabend',

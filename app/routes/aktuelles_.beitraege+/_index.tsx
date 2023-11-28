@@ -2,6 +2,7 @@
 import { LoaderArgs, json } from '@remix-run/node'
 import * as postB from './infoabend.mdx'
 import * as postD from './20231009_praktikum.mdx'
+import * as postE from './20231128_ingenieur_ohne_grenzen.mdx'
 import { Link, useLoaderData } from '@remix-run/react'
 
 function postFromModule(mod: any) {
@@ -14,7 +15,11 @@ function postFromModule(mod: any) {
 }
 
 export async function loader({ request }: LoaderArgs) {
-  return json([postFromModule(postD), postFromModule(postB)])
+  return json([
+    postFromModule(postE),
+    postFromModule(postD),
+    postFromModule(postB),
+  ])
 }
 
 export default function Index() {
