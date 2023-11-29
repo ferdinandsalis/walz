@@ -16,7 +16,7 @@ function postFromModule(mod: any) {
 
 export async function loader({ request }: LoaderArgs) {
   return json([
-    // postFromModule(postE),
+    postFromModule(postE),
     postFromModule(postD),
     postFromModule(postB),
   ])

@@ -72,7 +72,7 @@ Menschenschattentheater vor und hinter der Leinwand, in seiner Schlichtheit magi
 Unter der Leitung des Regisseurs und Theaterpädagogen Jürgen Matzat werden die Jugendlichen des jüngsten Walz-Jahrgangs Beta 1 diese Produktion erarbeiten.
 
 Mit fachkundiger Begleitung werden fantasievolle Kostüme und eindrucksvolle Dia-Projektionen kreiert. Das Stück ist für Kinder ab 6 Jahren geeignet – daher beginnen wir schon um 18:00 Uhr.
-Der Jahrgang Beta spielt vor und hinter der Schattenleinwand.`
+`
   },
   {
     title: 'Infoabend',

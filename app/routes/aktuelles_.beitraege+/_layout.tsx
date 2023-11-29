@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@remix-run/react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 export default function Page() {
   return (
@@ -17,7 +17,9 @@ export default function Page() {
         />
       </Link>
 
-      <Outlet />
+      <div className="post">
+        <Outlet />
+      </div>
     </div>
   )
 }

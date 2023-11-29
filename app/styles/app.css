@@ -42,6 +42,7 @@
 }
 
 .prose {
+  @apply max-w-prose;
   h1 {
     @apply mb-4 font-condensed text-4xl font-bold text-primary;
   }
@@ -50,12 +51,17 @@
     @apply font-condensed text-2xl font-bold;
   }
 
-  p {
-    @apply max-w-prose;
+  ul {
+    @apply list-inside list-disc;
   }
 
   p:not(:last-child) {
     @apply mb-4;
+  }
+
+  a {
+    @apply text-secondary;
+    text-decoration: underline;
   }
 }
 
