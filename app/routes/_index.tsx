@@ -106,7 +106,7 @@ export default function Home() {
           </h1>
           <article className="relative max-w-prose rounded-lg bg-secondary p-6 shadow-md shadow-slate-400">
             <h1 className="xl:text-4xl mb-1 max-w-xs font-condensed text-2xl font-bold leading-tight text-white md:text-3xl lg:text-3xl">
-              {news.title}
+              <Link to={news.to}>{news.title}</Link>
             </h1>
             <p className="font-condensed text-card/70">
               Veröffentlicht am{' '}
