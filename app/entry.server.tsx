@@ -1,4 +1,4 @@
-import { Response, type HandleDocumentRequestFunction } from '@remix-run/node'
+import { type HandleDocumentRequestFunction } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import isbot from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
