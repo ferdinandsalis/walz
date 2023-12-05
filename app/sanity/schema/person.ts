@@ -11,25 +11,45 @@ export default {
       type: 'image',
       title: 'Portrait',
     },
+
+    {
+      name: 'description',
+      type: 'string',
+      title: 'Beschreibung',
+    },
+
     {
       name: 'roles',
+      title: 'Rolle(n)',
       type: 'array',
       of: [
         {
           type: 'string',
         },
       ],
+      options: {
+        layout: 'radio',
+        list: [
+          { title: 'Leitung', value: 'leadership' },
+          { title: 'Mentor', value: 'mentor' },
+          { title: 'Projektleiter', value: 'project_lead' },
+          { title: 'Administrator', value: 'administrator' },
+          { title: 'Therapeut', value: 'therapist' },
+        ]
+      }
     },
+
     {
       name: 'givenNames',
       type: 'string',
-      title: 'Given Names',
+      title: 'Vorname(n)',
     },
     {
       name: 'familyName',
       type: 'string',
-      title: 'Family Name',
+      title: 'Nachname',
     },
+
     {
       name: 'email',
       type: 'string',
@@ -38,12 +58,12 @@ export default {
     {
       name: 'phone',
       type: 'string',
-      title: 'Phone',
+      title: 'Telefon',
     },
     {
       name: 'website',
-      type: 'string',
-      title: 'Website',
+      type: 'url',
+      title: 'Webseite',
     },
   ],
 }
