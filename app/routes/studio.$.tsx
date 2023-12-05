@@ -1,10 +1,10 @@
-import type { LinksFunction, V2_MetaFunction } from '@remix-run/node'
+import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import { Studio } from 'sanity'
 import { Hydrated } from '#app/components/hydrated.tsx'
 import studio from '#app/styles/studio.css'
 import config from '../../sanity.config.ts'
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
   { title: 'Walz Studio' },
   { name: 'robots', content: 'noindex' },
 ]
