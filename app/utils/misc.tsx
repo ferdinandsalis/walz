@@ -1,6 +1,7 @@
 import clsx, { ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { extendTailwindMerge } from 'tailwind-merge'
 import { curry } from 'ramda'
+import { extendedTheme } from './extended-theme.ts'
 
 export function getErrorMessage(error: unknown) {
   if (typeof error === 'string') return error
@@ -16,8 +17,66 @@ export function getErrorMessage(error: unknown) {
   return 'Unknown Error'
 }
 
+function formatColors() {
+  const colors = []
+  for (const [key, color] of Object.entries(extendedTheme.colors)) {
+    if (typeof color === 'string') {
+      colors.push(key)
+    } else {
+      const colorGroup = Object.keys(color).map(subKey =>
+        subKey === 'DEFAULT' ? '' : subKey,
+      )
+      colors.push({ [key]: colorGroup })
+    }
+  }
+  return colors
+}
+
+const customTwMerge = extendTailwindMerge<string, string>({
+  extend: {
+    theme: {
+      colors: formatColors(),
+      borderRadius: Object.keys(extendedTheme.borderRadius),
+    },
+    classGroups: {
+      'font-size': [
+        {
+          text: Object.keys(extendedTheme.fontSize),
+        },
+      ],
+      animate: [
+        {
+          animate: Object.keys(extendedTheme.animation),
+        },
+      ],
+    },
+  },
+})
+
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return customTwMerge(clsx(inputs))
+}
+
+export function getDomainUrl(request: Request) {
+  const host =
+    request.headers.get('X-Forwarded-Host') ??
+    request.headers.get('host') ??
+    new URL(request.url).host
+  const protocol = host.includes('localhost') ? 'http' : 'https'
+  return `${protocol}://${host}`
+}
+
+export function getReferrerRoute(request: Request) {
+  const referrer =
+    request.headers.get('referer') ??
+    request.headers.get('referrer') ??
+    request.referrer
+  const domain = getDomainUrl(request)
+  if (referrer?.startsWith(domain)) {
+    return referrer.slice(domain.length)
+  } else {
+    return '/'
+  }
 }
 
 const shuffler = curry(function (random, list) {
