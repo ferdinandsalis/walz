@@ -1,3 +1,5 @@
+import { SchemaTypeDefinition } from "sanity";
+
 export default {
   name: 'person',
   title: 'Person',
@@ -16,6 +18,7 @@ export default {
       name: 'description',
       type: 'string',
       title: 'Beschreibung',
+      validation: Rule => Rule.required().min(8).max(40)
     },
 
     {
@@ -36,18 +39,21 @@ export default {
           { title: 'Administrator', value: 'administrator' },
           { title: 'Therapeut', value: 'therapist' },
         ]
-      }
+      },
+      validation: Rule => [Rule.required()],
     },
 
     {
       name: 'givenNames',
       type: 'string',
       title: 'Vorname(n)',
+      validation: Rule => Rule.required()
     },
     {
       name: 'familyName',
       type: 'string',
       title: 'Nachname',
+      validation: Rule => [Rule.required()]
     },
 
     {
@@ -66,4 +72,4 @@ export default {
       title: 'Webseite',
     },
   ],
-}
+} as SchemaTypeDefinition
