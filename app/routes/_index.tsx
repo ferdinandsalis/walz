@@ -9,11 +9,10 @@ import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
 import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { LoaderArgs, json } from '@remix-run/node'
+import { DataFunctionArgs, json } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
-import { date } from 'zod'
 
-export async function loader(loaderArgs: LoaderArgs) {
+export async function loader(loaderArgs: DataFunctionArgs) {
   const response = await newsLoader(loaderArgs)
   const data = await response.json()
 
@@ -60,7 +59,10 @@ export default function Home() {
                 dates.filter(date => date.startDate > new Date()),
               ).map(date => {
                 return (
-                  <p className="font-condensed font-bold">
+                  <p
+                    key={`${date.startDate}_${date.title}`}
+                    className="font-condensed font-bold"
+                  >
                     <span className="">{date.title}</span> am{' '}
                     <time dateTime={date.startDate.toISOString()} className="">
                       {date.startDate.toLocaleDateString('de-AT', {
