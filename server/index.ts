@@ -11,7 +11,7 @@ import {
   type ServerBuild,
 } from '@remix-run/node'
 import { wrapExpressCreateRequestHandler } from '@sentry/remix'
-import address from 'address'
+import { ip } from 'address'
 import chalk from 'chalk'
 import chokidar from 'chokidar'
 import closeWithGrace from 'close-with-grace'
@@ -19,7 +19,6 @@ import compression from 'compression'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
-import helmet from 'helmet'
 import morgan from 'morgan'
 
 // @ts-ignore - this file may not exist if you haven't built yet, but it will
@@ -194,8 +193,8 @@ const server = app.listen(portToUse, () => {
     desiredPort === portToUse
       ? desiredPort
       : addy && typeof addy === 'object'
-        ? addy.port
-        : 0
+      ? addy.port
+      : 0
 
   if (portUsed !== desiredPort) {
     console.warn(
@@ -207,7 +206,7 @@ const server = app.listen(portToUse, () => {
   console.log(`🚀  We have liftoff!`)
   const localUrl = `http://localhost:${portUsed}`
   let lanUrl: string | null = null
-  const localIp = address.ip()
+  const localIp = ip() || ''
   // Check if the address is a private ip
   // https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
   // https://github.com/facebook/create-react-app/blob/d960b9e38c062584ff6cfb1a70e1512509a966e7/packages/react-dev-utils/WebpackDevServerUtils.js#LL48C9-L54C10
