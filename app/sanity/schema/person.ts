@@ -71,4 +71,15 @@ export default {
       title: 'Webseite',
     },
   ],
+  preview: {
+    select: {
+      givenNames: 'givenNames',
+      familyName: 'familyName',
+      portrait: 'portrait',
+    },
+    prepare(selection) {
+      const { givenNames, familyName, portrait } = selection
+      return { media: portrait, title: `${familyName}, ${givenNames}` }
+    },
+  },
 } as SchemaTypeDefinition

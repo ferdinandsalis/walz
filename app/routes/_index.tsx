@@ -321,7 +321,7 @@ export function LinkPhotoCard({
 export function Newsletter() {
   const fetcher = useFetcher()
   const showSpinner = useSpinDelay(fetcher.state !== 'idle')
-  const done = fetcher.data
+  const done = !!fetcher.data
 
   return (
     <fetcher.Form
@@ -344,7 +344,7 @@ export function Newsletter() {
           type="email"
           placeholder="E-Mail"
           disabled={done}
-          defaultValue={done && ''}
+          defaultValue={done ? '' : undefined}
           className="rounded-lg bg-white p-6 text-xl shadow-md"
         />
       </div>

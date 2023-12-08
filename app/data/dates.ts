@@ -19,11 +19,12 @@ export const dates = [
       {
         title: 'Flyer Tag der offenen Tür 2023',
         href: '/downloads/flyer-tatue-2023.pdf',
-        download: true
-      }
+        download: true,
+      },
     ],
     type: 'internal',
-    description: 'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und die Besonderheiten der Walz kennenlernen. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen. Um 18:00 findet dann eine Theateraufführung in unserem Theatersaal statt: Der Jahrgang Theta zeigt „Einer flog übers Kuckucksnest“.'
+    description:
+      'Die Walz stellt sich vor! Du kannst bei Workshops in Fremdsprachen, Projektpräsentationen und vielem mehr unseren Arbeitsalltag und die Besonderheiten der Walz kennenlernen. Gerne führt dich auch ein Walzist oder eine Walzistin durch die Gebäude und beantwortet deine Fragen. Um 18:00 findet dann eine Theateraufführung in unserem Theatersaal statt: Der Jahrgang Theta zeigt „Einer flog übers Kuckucksnest“.',
   },
   {
     title: 'Theateraufführung',
@@ -43,7 +44,7 @@ Eines Tages ist er einfach da: Lucas. Niemand weiß, wer er ist, woher er kommt.
 Misstrauisch beobachten die Inselbewohner den Fremden und hängen ihm
 jede Schandtat an, die auf der Insel passiert. Eine Hetzjagd beginnt.
 Eine Theaterproduktion des Jahrgangs Psi 3.
-`
+`,
   },
   {
     title: 'Infoabend',
@@ -53,8 +54,8 @@ Eine Theaterproduktion des Jahrgangs Psi 3.
     links: [
       {
         title: 'Aufnahme',
-        href: '/aufnahme'
-      }
+        href: '/aufnahme',
+      },
     ],
     description:
       'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
@@ -72,7 +73,7 @@ Menschenschattentheater vor und hinter der Leinwand, in seiner Schlichtheit magi
 Unter der Leitung des Regisseurs und Theaterpädagogen Jürgen Matzat werden die Jugendlichen des jüngsten Walz-Jahrgangs Beta 1 diese Produktion erarbeiten.
 
 Mit fachkundiger Begleitung werden fantasievolle Kostüme und eindrucksvolle Dia-Projektionen kreiert. Das Stück ist für Kinder ab 6 Jahren geeignet – daher beginnen wir schon um 18:00 Uhr.
-`
+`,
   },
   {
     title: 'Infoabend',
@@ -84,8 +85,8 @@ Mit fachkundiger Begleitung werden fantasievolle Kostüme und eindrucksvolle Dia
     links: [
       {
         title: 'Aufnahme',
-        href: '/aufnahme'
-      }
+        href: '/aufnahme',
+      },
     ],
   },
   {

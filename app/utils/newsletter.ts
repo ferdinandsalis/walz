@@ -1,12 +1,16 @@
-import Airtable from 'airtable';
+import Airtable from 'airtable'
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base('app59t58w2ZkjdkfV');
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  'app59t58w2ZkjdkfV',
+)
 
 function searchByEmail(email: string) {
-  return base('Emails').select({
-    maxRecords: 1,
-    filterByFormula: `{email} = '${email}'`
-  }).all()
+  return base('Emails')
+    .select({
+      maxRecords: 1,
+      filterByFormula: `{email} = '${email}'`,
+    })
+    .all()
 }
 
 export async function addEmail(email: string) {
@@ -17,10 +21,9 @@ export async function addEmail(email: string) {
 
   return base('Emails').create([
     {
-      "fields": {
-        "email": email
-      }
+      fields: {
+        email: email,
+      },
     },
   ])
 }
-
