@@ -9,7 +9,7 @@ import {
   installGlobals
 } from "@remix-run/node";
 import { wrapExpressCreateRequestHandler } from "@sentry/remix";
-import address from "address";
+import { ip } from "address";
 import chalk from "chalk";
 import chokidar from "chokidar";
 import closeWithGrace from "close-with-grace";
@@ -143,7 +143,7 @@ const server = app.listen(portToUse, () => {
   console.log(`\u{1F680}  We have liftoff!`);
   const localUrl = `http://localhost:${portUsed}`;
   let lanUrl = null;
-  const localIp = address.ip();
+  const localIp = ip() || "";
   if (/^10[.]|^172[.](1[6-9]|2[0-9]|3[0-1])[.]|^192[.]168[.]/.test(localIp)) {
     lanUrl = `http://${localIp}:${portUsed}`;
   }
