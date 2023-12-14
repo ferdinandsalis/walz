@@ -33,7 +33,7 @@ export default function Legal() {
               <dt className="font-bold">
                 Für den Inhalt der Seite verantwortlich
               </dt>
-              <dd>Andrea Schuster</dd>
+              <dd>Agnes Chorherr</dd>
             </div>
             <div>
               <dt className="font-bold">Design &amp; technische Umsetzung</dt>
