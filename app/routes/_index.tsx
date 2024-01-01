@@ -29,7 +29,7 @@ export default function Home() {
         <h1 className="sr-only">Einleitung</h1>
         <div className="col-end col-start-1 row-start-1">
           <img
-            src="/images/walz-draussen.jpg"
+            src="/images/walz-ski-tour.jpg"
             alt="Walz draussen"
             className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
           />
