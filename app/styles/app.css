@@ -8,10 +8,8 @@
   }
 
   :root {
-    --font-sans: 'museo-sans', sans-serif;
-    --font-condensed: 'museo-sans-condensed';
-    --font-mono: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New',
-      'monospace';
+    --font-sans: 'Museo Sans', 'Museo Sans Fallback';
+    --font-condensed: 'Museo Sans Condensed', 'Museo Sans Condensed Fallback';
 
     --background: 60 5% 96%;
     --foreground: 28 9% 10%;

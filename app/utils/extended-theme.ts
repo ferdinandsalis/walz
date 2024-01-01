@@ -7,8 +7,8 @@ export const extendedTheme = {
     sm: 'calc(var(--radius) - 4px)',
   },
   fontFamily: {
-    sans: ['museo-sans', ...defaultTheme.fontFamily.sans],
-    condensed: ['museo-sans-condensed', 'Arial', 'sans-serif'],
+    sans: ['Museo Sans', 'Museo Sans Fallback'],
+    condensed: ['Museo Sans Condensed', 'Museo Sans Condensed Fallback'],
   },
   fontSize: {
     // 1rem = 16px

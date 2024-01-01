@@ -11,7 +11,8 @@ import {
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
-import styles from './styles/app.css'
+import appStyleSheetUrl from './styles/app.css'
+import fontStyleSheetUrl from './styles/font.css'
 import { Footer, Navigation } from './components/shell.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { MenuIcon } from 'lucide-react'
@@ -23,8 +24,10 @@ import {
 
 export function links() {
   return [
-    { rel: 'stylesheet', href: styles },
-    { rel: 'stylesheet', href: 'https://use.typekit.net/jlg5amm.css' },
+    { rel: 'preload', href: appStyleSheetUrl, as: 'style' },
+    { rel: 'stylesheet', href: appStyleSheetUrl },
+    { rel: 'preload', href: fontStyleSheetUrl, as: 'style' },
+    { rel: 'stylesheet', href: fontStyleSheetUrl },
   ]
 }
 
