@@ -9,14 +9,26 @@ import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
 import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { DataFunctionArgs, json } from '@remix-run/node'
+import { LoaderFunctionArgs, json } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
+import { loadQuery } from '#app/sanity/loader.server.ts'
+import { QUERY } from './__index-query.ts'
+import { urlFor } from '#app/sanity/instance.ts'
 
-export async function loader(loaderArgs: DataFunctionArgs) {
+export async function loader(loaderArgs: LoaderFunctionArgs) {
   const response = await newsLoader(loaderArgs)
   const data = await response.json()
+  const hero = await loadQuery<{
+    _id: string
+    _type: string
+    title?: string
+    mainImage: string
+  }>(QUERY)
 
-  return json({ news: data.length >= 1 ? data[0] : null })
+  return json({
+    news: data.length >= 1 ? data[0] : null,
+    hero: hero.data,
+  })
 }
 
 export default function Home() {
@@ -28,11 +40,23 @@ export default function Home() {
       <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12">
         <h1 className="sr-only">Einleitung</h1>
         <div className="col-end col-start-1 row-start-1">
-          <img
-            src="/images/walz-ski-tour.jpg"
-            alt="Walz draussen"
-            className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
-          />
+          <picture>
+            <source
+              srcSet={urlFor(loaderData.hero.mainImage)
+                .quality(70)
+                .width(800)
+                .url()}
+              media="(max-width: 800px)"
+            />
+            <img
+              src={urlFor(loaderData.hero.mainImage)
+                .quality(70)
+                .width(1800)
+                .url()}
+              alt="Walz draussen"
+              className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
+            />
+          </picture>
         </div>
 
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">

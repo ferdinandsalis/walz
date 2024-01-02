@@ -1,10 +1,6 @@
 import { createClient } from '@sanity/client'
-import { projectDetails } from '~/sanity/project-details'
-
-export const client = createClient({
-  ...projectDetails(),
-  useCdn: true,
-})
+import { projectDetails } from '#app/sanity/project-details.ts'
+import { client } from './client.client.ts'
 
 export const previewClient = createClient({
   ...projectDetails(),

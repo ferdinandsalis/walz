@@ -1,4 +1,4 @@
-import type { MetaFunction } from '@remix-run/node'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -7,6 +7,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  json,
+  useLoaderData,
   useLocation,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
@@ -21,6 +23,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './components/ui/collapsible.tsx'
+import { getDomainUrl } from './utils/misc.tsx'
+import { getEnv } from './utils/env.server.ts'
 
 export function links() {
   return [
@@ -33,6 +37,16 @@ export function links() {
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Walz' }]
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  return json({
+    requestInfo: {
+      origin: getDomainUrl(request),
+      path: new URL(request.url).pathname,
+    },
+    ENV: getEnv(),
+  })
 }
 
 function Document({
@@ -77,10 +91,11 @@ function Document({
 
 function App() {
   const { pathname } = useLocation()
+  const loaderData = useLoaderData<typeof loader>()
   const isStudioRoute = pathname.startsWith('/studio')
 
   return (
-    <Document>
+    <Document env={loaderData.ENV}>
       {isStudioRoute ? (
         <div className="grid min-h-screen">
           <Outlet />
