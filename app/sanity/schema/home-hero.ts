@@ -4,9 +4,6 @@ export default {
   name: 'home-hero',
   title: 'Home Hero',
   type: 'document',
-  options: {
-    hotspot: true,
-  },
   fields: [
     defineField({
       name: 'title',
