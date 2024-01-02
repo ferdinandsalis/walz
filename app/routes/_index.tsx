@@ -22,7 +22,7 @@ export async function loader(loaderArgs: LoaderFunctionArgs) {
     _id: string
     _type: string
     title?: string
-    mainImage: string
+    image: string
   }>(QUERY)
 
   return json({
@@ -42,17 +42,14 @@ export default function Home() {
         <div className="col-end col-start-1 row-start-1">
           <picture>
             <source
-              srcSet={urlFor(loaderData.hero.mainImage)
+              srcSet={urlFor(loaderData.hero.image)
                 .quality(70)
                 .width(800)
                 .url()}
               media="(max-width: 800px)"
             />
             <img
-              src={urlFor(loaderData.hero.mainImage)
-                .quality(70)
-                .width(1800)
-                .url()}
+              src={urlFor(loaderData.hero.image).quality(70).width(1800).url()}
               alt="Walz draussen"
               className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
             />
