@@ -1,5 +1,5 @@
 import { SectionHeading } from '#app/components/section-heading.tsx'
-import { Outlet, useMatch, useMatches } from '@remix-run/react'
+import { MetaFunction, Outlet, useMatches } from '@remix-run/react'
 
 import { handle as educationHandle } from './philosophie.bildung.tsx'
 import { handle as personalityHandle } from './philosophie.persoenlichkeit.tsx'
@@ -7,6 +7,10 @@ import { handle as practiceHandle } from './philosophie.praxis.tsx'
 import { LinkPhotoCard } from '../_index.tsx'
 
 export const pillars = [educationHandle, personalityHandle, practiceHandle]
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Philosophie | Walz' }]
+}
 
 export default function Philosophie() {
   const matches = useMatches()

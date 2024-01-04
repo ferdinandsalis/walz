@@ -1,9 +1,15 @@
+import { MetaFunction } from '@remix-run/node'
+
 export const handle = {
   id: 'persoenlichkeit',
   title: 'Persönlichkeit',
   abstract: 'Potenziale entfalten',
   image: '/images/persoenlichkeit_theater.jpg',
   link: '/ueber-uns/philosophie/persoenlichkeit',
+}
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Philosophie: Persönlichkeit | Walz' }]
 }
 
 export default function Persoenlichkeit() {

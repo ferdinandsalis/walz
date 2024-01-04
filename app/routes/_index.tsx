@@ -4,36 +4,34 @@ import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { testimonials } from '#app/data/testimonials.ts'
 import { Link, useFetcher, useLoaderData } from '@remix-run/react'
-import { ArrowRight, CalendarClockIcon, LoaderIcon } from 'lucide-react'
+import {
+  ArrowRight,
+  CalendarClockIcon,
+  ExternalLinkIcon,
+  LoaderIcon,
+} from 'lucide-react'
 import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
-import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
 import { pillars } from './ueber-uns+/philosophie.tsx'
 import { LoaderFunctionArgs, json } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
-import { QUERY } from './__index-query.ts'
+import { query, QueryResult } from './_index.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 
-export async function loader(loaderArgs: LoaderFunctionArgs) {
-  const response = await newsLoader(loaderArgs)
-  const data = await response.json()
-  const hero = await loadQuery<{
-    _id: string
-    _type: string
-    title?: string
-    image: string
-  }>(QUERY)
+export async function loader(_loaderArgs: LoaderFunctionArgs) {
+  const queryResult = await loadQuery<QueryResult>(query)
 
   return json({
-    news: data.length >= 1 ? data[0] : null,
-    hero: hero.data,
+    query,
+    data: queryResult.data,
   })
 }
 
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()
-  const news = loaderData.news
+  const latestPost = loaderData.data.posts[0]
+  const hero = loaderData.data.hero
 
   return (
     <div className="space-y-16 md:space-y-20 lg:space-y-24">
@@ -42,14 +40,11 @@ export default function Home() {
         <div className="col-end col-start-1 row-start-1">
           <picture>
             <source
-              srcSet={urlFor(loaderData.hero.image)
-                .quality(70)
-                .width(800)
-                .url()}
+              srcSet={urlFor(hero.image).quality(70).width(800).url()}
               media="(max-width: 800px)"
             />
             <img
-              src={urlFor(loaderData.hero.image).quality(70).width(1800).url()}
+              src={urlFor(hero.image).quality(70).width(1800).url()}
               alt="Walz draussen"
               className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
             />
@@ -116,7 +111,7 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Was ist die Walz?
           </h1>
-          <p className="xl:text-3xl max-w-xl text-lg leading-relaxed md:text-xl lg:text-3xl">
+          <p className="max-w-xl text-body-md leading-relaxed md:text-body-lg lg:text-body-xl">
             In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
             geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
             ausloten und werden auf die Matura vorbereitet.
@@ -127,25 +122,27 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Aktuelles
           </h1>
-          <article className="relative max-w-prose rounded-lg bg-secondary p-6 shadow-md shadow-slate-400">
-            <h1 className="xl:text-4xl mb-1 max-w-xs font-condensed text-2xl font-bold leading-tight text-white md:text-3xl lg:text-3xl">
-              <Link to={news.to}>{news.title}</Link>
+          <article className="relative max-w-prose rounded-lg bg-white p-6 shadow-md shadow-gray-200">
+            <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
+              <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
+                {latestPost.title}
+              </Link>
             </h1>
-            <p className="font-condensed text-card/70">
+            <p className="text-body-xs text-muted-foreground">
               Veröffentlicht am{' '}
-              <time className="">
-                {new Date(news.publishedAt).toLocaleString('de-AT', {
+              <time>
+                {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
                   dateStyle: 'medium',
                 })}
               </time>
             </p>
-            <p className="mt-2 max-w-sm text-lg leading-snug md:text-xl lg:text-2xl">
-              {news.abstract} <span>…</span>
+            <p className="mt-4 max-w-md text-body-sm leading-snug lg:text-body-md">
+              {latestPost.previewText} <span>…</span>
             </p>
             <footer>
               <Link
-                to={news.to}
-                className="group/more mt-4 flex items-center font-condensed text-lg text-card"
+                to={`/aktuelles/beitraege/${latestPost.slug.current}`}
+                className="group/more mt-4 flex items-center font-condensed text-lg"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
                   Beitrag lesen
@@ -233,12 +230,13 @@ export default function Home() {
                 key={idx}
                 className="relative max-w-prose bg-background"
               >
-                <p className="text-md xl:text-xl relative rounded-r-lg border-l-4 border-l-secondary bg-card p-4 !leading-snug text-card-foreground lg:p-6 lg:text-lg">
+                <p className="text-md xl:text-xl relative rounded-lg bg-card p-6 !leading-snug text-card-foreground shadow-sm lg:p-6 lg:text-lg">
                   {entry.text}
                 </p>
                 <footer className="ml-4 mt-2 lg:ml-6">
-                  <p className="text-md xl:text-lg font-condensed font-bold text-primary lg:text-lg">
-                    —&thinsp;{entry.name}
+                  <p className="text-body-sm font-bold">
+                    <span className="text-secondary">—</span> {entry.emoticon}{' '}
+                    {entry.name}
                   </p>
                 </footer>
               </blockquote>
@@ -275,14 +273,23 @@ export default function Home() {
             <p>Tel.: 01 8042939</p>
             <p>Fax: 01 8042939-2000</p>
             <p>Email: office@walz.at</p>
+
+            <div className="mt-2">
+              <p>
+                <Link
+                  to="/rundgang"
+                  className="mt-2 align-middle text-muted-foreground underline-offset-2 hover:underline"
+                >
+                  <ExternalLinkIcon
+                    size={18}
+                    className="inline stroke-primary"
+                  />{' '}
+                  Lerne die Walz bei einem virtuellen Rundgang kennen.
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
-        <Link
-          to="/rundgang"
-          className="mt-2 inline-flex text-secondary underline underline-offset-2"
-        >
-          <p>Lerne die Walz bei einem virtuellen Rundgang kennen.</p>
-        </Link>
       </section>
     </div>
   )

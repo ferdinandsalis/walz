@@ -1,8 +1,14 @@
+import { MetaFunction } from '@remix-run/node'
+
 export const handle = {
   title: 'Bildung',
   abstract: 'Zusammenhänge erkennen',
   image: '/images/bildung_anders.jpg',
   link: '/ueber-uns/philosophie/bildung',
+}
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Philosophie: Bildung | Walz' }]
 }
 
 export default function Bildung() {

@@ -6,6 +6,11 @@ import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
+import { MetaFunction } from '@remix-run/node'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Über uns | Walz' }]
+}
 
 export default function UeberUns() {
   return (

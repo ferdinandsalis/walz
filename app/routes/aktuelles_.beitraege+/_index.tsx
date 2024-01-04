@@ -1,33 +1,22 @@
 // all mdx posts in this directory
-import { LoaderArgs, json } from '@remix-run/node'
-import * as postB from './infoabend.mdx'
-import * as postD from './20231009_praktikum.mdx'
-import * as postE from './20231128_ingenieur_ohne_grenzen.mdx'
+import { LoaderFunctionArgs, json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 
-function postFromModule(mod: any) {
-  const slug = mod.filename.replace(/\.mdx?$/, '')
-  return {
-    slug,
-    to: `/aktuelles/beitraege/${slug}`,
-    ...mod.attributes,
-  }
-}
-
-export async function loader({ request }: LoaderArgs) {
-  return json([
-    postFromModule(postE),
-    postFromModule(postD),
-    postFromModule(postB),
-  ])
+export async function loader({ request }: LoaderFunctionArgs) {
+  return json({
+    data: {
+      posts: [],
+    },
+  })
 }
 
 export default function Index() {
-  const posts = useLoaderData<typeof loader>()
+  const loaderData = useLoaderData<typeof loader>()
+  const posts = loaderData.data.posts
 
   return (
     <ul>
-      {posts.map(post => (
+      {posts?.map(post => (
         <li key={post.slug}>
           <Link to={post.slug}>{post.title}</Link>
           {post.description ? <p>{post.description}</p> : null}

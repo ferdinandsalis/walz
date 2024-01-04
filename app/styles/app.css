@@ -42,11 +42,11 @@
 .prose {
   @apply max-w-prose;
   h1 {
-    @apply mb-4 font-condensed text-4xl font-bold text-primary;
+    @apply mb-4 mt-12 font-condensed text-3xl font-bold text-primary;
   }
 
   h2 {
-    @apply font-condensed text-2xl font-bold;
+    @apply mb-4 mt-8 font-condensed text-2xl font-bold;
   }
 
   ul {
@@ -54,6 +54,10 @@
   }
 
   p:not(:last-child) {
+    @apply my-4;
+  }
+
+  img:not(:last-child) {
     @apply mb-4;
   }
 

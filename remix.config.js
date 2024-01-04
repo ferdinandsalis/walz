@@ -14,6 +14,7 @@ export default {
       ignoredRouteFiles: [
         '.*',
         '**/*.css',
+        '**/*.query.ts',
         '**/*.test.{js,jsx,ts,tsx}',
         '**/__*.*',
       ],

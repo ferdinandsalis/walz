@@ -1,6 +1,11 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
+import { MetaFunction } from '@remix-run/node'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Curriculum | Walz' }]
+}
 
 export default function Curriculum() {
   return (

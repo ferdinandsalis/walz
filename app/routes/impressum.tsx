@@ -1,3 +1,9 @@
+import { MetaFunction } from '@remix-run/node'
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Impressum | Walz' }]
+}
+
 export default function Legal() {
   return (
     <div className="md:mt-8">

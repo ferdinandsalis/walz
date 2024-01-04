@@ -4,8 +4,7 @@ import { dates } from '#app/data/dates.ts'
 import { currentYears } from '#app/data/years.ts'
 import { ArrowRight, BabyIcon, ChevronDown, DownloadIcon } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { LoaderArgs, json } from '@remix-run/node'
-import { loader as newsLoader } from './aktuelles_.beitraege+/_index.tsx'
+import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { cn } from '#app/utils/misc.tsx'
@@ -15,17 +14,26 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
+import { loadQuery } from '@sanity/react-loader'
+import { QueryResult, query } from './aktuelles.query.ts'
 
-export async function loader(loaderArgs: LoaderArgs) {
-  const response = await newsLoader(loaderArgs)
-  const data = await response.json()
+export const meta: MetaFunction = () => {
+  return [{ title: 'Aktuelles | Walz' }]
+}
 
-  return json({ news: data })
+export async function loader({ params }: LoaderFunctionArgs) {
+  const queryResult = await loadQuery<QueryResult>(query)
+
+  return json({
+    query,
+    params,
+    data: queryResult.data,
+  })
 }
 
 export default function Aktuelles() {
   const loaderData = useLoaderData<typeof loader>()
-  const news = loaderData.news
+  const posts = loaderData.data.posts
 
   return (
     <div className="md:mt-12">
@@ -49,9 +57,14 @@ export default function Aktuelles() {
             Beiträge
           </h1>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {news &&
-              take(3, news).map(article => (
-                <Post key={article.to} {...article} />
+            {posts &&
+              take(3, posts).map(post => (
+                <PostItem
+                  title={post.title}
+                  previewText={post.previewText}
+                  linkTo={`/aktuelles/beitraege/${post.slug.current}`}
+                  key={post.slug.current}
+                />
               ))}
           </div>
 
@@ -180,6 +193,7 @@ export default function Aktuelles() {
                 </AccordionItem>
               ) : (
                 <div
+                  key={idx}
                   className={cn('border-b-2 border-b-background bg-card/50', {
                     'border-b-secondary': idx === 0 || idx === dates.length - 2,
                   })}
@@ -216,7 +230,7 @@ export default function Aktuelles() {
             {currentYears
               .filter(year => !year.graduatedAt)
               .map(year => (
-                <Year {...year} />
+                <Year key={year.name} {...year} />
               ))}
           </div>
 
@@ -305,33 +319,33 @@ function Year({
   )
 }
 
-function Post({
+function PostItem({
   title,
-  abstract,
-  to,
+  previewText,
+  linkTo,
 }: {
   title: string
-  abstract: string
-  to: string
+  previewText: string
+  linkTo: string
 }) {
   return (
     <article
       key={title}
-      className="flex flex-col space-y-2 rounded-md bg-card p-6 shadow"
+      className="grid content-between gap-4 rounded-md bg-card p-6 shadow"
     >
-      <div className="flex-1">
-        <Link prefetch="intent" to={to}>
-          <h1 className="mb-1 font-condensed text-xl font-bold !leading-none text-secondary md:text-2xl">
+      <div className="">
+        <Link prefetch="intent" to={linkTo}>
+          <h1 className="mb-2 font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
             {title}
           </h1>
         </Link>
         <p className="leading-snug">
-          {abstract} <span>…</span>
+          {previewText} <span>…</span>
         </p>
       </div>
       <footer>
         <Link
-          to={to}
+          to={linkTo}
           prefetch="intent"
           className="group/more flex items-center font-condensed text-lg font-bold"
         >

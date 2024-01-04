@@ -1,8 +1,14 @@
+import { MetaFunction } from '@remix-run/node'
+
 export const handle = {
   title: 'Praxis',
   abstract: 'Erfahrungen sammeln',
   image: '/images/praxis_uhrenwerkstatt.jpg',
   link: '/ueber-uns/philosophie/praxis',
+}
+
+export const meta: MetaFunction = () => {
+  return [{ title: 'Philosophie: Praxis | Walz' }]
 }
 
 export default function Praxis() {

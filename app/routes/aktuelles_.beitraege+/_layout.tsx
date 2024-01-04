@@ -1,7 +1,7 @@
 import { Link, Outlet } from '@remix-run/react'
 import { ArrowLeft } from 'lucide-react'
 
-export default function Page() {
+export default function PostLayout() {
   return (
     <div className="prose md:mt-8">
       <Link
@@ -17,7 +17,7 @@ export default function Page() {
         />
       </Link>
 
-      <div className="post">
+      <div>
         <Outlet />
       </div>
     </div>
