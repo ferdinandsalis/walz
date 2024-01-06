@@ -111,7 +111,7 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Was ist die Walz?
           </h1>
-          <p className="max-w-xl text-body-md leading-relaxed md:text-body-lg lg:text-body-xl">
+          <p className="max-w-xl text-body-md md:text-body-lg lg:text-body-xl">
             In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
             geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
             ausloten und werden auf die Matura vorbereitet.
@@ -181,7 +181,7 @@ export default function Home() {
         <header className="mb-16 lg:mb-20">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
-        <div className="space-y-2 md:flex md:flex-row md:flex-wrap md:gap-2 md:space-y-0">
+        <div className="flex flex-row flex-wrap gap-3 md:flex-row">
           <Link
             to="/faq#was-unterscheidet-die-walz"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
