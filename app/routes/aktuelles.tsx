@@ -347,7 +347,7 @@ function PostItem({
         <Link
           to={linkTo}
           prefetch="intent"
-          className="group/more flex items-center font-condensed text-lg font-bold"
+          className="group/more flex items-center font-condensed text-lg text-muted-foreground"
         >
           <span className="underline-offset-2 group-hover/more:underline">
             Beitrag lesen
