@@ -253,10 +253,10 @@ export default function Home() {
                 key={idx}
                 className="relative max-w-prose bg-background"
               >
-                <p className="text-md xl:text-xl relative rounded-lg bg-card p-6 !leading-snug text-card-foreground shadow-sm lg:p-6 lg:text-lg">
+                <p className="text-md relative rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
                   {entry.text}
                 </p>
-                <footer className="ml-4 mt-2 lg:ml-6">
+                <footer className="ml-4 mt-3 lg:ml-6">
                   <p className="text-body-sm font-bold">
                     <span className="text-secondary">—</span> {entry.emoticon}{' '}
                     {entry.name}
