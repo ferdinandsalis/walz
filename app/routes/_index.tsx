@@ -142,7 +142,7 @@ export default function Home() {
             <footer>
               <Link
                 to={`/aktuelles/beitraege/${latestPost.slug.current}`}
-                className="group/more mt-4 flex items-center font-condensed text-lg"
+                className="group/more mt-4 flex items-center font-condensed text-lg text-muted-foreground"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
                   Beitrag lesen
@@ -284,9 +284,9 @@ export default function Home() {
             />
             <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
           </Link>
-          <div className="md:col-span-2 md:col-start-5">
+          <div className="md:col-span-2 md:col-start-5 lg:text-body-md">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
-              Adresse
+              Kontakt
             </h2>
             <p>
               <strong>Walz Wiener Lernzentrum</strong>
@@ -355,7 +355,7 @@ export function LinkPhotoCard({
           </h1>
           <p className="text-lg font-bold leading-none">{abstract}</p>
         </hgroup>
-        <div className="group/more mt-4 flex items-center font-condensed text-lg font-bold text-muted-foreground">
+        <div className="group/more mt-4 flex items-center font-condensed text-lg text-muted-foreground">
           <span className="underline-offset-2 group-hover/more:underline">
             Mehr erfahren
           </span>
