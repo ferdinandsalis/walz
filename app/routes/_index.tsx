@@ -181,39 +181,62 @@ export default function Home() {
         <header className="mb-16 lg:mb-20">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
-        <div>
-          <div className="mb-1 flex">
-            <Link
-              to="/faq#was-heisst-eigentlich-walz"
-              className="rounded-lg bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl"
-            >
+        <div className="space-y-2 md:flex md:flex-row md:flex-wrap md:gap-2 md:space-y-0">
+          <Link
+            to="/faq#was-unterscheidet-die-walz"
+            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+          >
+            <span className="min-w-10 bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              1.
+            </span>
+            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+              Was unterscheidet die Walz von einer klassischen Oberstufe?
+            </span>
+          </Link>
+          <Link
+            to="/faq#was-heisst-eigentlich-walz"
+            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+          >
+            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              2.
+            </span>
+            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
               Was heißt eigentlich Walz?
-            </Link>
-          </div>
-          <div className="mb-1 flex">
-            <Link
-              to="/faq/#wie-kann-ich-die-walz-kennenlernen"
-              className="rounded-lg bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl"
-            >
+            </span>
+          </Link>
+          <Link
+            to="/faq/#wie-kann-ich-die-walz-kennenlernen"
+            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+          >
+            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              3.
+            </span>
+            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
               Wie kann ich die Walz kennenlernen?
-            </Link>
-          </div>
-          <div className="mb-1 flex">
-            <Link
-              to="/faq/#wieso-gibt-es-externistenpruefungen"
-              className="rounded-lg bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl"
-            >
+            </span>
+          </Link>
+          <Link
+            to="/faq/#wieso-gibt-es-externistenpruefungen"
+            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+          >
+            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
+              4.
+            </span>
+            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
               Wieso gibt es Externistenprüfungen?
-            </Link>
-          </div>
-          <div className="mb-1 flex">
-            <Link
-              to="/faq/#was-kostet-die-walz"
-              className="rounded-lg bg-primary/10 px-4 py-2 text-lg font-bold leading-tight text-primary md:text-2xl"
-            >
+            </span>
+          </Link>
+          <Link
+            to="/faq/#was-kostet-die-walz"
+            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+          >
+            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              5.
+            </span>
+            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
               Was kostet die Walz?
-            </Link>
-          </div>
+            </span>
+          </Link>
         </div>
       </section>
 

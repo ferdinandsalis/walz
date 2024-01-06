@@ -1,8 +1,5 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
-import { json } from '@remix-run/node'
 import { Link } from '@remix-run/react'
-import fs from 'fs/promises'
-import path from 'path'
 
 export default function Faq() {
   return (
@@ -11,10 +8,80 @@ export default function Faq() {
         Häufige Fragen
       </h1>
 
-      <div className="space-y-12 md:space-y-16">
+      <div className="grid gap-12">
+        <article id="was-unterscheidet-die-walz">
+          <Link to=".#was-unterscheidet-die-walz">
+            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
+              Was unterscheidet die Walz von einer klassischen Oberstufe?
+            </h2>
+          </Link>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <h3 className="font-condensed font-bold text-secondary">
+              Tagesablauf
+            </h3>
+            <p>
+              Ganztagsschule: Der Unterricht findet zwischen 08:30 und 16:30 in
+              vier 90 Minuten Einheiten statt. Nach der ersten Einheit gibt es
+              30 Minuten Pause, nach der zweiten Einheit 60 Minuten Mittagspause
+              und nach der dritten Einheit wieder 30 Minuten Pause. Die Pausen
+              geben den Jugendlichen Zeit für soziale Interaktion, gleichzeitig
+              bieten sie genügend Zeit für Entwicklungsgespräche sowie Raum für
+              inhaltliche Fragen und sonstige Anliegen.
+            </p>
+            <h3 className="font-condensed font-bold text-secondary">
+              Projektbasiertes Lernen
+            </h3>
+            <p>
+              Intensive Lernzeiten (Prüfungsvorbereitungen) wechseln mit
+              Projekten ab, die unter anderem soziale, kreative,
+              gruppenbildende, sprachfördernde Schwerpunkte haben. In der Walz
+              werden nicht nur die intellektuellen Fähigkeiten geschult, es geht
+              darum, den ganzen Menschen zu sehen und zu ermöglichen, dass die
+              Jugendlichen ihre vielfältigen eigenen Fähigkeiten kennenlernen
+              und ausbilden.
+            </p>
+            <h3 className="font-condensed font-bold text-secondary">
+              Externe Prüfungen
+            </h3>
+            <p>
+              Der Unterricht der einzelnen Fächer findet geblockt statt: Etwa 2
+              Einheiten pro Tag während einiger Wochen - danach findet die
+              Prüfung über den gemeinsam erarbeiteten Stoff in der
+              Prüfungsschule statt. Wesentlich ist die Trennung von
+              Unterrichtenden und Prüfenden. Wiederholung der einzelnen
+              Prüfungen ist 3x möglich, die Jugendlichen verbleiben ihre gesamte
+              Walz-Zeit im Jahrgangsverband.
+            </p>
+            <h3 className="font-condensed font-bold text-secondary">
+              Reisen/Projekte außer Haus
+            </h3>
+            <p>
+              Die Jugendlichen sind „auf der Walz“- In den fünf Jahren finden
+              ca. 16 Projekte außerhalb der Walz statt.
+            </p>
+            <h3 className="font-condensed font-bold text-secondary">
+              Theater- und Kunstschwerpunkt zur Persönlichkeitsentwicklung Jedes
+            </h3>
+            <p>
+              Jahr gibt es mindestens ein Theaterprojekt pro Jahrgang, welches
+              auch öffentlich aufgeführt wird. Die vielen Kunstprojekte, sowohl
+              praktisch als auch theoretisch, dienen der Schulung der
+              ästhetischen Wahrnehmung und dem Erlernen einer künstlerischen
+              Ausdrucksfähigkeit. · Mentoring/Persönlichkeitsentwicklung Der/die
+              Mentor:in begleitet die Jugendlichen jeweils eines Jahrganges über
+              ihre gesamte Walzzeit. Jeder Jahrgang hat einen
+              identifikationsbildenden Namen, i.e. griechischer Buchstabe. Die
+              Mentor:innen sehen sich als Entwicklungsbegleiter:innen.
+              Angeleitet durch den/die Mentor:in reflektieren die Jugendlichen
+              sowohl im Klassenverband als auch einzeln laufende und
+              abgeschlossene Projekte.
+            </p>
+          </div>
+        </article>
+
         <article id="was-heisst-eigentlich-walz">
           <Link to=".#was-heisst-eigentlich-walz">
-            <h2 className="mb-2 text-2xl font-bold text-secondary">
+            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
               Was heißt eigentlich Walz?
             </h2>
           </Link>
@@ -32,7 +99,7 @@ export default function Faq() {
 
         <article id="wieso-gibt-es-externistenpruefungen">
           <Link to=".#wieso-gibt-es-externistenpruefungen">
-            <h2 className="mb-2 text-2xl font-bold text-secondary">
+            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
               Wieso gibt es Externistenprüfungen?
             </h2>
           </Link>
@@ -66,7 +133,7 @@ export default function Faq() {
 
         <article id="wie-kann-ich-die-walz-kennenlernen">
           <Link to=".#wie-kann-ich-die-walz-kennenlernen">
-            <h2 className="mb-2 text-2xl font-bold text-secondary">
+            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
               Wie kann ich die Walz kennenlernen?
             </h2>
           </Link>
@@ -115,7 +182,7 @@ export default function Faq() {
 
         <article id="was-kostet-die-walz">
           <Link to=".#was-kostet-die-walz">
-            <h2 className="mb-2 text-2xl font-bold text-secondary">
+            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
               Was kostet die Walz?
             </h2>
           </Link>
