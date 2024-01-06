@@ -60,7 +60,7 @@ export default function Home() {
           </p>
         </div>
 
-        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-stone-200/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
+        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
             <div className="flex items-center gap-2">
               <h1 className="flex items-center gap-1">
@@ -275,14 +275,14 @@ export default function Home() {
         <div className="grid gap-8 md:grid-cols-6">
           <Link
             to="https://goo.gl/maps/sb3LQfsePwU3zMPg8"
-            className="relative h-72 overflow-hidden rounded border border-stone-300 bg-stone-200 md:col-span-4 md:col-start-1 lg:h-80"
+            className="relative h-72 overflow-hidden rounded bg-muted/10 md:col-span-4 md:col-start-1 lg:h-96"
           >
             <img
               src={`https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=${ENV.GOOGLE_MAPS_API_KEY}&scale=2&map_id=8811b5d90ece1ea5`}
               alt="Karte"
               className="h-full w-full object-cover"
             />
-            <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-stone-300/80"></div>
+            <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
           </Link>
           <div className="md:col-span-2 md:col-start-5">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
@@ -336,7 +336,7 @@ export function LinkPhotoCard({
       className="group flex flex-col rounded-lg focus:outline-primary"
     >
       <div className="relative border-8 border-transparent border-b-primary px-2">
-        <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-stone-800/50 transition-all group-hover:translate-y-2 group-hover:rotate-1">
+        <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-muted/50 transition-all group-hover:translate-y-2 group-hover:rotate-1">
           <img
             src={image}
             className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale group-hover:grayscale-0"

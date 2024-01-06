@@ -16,9 +16,9 @@ export function SectionHeading({
     >
       <h1
         id={id}
-        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-stone-400"
+        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-muted-foreground/30"
       >
-        <span className="rounded bg-stone-100 px-8 py-2">{children}</span>
+        <span className="rounded bg-background px-8 py-2">{children}</span>
       </h1>
       <Divider className="-order-1 col-start-1 col-end-13 row-start-1" />
     </Link>
