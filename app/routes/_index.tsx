@@ -6,7 +6,10 @@ import { testimonials } from '#app/data/testimonials.ts'
 import { Link, useFetcher, useLoaderData } from '@remix-run/react'
 import {
   ArrowRight,
+  AsteriskIcon,
   CalendarClockIcon,
+  DonutIcon,
+  DotIcon,
   ExternalLinkIcon,
   LoaderIcon,
 } from 'lucide-react'
@@ -186,10 +189,10 @@ export default function Home() {
             to="/faq#was-unterscheidet-die-walz"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
-            <span className="min-w-10 bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
-              1.
+            <span className="min-w-10 bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
               Was unterscheidet die Walz von einer klassischen Oberstufe?
             </span>
           </Link>
@@ -197,10 +200,10 @@ export default function Home() {
             to="/faq#was-heisst-eigentlich-walz"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
-            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
-              2.
+            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
               Was heißt eigentlich Walz?
             </span>
           </Link>
@@ -208,10 +211,10 @@ export default function Home() {
             to="/faq/#wie-kann-ich-die-walz-kennenlernen"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
-            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
-              3.
+            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
               Wie kann ich die Walz kennenlernen?
             </span>
           </Link>
@@ -219,10 +222,10 @@ export default function Home() {
             to="/faq/#wieso-gibt-es-externistenpruefungen"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
-            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
-              4.
+            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
               Wieso gibt es Externistenprüfungen?
             </span>
           </Link>
@@ -230,10 +233,10 @@ export default function Home() {
             to="/faq/#was-kostet-die-walz"
             className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
-            <span className="min-w-10 flex-none bg-card px-3 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
-              5.
+            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/10 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/20">
+            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
               Was kostet die Walz?
             </span>
           </Link>
