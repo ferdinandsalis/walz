@@ -37,7 +37,7 @@ export default function Aktuelles() {
 
   return (
     <div className="md:mt-12">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
+      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-muted-foreground opacity-10">
         Aktuelles
       </h1>
 

@@ -27,12 +27,12 @@ export default function Aufnahme() {
           ]}
         />
 
-        <div className="max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-          <div className="mb-2 flex items-center gap-1">
-            <InfoIcon size={20} />
-            <span className="font-bold">Information</span>
+        <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
+          <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-2 shadow shadow-secondary/20">
+            <InfoIcon size={18} />
+            <span className="text-body-sm">Information</span>
           </div>
-          <p className="leading-snug">
+          <p className="">
             Anmeldungen der Geburts&shy;jahrgänge 2009 und 2010 für das
             Schuljahr 2024/25 nehmen wir gerne bis{' '}
             <em className="">24. Februar 2024</em> entgegen. Bitte senden Sie
@@ -81,11 +81,11 @@ export default function Aufnahme() {
 
         <Divider />
 
-        <article id="voraussetzungen">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+        <article id="voraussetzungen" className="space-y-8">
+          <h1 className="font-condensed text-4xl font-bold text-primary">
             Voraussetzungen
           </h1>
-          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+          <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Der Besuch der Walz beginnt mit der 9. Schulstufe, d.h.
               Jugendliche, die auf die Walz kommen möchten, müssen zum Zeitpunkt
@@ -105,10 +105,10 @@ export default function Aufnahme() {
             </p>
           </div>
 
-          <div className="mb-8 max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-            <div className="mb-2 flex items-center gap-1">
-              <InfoIcon size={20} />
-              <span className="font-bold">Information</span>
+          <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
+            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-2 shadow shadow-secondary/20">
+              <InfoIcon size={18} />
+              <span className="text-body-sm">Information</span>
             </div>
             <p className="leading-snug">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
@@ -141,40 +141,43 @@ export default function Aufnahme() {
             </p>
             <p>
               Während bei konfessionellen Privatschulen die Personalkosten (also
-              80 - 90% der Gesamtkosten) von der öffentlichen Hand übernommen
-              werden, müssen Privatschulen (ohne kirchlichem Träger) für alle
-              Kosten selbst aufkommen. Die einzige Förderung, welche die Walz,
-              so wie alle anderen Privatschulen in freier Trägerschaft, im
-              Moment vom Bildungsministerium erhält, hat eine Höhe von ca. 700,-
-              pro Jahr pro Schüler:in. Die Walz muss sich daher durch die
-              Beiträge der Eltern finanzieren.
+              80 &ndash; 90% der Gesamtkosten) von der öffentlichen Hand
+              übernommen werden, müssen Privatschulen (ohne kirchlichem Träger)
+              für alle Kosten selbst aufkommen. Die einzige Förderung, welche
+              die Walz, so wie alle anderen Privatschulen in freier
+              Trägerschaft, im Moment vom Bildungsministerium erhält, hat eine
+              Höhe von ca. 700,&ndash pro Jahr pro Schüler:in. Die Walz muss
+              sich daher durch die Beiträge der Eltern finanzieren.
             </p>
             <p>
               Wir bemühen uns sehr, die Kosten so niedrig wie möglich zu halten.
-              Zum Vergleich betragen laut OECD die Kosten der öffentlichen
-              Schule für die Sekundarstufe € 15.729 pro Jahr (letzter
-              verfügbarer Wert aus dem Jahr 2019).
+              Zum Vergleich betragen laut{' '}
+              <abbr title="Organisation for Economic Co-operation and Development">
+                OECD
+              </abbr>{' '}
+              die Kosten der öffentlichen Schule für die Sekundarstufe € 15.729
+              pro Jahr (letzter verfügbarer Wert aus dem Jahr 2019).
             </p>
           </div>
-          <p className="font-bold md:text-xl">
+          <p className="md:text-xl">
             Für das Schuljahr 2023/2024 gelten für die Walz folgende Beträge:
           </p>
           <div className="mb-8 max-w-prose text-base">
-            <dl className="grid grid-cols-1 gap-2">
+            <dl className="grid grid-cols-1 gap-2 divide-y divide-muted">
               {costs.map((cost, idx) => {
                 const first = idx === 0
 
                 return (
                   <div
                     className={cn('-mx-4 p-4', {
-                      'rounded bg-card/80': first,
+                      'rounded-md bg-card/90': first,
                     })}
                     key={cost.name}
                   >
                     <div className="grid grid-cols-2 py-2">
                       <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">
-                          <dt className="text-xl font-bold text-secondary md:text-2xl">
+                          <dt className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                             {cost.name}
                           </dt>
                         </div>
@@ -182,17 +185,19 @@ export default function Aufnahme() {
                           <p>{cost.description}</p>
                         </dd>
                       </div>
-                      <div className="flex justify-start gap-2 justify-self-end">
-                        <span className="text-primary">
-                          {cost.multiplier} &times;
-                        </span>
-                        <span className="font-bold">
+                      <div className="flex flex-col items-end justify-start gap-2 justify-self-end">
+                        <span className="font-condensed text-xl font-bold md:text-2xl">
                           {Intl.NumberFormat('de-AT', {
                             style: 'currency',
                             currency: 'EUR',
                             maximumFractionDigits: 0,
                             signDisplay: 'never',
                           }).format(cost.cost)}
+                        </span>
+                        <span className="text-primary">
+                          {cost.interval === 'ONCE'
+                            ? `Einmalig`
+                            : `${cost.multiplier} × im Jahr`}
                         </span>
                       </div>
                     </div>

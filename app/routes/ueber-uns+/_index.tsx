@@ -40,7 +40,7 @@ export default function UeberUns() {
           <p>
             Die Walz ist eine private Bildungseinrichtung mit
             Öffentlichkeitsrecht für Jugendliche im Alter von 14 bis 19 Jahren
-            (9.-13. Schulstufe). Die Walz schließt mit Matura
+            (9.&ndash;13. Schulstufe). Die Walz schließt mit Matura
             (Externistenreifeprüfung) ab.
           </p>
           <p>
@@ -75,7 +75,9 @@ export default function UeberUns() {
 
             <div className="space-y-8">
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Mentor:innen</h2>
+                <h2 className="font-condensed text-2xl font-bold text-secondary">
+                  Mentor:innen
+                </h2>
                 <p className="mb-4 max-w-prose hyphens-auto">
                   Mentor:innen sind für ihren Jahrgang verantwortlich. Ihre
                   Kernfunktion ist die Entwicklungsbegleitung der Jugendlichen,
@@ -92,7 +94,9 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Projektleiter:innen</h2>
+                <h2 className="font-condensed text-2xl font-bold text-secondary">
+                  Projektleiter:innen
+                </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
                     Projektleiter:innen agieren als "Trainer:innen", sie
@@ -114,7 +118,9 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Administrator:innen</h2>
+                <h2 className="font-condensed text-2xl font-bold text-secondary">
+                  Administrator:innen
+                </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
                     Um ein anspruchsvolles Projekt wie die Walz verwirklichen zu
@@ -135,7 +141,9 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Therapeut:innen</h2>
+                <h2 className="font-condensed text-2xl font-bold text-secondary">
+                  Therapeut:innen
+                </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
                     Jede Woche stehen eine erfahrene Psychologin und eine
@@ -204,7 +212,9 @@ export default function UeberUns() {
           </div>
 
           <article className="space-y-4">
-            <h2 className="text-2xl font-bold">Fundamentaler Wandel</h2>
+            <h2 className="font-condensed text-2xl font-bold text-secondary">
+              Fundamentaler Wandel
+            </h2>
 
             <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
               <p>
@@ -218,7 +228,7 @@ export default function UeberUns() {
               <ol className="space-y-4 sm:list-outside">
                 <li>
                   <p>
-                    <span className="font-bold text-secondary">
+                    <span className="font-bold">
                       Garantierter Wandel ist die einzige Konstante, die sicher
                       scheint
                     </span>
@@ -231,7 +241,7 @@ export default function UeberUns() {
 
                 <li>
                   <p>
-                    <span className="font-bold text-secondary">
+                    <span className="font-bold">
                       Auch die grundlegenden Werte unserer Gesellschaft sind
                       unsicher geworden
                     </span>
@@ -248,7 +258,9 @@ export default function UeberUns() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="text-2xl font-bold">Lernen ist zweifach Programm</h2>
+            <h2 className="font-condensed text-2xl font-bold text-secondary">
+              Lernen ist zweifach Programm
+            </h2>
 
             <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
               <p>

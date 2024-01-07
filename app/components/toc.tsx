@@ -18,7 +18,7 @@ export function Toc({
             <li key={link.to} className="text-secondary">
               <Link
                 to={link.to}
-                className="text-base font-bold text-foreground md:text-xl"
+                className="font-condensed text-base text-foreground md:text-xl"
               >
                 {link.name}
               </Link>

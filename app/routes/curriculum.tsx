@@ -189,8 +189,8 @@ export default function Curriculum() {
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             In Jahren
           </h1>
-          <div className="space-y-8 md:space-y-12">
-            <article className="space-y-4">
+          <div className="space-y-8 divide-y divide-muted md:space-y-12">
+            <article className="space-y-4 pt-4">
               <hgroup>
                 <span
                   role="presentation"
@@ -198,7 +198,9 @@ export default function Curriculum() {
                 >
                   1
                 </span>
-                <h1 className="text-2xl font-bold text-stone-800">1. Jahr</h1>
+                <h1 className="text-2xl font-bold text-muted-foreground">
+                  1. Jahr
+                </h1>
                 <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                   Timeout und Ausprobieren
                 </p>
@@ -217,7 +219,7 @@ export default function Curriculum() {
               </div>
             </article>
 
-            <article className="space-y-4">
+            <article className="space-y-4 pt-4">
               <hgroup>
                 <span
                   role="presentation"
@@ -225,7 +227,9 @@ export default function Curriculum() {
                 >
                   2
                 </span>
-                <h1 className="text-2xl font-bold text-stone-800">2. Jahr</h1>
+                <h1 className="text-2xl font-bold text-muted-foreground">
+                  2. Jahr
+                </h1>
                 <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                   Auslandsabenteuer und erste Prüfungen
                 </p>
@@ -244,7 +248,7 @@ export default function Curriculum() {
               </div>
             </article>
 
-            <article className="space-y-4">
+            <article className="space-y-4 pt-4">
               <hgroup>
                 <span
                   role="presentation"
@@ -252,7 +256,9 @@ export default function Curriculum() {
                 >
                   3
                 </span>
-                <h1 className="text-2xl font-bold text-stone-800">3. Jahr</h1>
+                <h1 className="text-2xl font-bold text-muted-foreground">
+                  3. Jahr
+                </h1>
                 <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                   Ein facettenreiches Jahr
                 </p>
@@ -274,7 +280,7 @@ export default function Curriculum() {
               </div>
             </article>
 
-            <article className="space-y-4">
+            <article className="space-y-4 pt-4">
               <hgroup>
                 <span
                   role="presentation"
@@ -282,7 +288,9 @@ export default function Curriculum() {
                 >
                   4
                 </span>
-                <h1 className="text-2xl font-bold text-stone-800">4. Jahr</h1>
+                <h1 className="text-2xl font-bold text-muted-foreground">
+                  4. Jahr
+                </h1>
                 <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                   Das soziale Jahr
                 </p>
@@ -305,7 +313,7 @@ export default function Curriculum() {
               </div>
             </article>
 
-            <article className="space-y-4">
+            <article className="space-y-4 pt-4">
               <hgroup>
                 <span
                   role="presentation"
@@ -313,7 +321,9 @@ export default function Curriculum() {
                 >
                   5
                 </span>
-                <h1 className="text-2xl font-bold text-stone-800">5. Jahr</h1>
+                <h1 className="text-2xl font-bold text-muted-foreground">
+                  5. Jahr
+                </h1>
                 <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                   Der große Endspurt
                 </p>

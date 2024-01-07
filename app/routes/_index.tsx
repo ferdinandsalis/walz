@@ -342,7 +342,7 @@ export function LinkPhotoCard({
         <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-muted/50 transition-all group-hover:translate-y-2 group-hover:rotate-1">
           <img
             src={image}
-            className="ascpet-square h-48 w-full bg-stone-100 object-cover grayscale group-hover:grayscale-0"
+            className="ascpet-square h-48 w-full bg-muted object-cover grayscale group-hover:grayscale-0"
           />
           <div
             role="presentation"
