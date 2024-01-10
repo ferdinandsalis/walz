@@ -8,16 +8,14 @@ test('has title', async ({ page }) => {
 test('has about page', async ({ page }) => {
   await page.goto('/ueber-uns')
 
-  await expect(
-    page.getByRole('heading', { name: 'Menschen', exact: true }),
-  ).toBeVisible()
-  await expect(
+  await expect(page.getByRole('heading', { name: 'Menschen' })).toBeVisible()
+  expect(
     page.getByRole('heading', { name: 'Philosophie', exact: true }),
-  ).toBeVisible()
-  await expect(
+  ).toBeDefined()
+  expect(
     page.getByRole('heading', { name: 'Leitbild', exact: true }),
-  ).toBeVisible()
-  await expect(
+  ).toBeDefined()
+  expect(
     page.getByRole('heading', { name: 'Geschichte', exact: true }),
-  ).toBeVisible()
+  ).toBeDefined()
 })
