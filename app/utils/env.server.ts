@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const schema = z.object({
   NODE_ENV: z.enum(['production', 'development', 'test'] as const),
+  AIRTABLE_API_KEY: z.string(),
   SENTRY_DSN: z.string(),
   GOOGLE_MAPS_API_KEY: z.string(),
   SANITY_PUBLIC_PROJECT_ID: z.string(),

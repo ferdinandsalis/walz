@@ -8,6 +8,14 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: teste
+    env:
+      SENTRY_DSN: https://20c628330a59c4df20fd2c0ba7f2873c@o4505819035467776.ingest.sentry.io/4505819065286656
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+      AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+      SANITY_PUBLIC_PROJECT_ID: iaejvb99
+      SANITY_PUBLIC_DATASET: production
+      SANITY_PUBLIC_API_VERSION: 2023-10-01
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
