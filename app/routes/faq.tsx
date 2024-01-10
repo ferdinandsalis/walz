@@ -60,16 +60,21 @@ export default function Faq() {
               ca. 16 Projekte außerhalb der Walz statt.
             </p>
             <h3 className="font-condensed font-bold text-secondary">
-              Theater- und Kunstschwerpunkt zur Persönlichkeitsentwicklung Jedes
+              Theater- und Kunstschwerpunkt zur Persönlichkeitsentwicklung
             </h3>
             <p>
-              Jahr gibt es mindestens ein Theaterprojekt pro Jahrgang, welches
-              auch öffentlich aufgeführt wird. Die vielen Kunstprojekte, sowohl
-              praktisch als auch theoretisch, dienen der Schulung der
+              Jedes Jahr gibt es mindestens ein Theaterprojekt pro Jahrgang,
+              welches auch öffentlich aufgeführt wird. Die vielen Kunstprojekte,
+              sowohl praktisch als auch theoretisch, dienen der Schulung der
               ästhetischen Wahrnehmung und dem Erlernen einer künstlerischen
-              Ausdrucksfähigkeit. · Mentoring/Persönlichkeitsentwicklung Der/die
-              Mentor:in begleitet die Jugendlichen jeweils eines Jahrganges über
-              ihre gesamte Walzzeit. Jeder Jahrgang hat einen
+              Ausdrucksfähigkeit.
+            </p>
+            <h3 className="font-condensed font-bold text-secondary">
+              Mentoring/Persönlichkeitsentwicklung
+            </h3>
+            <p>
+              Der/die Mentor:in begleitet die Jugendlichen jeweils eines
+              Jahrganges über ihre gesamte Walzzeit. Jeder Jahrgang hat einen
               identifikationsbildenden Namen, i.e. griechischer Buchstabe. Die
               Mentor:innen sehen sich als Entwicklungsbegleiter:innen.
               Angeleitet durch den/die Mentor:in reflektieren die Jugendlichen
@@ -112,7 +117,7 @@ export default function Faq() {
               Ein wichtiges Prinzip der Walz ist es, dass die Personalunion von
               Vorbereitenden und Prüfenden aufgehoben ist. In keiner Sportart
               ist bei einem Turnier der/die Trainer:in auch der/die
-              Schiedrichter:in, oder?
+              Schiedsrichter:in, oder?
             </p>
             <p>
               Die Externistenprüfungen erfüllen darüber hinaus auch einen

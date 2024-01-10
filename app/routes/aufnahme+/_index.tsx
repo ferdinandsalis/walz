@@ -28,9 +28,11 @@ export default function Aufnahme() {
         />
 
         <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-          <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-2 shadow shadow-secondary/20">
-            <InfoIcon size={18} />
-            <span className="text-body-sm">Information</span>
+          <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
+            <InfoIcon size={18} className="stroke-secondary" />
+            <span className="font-condensed text-body-sm">
+              Wichtige Information
+            </span>
           </div>
           <p className="">
             Anmeldungen der Geburts&shy;jahrgänge 2009 und 2010 für das
@@ -106,9 +108,11 @@ export default function Aufnahme() {
           </div>
 
           <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-2 shadow shadow-secondary/20">
-              <InfoIcon size={18} />
-              <span className="text-body-sm">Information</span>
+            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
+              <InfoIcon size={18} className="stroke-secondary" />
+              <span className="font-condensed text-body-sm">
+                Wichtige Information
+              </span>
             </div>
             <p className="leading-snug">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
