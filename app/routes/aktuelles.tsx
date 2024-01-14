@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from '@remix-run/react'
 import { take } from 'ramda'
 import { dates } from '#app/data/dates.ts'
-import { currentYears } from '#app/data/years.ts'
+import { calculateCurrentYear, years } from '#app/data/years.ts'
 import { ArrowRight, BabyIcon, ChevronDown, DownloadIcon } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node'
@@ -227,7 +227,7 @@ export default function Aktuelles() {
             Jahrgänge
           </h1>
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {currentYears
+            {years
               .filter(year => !year.graduatedAt)
               .map(year => (
                 <Year key={year.name} {...year} />
@@ -267,8 +267,7 @@ function Year({
           <h1 className="inline-flex gap-1 text-3xl font-bold">
             <span>{name}</span>
             <span className="text-lg font-bold text-primary">
-              {/* years till now from year.startedAt */}
-              {new Date().getFullYear() + 1 - startedAt.getFullYear()}
+              {calculateCurrentYear(startedAt)}
             </span>
           </h1>
           <div className="">
