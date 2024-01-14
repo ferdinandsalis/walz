@@ -76,6 +76,24 @@ Mit fachkundiger Begleitung werden fantasievolle Kostüme und eindrucksvolle Dia
 `,
   },
   {
+    title: 'Theateraufführung: Mord, Betrug und andere Kavaliersdelikte',
+    startDate: new Date('2024-01-31'),
+    startTime: '19:00',
+    type: 'internal',
+    description: `
+Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
+`,
+  },
+  {
+    title: 'Theateraufführung: Mord, Betrug und andere Kavaliersdelikte',
+    startDate: new Date('2024-02-01'),
+    startTime: '19:00',
+    type: 'internal',
+    description: `
+Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
+`,
+  },
+  {
     title: 'Infoabend',
     startDate: new Date('2024-02-21'),
     startTime: '19:00',

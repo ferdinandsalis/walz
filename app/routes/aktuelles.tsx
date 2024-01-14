@@ -101,10 +101,6 @@ export default function Aktuelles() {
                           'transition-all [&[data-state=open]>svg]:rotate-180',
                           'cursor-pointer items-center',
                           'data-[state=open]:bg-primary/10',
-                          {
-                            'font-bold': date.type === 'internal',
-                            'text-muted-foreground': date.type !== 'internal',
-                          },
                         )}
                       >
                         <time
@@ -116,7 +112,9 @@ export default function Aktuelles() {
                             day: '2-digit',
                           })}
                         </time>
-                        <h1>{date.title}</h1>
+                        <h1 className="truncate" title={date.title}>
+                          {date.title}
+                        </h1>
                         <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
                       </div>
                     </AccordionTrigger>
@@ -124,6 +122,7 @@ export default function Aktuelles() {
                   {date.description && (
                     <AccordionContent asChild>
                       <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                        <h1 className="mb-4 text-h5 font-bold">{date.title}</h1>
                         <dl className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
                             {date.startTime && (
