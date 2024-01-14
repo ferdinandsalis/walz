@@ -150,7 +150,7 @@ export default function Aufnahme() {
               für alle Kosten selbst aufkommen. Die einzige Förderung, welche
               die Walz, so wie alle anderen Privatschulen in freier
               Trägerschaft, im Moment vom Bildungsministerium erhält, hat eine
-              Höhe von ca. 700,&ndash pro Jahr pro Schüler:in. Die Walz muss
+              Höhe von ca. 700,&ndash; pro Jahr pro Schüler:in. Die Walz muss
               sich daher durch die Beiträge der Eltern finanzieren.
             </p>
             <p>
