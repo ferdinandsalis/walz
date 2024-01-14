@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 
 export default function Aufnahme() {
   return (
-    <div className="md:mt-12">
+    <div className="hyphens-auto text-pretty md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Aufnahme
       </h1>
@@ -140,17 +140,17 @@ export default function Aufnahme() {
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Die Walz ist ein gemeinnütziger Verein und finanziert sich zu
-              einem großen Teil (über 90 %) selbst. Wir müssen, um unsere Kosten
+              einem großen Teil (über 90%) selbst. Wir müssen, um unsere Kosten
               decken zu können, Schulgeld einheben.
             </p>
             <p>
               Während bei konfessionellen Privatschulen die Personalkosten (also
-              80 &ndash; 90% der Gesamtkosten) von der öffentlichen Hand
+              80&ndash;90% der Gesamtkosten) von der öffentlichen Hand
               übernommen werden, müssen Privatschulen (ohne kirchlichem Träger)
               für alle Kosten selbst aufkommen. Die einzige Förderung, welche
               die Walz, so wie alle anderen Privatschulen in freier
               Trägerschaft, im Moment vom Bildungsministerium erhält, hat eine
-              Höhe von ca. 700,&ndash; pro Jahr pro Schüler:in. Die Walz muss
+              Höhe von ca. € 700,&ndash; pro Jahr pro Schüler:in. Die Walz muss
               sich daher durch die Beiträge der Eltern finanzieren.
             </p>
             <p>
@@ -159,8 +159,9 @@ export default function Aufnahme() {
               <abbr title="Organisation for Economic Co-operation and Development">
                 OECD
               </abbr>{' '}
-              die Kosten der öffentlichen Schule für die Sekundarstufe € 15.729
-              pro Jahr (letzter verfügbarer Wert aus dem Jahr 2019).
+              die Kosten der öffentlichen Schule für die Sekundarstufe €
+              15.729,&ndash; pro Jahr (letzter verfügbarer Wert aus dem Jahr
+              2019).
             </p>
           </div>
           <p className="md:text-xl">

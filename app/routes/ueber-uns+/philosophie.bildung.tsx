@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
 
 export default function Bildung() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 hyphens-auto text-pretty">
       <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
         Bildung
       </h1>

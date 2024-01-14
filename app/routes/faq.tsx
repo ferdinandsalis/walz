@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react'
 
 export default function Faq() {
   return (
-    <div className="md:mt-8">
+    <div className="hyphens-auto text-pretty md:mt-8">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Häufige Fragen
       </h1>

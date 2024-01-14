@@ -56,7 +56,7 @@ export default function Home() {
 
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
           <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-32 sm:-right-10 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
-          <p className="relative max-w-xl font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
+          <p className="relative max-w-xl text-pretty font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
             Die <strong className="font-bold text-secondary">Walz</strong> soll
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
             mitzuge­stalten.
@@ -114,7 +114,7 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Was ist die Walz?
           </h1>
-          <p className="max-w-xl text-body-md md:text-body-lg lg:text-body-xl">
+          <p className="max-w-xl text-pretty text-body-md md:text-body-lg lg:text-body-xl">
             In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
             geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
             ausloten und werden auf die Matura vorbereitet.

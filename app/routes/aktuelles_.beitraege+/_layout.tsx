@@ -17,7 +17,7 @@ export default function PostLayout() {
         />
       </Link>
 
-      <div>
+      <div className="hyphens-auto text-pretty">
         <Outlet />
       </div>
     </div>

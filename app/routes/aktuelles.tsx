@@ -182,7 +182,9 @@ export default function Aktuelles() {
                               Info
                             </dt>
                             <dd>
-                              <p className="max-w-prose">{date?.description}</p>
+                              <p className="max-w-prose hyphens-auto text-pretty">
+                                {date?.description}
+                              </p>
                             </dd>
                           </div>
                         </dl>
@@ -337,7 +339,7 @@ function PostItem({
             {title}
           </h1>
         </Link>
-        <p className="leading-snug">
+        <p className="hyphens-auto text-pretty leading-snug">
           {previewText} <span>…</span>
         </p>
       </div>

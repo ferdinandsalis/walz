@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 
 export default function UeberUns() {
   return (
-    <div className="md:mt-12">
+    <div className="hyphens-auto text-pretty md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Über uns
       </h1>

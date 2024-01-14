@@ -27,7 +27,7 @@ export default function Post() {
   const post = loaderData.data
 
   return (
-    <article className="post">
+    <article className="post hyphens-auto text-pretty">
       <h1>{post.title}</h1>
       <PortableText
         value={post.body}
