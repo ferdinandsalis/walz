@@ -54,7 +54,7 @@ export default defineType({
       name: 'description',
       type: 'string',
       title: 'Beschreibung',
-      validation: Rule => Rule.required().min(8).max(40),
+      validation: Rule => Rule.required().min(4).max(40),
     }),
     {
       name: 'roles',
