@@ -14,6 +14,9 @@ export default defineType({
       name: 'portrait',
       type: 'image',
       title: 'Portrait',
+      options: {
+        hotspot: true,
+      },
       fields: [
         {
           name: 'caption',
