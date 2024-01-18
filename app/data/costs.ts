@@ -36,6 +36,6 @@ export const costs = [
     interval: 'MONTHLY',
     cost: 117,
     description:
-      'Das Essen besteht vormittags aus einem Frühstücksbuffet, zu Mittag gibt es ein neben einem kleinen Buffet die Möglichkeit ein warmes Essen zu bestellen, nachmittags wird eine kleine Jause bereitgestellt.',
+      'Das Essen besteht vormittags aus einem Frühstücksbuffet, zu Mittag gibt es neben einem kleinen Buffet die Möglichkeit ein warmes Essen zu bestellen, nachmittags wird eine kleine Jause bereitgestellt.',
   },
 ]
