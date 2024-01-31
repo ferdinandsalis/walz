@@ -1,3 +1,6 @@
+// location
+// years?
+
 export const dates = [
   {
     title: 'Schulbeginn 🏫',
@@ -115,12 +118,37 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     description: 'Der Aufnahmetag für den Jahrgang Gamma findet statt.',
   },
   {
+    title: 'Lebenswerkstatt Walz. Eine Walz-Karriere in Stationen.',
+    startDate: new Date('2024-04-25'),
+    startTime: '18:00',
+    type: 'internal',
+    description: 'Kunstausstellung und Theater-Bites in kurzen Szenen.',
+  },
+  {
+    title: 'Wanderzirkus Wunderland - Junge Straßenkünstler:innen unterwegs',
+    startDate: new Date('2024-06-10'),
+    endDate: new Date('2024-06-14'),
+    type: 'internal',
+    description:
+      'Die Betas touren mit ihrer Straßentheater-Show im Waldviertel. Auftrittsorte folge.',
+  },
+  {
+    title: 'Wanderzirkus Wunderland Abschlussshow im MQ',
+    startDate: new Date('2024-06-17'),
+    startTime: '15:30',
+    endTime: '16:30',
+    type: 'internal',
+    description:
+      'Die Straßentheater-Show 2024 findet wie jedes Jahr ihr großes Finale im MQ in Wien.',
+  },
+  {
     title: 'Abschluss 🎓',
     startDate: new Date('2024-06-27'),
     description: undefined,
   },
 ]
 
+// holidays
 const external = [
   {
     title: 'Weihnachtsferien (Beginn)',
