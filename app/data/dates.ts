@@ -118,11 +118,12 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     description: 'Der Aufnahmetag für den Jahrgang Gamma findet statt.',
   },
   {
-    title: 'Lebenswerkstatt Walz. Eine Walz-Karriere in Stationen.',
+    title: 'Lebenswerkstatt Walz - Eine Walz-Karriere in Stationen',
     startDate: new Date('2024-04-25'),
     startTime: '18:00',
     type: 'internal',
-    description: 'Kunstausstellung und Theater-Bites in kurzen Szenen.',
+    description:
+      'Kunstausstellung und Theater-Bites in kurzen Szenen. Weitere Informationen folgen.',
   },
   {
     title: 'Wanderzirkus Wunderland - Junge Straßenkünstler:innen unterwegs',
@@ -130,12 +131,13 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     endDate: new Date('2024-06-14'),
     type: 'internal',
     description:
-      'Die Betas touren mit ihrer Straßentheater-Show im Waldviertel. Auftrittsorte folge.',
+      'Die Betas touren von 10. bis 14. Juni mit ihrer Straßentheater-Show im Waldviertel. Die Auftrittsorte folgen.',
   },
   {
     title: 'Wanderzirkus Wunderland Abschlussshow im MQ',
     startDate: new Date('2024-06-17'),
     startTime: '15:30',
+    // multiple start times
     endTime: '16:30',
     type: 'internal',
     description:
