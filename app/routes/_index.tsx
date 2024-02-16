@@ -11,6 +11,7 @@ import {
   DonutIcon,
   DotIcon,
   ExternalLinkIcon,
+  LinkIcon,
   LoaderIcon,
 } from 'lucide-react'
 import { useSpinDelay } from 'spin-delay'
@@ -231,7 +232,7 @@ export default function Home() {
           </Link>
           <Link
             to="/faq/#was-kostet-die-walz"
-            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
@@ -256,7 +257,7 @@ export default function Home() {
                 key={idx}
                 className="relative max-w-prose bg-background"
               >
-                <p className="text-md relative rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
+                <p className="text-md relative text-balance rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
                   {entry.text}
                 </p>
                 <footer className="ml-4 mt-3 lg:ml-6">
@@ -287,30 +288,33 @@ export default function Home() {
             />
             <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
           </Link>
-          <div className="md:col-span-2 md:col-start-5 lg:text-body-md">
+          <div className="md:col-span-2 md:col-start-5">
             <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
               Kontakt
             </h2>
-            <p>
-              <strong>Walz Wiener Lernzentrum</strong>
-            </p>
-            <p>Heinrich-Collin-Straße 9</p>
-            <p>1140 Wien</p>
-            <p>Tel.: 01 8042939</p>
-            <p>Fax: 01 8042939-2000</p>
-            <p>Email: office@walz.at</p>
-
-            <div className="mt-2">
+            <div className="lg:text-body-md">
               <p>
+                <strong>Walz Wiener Lernzentrum</strong>
+              </p>
+              <p>Heinrich-Collin-Straße 9</p>
+              <p>1140 Wien</p>
+              <p>Tel.: 01 8042939</p>
+              <p>Fax: 01 8042939-2000</p>
+              <p>Email: office@walz.at</p>
+            </div>
+
+            <div className="mt-4">
+              <p className="text-balance">
                 <Link
                   to="/rundgang"
-                  className="mt-2 align-middle text-muted-foreground underline-offset-2 hover:underline"
+                  className="text-muted-foreground underline-offset-2 hover:underline"
                 >
-                  <ExternalLinkIcon
-                    size={18}
-                    className="inline stroke-primary"
-                  />{' '}
-                  Lerne die Walz bei einem virtuellen Rundgang kennen.
+                  Klicke hier um die Walz bei einem virtuellen Rundgang
+                  kennenzulernen.{' '}
+                  <LinkIcon
+                    className="relative top-[1px] inline stroke-primary align-baseline"
+                    size={16}
+                  />
                 </Link>
               </p>
             </div>
@@ -385,7 +389,7 @@ export function Newsletter() {
       className="xl:p-8 grid max-w-xl rounded-md bg-card p-6 shadow-md"
       key={JSON.stringify(fetcher.data)}
     >
-      <p className="mb-4 max-w-[28ch] text-lg md:text-xl">
+      <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-xl">
         <span className="font-bold">
           Möchtest du auf dem Laufenden bleiben?
         </span>{' '}

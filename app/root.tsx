@@ -140,7 +140,7 @@ function Layout({ children }: any) {
         {children}
       </div>
 
-      <div className="mt-24 bg-muted/40">
+      <div className="mt-24 border-b-8 border-b-secondary bg-muted/40">
         <div className="px-4 sm:px-8 md:px-12">
           <Footer />
         </div>
