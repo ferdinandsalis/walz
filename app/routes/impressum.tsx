@@ -18,15 +18,15 @@ export default function Legal() {
           <p>1140 Wien</p>
           <p>ZVR-Nr. 667889397</p>
           <p>
-            <a href="tel:018042939">01-804 29 39</a>
+            Telefon: <a href="tel:018042939">01-804 29 39</a>
           </p>
           <p>
-            <a href="mailto:office@walz.at">office@walz.at</a>
+            Email: <a href="mailto:office@walz.at">office@walz.at</a>
           </p>
         </div>
 
         <div>
-          <dl>
+          <dl className="grid grid-cols-1 gap-1">
             <div>
               <dt className="font-bold">Pädagogische Leiterin</dt>
               <dd>Renate Chorherr</dd>
@@ -48,12 +48,12 @@ export default function Legal() {
           </dl>
         </div>
 
-        <section className="max-w-prose space-y-4">
+        <section className="max-w-prose space-y-4 text-balance">
           <p>
-            Alle auf dieser Seite veröffentlichten Texte und Bilder sind - wenn
-            nicht anders angegeben - geistiges Eigentum ihrer Autor/-innen und
-            dürfen nicht ohne gut sichtbare Quellenangabe und Einverständnis
-            derselben verbreitet werden.
+            Alle auf dieser Seite veröffentlichten Texte und Bilder sind &ndash;
+            wenn nicht anders angegeben &ndash; geistiges Eigentum ihrer
+            Autor:innen und dürfen nicht ohne gut sichtbare Quellenangabe und
+            Einverständnis derselben verbreitet werden.
           </p>
           <p>
             Die Fotos wurden von Jugendlichen und Mitarbeiter:innen der Walz zur

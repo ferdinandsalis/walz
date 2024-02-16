@@ -9,7 +9,7 @@ export const meta: MetaFunction = () => {
 
 export default function Curriculum() {
   return (
-    <div className="md:mt-12">
+    <div className="text-balance md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Curriculum
       </h1>

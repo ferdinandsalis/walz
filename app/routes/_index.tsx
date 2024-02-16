@@ -138,7 +138,7 @@ export default function Home() {
                 })}
               </time>
             </p>
-            <p className="mt-4 max-w-md text-body-sm leading-snug lg:text-body-md">
+            <p className="mt-4 max-w-md text-balance text-body-sm font-light leading-snug lg:text-body-md">
               {latestPost.previewText} <span>…</span>
             </p>
             <footer>
@@ -255,7 +255,7 @@ export default function Home() {
                 key={idx}
                 className="relative max-w-prose bg-background"
               >
-                <p className="text-md relative text-balance rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
+                <p className="text-md relative text-balance rounded-lg bg-card p-6 font-light text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
                   {entry.text}
                 </p>
                 <footer className="ml-4 mt-3 lg:ml-6">
