@@ -14,5 +14,5 @@ export async function action({ request }: ActionFunctionArgs) {
 
   await Newsletter.addSubscriber(data.email, 'walz.at')
 
-  return json(null)
+  return json({})
 }
