@@ -4,7 +4,7 @@ import { dates } from '#app/data/dates.ts'
 import { calculateCurrentYear, years } from '#app/data/years.ts'
 import { ArrowRight, BabyIcon, ChevronDown, DownloadIcon } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
-import type { LoaderFunctionArgs, MetaFunction} from '@remix-run/node';
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { loadQuery } from '@sanity/react-loader'
-import type { QueryResult} from './aktuelles.query.ts';
+import type { QueryResult } from './aktuelles.query.ts'
 import { query } from './aktuelles.query.ts'
 
 export const meta: MetaFunction = () => {
