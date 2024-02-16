@@ -1,9 +1,13 @@
-import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node'
+import {
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  json,
+} from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
 import { PortableText } from '@portabletext/react'
 import { useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
-import { QueryResult, query } from './$slug.query.ts'
+import { type QueryResult, query } from './$slug.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

@@ -1,16 +1,16 @@
 import * as Newsletter from '#app/utils/newsletter.ts'
-import { ActionArgs, json } from '@remix-run/node'
+import { type ActionFunctionArgs, json } from '@remix-run/node'
 import z from 'zod'
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
   const data = z
     .object({
-      email: z.string().nonempty(),
+      email: z.string().email(),
     })
     .parse(Object.fromEntries(formData.entries()))
 
-  const result = Newsletter.addEmail(data.email)
+  Newsletter.addEmail(data.email)
 
   return json({})
 }

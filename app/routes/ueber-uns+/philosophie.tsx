@@ -1,5 +1,5 @@
 import { SectionHeading } from '#app/components/section-heading.tsx'
-import { MetaFunction, Outlet, useMatches } from '@remix-run/react'
+import { type MetaFunction, Outlet, useMatches } from '@remix-run/react'
 
 import { handle as educationHandle } from './philosophie.bildung.tsx'
 import { handle as personalityHandle } from './philosophie.persoenlichkeit.tsx'

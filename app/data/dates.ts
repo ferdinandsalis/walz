@@ -151,7 +151,7 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
 ]
 
 // holidays
-const external = [
+export const external = [
   {
     title: 'Weihnachtsferien (Beginn)',
     startDate: new Date('2023-12-22'),

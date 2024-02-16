@@ -8,19 +8,16 @@ import {
   ArrowRight,
   AsteriskIcon,
   CalendarClockIcon,
-  DonutIcon,
-  DotIcon,
-  ExternalLinkIcon,
   LinkIcon,
   LoaderIcon,
 } from 'lucide-react'
 import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { LoaderFunctionArgs, json } from '@remix-run/node'
+import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
-import { query, QueryResult } from './_index.query.ts'
+import { query, type QueryResult } from './_index.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 
 export async function loader(_loaderArgs: LoaderFunctionArgs) {
@@ -188,7 +185,7 @@ export default function Home() {
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
           <Link
             to="/faq#was-unterscheidet-die-walz"
-            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
@@ -199,7 +196,7 @@ export default function Home() {
           </Link>
           <Link
             to="/faq#was-heisst-eigentlich-walz"
-            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
@@ -210,7 +207,7 @@ export default function Home() {
           </Link>
           <Link
             to="/faq/#wie-kann-ich-die-walz-kennenlernen"
-            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
@@ -221,7 +218,7 @@ export default function Home() {
           </Link>
           <Link
             to="/faq/#wieso-gibt-es-externistenpruefungen"
-            className="group flex overflow-hidden overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
@@ -329,11 +326,13 @@ export function LinkPhotoCard({
   title,
   abstract,
   image,
+  imageAlt,
   link,
 }: {
   title: string
   abstract: string
   image: string
+  imageAlt?: string
   link: string
 }) {
   return (
@@ -346,6 +345,7 @@ export function LinkPhotoCard({
         <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-muted/50 transition-all group-hover:translate-y-2 group-hover:rotate-1">
           <img
             src={image}
+            alt={imageAlt}
             className="ascpet-square h-48 w-full bg-muted object-cover grayscale group-hover:grayscale-0"
           />
           <div

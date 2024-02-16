@@ -1,12 +1,12 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { Person, persons } from '#app/data/persons.ts'
+import { type Person, persons } from '#app/data/persons.ts'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
-import { MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Über uns | Walz' }]

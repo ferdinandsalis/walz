@@ -1,4 +1,4 @@
-import clsx, { ClassValue } from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
 import { curry } from 'ramda'
 import { extendedTheme } from './extended-theme.ts'

@@ -1,7 +1,7 @@
 import { Link, NavLink } from '@remix-run/react'
 import { LogoSymbol, LogoType } from './brand.tsx'
 import { cn } from '#app/utils/misc.tsx'
-import { ExternalLinkIcon, Home, InstagramIcon } from 'lucide-react'
+import { ExternalLinkIcon, Home } from 'lucide-react'
 import { Newsletter } from '#app/routes/_index.tsx'
 
 const navigation = {

@@ -1,4 +1,4 @@
-import { Person, persons } from './persons.ts'
+import { type Person, persons } from './persons.ts'
 
 export type Year = {
   name: string

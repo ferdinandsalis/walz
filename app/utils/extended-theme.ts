@@ -1,5 +1,3 @@
-import defaultTheme from 'tailwindcss/defaultTheme.js'
-
 export const extendedTheme = {
   borderRadius: {
     lg: 'var(--radius)',
