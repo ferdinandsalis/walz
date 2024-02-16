@@ -12,6 +12,8 @@ jobs:
     env:
       SENTRY_DSN: https://20c628330a59c4df20fd2c0ba7f2873c@o4505819035467776.ingest.sentry.io/4505819065286656
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+      BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+      HONEYPOT_SECRET: ${{ secrets.HONEYPOT_SECRET }}
       AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
       SANITY_PUBLIC_PROJECT_ID: iaejvb99
       SANITY_PUBLIC_DATASET: production
