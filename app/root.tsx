@@ -12,6 +12,8 @@ import {
   useLocation,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
+import { HoneypotProvider } from 'remix-utils/honeypot/react'
+import { honeypot } from './utils/honeypot.server.ts'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import appStyleSheetUrl from './styles/app.css'
 import fontStyleSheetUrl from './styles/font.css'
@@ -40,11 +42,15 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  const honeyProps = honeypot.getInputProps()
+
   return json({
     requestInfo: {
       origin: getDomainUrl(request),
       path: new URL(request.url).pathname,
     },
+    honeyProps,
+
     ENV: getEnv(),
   })
 }
@@ -149,11 +155,26 @@ function Layout({ children }: any) {
   )
 }
 
-export default withSentry(App)
+function AppWithProviders() {
+  const data = useLoaderData<typeof loader>()
+  return (
+    <HoneypotProvider {...data.honeyProps}>
+      <App />
+    </HoneypotProvider>
+  )
+}
+
+export default withSentry(AppWithProviders)
 
 export function ErrorBoundary() {
   // NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
   // likely failed to run so we have to do the best we can.
+  // We could probably do better than this (it's possible the loader did run).
+  // This would require a change in Remix.
+
+  // Just make sure your root route never errors out and you'll always be able
+  // to give the user a better UX.
+
   return (
     <Document>
       <GeneralErrorBoundary />

@@ -1,29 +1,16 @@
-import Airtable from 'airtable'
+const BASE_URL = 'https://api.buttondown.email'
+const ENDPOINT = '/v1/subscribers'
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-  'app59t58w2ZkjdkfV',
-)
-
-function searchByEmail(email: string) {
-  return base('Emails')
-    .select({
-      maxRecords: 1,
-      filterByFormula: `{email} = '${email}'`,
-    })
-    .all()
-}
-
-export async function addEmail(email: string) {
-  const records = await searchByEmail(email)
-  if (records.length > 0) {
-    return { email }
-  }
-
-  return base('Emails').create([
-    {
-      fields: {
-        email: email,
-      },
+export function addSubscriber(email: string, source?: 'walz.at') {
+  return fetch(`${BASE_URL}${ENDPOINT}`, {
+    method: 'post',
+    headers: {
+      Authorization: `Token ${process.env.BUTTONDOWN_API_KEY}`,
+      'Content-Type': 'application/json',
     },
-  ])
+    body: JSON.stringify({
+      email,
+      utm_source: source,
+    }),
+  })
 }

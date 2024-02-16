@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
+import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { pillars } from './ueber-uns+/philosophie.tsx'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
@@ -389,6 +390,7 @@ export function Newsletter() {
       className="xl:p-8 grid max-w-xl rounded-md bg-card p-6 shadow-md"
       key={JSON.stringify(fetcher.data)}
     >
+      <HoneypotInputs />
       <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-xl">
         <span className="font-bold">
           Möchtest du auf dem Laufenden bleiben?
@@ -413,7 +415,7 @@ export function Newsletter() {
           className="rounded-lg bg-primary p-6 text-xl shadow-md"
           disabled={fetcher.state === 'submitting'}
         >
-          Anmelden
+          Abschicken
         </Button>
         {showSpinner && (
           <LoaderIcon className="animate-spin stroke-secondary" />
