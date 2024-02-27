@@ -12,7 +12,7 @@ export default function PostLayout() {
           Zurück zur Übersicht
         </span>
         <ArrowLeft
-          size="20"
+          size="18"
           className="stroke-primary transition-transform group-hover/more:translate-x-1"
         />
       </Link>

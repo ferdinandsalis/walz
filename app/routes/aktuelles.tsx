@@ -296,7 +296,7 @@ function Year({
             >
               Aktueller Jahresplan
             </a>
-            <DownloadIcon className="stroke-primary" size={20} />
+            <DownloadIcon className="stroke-primary" size={18} />
           </div>
         )}
       </div>
@@ -355,7 +355,7 @@ function PostItem({
             Beitrag lesen
           </span>
           <ArrowRight
-            size="20"
+            size="18"
             className="stroke-primary transition-transform group-hover/more:translate-x-1"
           />
         </Link>

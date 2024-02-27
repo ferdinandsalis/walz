@@ -150,7 +150,7 @@ export default function Home() {
                   Beitrag lesen
                 </span>
                 <ArrowRight
-                  size="20"
+                  size="18"
                   className="stroke-primary transition-transform group-hover/more:translate-x-1"
                 />
               </Link>

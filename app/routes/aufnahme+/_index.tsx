@@ -45,7 +45,7 @@ export default function Aufnahme() {
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
               Anmelde&shy;formular
-              <DownloadIcon size={20} />
+              <DownloadIcon size={18} className="stroke-primary" />
             </a>{' '}
             an{' '}
             <a
@@ -53,7 +53,7 @@ export default function Aufnahme() {
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
               office@walz.at
-              <ExternalLinkIcon size={20} />
+              <ExternalLinkIcon size={18} className="stroke-primary" />
             </a>
             .
           </p>
@@ -75,6 +75,21 @@ export default function Aufnahme() {
               Jahrgang angeboten wird. Nach der Zusage von Seiten der Eltern und
               des/der Jugendlichen und der Einzahlung des Aufnahmebeitrags ist
               der Platz im neuen Jahrgang fix.
+            </p>
+          </div>
+
+          <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
+            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
+              <InfoIcon size={18} className="stroke-secondary" />
+              <span className="font-condensed text-body-sm">
+                Wichtige Information
+              </span>
+            </div>
+            <p className="">
+              <strong>Quereinstieg</strong>: Grundsätzlich ist es möglich, bei
+              den Jahrgängen Beta 1 (9. Schulstufe) und Alpha 2 (10. Schulstufe)
+              quer einzusteigen. Für weitere Infos und einen Gesprächstermin
+              melden Sie sich bei Agnes Chorherr (agnes.chorherr@walz.at).
             </p>
           </div>
 
@@ -123,7 +138,7 @@ export default function Aufnahme() {
                 className="inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
               >
                 Hier herunterladen
-                <DownloadIcon size={20} className="flex-none" />
+                <DownloadIcon size={20} className="flex-none stroke-primary" />
               </a>{' '}
             </p>
           </div>
