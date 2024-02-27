@@ -413,15 +413,6 @@ export const persons: Person[] = [
     roles: ['project leader'],
   },
   {
-    name: 'Daniel Torrón Mack',
-    position: 'Akrobatik',
-    email: null,
-    phone: null,
-    image: '/images/staff/Daniel_Torron_Mack.jpg',
-    website: 'http://www.fufo.at',
-    roles: ['project leader'],
-  },
-  {
     name: 'Wolfram Weh',
     position: 'Kunst',
     email: null,
