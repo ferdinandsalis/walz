@@ -160,10 +160,14 @@ export default function Faq() {
               kennenzulernen!
             </p>
             <p>
-              Jährlich entsteht das Book of the Year mit Erfahrungsberichten,
-              ausgewählten Fotos und vielem mehr. Zum Durchblättern schicken wir
-              dir auch gerne gegen einen Unkostenbeitrag eines oder mehrere per
-              Post zu. Dafür schicke uns eine Mail an
+              Jährlich entsteht das{' '}
+              <Link to="/boty/" className="underline underline-offset-2">
+                Book of the Year
+              </Link>{' '}
+              mit Erfahrungsberichten, ausgewählten Fotos und vielem mehr. Zum
+              Durchblättern schicken wir dir auch gerne gegen einen
+              Unkostenbeitrag eines oder mehrere per Post zu. Dafür schicke uns
+              eine Mail an{' '}
               <a
                 href="mailto:info@walz.at"
                 className="underline underline-offset-2"
