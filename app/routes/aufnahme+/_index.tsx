@@ -179,9 +179,9 @@ export default function Aufnahme() {
               2019).
             </p>
           </div>
-          <p className="md:text-xl">
-            Für das Schuljahr 2023/2024 gelten für die Walz folgende Beträge:
-          </p>
+          <h2 className="font-condensed font-bold md:text-h4">
+            Beiträge Schuljahr 2023/2024
+          </h2>
           <div className="mb-8 max-w-prose text-base">
             <dl className="grid grid-cols-1 gap-2 divide-y divide-muted">
               {costs.map((cost, idx) => {
