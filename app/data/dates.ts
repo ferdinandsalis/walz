@@ -118,6 +118,24 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     description: 'Der Aufnahmetag für den Jahrgang Gamma findet statt.',
   },
   {
+    title: 'Internationale Handelsmesse der Junior Companies',
+    startDate: new Date('2024-03-16'),
+    startTime: '10:00',
+    endTime: '18:00',
+    description:
+      'Rebloom und Lampenfieber werden die Walz auf der Internationalen Handelsmesse der Junior Companies vertreten. Der JA Marketplace Vienna findet heuer von 10:00 bis 18:00 im Einkaufszentrum Lugner City statt. Gemeinsam mit etwa 50 Companies aus ganz Europa bieten die Jugendlichen ihre Produkte in der realen Verkaufswelt an. Sie präsentieren ihr Geschäftsmodell in einem Bühnenpitch einer Jury aus der Start-up-Szene. Für den kreativsten Auftritt, das nachhaltigste Produkt und für das überzeugendste Verkaufsverhalten winken Preise und Auszeichnungen.',
+    links: [
+      {
+        title: 'Beitrag auf walz.at',
+        href: 'https://walz.at/aktuelles/beitraege/die-junior-companies-der-thetas',
+      },
+      {
+        title: 'Marketplace Vienna',
+        href: 'https://www.junior.cc/ja-marketplace',
+      },
+    ],
+  },
+  {
     title: 'Lebenswerkstatt Walz - Eine Walz-Karriere in Stationen',
     startDate: new Date('2024-04-25'),
     startTime: '18:00',
