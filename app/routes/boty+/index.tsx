@@ -9,7 +9,7 @@ export default function Boty() {
       <article>
         <h2 className="font-condensed text-h3">22/23</h2>
         <a
-          download="Anmeldeformular.pdf"
+          download="Book of the year 22/23.pdf"
           href="/downloads/boty_22-23.pdf"
           className="inline-flex items-center gap-1 underline underline-offset-2"
         >
