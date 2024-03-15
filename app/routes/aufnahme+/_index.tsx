@@ -35,10 +35,10 @@ export default function Aufnahme() {
             </span>
           </div>
           <p className="">
-            Anmeldungen der Geburts&shy;jahrgänge 2009 und 2010 für das
-            Schuljahr 2024/25 nehmen wir gerne bis{' '}
-            <em className="">24. Februar 2024</em> entgegen. Bitte senden Sie
-            dafür das ausgefüllte{' '}
+            Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
+            sind noch Restplätze verfügbar. Für eine mögliche Nachaufnahme
+            melden Sie sich bitte bei Agnes Chorherr oder übermitteln Sie uns
+            das ausgefüllte{' '}
             <a
               download="Anmeldeformular.pdf"
               href="/downloads/anmeldeformular.pdf"
