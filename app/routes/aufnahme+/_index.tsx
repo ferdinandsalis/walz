@@ -4,6 +4,7 @@ import { Divider } from '#app/components/ui/divider.tsx'
 import { costs } from '#app/data/costs.ts'
 import { cn } from '#app/utils/misc.tsx'
 import type { MetaFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
 
 export const meta: MetaFunction = () => {
@@ -34,11 +35,17 @@ export default function Aufnahme() {
               Wichtige Information
             </span>
           </div>
-          <p className="">
+          <p className="font-light">
             Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
             sind noch Restplätze verfügbar. Für eine mögliche Nachaufnahme
-            melden Sie sich bitte bei Agnes Chorherr oder übermitteln Sie uns
-            das ausgefüllte{' '}
+            melden Sie sich bitte bei{' '}
+            <Link
+              to="/ueber-uns#agnes-chorherr"
+              className="underline underline-offset-2"
+            >
+              Agnes Chorherr
+            </Link>{' '}
+            oder übermitteln Sie uns das ausgefüllte{' '}
             <a
               download="Anmeldeformular.pdf"
               href="/downloads/anmeldeformular.pdf"
@@ -85,7 +92,7 @@ export default function Aufnahme() {
                 Wichtige Information
               </span>
             </div>
-            <p className="">
+            <p className="font-light">
               <strong>Quereinstieg</strong>: Grundsätzlich ist es möglich, bei
               den Jahrgängen Beta 1 (9. Schulstufe) und Alpha 2 (10. Schulstufe)
               quer einzusteigen. Für weitere Infos und einen Gesprächstermin
@@ -129,7 +136,7 @@ export default function Aufnahme() {
                 Wichtige Information
               </span>
             </div>
-            <p className="leading-snug">
+            <p className="font-light">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
               Walz.{' '}
               <a

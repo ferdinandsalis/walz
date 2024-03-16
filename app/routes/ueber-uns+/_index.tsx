@@ -6,6 +6,7 @@ import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
+import slug from 'slug'
 import type { MetaFunction } from '@remix-run/node'
 
 export const meta: MetaFunction = () => {
@@ -319,10 +320,10 @@ export default function UeberUns() {
   )
 }
 
-function StaffCard({ person }: { person: Partial<Person> }) {
+function StaffCard({ person }: { person: Person }) {
   return (
     <figure
-      id={person.name}
+      id={slug(person.name)}
       key={person.name}
       className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
