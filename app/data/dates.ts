@@ -136,7 +136,7 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     ],
   },
   {
-    title: 'Lebenswerkstatt Walz - Eine Walz-Karriere in Stationen',
+    title: 'Lebenswerkstatt Walz – Eine Walz-Karriere in Stationen',
     startDate: new Date('2024-04-25'),
     startTime: '18:00',
     type: 'internal',
@@ -144,7 +144,7 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
       'Kunstausstellung und Theater-Bites in kurzen Szenen. Weitere Informationen folgen.',
   },
   {
-    title: 'Wanderzirkus Wunderland - Junge Straßenkünstler:innen unterwegs',
+    title: 'Wanderzirkus Wunderland – Junge Straßenkünstler:innen unterwegs',
     startDate: new Date('2024-06-10'),
     endDate: new Date('2024-06-14'),
     type: 'internal',
