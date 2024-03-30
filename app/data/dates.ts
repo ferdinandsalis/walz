@@ -142,6 +142,13 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     type: 'internal',
     description:
       'Kunstausstellung und Theater-Bites in kurzen Szenen. Weitere Informationen folgen.',
+    links: [
+      {
+        title: 'Flyer Lebenswerkstatt Walz',
+        href: '/downloads/flyer-lebenswerkstatt-2024.pdf',
+        download: true,
+      },
+    ],
   },
   {
     title: 'Wanderzirkus Wunderland – Junge Straßenkünstler:innen unterwegs',
