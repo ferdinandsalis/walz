@@ -140,8 +140,7 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     startDate: new Date('2024-04-25'),
     startTime: '18:00',
     type: 'internal',
-    description:
-      'Kunstausstellung und Theater-Bites in kurzen Szenen. Weitere Informationen folgen.',
+    description: `Für einen Abend in den Walz-Alltag eintauchen! Von einer Universität im Speeddating-Format über sprechende Kunstwerke bis zur live-Fahrradreparatur. 18:00-19:30 Wechselnder Stationenbetrieb. 19:30 Hacky-Sack Turnier & fliegendes Buffett.`,
     links: [
       {
         title: 'Flyer Lebenswerkstatt Walz',

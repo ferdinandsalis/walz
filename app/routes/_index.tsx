@@ -20,6 +20,7 @@ import { dates } from '#app/data/dates.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
+import slug from 'slug'
 
 export async function loader(_loaderArgs: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
@@ -76,9 +77,13 @@ export default function Home() {
                 1,
                 dates.filter(date => date.startDate > new Date()),
               ).map(date => {
+                const key = `${date.startDate.toISOString()}_${slug(
+                  date.title,
+                )}`
                 return (
-                  <p
-                    key={`${date.startDate}_${date.title}`}
+                  <Link
+                    key={key}
+                    to={`/aktuelles#${key}`}
                     className="font-condensed font-bold"
                   >
                     <span className="">{date.title}</span> am{' '}
@@ -88,7 +93,7 @@ export default function Home() {
                         month: 'long',
                       })}
                     </time>
-                  </p>
+                  </Link>
                 )
               })}
             </div>{' '}

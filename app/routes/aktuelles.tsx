@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { take } from 'ramda'
 import { dates } from '#app/data/dates.ts'
 import { calculateCurrentYear, years } from '#app/data/years.ts'
@@ -18,6 +18,7 @@ import {
 import { loadQuery } from '@sanity/react-loader'
 import type { QueryResult } from './aktuelles.query.ts'
 import { query } from './aktuelles.query.ts'
+import slug from 'slug'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Aktuelles | Walz' }]
@@ -34,6 +35,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function Aktuelles() {
+  const location = useLocation()
+  const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
   const posts = loaderData.data.posts
 
@@ -80,14 +83,13 @@ export default function Aktuelles() {
             Termine
           </h1>
 
-          <Accordion collapsible type="single">
-            {dates.map((date, idx) =>
-              date.description ? (
-                <AccordionItem
-                  key={`${date.startDate.toISOString()}_${date.title}`}
-                  value={`${date.startDate.toISOString()}_${date.title}`}
-                >
+          <Accordion collapsible type="single" defaultValue={currentHash}>
+            {dates.map((date, idx) => {
+              const key = `${date.startDate.toISOString()}_${slug(date.title)}`
+              return date.description ? (
+                <AccordionItem key={key} value={key}>
                   <div
+                    id={key}
                     className={cn(
                       'border-b-2 border-b-background bg-card/50 transition-colors',
                       {
@@ -216,8 +218,8 @@ export default function Aktuelles() {
                     <h1>{date.title}</h1>
                   </div>
                 </div>
-              ),
-            )}
+              )
+            })}
           </Accordion>
 
           <BackToTop />
