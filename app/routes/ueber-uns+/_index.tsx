@@ -1,19 +1,38 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { type Person, persons } from '#app/data/persons.ts'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { LinkPhotoCard } from '../_index.tsx'
 import { pillars } from './philosophie.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 import slug from 'slug'
-import type { MetaFunction } from '@remix-run/node'
+import { type Person, query, type QueryResult } from './_index.query.ts'
+import {
+  json,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from '@remix-run/node'
+import { loadQuery } from '@sanity/react-loader'
+import { useLoaderData } from '@remix-run/react'
+import { urlFor } from '#app/sanity/instance.ts'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Über uns | Walz' }]
 }
 
+export async function loader(_loaderArgs: LoaderFunctionArgs) {
+  const queryResult = await loadQuery<QueryResult>(query)
+
+  return json({
+    query,
+    data: queryResult.data,
+  })
+}
+
 export default function UeberUns() {
+  const loaderData = useLoaderData<typeof loader>()
+  const persons = loaderData.data.persons
+
   return (
     <div className="hyphens-auto text-pretty md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
@@ -111,7 +130,7 @@ export default function UeberUns() {
                 </div>
                 <StaffRoll>
                   {persons
-                    .filter(person => person?.roles?.includes('project leader'))
+                    .filter(person => person?.roles?.includes('project_lead'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -159,7 +178,7 @@ export default function UeberUns() {
                 </div>
                 <StaffRoll>
                   {persons
-                    .filter(person => person?.roles?.includes('therapeut'))
+                    .filter(person => person?.roles?.includes('therapist'))
                     .map(person => (
                       <StaffCard key={person.name} person={person} />
                     ))}
@@ -321,6 +340,7 @@ export default function UeberUns() {
 }
 
 function StaffCard({ person }: { person: Person }) {
+  console.log(person)
   return (
     <figure
       id={slug(person.name)}
@@ -328,9 +348,9 @@ function StaffCard({ person }: { person: Person }) {
       className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
       <div className="grid grid-cols-1 grid-rows-6">
-        {person.image ? (
+        {person.portrait ? (
           <img
-            src={person.image || ''}
+            src={urlFor(person.portrait).url() || ''}
             alt={person.name}
             loading="lazy"
             className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
@@ -351,7 +371,7 @@ function StaffCard({ person }: { person: Person }) {
             {person.name}
           </h1>
           <h2 className="max-w-[18ch] font-condensed text-sm leading-tight text-muted-foreground">
-            {person.position}
+            {person.description}
           </h2>
         </hgroup>
         <div>
