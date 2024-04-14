@@ -1,7 +1,7 @@
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { take } from 'ramda'
 import { dates } from '#app/data/dates.ts'
-import { calculateCurrentYear, years } from '#app/data/years.ts'
+import { calculateCurrentYear } from '#app/data/years.ts'
 import { ArrowRight, BabyIcon, ChevronDown, DownloadIcon } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
@@ -16,9 +16,12 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { loadQuery } from '@sanity/react-loader'
-import type { QueryResult } from './aktuelles.query.ts'
-import { query } from './aktuelles.query.ts'
+import type { QueryResult, Year } from './aktuelles.query.ts'
+import { YearSchema, query } from './aktuelles.query.ts'
 import slug from 'slug'
+import { urlFor } from '#app/sanity/instance.ts'
+import { z } from 'zod'
+import { alphabetMap } from '#app/sanity/schema/year.ts'
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Aktuelles | Walz' }]
@@ -39,6 +42,7 @@ export default function Aktuelles() {
   const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
   const posts = loaderData.data.posts
+  const years = z.array(YearSchema).parse(loaderData.data.years)
 
   return (
     <div className="md:mt-12">
@@ -235,7 +239,7 @@ export default function Aktuelles() {
             {years
               .filter(year => !year.graduatedAt)
               .map(year => (
-                <Year key={year.name} {...year} />
+                <YearCard key={year.letter} {...year} />
               ))}
           </div>
 
@@ -246,31 +250,17 @@ export default function Aktuelles() {
   )
 }
 
-function Year({
-  name,
-  symbol,
-  startedAt,
-  mentor,
-  currentCover,
-  currentPlanHref,
-}: {
-  name: string
-  symbol: string
-  startedAt: Date
-  mentor?: { name: string }
-  currentCover: string | null
-  currentPlanHref: string | null
-}) {
+function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
   return (
-    <article key={name} className="flex rounded-md bg-card shadow-md">
+    <article key={letter} className="flex rounded-md bg-card shadow-md">
       <div className="relative flex flex-1 flex-col overflow-hidden py-6 pl-6">
         <div className="text-1xl absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
-          {symbol}
+          {letter}
         </div>
 
         <div className="flex-1">
           <h1 className="inline-flex gap-1 text-3xl font-bold">
-            <span>{name}</span>
+            <span>{alphabetMap[letter]}</span>
             <span className="text-lg font-bold text-primary">
               {calculateCurrentYear(startedAt)}
             </span>
@@ -290,10 +280,10 @@ function Year({
           </p>
         </div>
 
-        {currentPlanHref && (
+        {plan && (
           <div className="mt-4 flex items-center gap-1">
             <a
-              href={currentPlanHref}
+              href={plan}
               className="text-muted-foreground underline underline-offset-2"
             >
               Aktueller Jahresplan
@@ -303,10 +293,10 @@ function Year({
         )}
       </div>
       <div className="xl:w-80 relative flex aspect-video w-32 rounded-r-md md:w-60 lg:w-60">
-        {currentCover ? (
+        {photos ? (
           <img
-            src={currentCover}
-            alt={`${name} Foto`}
+            src={urlFor(photos[0]).quality(70).width(600).url()}
+            alt={`${letter} Foto`}
             className="flex-1 rounded-r-md object-cover object-center"
           />
         ) : (

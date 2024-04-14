@@ -1,4 +1,5 @@
 import groq from 'groq'
+import { z } from 'zod'
 
 // @ts-ignore
 export const query = groq`{
@@ -18,24 +19,30 @@ export const query = groq`{
   }
 }` as string
 
-export type Person = {
-  givenNames: string
-  familyName: string
-  name: string
-  description: string
-  roles?: (
-    | 'leadership'
-    | 'mentor'
-    | 'project_lead'
-    | 'administrator'
-    | 'therapist'
-  )[]
-  portrait?: string | null
-  phone?: string | null
-  email?: string | null
-  website?: string | null
-  publishedAt: string
-}
+export const PersonSchema = z.object({
+  givenNames: z.string(),
+  familyName: z.string(),
+  name: z.string(),
+  description: z.string(),
+  roles: z
+    .array(
+      z.union([
+        z.literal('leadership'),
+        z.literal('mentor'),
+        z.literal('project_lead'),
+        z.literal('administrator'),
+        z.literal('therapist'),
+      ]),
+    )
+    .optional(),
+  portrait: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  email: z.string().nullable().optional(),
+  website: z.string().nullable().optional(),
+  publishedAt: z.string(),
+})
+
+export type Person = z.infer<typeof PersonSchema>
 
 export type QueryResult = {
   persons: Person[]

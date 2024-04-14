@@ -58,6 +58,7 @@ Eine Theaterproduktion des Jahrgangs Psi 3.
       {
         title: 'Aufnahme',
         href: '/aufnahme',
+        download: false,
       },
     ],
     description:
@@ -107,6 +108,7 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
       {
         title: 'Aufnahme',
         href: '/aufnahme',
+        download: false,
       },
     ],
   },
@@ -128,10 +130,12 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
       {
         title: 'Beitrag auf walz.at',
         href: 'https://walz.at/aktuelles/beitraege/die-junior-companies-der-thetas',
+        download: false,
       },
       {
         title: 'Marketplace Vienna',
         href: 'https://www.junior.cc/ja-marketplace',
+        download: false,
       },
     ],
   },
