@@ -143,7 +143,7 @@ export default function Home() {
                 })}
               </time>
             </p>
-            <p className="mt-4 max-w-md text-balance text-body-sm font-light leading-snug lg:text-body-md">
+            <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
               {latestPost.previewText} <span>…</span>
             </p>
             <footer>
@@ -260,7 +260,7 @@ export default function Home() {
                 key={idx}
                 className="relative max-w-prose bg-background"
               >
-                <p className="text-md relative text-balance rounded-lg bg-card p-6 font-light text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
+                <p className="text-md relative text-balance rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
                   {entry.text}
                 </p>
                 <footer className="ml-4 mt-3 lg:ml-6">
@@ -382,7 +382,7 @@ export function LinkPhotoCard({
   )
 }
 
-export function Newsletter() {
+export function NewsletterForm() {
   const fetcher = useFetcher()
   const showSpinner = useSpinDelay(fetcher.state !== 'idle')
   const done = !!fetcher.data
@@ -400,17 +400,18 @@ export function Newsletter() {
         <span className="font-bold">
           Möchtest du auf dem Laufenden bleiben?
         </span>{' '}
-        Dann melde dich für unseren Newsletter an!
+        Dann melde dich für unseren{' '}
+        <strong className="text-secondary">Newsletter</strong> an!
       </p>
       <div className="mb-4">
         <label className="sr-only">E-Mail</label>
         <Input
           name="email"
           type="email"
-          placeholder="E-Mail"
+          placeholder="Deine E-Mail"
           disabled={done}
           defaultValue={done ? '' : undefined}
-          className="rounded-lg bg-white p-6 text-xl shadow-md"
+          className="rounded-lg bg-white p-6 text-xl shadow-md placeholder:italic"
         />
       </div>
       <div className="flex items-center gap-4">
@@ -420,7 +421,7 @@ export function Newsletter() {
           className="rounded-lg bg-primary p-6 text-xl shadow-md"
           disabled={fetcher.state === 'submitting'}
         >
-          Abschicken
+          Abonnieren
         </Button>
         {showSpinner && (
           <LoaderIcon className="animate-spin stroke-secondary" />

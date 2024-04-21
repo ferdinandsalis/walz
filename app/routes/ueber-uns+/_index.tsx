@@ -340,7 +340,6 @@ export default function UeberUns() {
 }
 
 function StaffCard({ person }: { person: Person }) {
-  console.log(person)
   return (
     <figure
       id={slug(person.name)}
