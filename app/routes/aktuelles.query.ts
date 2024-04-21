@@ -19,7 +19,7 @@ export const YearSchema = z.object({
     name: z.string(),
   }),
   photos: z.array(PhotoSchema),
-  plan: z.any(),
+  plan: z.string(),
 })
 
 export type Year = z.infer<typeof YearSchema>
@@ -40,7 +40,7 @@ export const query = groq`{
     _type,
     startedAt,
     graduatedAt,
-    plan,
+    "plan": plan.asset->url,
     letter,
     mentor->{
       familyName,
