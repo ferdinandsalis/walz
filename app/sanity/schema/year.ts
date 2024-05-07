@@ -27,40 +27,40 @@ export const YearSchema = z.object({
 export type Year = z.infer<typeof YearSchema>
 
 type GreekLetter = {
-  title: string
-  value: string
+  name: string
+  symbol: string
 }
 
 export const ALPHABET: GreekLetter[] = [
-  { title: 'Alpha', value: 'α' },
-  { title: 'Beta', value: 'β' },
-  { title: 'Gamma', value: 'γ' },
-  { title: 'Delta', value: 'δ' },
-  { title: 'Epsilon', value: 'ε' },
-  { title: 'Zeta', value: 'ζ' },
-  { title: 'Eta', value: 'η' },
-  { title: 'Theta', value: 'θ' },
-  { title: 'Iota', value: 'ι' },
-  { title: 'Kappa', value: 'κ' },
-  { title: 'Lambda', value: 'λ' },
-  { title: 'My', value: 'μ' },
-  { title: 'Ny', value: 'ν' },
-  { title: 'Xi', value: 'ξ' },
-  { title: 'Omikron', value: 'ο' },
-  { title: 'Pi', value: 'π' },
-  { title: 'Rho', value: 'ρ' },
-  { title: 'Sigma', value: 'σ' },
-  { title: 'Tau', value: 'τ' },
-  { title: 'Ypsilon', value: 'υ' },
-  { title: 'Phi', value: 'φ' },
-  { title: 'Chi', value: 'χ' },
-  { title: 'Psi', value: 'ψ' },
-  { title: 'Omega', value: 'ω' },
+  { name: 'alpha', symbol: 'α' },
+  { name: 'beta', symbol: 'β' },
+  { name: 'gamma', symbol: 'γ' },
+  { name: 'delta', symbol: 'δ' },
+  { name: 'epsilon', symbol: 'ε' },
+  { name: 'zeta', symbol: 'ζ' },
+  { name: 'eta', symbol: 'η' },
+  { name: 'theta', symbol: 'θ' },
+  { name: 'iota', symbol: 'ι' },
+  { name: 'kappa', symbol: 'κ' },
+  { name: 'lambda', symbol: 'λ' },
+  { name: 'my', symbol: 'μ' },
+  { name: 'ny', symbol: 'ν' },
+  { name: 'xi', symbol: 'ξ' },
+  { name: 'omikron', symbol: 'ο' },
+  { name: 'pi', symbol: 'π' },
+  { name: 'hho', symbol: 'ρ' },
+  { name: 'sigma', symbol: 'σ' },
+  { name: 'tau', symbol: 'τ' },
+  { name: 'ypsilon', symbol: 'υ' },
+  { name: 'phi', symbol: 'φ' },
+  { name: 'chi', symbol: 'χ' },
+  { name: 'psi', symbol: 'ψ' },
+  { name: 'omega', symbol: 'ω' },
 ]
 
 export const alphabetMap = ALPHABET.reduce(
-  (agg: { [key: string]: string }, { value, title }) => {
-    agg[value] = title
+  (agg: { [key: string]: string }, { name, symbol }) => {
+    agg[name] = symbol
     return agg
   },
   {},
@@ -143,7 +143,10 @@ export default defineType({
       type: 'string',
       title: 'Buchstabe',
       options: {
-        list: ALPHABET.map(({ title, value }) => ({ title, value })),
+        list: ALPHABET.map(({ name }) => ({
+          title: name,
+          value: name,
+        })),
         layout: 'radio',
       },
       validation: Rule => Rule.required(),

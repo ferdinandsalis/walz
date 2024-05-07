@@ -255,12 +255,12 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
     <article key={letter} className="flex rounded-md bg-card shadow-md">
       <div className="relative flex flex-1 flex-col overflow-hidden py-6 pl-6">
         <div className="text-1xl absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
-          {letter}
+          {alphabetMap[letter]}
         </div>
 
         <div className="flex-1">
           <h1 className="inline-flex gap-1 text-3xl font-bold">
-            <span>{alphabetMap[letter]}</span>
+            <span>{letter}</span>
             <span className="text-lg font-bold text-primary">
               {calculateCurrentYear(startedAt)}
             </span>
