@@ -4,7 +4,7 @@ import { Link, useLoaderData } from '@remix-run/react'
 import { calculateCurrentYear } from '#app/data/years.ts'
 import { query, YearSchema } from './$year.query.tsx'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
-import { urlFor } from '#app/sanity/instance.js'
+import { urlFor } from '#app/sanity/instance.ts'
 import { getImageDimensions } from '@sanity/asset-utils'
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
