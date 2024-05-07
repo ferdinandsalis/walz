@@ -2,10 +2,15 @@ import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { take } from 'ramda'
 import { dates } from '#app/data/dates.ts'
 import { calculateCurrentYear } from '#app/data/years.ts'
-import { ArrowRight, BabyIcon, ChevronDown, DownloadIcon } from 'lucide-react'
+import {
+  ArrowRight,
+  BabyIcon,
+  ChevronDown,
+  DownloadIcon,
+  Link2Icon,
+} from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
 import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { cn } from '#app/utils/misc.tsx'
@@ -29,20 +34,20 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
+  const years = z.array(YearSchema).parse(queryResult.data.years)
 
-  return json({
+  return {
     query,
     params,
-    data: queryResult.data,
-  })
+    data: { years, posts: queryResult.data.posts },
+  }
 }
 
 export default function Aktuelles() {
   const location = useLocation()
   const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
-  const posts = loaderData.data.posts
-  const years = z.array(YearSchema).parse(loaderData.data.years)
+  const { posts, years } = loaderData.data
 
   return (
     <div className="md:mt-12">
@@ -54,8 +59,8 @@ export default function Aktuelles() {
         <Toc
           links={[
             { name: 'Beiträge', to: '#beitraege' },
-            { name: 'Jahrgänge', to: '#jahrgaenge' },
             { name: 'Termine', to: '#termine' },
+            { name: 'Jahrgänge', to: '#jahrgaenge' },
           ]}
         />
 
@@ -284,15 +289,18 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
           <div className="mt-4 flex items-center gap-1">
             <a
               href={plan}
-              className="text-muted-foreground underline underline-offset-2"
+              className="text-body-xs text-muted-foreground underline underline-offset-2"
             >
-              Aktueller Jahresplan
+              Jahresplan
             </a>
             <DownloadIcon className="stroke-primary" size={18} />
           </div>
         )}
       </div>
-      <div className="xl:w-80 relative flex aspect-video w-32 rounded-r-md md:w-60 lg:w-60">
+      <Link
+        to={`/jahrgaenge/${letter}`}
+        className="xl:w-80 group relative flex aspect-video w-32 rounded-r-md md:w-60 lg:w-60"
+      >
         {photos ? (
           <img
             src={urlFor(photos[0]).quality(70).width(600).url()}
@@ -306,9 +314,14 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
         )}
         <div
           role="presentation"
-          className="absolute inset-0 rounded-r-md ring-2 ring-inset ring-card/30"
-        />
-      </div>
+          className="absolute inset-0 rounded-r-md ring-2 ring-inset ring-card/30 transition-all group-hover:ring-secondary"
+        >
+          <Link2Icon
+            className="absolute bottom-2 right-2 stroke-card group-hover:stroke-primary"
+            size={16}
+          />
+        </div>
+      </Link>
     </article>
   )
 }

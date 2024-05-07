@@ -26,7 +26,11 @@ export default async function handleRequest(...args: DocRequestArgs) {
     let didError = false
 
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
+      <RemixServer
+        abortDelay={ABORT_DELAY}
+        context={remixContext}
+        url={request.url}
+      />,
       {
         [callbackName]: () => {
           const body = new PassThrough()
@@ -49,6 +53,6 @@ export default async function handleRequest(...args: DocRequestArgs) {
       },
     )
 
-    setTimeout(abort, ABORT_DELAY)
+    setTimeout(abort, 10000)
   })
 }

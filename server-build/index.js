@@ -19,7 +19,7 @@ import rateLimit from "express-rate-limit";
 import getPort, { portNumbers } from "get-port";
 import morgan from "morgan";
 import * as remixBuild from "#build/index.js";
-installGlobals();
+installGlobals({ nativeFetch: true });
 const MODE = process.env.NODE_ENV;
 const createRequestHandler = wrapExpressCreateRequestHandler(
   _createRequestHandler

@@ -7,11 +7,7 @@ import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 import slug from 'slug'
 import { type Person, query, type QueryResult } from './_index.query.ts'
-import {
-  json,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from '@remix-run/node'
+import { type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
 import { useLoaderData } from '@remix-run/react'
 import { urlFor } from '#app/sanity/instance.ts'
@@ -23,10 +19,10 @@ export const meta: MetaFunction = () => {
 export async function loader(_loaderArgs: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
 
-  return json({
+  return {
     query,
     data: queryResult.data,
-  })
+  }
 }
 
 export default function UeberUns() {

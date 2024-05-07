@@ -1,12 +1,13 @@
-import { type LoaderFunctionArgs, json } from '@remix-run/node'
+import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import { type QueryResult, query } from './_index.query.tsx'
+import { loadQuery } from '@sanity/react-loader'
 
 export async function loader({ request: _request }: LoaderFunctionArgs) {
-  return json({
-    data: {
-      posts: [],
-    },
-  })
+  const queryResult = await loadQuery<QueryResult>(query)
+  return {
+    data: queryResult.data,
+  }
 }
 
 export default function Index() {
@@ -18,9 +19,9 @@ export default function Index() {
       {posts?.map(
         post =>
           post && (
-            <li key={post.slug}>
-              <Link to={post.slug}>{post.title}</Link>
-              {post.description ? <p>{post.description}</p> : null}
+            <li key={post.slug.current}>
+              <Link to={post.slug.current}>{post.title}</Link>
+              {post.previewText ? <p>{post.previewText}</p> : null}
             </li>
           ),
       )}

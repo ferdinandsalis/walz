@@ -22,14 +22,16 @@ export const query = groq`
 ` as string
 
 export const YearSchema = z.object({
-  letter: z.string(),
+  _id: z.string(),
+  _type: z.string(),
   startedAt: z.coerce.date(),
   graduatedAt: z.coerce.date().nullable(),
+  plan: z.string(),
+  letter: z.string(),
   mentor: PersonSchema.pick({ givenNames: true, familyName: true }).extend({
     name: z.string(),
   }),
   photos: z.array(PhotoSchema),
-  plan: z.string(),
 })
 
 export type Year = z.infer<typeof YearSchema>

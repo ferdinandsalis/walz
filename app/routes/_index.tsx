@@ -15,7 +15,7 @@ import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { type LoaderFunctionArgs, json } from '@remix-run/node'
+import { type LoaderFunctionArgs } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
@@ -25,10 +25,10 @@ import slug from 'slug'
 export async function loader(_loaderArgs: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
 
-  return json({
+  return {
     query,
     data: queryResult.data,
-  })
+  }
 }
 
 export default function Home() {

@@ -7,7 +7,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  json,
   useLoaderData,
   useLocation,
 } from '@remix-run/react'
@@ -44,15 +43,14 @@ export const meta: MetaFunction = () => {
 export async function loader({ request }: LoaderFunctionArgs) {
   const honeyProps = honeypot.getInputProps()
 
-  return json({
+  return {
     requestInfo: {
       origin: getDomainUrl(request),
       path: new URL(request.url).pathname,
     },
     honeyProps,
-
     ENV: getEnv(),
-  })
+  }
 }
 
 function Document({

@@ -25,7 +25,7 @@ import morgan from 'morgan'
 // definitely exist by the time the dev or prod server actually runs.
 import * as remixBuild from '#build/index.js'
 
-installGlobals()
+installGlobals({ nativeFetch: true })
 
 const MODE = process.env.NODE_ENV
 

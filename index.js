@@ -2,7 +2,7 @@ import { installGlobals } from '@remix-run/node'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
 
-installGlobals()
+installGlobals({ nativeFetch: true })
 
 closeWithGrace(async ({ err }) => {
   if (err) {

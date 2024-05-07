@@ -39,14 +39,20 @@
 @layer utilities {
 }
 
+.post {
+  header > h1 {
+    @apply mb-4 mt-8 font-condensed text-3xl font-bold text-primary;
+  }
+}
+
 .prose {
   @apply max-w-prose;
   h1 {
-    @apply mb-4 mt-12 font-condensed text-3xl font-bold text-primary;
+    @apply mb-6 mt-8 font-condensed text-2xl font-bold text-secondary;
   }
 
   h2 {
-    @apply mb-4 mt-8 font-condensed text-2xl font-bold;
+    @apply mb-4 mt-6 font-condensed text-xl font-bold;
   }
 
   ul {
@@ -54,10 +60,10 @@
   }
 
   p:not(:last-child) {
-    @apply my-4;
+    @apply mb-4;
   }
 
-  img:not(:last-child) {
+  figure:not(:last-child) {
     @apply mb-4;
   }
 

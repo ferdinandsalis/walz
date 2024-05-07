@@ -1,8 +1,4 @@
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json,
-} from '@remix-run/node'
+import { type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
 import { PortableText } from '@portabletext/react'
 import { useLoaderData } from '@remix-run/react'
@@ -19,11 +15,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
     perspective: 'published',
   })
 
-  return json({
+  return {
     query,
     params,
     data: queryResult.data,
-  })
+  }
 }
 
 export default function Post() {
@@ -32,18 +28,22 @@ export default function Post() {
 
   return (
     <article className="post hyphens-auto text-pretty">
-      <h1>{post.title}</h1>
-      <PortableText
-        value={post.body}
-        components={{
-          types: {
-            paragraph: ({ value }) => {
-              return <p className="mb-2">{value}</p>
+      <header>
+        <h1>{post.title}</h1>
+      </header>
+      <div className="prose">
+        <PortableText
+          value={post.body}
+          components={{
+            types: {
+              paragraph: ({ value }) => {
+                return <p className="mb-2">{value}</p>
+              },
+              image: ImageComponent,
             },
-            image: ImageComponent,
-          },
-        }}
-      />{' '}
+          }}
+        />
+      </div>
     </article>
   )
 }
@@ -51,21 +51,23 @@ export default function Post() {
 const ImageComponent = ({ value, isInline }: any) => {
   const { width, height } = getImageDimensions(value)
   return (
-    <img
-      src={urlFor(value)
-        .width(isInline ? 100 : 800)
-        .fit('max')
-        .auto('format')
-        .url()}
-      alt={value.alt || ' '}
-      loading="lazy"
-      style={{
-        // Display alongside text if image appears inside a block text span
-        display: isInline ? 'inline-block' : 'block',
+    <figure className="rounded-sm bg-card p-2 shadow">
+      <img
+        src={urlFor(value)
+          .width(isInline ? 100 : 800)
+          .fit('max')
+          .auto('format')
+          .url()}
+        alt={value.alt || ' '}
+        loading="lazy"
+        style={{
+          // Display alongside text if image appears inside a block text span
+          display: isInline ? 'inline-block' : 'block',
 
-        // Avoid jumping around with aspect-ratio CSS property
-        aspectRatio: width / height,
-      }}
-    />
+          // Avoid jumping around with aspect-ratio CSS property
+          aspectRatio: width / height,
+        }}
+      />
+    </figure>
   )
 }
