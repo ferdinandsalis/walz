@@ -345,7 +345,14 @@ function StaffCard({ person }: { person: Person }) {
       <div className="grid grid-cols-1 grid-rows-6">
         {person.portrait ? (
           <img
-            src={urlFor(person.portrait).quality(50).width(256).url() || ''}
+            src={
+              urlFor(person.portrait)
+                .quality(60)
+                .width(256)
+                .height(256)
+                .auto('format')
+                .url() || ''
+            }
             width={256}
             height={256}
             alt={person.name}
@@ -398,16 +405,16 @@ function StaffCard({ person }: { person: Person }) {
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
     <ScrollArea.Root type="always">
-      <ScrollArea.Viewport className="xl:-mx-24 -mx-4 rounded-md bg-stone-200/30 sm:-mx-8 md:-mx-12">
+      <ScrollArea.Viewport className="xl:-mx-24 -mx-4 rounded-md bg-stone-200/30 shadow-inner sm:-mx-8 md:-mx-12">
         <div className="xl:px-24 flex gap-4 px-4 py-8 sm:px-8 md:px-12">
           {children}
         </div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="xl:-mx-24 -mx-4 flex h-[8px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12"
+        className="xl:-mx-24 -mx-4 flex h-[12px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12"
       >
-        <ScrollArea.Thumb className="relative !h-[4px] rounded-full bg-primary" />
+        <ScrollArea.Thumb className="relative !h-[8px] cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   )
