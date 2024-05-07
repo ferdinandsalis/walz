@@ -39,6 +39,11 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'priority',
+      type: 'number',
+      title: 'Priorität',
+    }),
+    defineField({
       name: 'givenNames',
       type: 'string',
       title: 'Vorname(n)',

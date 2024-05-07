@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 // @ts-ignore
 export const query = groq`{
-  "persons": *[_type == "person"] | order(familyName asc) {
+  "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {
     _id,
     _type,
     portrait,
@@ -20,6 +20,7 @@ export const query = groq`{
 }` as string
 
 export const PersonSchema = z.object({
+  priority: z.number().optional(),
   givenNames: z.string(),
   familyName: z.string(),
   name: z.string(),
