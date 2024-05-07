@@ -349,7 +349,9 @@ function StaffCard({ person }: { person: Person }) {
       <div className="grid grid-cols-1 grid-rows-6">
         {person.portrait ? (
           <img
-            src={urlFor(person.portrait).url() || ''}
+            src={urlFor(person.portrait).quality(50).width(256).url() || ''}
+            width={256}
+            height={256}
             alt={person.name}
             loading="lazy"
             className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
