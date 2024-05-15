@@ -25,6 +25,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export default function Post() {
   const loaderData = useLoaderData<typeof loader>()
   const post = loaderData.data
+  console.log(post.body)
 
   return (
     <article className="post hyphens-auto text-pretty">
@@ -68,6 +69,11 @@ const ImageComponent = ({ value, isInline }: any) => {
           aspectRatio: width / height,
         }}
       />
+      {value.attribution && (
+        <figcaption className="mt-1 text-right text-xs">
+          {value.attribution}
+        </figcaption>
+      )}
     </figure>
   )
 }
