@@ -1,5 +1,6 @@
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { take } from 'ramda'
+import { marked } from 'marked'
 import { dates } from '#app/data/dates.ts'
 import { calculateCurrentYear } from '#app/data/years.ts'
 import {
@@ -36,10 +37,23 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
+  const datesPromises = dates.map(async date => {
+    return {
+      ...date,
+      description: date.description && (await marked.parse(date.description)),
+    }
+  })
+
+  console.log(datesPromises)
+
   return {
     query,
     params,
-    data: { years, posts: queryResult.data.posts },
+    data: {
+      dates: await Promise.all(datesPromises),
+      years,
+      posts: queryResult.data.posts,
+    },
   }
 }
 
@@ -47,7 +61,8 @@ export default function Aktuelles() {
   const location = useLocation()
   const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
-  const { posts, years } = loaderData.data
+  const { posts, years, dates } = loaderData.data
+  console.log(dates)
 
   return (
     <div className="md:mt-12">
@@ -195,9 +210,12 @@ export default function Aktuelles() {
                               Info
                             </dt>
                             <dd>
-                              <p className="max-w-prose hyphens-auto text-pretty">
-                                {date?.description}
-                              </p>
+                              <p
+                                className="max-w-prose hyphens-auto text-pretty"
+                                dangerouslySetInnerHTML={{
+                                  __html: date?.description,
+                                }}
+                              ></p>
                             </dd>
                           </div>
                         </dl>
