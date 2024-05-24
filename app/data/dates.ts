@@ -160,6 +160,13 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     type: 'internal',
     description:
       'Die Betas touren von 10. bis 14. Juni mit ihrer Straßentheater-Show im Waldviertel. \n\n **Auftritte:** \n* 10.06. 18:00h Arbesbach, Hauptplatz\n* 11.06. 18:00h Rappottenstein, beim Rathaus\n* 12.06. 19:30h Grafenschlag, beim Amtshaus\n* 13.06. 19:00h Bad Traunstein, Kurzentrum\n* 14.06. 18:00h Ottenschlag, Hauptplatz\n',
+    links: [
+      {
+        title: 'Flyer Wanderzirkus Wunderland',
+        href: '/downloads/flyer-wanderzirkus-2024.pdf',
+        download: true,
+      },
+    ],
   },
   {
     title: 'Wanderzirkus Wunderland Abschlussshow im MQ',
@@ -170,6 +177,13 @@ Ein theaterkrimineller Abend, entstanden in der Werkstatt des Jahrgangs Alpha.
     type: 'internal',
     description:
       'Das große Finale 2024 des Wanderzirkus Wunderland findet wie jedes Jahr im MuseumsQuartier in Wien statt. Beginn um 15:00 und um 16:30 im MQ Fürstenhof.',
+    links: [
+      {
+        title: 'Flyer Wanderzirkus Wunderland',
+        href: '/downloads/flyer-wanderzirkus-2024.pdf',
+        download: true,
+      },
+    ],
   },
   {
     title: 'Abschluss 🎓',
