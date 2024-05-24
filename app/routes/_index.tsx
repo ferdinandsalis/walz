@@ -40,7 +40,7 @@ export default function Home() {
     <div className="space-y-16 md:space-y-20 lg:space-y-24">
       <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12">
         <h1 className="sr-only">Einleitung</h1>
-        <div className="col-end col-start-1 row-start-1">
+        <figure className="col-end relative col-start-1 row-start-1">
           <picture>
             <source
               srcSet={urlFor(hero.image).quality(70).width(800).url()}
@@ -52,7 +52,14 @@ export default function Home() {
               className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
             />
           </picture>
-        </div>
+          {hero.image.attribution && (
+            <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
+              <p className="text-right text-body-xs text-card/70">
+                {hero.image.attribution}
+              </p>
+            </figcaption>
+          )}
+        </figure>
 
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
           <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-32 sm:-right-10 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />

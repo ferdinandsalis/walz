@@ -6,7 +6,8 @@ export const query = groq`{
     _id,
     _type,
     image,
-    caption: image->caption
+    "caption": image->caption,
+    "attribution": image->attribution
   },  
   "posts": *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -24,6 +25,7 @@ export type QueryResult = {
     _type: string
     image: any
     caption?: string
+    attribution?: string
   }
   posts: {
     title: string
