@@ -362,7 +362,7 @@ function PostItem({
             {title}
           </h1>
         </Link>
-        <p className="hyphens-auto text-pretty font-light leading-snug">
+        <p className="hyphens-auto text-pretty leading-snug">
           {previewText} <span>…</span>
         </p>
       </div>
