@@ -5,8 +5,8 @@ export const query = groq`{
   "hero": *[_type == "home-hero"][0]{
     _id,
     _type,
-    title,
-    image
+    image,
+    caption: image->caption
   },  
   "posts": *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -22,8 +22,8 @@ export type QueryResult = {
   hero: {
     _id: string
     _type: string
-    title?: string
     image: any
+    caption?: string
   }
   posts: {
     title: string

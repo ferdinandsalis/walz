@@ -1,7 +1,7 @@
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { take } from 'ramda'
 import { marked } from 'marked'
-import { dates } from '#app/data/dates.ts'
+import { dates as datesData } from '#app/data/dates.ts'
 import { calculateCurrentYear } from '#app/data/years.ts'
 import {
   ArrowRight,
@@ -37,14 +37,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(query)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
-  const datesPromises = dates.map(async date => {
+  const datesPromises = datesData.map(async date => {
     return {
       ...date,
       description: date.description && (await marked.parse(date.description)),
     }
   })
-
-  console.log(datesPromises)
 
   return {
     query,
@@ -62,7 +60,6 @@ export default function Aktuelles() {
   const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
   const { posts, years, dates } = loaderData.data
-  console.log(dates)
 
   return (
     <div className="md:mt-12">
@@ -228,6 +225,7 @@ export default function Aktuelles() {
                   key={idx}
                   className={cn('border-b-2 border-b-background bg-card/50', {
                     'border-b-secondary': idx === 0 || idx === dates.length - 2,
+                    '': idx,
                   })}
                 >
                   <div

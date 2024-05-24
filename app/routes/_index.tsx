@@ -48,7 +48,7 @@ export default function Home() {
             />
             <img
               src={urlFor(hero.image).quality(70).width(1800).url()}
-              alt="Walz draussen"
+              alt={hero.caption}
               className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
             />
           </picture>
@@ -61,6 +61,7 @@ export default function Home() {
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
             mitzuge­stalten.
           </p>
+          <p className="relative">{hero.caption}</p>
         </div>
 
         <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
