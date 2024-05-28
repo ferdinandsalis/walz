@@ -342,7 +342,7 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
   )
 }
 
-function PostItem({
+export function PostItem({
   title,
   previewText,
   linkTo,
