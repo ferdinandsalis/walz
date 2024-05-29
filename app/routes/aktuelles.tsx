@@ -48,9 +48,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
     query,
     params,
     data: {
+      posts: take(3, queryResult.data.posts),
       dates: await Promise.all(datesPromises),
       years,
-      posts: queryResult.data.posts,
     },
   }
 }
@@ -78,13 +78,19 @@ export default function Aktuelles() {
 
         <Divider />
 
-        <section id="beitraege" className="col-span-2 space-y-8">
-          <h1 className="mb-8 font-condensed text-2xl font-bold text-primary md:text-4xl">
+        <section id="beitraege" className="col-span-2 grid grid-cols-1 gap-4">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Beiträge
           </h1>
+          <Link
+            to="/aktuelles/beitraege/"
+            className="text-secondary underline-offset-2 hover:underline"
+          >
+            Alle Beiträge anzeigen
+          </Link>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts &&
-              take(3, posts).map(post => (
+              posts.map(post => (
                 <PostItem
                   title={post.title}
                   previewText={post.previewText}
@@ -346,22 +352,34 @@ export function PostItem({
   title,
   previewText,
   linkTo,
+  publishedAt,
 }: {
   title: string
   previewText: string
   linkTo: string
+  publishedAt?: string
 }) {
   return (
     <article
       key={title}
       className="grid content-between gap-4 rounded-md bg-card p-6 shadow"
     >
-      <div className="">
+      <div className="grid grid-cols-1 gap-2">
         <Link prefetch="intent" to={linkTo}>
-          <h1 className="mb-2 font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
+          <h1 className="font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
             {title}
           </h1>
         </Link>
+        {publishedAt && (
+          <p className="text-body-xs text-muted-foreground">
+            Veröffentlicht am{' '}
+            <time>
+              {new Date(publishedAt).toLocaleString('de-AT', {
+                dateStyle: 'medium',
+              })}
+            </time>
+          </p>
+        )}
         <p className="hyphens-auto text-pretty leading-snug">
           {previewText} <span>…</span>
         </p>

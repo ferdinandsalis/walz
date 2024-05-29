@@ -16,20 +16,26 @@ export default function Index() {
   const posts = loaderData.data.posts
 
   return (
-    <ul className="grid grid-cols-1 gap-8">
-      {posts?.map(
-        post =>
-          post && (
-            <li key={post.slug.current}>
-              <PostItem
-                title={post.title}
-                previewText={post.previewText}
-                linkTo={`/aktuelles/beitraege/${post.slug.current}`}
-                key={post.slug.current}
-              />
-            </li>
-          ),
-      )}
-    </ul>
+    <>
+      <h1 className="mb-8 font-condensed text-2xl font-bold text-primary md:text-4xl">
+        Beiträge
+      </h1>
+      <ul className="grid grid-cols-1 gap-12 md:grid-cols-2">
+        {posts?.map(
+          post =>
+            post && (
+              <li key={post.slug.current}>
+                <PostItem
+                  title={post.title}
+                  publishedAt={post.publishedAt}
+                  previewText={post.previewText}
+                  linkTo={`/aktuelles/beitraege/${post.slug.current}`}
+                  key={post.slug.current}
+                />
+              </li>
+            ),
+        )}
+      </ul>
+    </>
   )
 }
