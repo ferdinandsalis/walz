@@ -79,15 +79,19 @@ export default function Aktuelles() {
         <Divider />
 
         <section id="beitraege" className="col-span-2 grid grid-cols-1 gap-4">
-          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Beiträge
-          </h1>
-          <Link
-            to="/aktuelles/beitraege/"
-            className="text-secondary underline-offset-2 hover:underline"
-          >
-            Alle Beiträge anzeigen
-          </Link>
+          <header className="flex flex-col items-end md:flex-row">
+            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+              Beiträge
+            </h1>
+            <div className="md:ml-auto">
+              <Link
+                to="/aktuelles/beitraege/"
+                className="text-secondary underline-offset-2 hover:underline"
+              >
+                Alle Beiträge anzeigen
+              </Link>
+            </div>
+          </header>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {posts &&
               posts.map(post => (
@@ -362,9 +366,9 @@ export function PostItem({
   return (
     <article
       key={title}
-      className="grid content-between gap-4 rounded-md bg-card p-6 shadow"
+      className="grid content-between gap-4 overflow-hidden rounded-md bg-card shadow"
     >
-      <div className="grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-2  p-6">
         <Link prefetch="intent" to={linkTo}>
           <h1 className="font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
             {title}
@@ -384,7 +388,7 @@ export function PostItem({
           {previewText} <span>…</span>
         </p>
       </div>
-      <footer>
+      <footer className="bg-muted/50 px-6 py-1">
         <Link
           to={linkTo}
           prefetch="intent"

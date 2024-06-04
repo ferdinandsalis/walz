@@ -135,7 +135,7 @@ export default function Home() {
 
         <section className="lg:col-span-3 lg:col-start-4 lg:row-start-1">
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
-            Aktuelles
+            Beiträge
           </h1>
           <article className="relative max-w-prose rounded-lg bg-white p-6 shadow-md shadow-gray-200">
             <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">

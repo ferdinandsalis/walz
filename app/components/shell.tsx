@@ -6,8 +6,8 @@ import { NewsletterForm } from '#app/routes/_index.tsx'
 
 const navigation = {
   main: [
-    { name: 'Über Uns', to: '/ueber-uns' },
     { name: 'Aktuelles', to: '/aktuelles' },
+    { name: 'Über Uns', to: '/ueber-uns' },
     { name: 'Curriculum', to: '/curriculum' },
     { name: 'Aufnahme', to: '/aufnahme' },
   ],

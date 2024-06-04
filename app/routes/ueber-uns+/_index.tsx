@@ -91,8 +91,11 @@ export default function UeberUns() {
 
             <div className="space-y-8">
               <div className="space-y-4">
-                <h2 className="font-condensed text-2xl font-bold text-secondary">
-                  Mentor:innen
+                <h2
+                  id="mentor"
+                  className="font-condensed text-2xl font-bold text-secondary"
+                >
+                  <a href="#mentor">Mentor:innen</a>
                 </h2>
                 <p className="mb-4 max-w-prose hyphens-auto">
                   Mentor:innen sind für ihren Jahrgang verantwortlich. Ihre
@@ -110,8 +113,11 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="font-condensed text-2xl font-bold text-secondary">
-                  Projektleiter:innen
+                <h2
+                  id="project_lead"
+                  className="font-condensed text-2xl font-bold text-secondary"
+                >
+                  <a href="#project_lead">Projektleiter:innen</a>
                 </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
@@ -134,8 +140,11 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="font-condensed text-2xl font-bold text-secondary">
-                  Administrator:innen
+                <h2
+                  id="administrator"
+                  className="font-condensed text-2xl font-bold text-secondary"
+                >
+                  <a href="#administrator">Administrator:innen</a>
                 </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
@@ -157,8 +166,11 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2 className="font-condensed text-2xl font-bold text-secondary">
-                  Therapeut:innen
+                <h2
+                  id="therapist"
+                  className="font-condensed text-2xl font-bold text-secondary"
+                >
+                  <a href="#therapist">Therapeut:innen</a>
                 </h2>
                 <div className="max-w-prose hyphens-auto">
                   <p>
