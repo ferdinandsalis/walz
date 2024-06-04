@@ -11,7 +11,8 @@ import {
   Link2Icon,
 } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { cn } from '#app/utils/misc.tsx'
@@ -33,7 +34,7 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Aktuelles | Walz' }]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export const loader = defineLoader(async ({ params }) => {
   const queryResult = await loadQuery<QueryResult>(query)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
@@ -53,7 +54,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       years,
     },
   }
-}
+})
 
 export default function Aktuelles() {
   const location = useLocation()
@@ -334,7 +335,7 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
             className="flex-1 rounded-r-md object-cover object-center"
           />
         ) : (
-          <div className="flex flex-1 items-center justify-center rounded-r-md  bg-gradient-to-t from-secondary/40 to-transparent ">
+          <div className="flex flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
             <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
           </div>
         )}
@@ -368,7 +369,7 @@ export function PostItem({
       key={title}
       className="grid content-between gap-4 overflow-hidden rounded-md bg-card shadow"
     >
-      <div className="grid grid-cols-1 gap-2  p-6">
+      <div className="grid grid-cols-1 gap-2 p-6">
         <Link prefetch="intent" to={linkTo}>
           <h1 className="font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
             {title}
