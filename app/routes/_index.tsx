@@ -137,27 +137,29 @@ export default function Home() {
           <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
             Beiträge
           </h1>
-          <article className="relative max-w-prose rounded-lg bg-white p-6 shadow-md shadow-gray-200">
-            <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
-              <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
-                {latestPost.title}
-              </Link>
-            </h1>
-            <p className="text-body-xs text-muted-foreground">
-              Veröffentlicht am{' '}
-              <time>
-                {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
-                  dateStyle: 'medium',
-                })}
-              </time>
-            </p>
-            <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
-              {latestPost.previewText} <span>…</span>
-            </p>
-            <footer>
+          <article className="relative max-w-prose rounded-lg bg-white shadow-md shadow-gray-200">
+            <div className="p-6">
+              <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
+                <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
+                  {latestPost.title}
+                </Link>
+              </h1>
+              <p className="text-body-xs text-muted-foreground">
+                Veröffentlicht am{' '}
+                <time>
+                  {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
+                    dateStyle: 'medium',
+                  })}
+                </time>
+              </p>
+              <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
+                {latestPost.previewText} <span>…</span>
+              </p>
+            </div>
+            <footer className="mt-2 bg-primary/5 px-6 py-2">
               <Link
                 to={`/aktuelles/beitraege/${latestPost.slug.current}`}
-                className="group/more mt-4 flex items-center font-condensed text-lg text-muted-foreground"
+                className="group/more flex items-center font-condensed text-lg text-muted-foreground"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
                   Beitrag lesen
