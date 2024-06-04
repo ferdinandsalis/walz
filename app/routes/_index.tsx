@@ -1,19 +1,14 @@
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
-import { Button } from '#app/components/ui/button.tsx'
-import { Input } from '#app/components/ui/input.tsx'
 import { testimonials } from '#app/data/testimonials.ts'
-import { Link, useFetcher, useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import {
   ArrowRight,
   AsteriskIcon,
   CalendarClockIcon,
   LinkIcon,
-  LoaderIcon,
 } from 'lucide-react'
-import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
-import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { pillars } from './ueber-uns+/philosophie.tsx'
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
@@ -37,7 +32,7 @@ export default function Home() {
   const hero = loaderData.data.hero
 
   return (
-    <div className="space-y-16 md:space-y-20 lg:space-y-24">
+    <div className="space-y-16 text-balance md:space-y-20 lg:space-y-24">
       <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12">
         <h1 className="sr-only">Einleitung</h1>
         <figure className="col-end relative col-start-1 row-start-1">
@@ -159,14 +154,14 @@ export default function Home() {
             <footer className="mt-2 bg-primary/5 px-6 py-2">
               <Link
                 to={`/aktuelles/beitraege/${latestPost.slug.current}`}
-                className="group/more flex items-center font-condensed text-lg text-muted-foreground"
+                className="group/more flex items-center font-condensed text-lg text-primary"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
-                  Beitrag lesen
+                  Weiterlesen
                 </span>
                 <ArrowRight
                   size="18"
-                  className="stroke-primary transition-transform group-hover/more:translate-x-1"
+                  className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
                 />
               </Link>
             </footer>
@@ -389,55 +384,5 @@ export function LinkPhotoCard({
         </div>
       </div>
     </Link>
-  )
-}
-
-export function NewsletterForm() {
-  const fetcher = useFetcher()
-  const showSpinner = useSpinDelay(fetcher.state !== 'idle')
-  const done = !!fetcher.data
-
-  return (
-    <fetcher.Form
-      name="newsletter"
-      method="POST"
-      action="/api/newsletter"
-      className="xl:p-8 grid max-w-xl rounded-md bg-card p-6 shadow-md"
-      key={JSON.stringify(fetcher.data)}
-    >
-      <HoneypotInputs />
-      <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-xl">
-        <span className="font-bold">
-          Möchtest du auf dem Laufenden bleiben?
-        </span>{' '}
-        Dann melde dich für unseren{' '}
-        <strong className="text-secondary">Newsletter</strong> an!
-      </p>
-      <div className="mb-4">
-        <label className="sr-only">E-Mail</label>
-        <Input
-          name="email"
-          type="email"
-          placeholder="Deine E-Mail"
-          disabled={done}
-          defaultValue={done ? '' : undefined}
-          className="rounded-lg bg-white p-6 text-xl shadow-md placeholder:italic"
-        />
-      </div>
-      <div className="flex items-center gap-4">
-        <Button
-          type="submit"
-          size="lg"
-          className="rounded-lg bg-primary p-6 text-xl shadow-md"
-          disabled={fetcher.state === 'submitting'}
-        >
-          Abonnieren
-        </Button>
-        {showSpinner && (
-          <LoaderIcon className="animate-spin stroke-secondary" />
-        )}
-        {done && <p className="text-green-500">Aktion Erfolgreich</p>}
-      </div>
-    </fetcher.Form>
   )
 }

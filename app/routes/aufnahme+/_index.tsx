@@ -34,7 +34,7 @@ export default function Aufnahme() {
               Wichtige Information
             </span>
           </div>
-          <p className="font-light">
+          <p className="">
             Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
             sind noch Restplätze verfügbar. Für eine mögliche Nachaufnahme
             melden Sie sich bitte bei{' '}
@@ -91,7 +91,7 @@ export default function Aufnahme() {
                 Wichtige Information
               </span>
             </div>
-            <p className="font-light">
+            <p className="">
               <strong>Quereinstieg</strong>: Grundsätzlich ist es möglich, bei
               den Jahrgängen Beta 1 (9. Schulstufe) und Alpha 2 (10. Schulstufe)
               quer einzusteigen. Für weitere Infos und einen Gesprächstermin
@@ -135,7 +135,7 @@ export default function Aufnahme() {
                 Wichtige Information
               </span>
             </div>
-            <p className="font-light">
+            <p className="">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
               Walz.{' '}
               <a

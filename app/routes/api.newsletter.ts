@@ -1,9 +1,9 @@
 import * as Newsletter from '#app/utils/newsletter.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
-import { type ActionFunctionArgs } from '@remix-run/node'
+import { unstable_defineAction as defineAction } from '@remix-run/node'
 import z from 'zod'
 
-export async function action({ request }: ActionFunctionArgs) {
+export const action = defineAction(async ({ request }) => {
   const formData = await request.formData()
   checkHoneypot(formData)
   const data = z
@@ -14,5 +14,5 @@ export async function action({ request }: ActionFunctionArgs) {
 
   await Newsletter.addSubscriber(data.email, 'walz.at')
 
-  return {}
-}
+  return { ok: true, data }
+})

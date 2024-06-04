@@ -388,14 +388,14 @@ export function PostItem({
           {previewText} <span>…</span>
         </p>
       </div>
-      <footer className="bg-primary/5 px-6 py-2">
+      <footer className="mt-2 bg-primary/5 px-6 py-2">
         <Link
           to={linkTo}
           prefetch="intent"
           className="group/more flex items-center font-condensed text-lg text-primary"
         >
           <span className="underline-offset-2 group-hover/more:underline">
-            Beitrag lesen
+            Weiterlesen
           </span>
           <ArrowRight
             size="18"

@@ -2,7 +2,7 @@ import { Link, NavLink } from '@remix-run/react'
 import { LogoType } from './brand.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import { ExternalLinkIcon, Home } from 'lucide-react'
-import { NewsletterForm } from '#app/routes/_index.tsx'
+import { NewsletterForm } from './newsletter.tsx'
 
 const navigation = {
   main: [
@@ -23,7 +23,7 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none  md:rounded-full md:bg-transparent md:pr-6 md:shadow-none"
+      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:bg-transparent md:pr-6 md:shadow-none"
     >
       <NavLink
         to="/"
@@ -130,7 +130,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="col-span-2 justify-self-center ">
+      <div className="col-span-2 justify-self-center">
         <Link to="." className="group mb-4 flex flex-col items-center">
           <LogoType className="w-24 fill-foreground/80" />
         </Link>

@@ -22,7 +22,9 @@ export default function Curriculum() {
               >
                 1
               </span>
-              <h1 className="text-2xl font-bold text-primary">1. Jahr</h1>
+              <h1 className="font-condensed text-4xl font-bold text-primary">
+                1. Jahr
+              </h1>
               <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                 Timeout und Ausprobieren
               </p>
@@ -49,7 +51,9 @@ export default function Curriculum() {
               >
                 2
               </span>
-              <h1 className="text-2xl font-bold text-primary">2. Jahr</h1>
+              <h1 className="font-condensed text-4xl font-bold text-primary">
+                2. Jahr
+              </h1>
               <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                 Auslandsabenteuer und erste Prüfungen
               </p>
@@ -75,7 +79,9 @@ export default function Curriculum() {
               >
                 3
               </span>
-              <h1 className="text-2xl font-bold text-primary">3. Jahr</h1>
+              <h1 className="font-condensed text-4xl font-bold text-primary">
+                3. Jahr
+              </h1>
               <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                 Ein facettenreiches Jahr
               </p>
@@ -104,7 +110,9 @@ export default function Curriculum() {
               >
                 4
               </span>
-              <h1 className="text-2xl font-bold text-primary">4. Jahr</h1>
+              <h1 className="font-condensed text-4xl font-bold text-primary">
+                4. Jahr
+              </h1>
               <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                 Das soziale Jahr
               </p>
@@ -134,7 +142,9 @@ export default function Curriculum() {
               >
                 5
               </span>
-              <h1 className="text-2xl font-bold text-primary">5. Jahr</h1>
+              <h1 className="font-condensed text-4xl font-bold text-primary">
+                5. Jahr
+              </h1>
               <p className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                 Der große Endspurt
               </p>
