@@ -15,21 +15,21 @@ import { useSpinDelay } from 'spin-delay'
 import { take } from 'ramda'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { type LoaderFunctionArgs } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { dates } from '#app/data/dates.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import slug from 'slug'
 
-export async function loader(_loaderArgs: LoaderFunctionArgs) {
+export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
 
   return {
     query,
     data: queryResult.data,
   }
-}
+})
 
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()

@@ -1,8 +1,7 @@
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import type { MetaFunction } from '@remix-run/node'
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [{ title: 'Curriculum | Walz' }]
 }
 

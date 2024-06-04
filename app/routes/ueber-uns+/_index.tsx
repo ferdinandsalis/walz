@@ -7,23 +7,23 @@ import { Toc } from '#app/components/toc.tsx'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 import slug from 'slug'
 import { type Person, query, type QueryResult } from './_index.query.ts'
-import { type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
 import { useLoaderData } from '@remix-run/react'
 import { urlFor } from '#app/sanity/instance.ts'
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [{ title: 'Über uns | Walz' }]
 }
 
-export async function loader(_loaderArgs: LoaderFunctionArgs) {
+export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
 
   return {
     query,
     data: queryResult.data,
   }
-}
+})
 
 export default function UeberUns() {
   const loaderData = useLoaderData<typeof loader>()

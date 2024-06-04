@@ -1,5 +1,3 @@
-import type { MetaFunction } from '@remix-run/node'
-
 export const handle = {
   id: 'persoenlichkeit',
   title: 'Persönlichkeit',
@@ -8,7 +6,7 @@ export const handle = {
   link: '/ueber-uns/philosophie/persoenlichkeit',
 }
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [{ title: 'Philosophie: Persönlichkeit | Walz' }]
 }
 

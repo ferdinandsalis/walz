@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -36,22 +36,24 @@ export function links() {
   ]
 }
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [{ title: 'Walz' }]
 }
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const honeyProps = honeypot.getInputProps()
-
+export const loader = defineLoader(async ({ request }) => {
   return {
     requestInfo: {
       origin: getDomainUrl(request),
       path: new URL(request.url).pathname,
     },
-    honeyProps,
+    honeyProps: honeypot.getInputProps() as {
+      nameFieldName: string
+      validFromFieldName: string | null
+      encryptedValidFrom: string
+    },
     ENV: getEnv(),
   }
-}
+})
 
 function Document({
   children,

@@ -1,9 +1,9 @@
 import { generateRobotsTxt } from '@nasa-gcn/remix-seo'
-import type { LoaderFunctionArgs } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { getDomainUrl } from '#app/utils/misc.tsx'
 
-export function loader({ request }: LoaderFunctionArgs) {
+export const loader = defineLoader(({ request }) => {
   return generateRobotsTxt([
     { type: 'sitemap', value: `${getDomainUrl(request)}/sitemap.xml` },
   ])
-}
+})

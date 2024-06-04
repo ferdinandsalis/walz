@@ -1,17 +1,17 @@
-import { type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
 import { calculateCurrentYear } from '#app/data/years.ts'
 import { query, YearSchema } from './$year.query.tsx'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
 import { urlFor } from '#app/sanity/instance.ts'
 import { getImageDimensions } from '@sanity/asset-utils'
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `Jahrgang ${data?.data.letter} | Walz` }]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export const loader = defineLoader(async ({ params }) => {
   const queryResult = await loadQuery(query, params, {
     perspective: 'published',
   })
@@ -21,7 +21,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     params,
     data: YearSchema.parse(queryResult.data),
   }
-}
+})
 
 export default function Year() {
   const loaderData = useLoaderData<typeof loader>()
@@ -76,7 +76,7 @@ export default function Year() {
           />
         </figure>
       ) : (
-        <div className="flex flex-1 items-center justify-center rounded-r-md  bg-gradient-to-t from-secondary/40 to-transparent ">
+        <div className="flex flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
           <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
         </div>
       )}

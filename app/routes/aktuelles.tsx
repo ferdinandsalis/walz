@@ -11,7 +11,6 @@ import {
   Link2Icon,
 } from 'lucide-react'
 import { Divider } from '#app/components/ui/divider.tsx'
-import type { MetaFunction } from '@remix-run/node'
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Toc } from '#app/components/toc.tsx'
 import { BackToTop } from '#app/components/back-to-top.tsx'
@@ -30,7 +29,7 @@ import { urlFor } from '#app/sanity/instance.ts'
 import { z } from 'zod'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 
-export const meta: MetaFunction = () => {
+export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
 }
 

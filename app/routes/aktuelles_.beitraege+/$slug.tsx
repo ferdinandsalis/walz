@@ -1,16 +1,16 @@
-import { type LoaderFunctionArgs, type MetaFunction } from '@remix-run/node'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { loadQuery } from '@sanity/react-loader'
 import { PortableText } from '@portabletext/react'
-import { useLoaderData } from '@remix-run/react'
+import { MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { type QueryResult, query } from './$slug.query.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `${data?.data.title} | Walz` }]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export const loader = defineLoader(async ({ params }) => {
   const queryResult = await loadQuery<QueryResult>(query, params, {
     perspective: 'published',
   })
@@ -20,7 +20,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     params,
     data: queryResult.data,
   }
-}
+})
 
 export default function Post() {
   const loaderData = useLoaderData<typeof loader>()
