@@ -1,8 +1,5 @@
-import { installGlobals } from '@remix-run/node'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
-
-installGlobals({ nativeFetch: true })
 
 closeWithGrace(async ({ err }) => {
   if (err) {

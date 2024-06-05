@@ -1,8 +1,6 @@
-import { unstable_defineLoader } from '@remix-run/node'
 import {
   Link,
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -14,8 +12,8 @@ import { withSentry } from '@sentry/remix'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { honeypot } from './utils/honeypot.server.ts'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
-import appStyleSheetUrl from './styles/app.css'
-import fontStyleSheetUrl from './styles/font.css'
+import appStyleSheetUrl from './styles/app.css?url'
+import fontStyleSheetUrl from './styles/font.css?url'
 import { Footer, Navigation } from './components/shell.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { MenuIcon } from 'lucide-react'
@@ -26,6 +24,7 @@ import {
 } from './components/ui/collapsible.tsx'
 import { getDomainUrl } from './utils/misc.tsx'
 import { getEnv } from './utils/env.server.ts'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 
 export function links() {
   return [
@@ -40,7 +39,7 @@ export function meta() {
   return [{ title: 'Walz' }]
 }
 
-export const loader = unstable_defineLoader(async ({ request }) => {
+export const loader = defineLoader(async ({ request }) => {
   return {
     requestInfo: {
       origin: getDomainUrl(request),
@@ -89,7 +88,6 @@ function Document({
         />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
-        <LiveReload nonce={nonce} />
       </body>
     </html>
   )

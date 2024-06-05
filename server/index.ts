@@ -1,19 +1,9 @@
 import crypto from 'crypto'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import {
-  createRequestHandler as _createRequestHandler,
-  type RequestHandler,
-} from '@remix-run/express'
-import {
-  broadcastDevReady,
-  installGlobals,
-  type ServerBuild,
-} from '@remix-run/node'
-import { wrapExpressCreateRequestHandler } from '@sentry/remix'
-import { ip } from 'address'
+import { createRequestHandler as _createRequestHandler } from '@remix-run/express'
+import { installGlobals, type ServerBuild } from '@remix-run/node'
+import * as Sentry from '@sentry/remix'
+import { ip as ipAddress } from 'address'
 import chalk from 'chalk'
-import chokidar from 'chokidar'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
@@ -21,22 +11,24 @@ import rateLimit from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
 import morgan from 'morgan'
 
-// @ts-ignore - this file may not exist if you haven't built yet, but it will
-// definitely exist by the time the dev or prod server actually runs.
-import * as remixBuild from '#build/index.js'
-
 installGlobals({ nativeFetch: true })
 
-const MODE = process.env.NODE_ENV
+const MODE = process.env.NODE_ENV ?? 'development'
+const IS_PROD = MODE === 'production'
+const IS_DEV = MODE === 'development'
+const ALLOW_INDEXING = process.env.ALLOW_INDEXING !== 'false'
 
-const createRequestHandler = wrapExpressCreateRequestHandler(
-  _createRequestHandler,
-)
+const createRequestHandler = IS_PROD
+  ? Sentry.wrapExpressCreateRequestHandler(_createRequestHandler)
+  : _createRequestHandler
 
-const BUILD_PATH = '../build/index.js'
-
-const build = remixBuild as unknown as ServerBuild
-let devBuild = build
+const viteDevServer = IS_PROD
+  ? undefined
+  : await import('vite').then(vite =>
+      vite.createServer({
+        server: { middlewareMode: true },
+      }),
+    )
 
 const app = express()
 
@@ -87,33 +79,37 @@ app.use(compression())
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by')
 
-// Remix fingerprints its assets so we can cache forever.
-app.use(
-  '/build',
-  express.static('public/build', { immutable: true, maxAge: '1y' }),
-)
+if (viteDevServer) {
+  app.use(viteDevServer.middlewares)
+} else {
+  // Remix fingerprints its assets so we can cache forever.
+  app.use(
+    '/assets',
+    express.static('build/client/assets', { immutable: true, maxAge: '1y' }),
+  )
 
-// Aggressively cache fonts for a year
-app.use(
-  '/fonts',
-  express.static('public/fonts', { immutable: true, maxAge: '1y' }),
-)
+  app.use(
+    '/fonts',
+    express.static('public/fonts', { immutable: true, maxAge: '1y' }),
+  )
+  // Everything else (like favicon.ico) is cached for an hour. You may want to be
+  // more aggressive with this caching.
+  app.use(express.static('build/client', { maxAge: '1h' }))
+}
 
-// Everything else (like favicon.ico) is cached for an hour. You may want to be
-// more aggressive with this caching.
-app.use(express.static('public', { maxAge: '1h' }))
+app.get(['/img/*', '/favicons/*'], (_req, res) => {
+  // if we made it past the express.static for these, then we're missing something.
+  // So we'll just send a 404 and won't bother calling other middleware.
+  return res.status(404).send('Not found')
+})
 
-morgan.token('url', (req, res) => decodeURIComponent(req.url ?? ''))
+morgan.token('url', req => decodeURIComponent(req.url ?? ''))
 app.use(morgan('tiny'))
 
 app.use((_, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString('hex')
   next()
 })
-
-// app.use(
-//   helmet(),
-// )
 
 // When running tests or running in development, we want to effectively disable
 // rate limiting because playwright tests are very fast and we don't want to
@@ -141,18 +137,7 @@ const strongRateLimit = rateLimit({
 
 const generalRateLimit = rateLimit(rateLimitDefault)
 app.use((req, res, next) => {
-  const strongPaths = [
-    '/api/newsletter',
-    '/login',
-    '/signup',
-    '/verify',
-    '/admin',
-    '/onboarding',
-    '/reset-password',
-    '/settings/profile',
-    '/resources/login',
-    '/resources/verify',
-  ]
+  const strongPaths = ['/api/newsletter']
   if (req.method !== 'GET' && req.method !== 'HEAD') {
     if (strongPaths.some(p => req.path.includes(p))) {
       return strongestRateLimit(req, res, next)
@@ -169,50 +154,62 @@ app.use((req, res, next) => {
   return generalRateLimit(req, res, next)
 })
 
-function getRequestHandler(build: ServerBuild): RequestHandler {
-  function getLoadContext(_: any, res: any) {
-    return { cspNonce: res.locals.cspNonce }
-  }
-  return createRequestHandler({ build, mode: MODE, getLoadContext })
+async function getBuild() {
+  const build = viteDevServer
+    ? viteDevServer.ssrLoadModule('virtual:remix/server-build')
+    : // @ts-ignore this should exist before running the server
+      // but it may not exist just yet.
+      await import('../build/server/index.js')
+  // not sure how to make this happy 🤷‍♂️
+  return build as unknown as ServerBuild
+}
+
+if (!ALLOW_INDEXING) {
+  app.use((_, res, next) => {
+    res.set('X-Robots-Tag', 'noindex, nofollow')
+    next()
+  })
 }
 
 app.all(
   '*',
-  MODE === 'development'
-    ? (...args) => getRequestHandler(devBuild)(...args)
-    : getRequestHandler(build),
+  createRequestHandler({
+    getLoadContext: (_: any, res: any) => ({
+      cspNonce: res.locals.cspNonce,
+      serverBuild: getBuild(),
+    }),
+    mode: MODE,
+    build: getBuild,
+  }),
 )
 
 const desiredPort = Number(process.env.PORT || 3000)
 const portToUse = await getPort({
   port: portNumbers(desiredPort, desiredPort + 100),
 })
+const portAvailable = desiredPort === portToUse
+if (!portAvailable && !IS_DEV) {
+  console.log(`⚠️ Port ${desiredPort} is not available.`)
+  process.exit(1)
+}
 
 const server = app.listen(portToUse, () => {
-  const addy = server.address()
-  const portUsed =
-    desiredPort === portToUse
-      ? desiredPort
-      : addy && typeof addy === 'object'
-      ? addy.port
-      : 0
-
-  if (portUsed !== desiredPort) {
+  if (!portAvailable) {
     console.warn(
       chalk.yellow(
-        `⚠️  Port ${desiredPort} is not available, using ${portUsed} instead.`,
+        `⚠️  Port ${desiredPort} is not available, using ${portToUse} instead.`,
       ),
     )
   }
   console.log(`🚀  We have liftoff!`)
-  const localUrl = `http://localhost:${portUsed}`
+  const localUrl = `http://localhost:${portToUse}`
   let lanUrl: string | null = null
-  const localIp = ip() || ''
+  const localIp = ipAddress() ?? 'Unknown'
   // Check if the address is a private ip
   // https://en.wikipedia.org/wiki/Private_network#Private_IPv4_address_spaces
   // https://github.com/facebook/create-react-app/blob/d960b9e38c062584ff6cfb1a70e1512509a966e7/packages/react-dev-utils/WebpackDevServerUtils.js#LL48C9-L54C10
   if (/^10[.]|^172[.](1[6-9]|2[0-9]|3[0-1])[.]|^192[.]168[.]/.test(localIp)) {
-    lanUrl = `http://${localIp}:${portUsed}`
+    lanUrl = `http://${localIp}:${portToUse}`
   }
 
   console.log(
@@ -222,10 +219,6 @@ ${lanUrl ? `${chalk.bold('On Your Network:')}  ${chalk.cyan(lanUrl)}` : ''}
 ${chalk.bold('Press Ctrl+C to stop')}
 		`.trim(),
   )
-
-  if (MODE === 'development') {
-    broadcastDevReady(build)
-  }
 })
 
 closeWithGrace(async () => {
@@ -233,16 +226,3 @@ closeWithGrace(async () => {
     server.close(e => (e ? reject(e) : resolve('ok')))
   })
 })
-
-// during dev, we'll keep the build module up to date with the changes
-if (MODE === 'development') {
-  async function reloadBuild() {
-    devBuild = await import(`${BUILD_PATH}?update=${Date.now()}`)
-    broadcastDevReady(devBuild)
-  }
-
-  const dirname = path.dirname(fileURLToPath(import.meta.url))
-  const watchPath = path.join(dirname, BUILD_PATH).replace(/\\/g, '/')
-  const watcher = chokidar.watch(watchPath, { ignoreInitial: true })
-  watcher.on('all', reloadBuild)
-}

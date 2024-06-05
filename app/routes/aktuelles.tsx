@@ -398,7 +398,7 @@ export function PostItem({
             Weiterlesen
           </span>
           <ArrowRight
-            size="18"
+            size="20"
             className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
           />
         </Link>

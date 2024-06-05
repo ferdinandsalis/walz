@@ -1,9 +1,9 @@
 node_modules
 
-/.cache
 /build
-/public/build
+/server/build
 .env
+.cache
 /test-results/
 /playwright-report/
 /playwright/.cache/

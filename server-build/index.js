@@ -1,32 +1,26 @@
 import crypto from "crypto";
-import path from "path";
-import { fileURLToPath } from "url";
-import {
-  createRequestHandler as _createRequestHandler
-} from "@remix-run/express";
-import {
-  broadcastDevReady,
-  installGlobals
-} from "@remix-run/node";
-import { wrapExpressCreateRequestHandler } from "@sentry/remix";
-import { ip } from "address";
+import { createRequestHandler as _createRequestHandler } from "@remix-run/express";
+import { installGlobals } from "@remix-run/node";
+import * as Sentry from "@sentry/remix";
+import { ip as ipAddress } from "address";
 import chalk from "chalk";
-import chokidar from "chokidar";
 import closeWithGrace from "close-with-grace";
 import compression from "compression";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import getPort, { portNumbers } from "get-port";
 import morgan from "morgan";
-import * as remixBuild from "#build/index.js";
 installGlobals({ nativeFetch: true });
-const MODE = process.env.NODE_ENV;
-const createRequestHandler = wrapExpressCreateRequestHandler(
-  _createRequestHandler
+const MODE = process.env.NODE_ENV ?? "development";
+const IS_PROD = MODE === "production";
+const IS_DEV = MODE === "development";
+const ALLOW_INDEXING = process.env.ALLOW_INDEXING !== "false";
+const createRequestHandler = IS_PROD ? Sentry.wrapExpressCreateRequestHandler(_createRequestHandler) : _createRequestHandler;
+const viteDevServer = IS_PROD ? void 0 : await import("vite").then(
+  (vite) => vite.createServer({
+    server: { middlewareMode: true }
+  })
 );
-const BUILD_PATH = "../build/index.js";
-const build = remixBuild;
-let devBuild = build;
 const app = express();
 app.use((req, res, next) => {
   if (req?.headers?.host && req?.headers?.host.slice(0, 4) === "www.") {
@@ -60,16 +54,23 @@ app.use((req, res, next) => {
 });
 app.use(compression());
 app.disable("x-powered-by");
-app.use(
-  "/build",
-  express.static("public/build", { immutable: true, maxAge: "1y" })
-);
-app.use(
-  "/fonts",
-  express.static("public/fonts", { immutable: true, maxAge: "1y" })
-);
-app.use(express.static("public", { maxAge: "1h" }));
-morgan.token("url", (req, res) => decodeURIComponent(req.url ?? ""));
+if (viteDevServer) {
+  app.use(viteDevServer.middlewares);
+} else {
+  app.use(
+    "/assets",
+    express.static("build/client/assets", { immutable: true, maxAge: "1y" })
+  );
+  app.use(
+    "/fonts",
+    express.static("public/fonts", { immutable: true, maxAge: "1y" })
+  );
+  app.use(express.static("build/client", { maxAge: "1h" }));
+}
+app.get(["/img/*", "/favicons/*"], (_req, res) => {
+  return res.status(404).send("Not found");
+});
+morgan.token("url", (req) => decodeURIComponent(req.url ?? ""));
 app.use(morgan("tiny"));
 app.use((_, res, next) => {
   res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
@@ -94,18 +95,7 @@ const strongRateLimit = rateLimit({
 });
 const generalRateLimit = rateLimit(rateLimitDefault);
 app.use((req, res, next) => {
-  const strongPaths = [
-    "/api/newsletter",
-    "/login",
-    "/signup",
-    "/verify",
-    "/admin",
-    "/onboarding",
-    "/reset-password",
-    "/settings/profile",
-    "/resources/login",
-    "/resources/verify"
-  ];
+  const strongPaths = ["/api/newsletter"];
   if (req.method !== "GET" && req.method !== "HEAD") {
     if (strongPaths.some((p) => req.path.includes(p))) {
       return strongestRateLimit(req, res, next);
@@ -117,36 +107,54 @@ app.use((req, res, next) => {
   }
   return generalRateLimit(req, res, next);
 });
-function getRequestHandler(build2) {
-  function getLoadContext(_, res) {
-    return { cspNonce: res.locals.cspNonce };
-  }
-  return createRequestHandler({ build: build2, mode: MODE, getLoadContext });
+async function getBuild() {
+  const build = viteDevServer ? viteDevServer.ssrLoadModule("virtual:remix/server-build") : (
+    // @ts-ignore this should exist before running the server
+    // but it may not exist just yet.
+    await import("../build/server/index.js")
+  );
+  return build;
+}
+if (!ALLOW_INDEXING) {
+  app.use((_, res, next) => {
+    res.set("X-Robots-Tag", "noindex, nofollow");
+    next();
+  });
 }
 app.all(
   "*",
-  MODE === "development" ? (...args) => getRequestHandler(devBuild)(...args) : getRequestHandler(build)
+  createRequestHandler({
+    getLoadContext: (_, res) => ({
+      cspNonce: res.locals.cspNonce,
+      serverBuild: getBuild()
+    }),
+    mode: MODE,
+    build: getBuild
+  })
 );
 const desiredPort = Number(process.env.PORT || 3e3);
 const portToUse = await getPort({
   port: portNumbers(desiredPort, desiredPort + 100)
 });
+const portAvailable = desiredPort === portToUse;
+if (!portAvailable && !IS_DEV) {
+  console.log(`\u26A0\uFE0F Port ${desiredPort} is not available.`);
+  process.exit(1);
+}
 const server = app.listen(portToUse, () => {
-  const addy = server.address();
-  const portUsed = desiredPort === portToUse ? desiredPort : addy && typeof addy === "object" ? addy.port : 0;
-  if (portUsed !== desiredPort) {
+  if (!portAvailable) {
     console.warn(
       chalk.yellow(
-        `\u26A0\uFE0F  Port ${desiredPort} is not available, using ${portUsed} instead.`
+        `\u26A0\uFE0F  Port ${desiredPort} is not available, using ${portToUse} instead.`
       )
     );
   }
   console.log(`\u{1F680}  We have liftoff!`);
-  const localUrl = `http://localhost:${portUsed}`;
+  const localUrl = `http://localhost:${portToUse}`;
   let lanUrl = null;
-  const localIp = ip() || "";
+  const localIp = ipAddress() ?? "Unknown";
   if (/^10[.]|^172[.](1[6-9]|2[0-9]|3[0-1])[.]|^192[.]168[.]/.test(localIp)) {
-    lanUrl = `http://${localIp}:${portUsed}`;
+    lanUrl = `http://${localIp}:${portToUse}`;
   }
   console.log(
     `
@@ -155,23 +163,10 @@ ${lanUrl ? `${chalk.bold("On Your Network:")}  ${chalk.cyan(lanUrl)}` : ""}
 ${chalk.bold("Press Ctrl+C to stop")}
 		`.trim()
   );
-  if (MODE === "development") {
-    broadcastDevReady(build);
-  }
 });
 closeWithGrace(async () => {
   await new Promise((resolve, reject) => {
     server.close((e) => e ? reject(e) : resolve("ok"));
   });
 });
-if (MODE === "development") {
-  async function reloadBuild() {
-    devBuild = await import(`${BUILD_PATH}?update=${Date.now()}`);
-    broadcastDevReady(devBuild);
-  }
-  const dirname = path.dirname(fileURLToPath(import.meta.url));
-  const watchPath = path.join(dirname, BUILD_PATH).replace(/\\/g, "/");
-  const watcher = chokidar.watch(watchPath, { ignoreInitial: true });
-  watcher.on("all", reloadBuild);
-}
 //# sourceMappingURL=index.js.map

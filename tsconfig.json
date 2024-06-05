@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "include": ["**/*.ts", "**/*.tsx", "server/dev-server.js"],
+    "include": ["types/env.d.ts", "**/*.ts", "**/*.tsx"],
     "types": ["@remix-run/react/future/single-fetch.d.ts"],
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,

@@ -160,7 +160,7 @@ export default function Home() {
                   Weiterlesen
                 </span>
                 <ArrowRight
-                  size="18"
+                  size="20"
                   className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
                 />
               </Link>
@@ -352,7 +352,7 @@ export function LinkPhotoCard({
       prefetch="render"
       className="group flex flex-col rounded-lg focus:outline-primary"
     >
-      <div className="relative border-8 border-transparent border-b-primary px-2">
+      <div className="relative border-8 border-transparent border-b-primary">
         <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-muted/50 transition-all group-hover:translate-y-2 group-hover:rotate-1">
           <img
             src={image}
@@ -373,7 +373,7 @@ export function LinkPhotoCard({
           </h1>
           <p className="text-lg font-bold leading-none">{abstract}</p>
         </hgroup>
-        <div className="group/more mt-4 flex items-center font-condensed text-lg text-muted-foreground">
+        <div className="group/more mt-4 flex items-center gap-1 font-condensed text-lg text-muted-foreground">
           <span className="underline-offset-2 group-hover/more:underline">
             Mehr erfahren
           </span>

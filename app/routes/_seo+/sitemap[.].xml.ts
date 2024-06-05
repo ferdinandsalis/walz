@@ -1,11 +1,11 @@
 import { generateSitemap } from '@nasa-gcn/remix-seo'
-// @ts-expect-error - this does work, though it's not exactly a public API
-import { routes } from '@remix-run/dev/server-build'
+import { type ServerBuild } from '@remix-run/node'
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { getDomainUrl } from '#app/utils/misc.tsx'
 
-export const loader = defineLoader(({ request }) => {
-  return generateSitemap(request, routes, {
+export const loader = defineLoader(async ({ request, context }) => {
+  const serverBuild = (await context.serverBuild) as ServerBuild
+  return generateSitemap(request, serverBuild.routes, {
     siteUrl: getDomainUrl(request),
     headers: {
       'Cache-Control': `public, max-age=${60 * 5}`,
