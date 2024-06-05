@@ -75,6 +75,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [vitest, playwright]
     if: ${{ github.event_name == 'push' }}
+    environment: production
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
@@ -86,14 +87,7 @@ jobs:
           field: 'app'
       - name: 🎈 Setup Fly
         uses: superfly/flyctl-actions/setup-flyctl@1.5
-      - name: 🚀 Deploy Staging
-        if: ${{ github.ref == 'refs/heads/dev' }}
-        run:
-          flyctl deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}
-          --app ${{ steps.app_name.outputs.value }}-staging
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      - name: 🚀 Deploy Production
+      - name: 🚀 Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run:
           flyctl deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}
