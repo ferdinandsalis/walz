@@ -6,39 +6,13 @@ import { flatRoutes } from 'remix-flat-routes'
 
 const MODE = process.env.NODE_ENV
 
-import type { Plugin } from 'vite'
-
-interface SourcemapExclude {
-  excludeNodeModules?: boolean
-}
-export function sourcemapExclude(opts?: SourcemapExclude): Plugin {
-  return {
-    name: 'sourcemap-exclude',
-    transform(code: string, id: string) {
-      if (
-        (opts?.excludeNodeModules && id.includes('node_modules')) ||
-        id.includes('SanityVision') ||
-        id.includes('studio')
-      ) {
-        return {
-          code,
-          // https://github.com/rollup/rollup/blob/master/docs/plugin-development/index.md#source-code-transformations
-          map: { mappings: '' },
-        }
-      }
-    },
-  }
-}
-
-// USAGE
-
 export default defineConfig({
   build: {
     cssMinify: MODE === 'production',
     rollupOptions: {
       external: [/node:.*/, 'stream', 'crypto', 'fsevents'],
     },
-    sourcemap: true,
+    sourcemap: false,
   },
   server: {
     watch: {
@@ -46,8 +20,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    sourcemapExclude({ excludeNodeModules: true }),
-
     remix({
       ignoredRouteFiles: ['**/*'],
       serverModuleFormat: 'esm',
@@ -82,6 +54,7 @@ export default defineConfig({
             },
           },
           sourcemaps: {
+            ignore: ['sanity'],
             filesToDeleteAfterUpload: await glob([
               './build/**/*.map',
               '.server-build/**/*.map',
