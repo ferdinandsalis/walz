@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "run-s build:*",
-    "build:remix": "remix vite:build --sourcemapClient --sourcemapServer",
+    "build:remix": "NODE_OPTIONS=--max-old-space-size=8192 remix vite:build --sourcemapClient --sourcemapServer",
     "build:server": "tsx ./other/build-server.ts",
     "dev": "node ./server/dev-server.js",
     "format": "prettier --write .",

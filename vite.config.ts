@@ -1,9 +1,24 @@
 import { vitePlugin as remix } from '@remix-run/dev'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { defineConfig } from 'vite'
+import { glob } from 'glob'
 import { flatRoutes } from 'remix-flat-routes'
 
+const MODE = process.env.NODE_ENV
+
 export default defineConfig({
+  build: {
+    cssMinify: MODE === 'production',
+    rollupOptions: {
+      external: [/node:.*/, 'stream', 'crypto', 'fsevents'],
+    },
+    sourcemap: true,
+  },
+  server: {
+    watch: {
+      ignored: ['**/playwright-report/**'],
+    },
+  },
   plugins: [
     remix({
       ignoredRouteFiles: ['**/*'],
@@ -39,6 +54,7 @@ export default defineConfig({
             },
           },
           sourcemaps: {
+            ignore: ['sanity'],
             filesToDeleteAfterUpload: await glob([
               './build/**/*.map',
               '.server-build/**/*.map',
