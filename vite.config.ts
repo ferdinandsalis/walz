@@ -12,7 +12,7 @@ export default defineConfig({
     rollupOptions: {
       external: [/node:.*/, 'stream', 'crypto', 'fsevents'],
     },
-    sourcemap: true,
+    sourcemap: false,
   },
   server: {
     watch: {
