@@ -5,6 +5,7 @@ import {
   AsteriskIcon,
   CalendarClockIcon,
   LinkIcon,
+  MessageCircleQuestionIcon,
 } from 'lucide-react'
 import { take } from 'ramda'
 import slug from 'slug'
@@ -117,15 +118,34 @@ export default function Home() {
       </div>
 
       <div className="grid gap-16 lg:grid-cols-6 lg:grid-rows-1">
-        <section className="lg:col-span-3 lg:row-start-1">
-          <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
-            Was ist die Walz?
-          </h1>
-          <p className="max-w-xl text-pretty text-body-md md:text-body-lg lg:text-body-xl">
-            In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
-            geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
-            ausloten und werden auf die Matura vorbereitet.
-          </p>
+        <section className="space-y-4 lg:col-span-3 lg:row-start-1">
+          <div>
+            <h1 className="font-condensed text-lg font-bold text-primary lg:mb-4">
+              Was ist die Walz?
+            </h1>
+            <p className="max-w-xl text-pretty text-body-md md:text-body-lg lg:text-body-lg">
+              In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
+              geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
+              ausloten und werden auf die Matura vorbereitet.
+            </p>
+          </div>
+          <div>
+            <p>
+              <Link
+                to={'/aktuelles/beitraege/walz-unterschiede'}
+                className="group text-body-md text-muted-foreground"
+              >
+                <MessageCircleQuestionIcon
+                  size={28}
+                  absoluteStrokeWidth
+                  className="inline-flex stroke-primary"
+                />{' '}
+                <span className="underline-offset-2 group-hover:underline">
+                  Was unterscheidet die Walz von einer klassischen Oberstufe?
+                </span>
+              </Link>
+            </p>
+          </div>
         </section>
 
         <section className="lg:col-span-3 lg:col-start-4 lg:row-start-1">
