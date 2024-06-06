@@ -4,9 +4,10 @@ import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
 import { Button } from './ui/button.tsx'
 import { Input } from './ui/input.tsx'
+import { action } from '#app/routes/api.newsletter.js'
 
 export function NewsletterForm() {
-  const fetcher = useFetcher()
+  const fetcher = useFetcher<typeof action>()
   const showSpinner = useSpinDelay(fetcher.state !== 'idle')
   const done = !!fetcher.data
 
