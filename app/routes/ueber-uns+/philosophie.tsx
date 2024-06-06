@@ -1,10 +1,10 @@
-import { SectionHeading } from '#app/components/section-heading.tsx'
 import { Outlet, useMatches } from '@remix-run/react'
+import { SectionHeading } from '#app/components/section-heading.tsx'
 
+import { LinkPhotoCard } from '../_index.tsx'
 import { handle as educationHandle } from './philosophie.bildung.tsx'
 import { handle as personalityHandle } from './philosophie.persoenlichkeit.tsx'
 import { handle as practiceHandle } from './philosophie.praxis.tsx'
-import { LinkPhotoCard } from '../_index.tsx'
 
 export const pillars = [educationHandle, personalityHandle, practiceHandle]
 

@@ -1,6 +1,5 @@
 import { generateSitemap } from '@nasa-gcn/remix-seo'
-import { type ServerBuild } from '@remix-run/node'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { type ServerBuild , unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { getDomainUrl } from '#app/utils/misc.tsx'
 
 export const loader = defineLoader(async ({ request, context }) => {

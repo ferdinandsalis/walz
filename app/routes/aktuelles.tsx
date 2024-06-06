@@ -1,8 +1,12 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@radix-ui/react-accordion'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
-import { take } from 'ramda'
-import { marked } from 'marked'
-import { dates as datesData } from '#app/data/dates.ts'
-import { calculateCurrentYear } from '#app/data/years.ts'
+import { loadQuery } from '@sanity/react-loader'
 import {
   ArrowRight,
   BabyIcon,
@@ -10,24 +14,19 @@ import {
   DownloadIcon,
   Link2Icon,
 } from 'lucide-react'
-import { Divider } from '#app/components/ui/divider.tsx'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import { Toc } from '#app/components/toc.tsx'
-import { BackToTop } from '#app/components/back-to-top.tsx'
-import { cn } from '#app/utils/misc.tsx'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@radix-ui/react-accordion'
-import { loadQuery } from '@sanity/react-loader'
-import type { QueryResult, Year } from './aktuelles.query.ts'
-import { YearSchema, query } from './aktuelles.query.ts'
+import { marked } from 'marked'
+import { take } from 'ramda'
 import slug from 'slug'
-import { urlFor } from '#app/sanity/instance.ts'
 import { z } from 'zod'
+import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Toc } from '#app/components/toc.tsx'
+import { Divider } from '#app/components/ui/divider.tsx'
+import { dates as datesData } from '#app/data/dates.ts'
+import { calculateCurrentYear } from '#app/data/years.ts'
+import { urlFor } from '#app/sanity/instance.ts'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
+import { cn } from '#app/utils/misc.tsx'
+import  { type QueryResult, type Year , YearSchema, query } from './aktuelles.query.ts'
 
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]

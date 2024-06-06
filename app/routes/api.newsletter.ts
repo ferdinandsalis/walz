@@ -1,7 +1,7 @@
-import * as Newsletter from '#app/utils/newsletter.ts'
-import { checkHoneypot } from '#app/utils/honeypot.server.ts'
 import { unstable_defineAction as defineAction } from '@remix-run/node'
 import z from 'zod'
+import { checkHoneypot } from '#app/utils/honeypot.server.ts'
+import * as Newsletter from '#app/utils/newsletter.ts'
 
 export const action = defineAction(async ({ request }) => {
   const formData = await request.formData()

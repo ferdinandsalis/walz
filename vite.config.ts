@@ -1,8 +1,8 @@
 import { vitePlugin as remix } from '@remix-run/dev'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
-import { defineConfig } from 'vite'
 import { glob } from 'glob'
 import { flatRoutes } from 'remix-flat-routes'
+import { defineConfig } from 'vite'
 
 const MODE = process.env.NODE_ENV
 

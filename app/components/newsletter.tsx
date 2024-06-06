@@ -1,9 +1,9 @@
 import { useFetcher } from '@remix-run/react'
+import { LoaderIcon } from 'lucide-react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { Input } from './ui/input.tsx'
 import { Button } from './ui/button.tsx'
-import { LoaderIcon } from 'lucide-react'
+import { Input } from './ui/input.tsx'
 
 export function NewsletterForm() {
   const fetcher = useFetcher()

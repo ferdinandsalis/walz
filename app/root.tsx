@@ -1,3 +1,4 @@
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -9,22 +10,21 @@ import {
   useLocation,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
-import { HoneypotProvider } from 'remix-utils/honeypot/react'
-import { honeypot } from './utils/honeypot.server.ts'
-import { LogoSymbol, LogoType } from './components/brand.tsx'
-import appStyleSheetUrl from './styles/app.css?url'
-import fontStyleSheetUrl from './styles/font.css?url'
-import { Footer, Navigation } from './components/shell.tsx'
-import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { MenuIcon } from 'lucide-react'
+import { HoneypotProvider } from 'remix-utils/honeypot/react'
+import { LogoSymbol, LogoType } from './components/brand.tsx'
+import { GeneralErrorBoundary } from './components/error-boundary.tsx'
+import { Footer, Navigation } from './components/shell.tsx'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from './components/ui/collapsible.tsx'
-import { getDomainUrl } from './utils/misc.tsx'
+import appStyleSheetUrl from './styles/app.css?url'
+import fontStyleSheetUrl from './styles/font.css?url'
 import { getEnv } from './utils/env.server.ts'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { honeypot } from './utils/honeypot.server.ts'
+import { getDomainUrl } from './utils/misc.tsx'
 
 export function links() {
   return [

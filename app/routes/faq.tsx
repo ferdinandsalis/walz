@@ -1,5 +1,5 @@
-import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Link } from '@remix-run/react'
+import { BackToTop } from '#app/components/back-to-top.tsx'
 
 export default function Faq() {
   return (

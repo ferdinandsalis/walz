@@ -1,5 +1,5 @@
-import { defineArrayMember, defineField, defineType } from 'sanity'
 import { GraduationCapIcon } from 'lucide-react'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 import { z } from 'zod'
 import { PersonSchema } from '#app/routes/ueber-uns+/_index.query.ts'
 

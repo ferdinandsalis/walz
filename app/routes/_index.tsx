@@ -1,6 +1,4 @@
-import { LogoSymbol } from '#app/components/brand.tsx'
-import { SectionHeading } from '#app/components/section-heading.tsx'
-import { testimonials } from '#app/data/testimonials.ts'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import {
   ArrowRight,
@@ -9,13 +7,15 @@ import {
   LinkIcon,
 } from 'lucide-react'
 import { take } from 'ramda'
-import { pillars } from './ueber-uns+/philosophie.tsx'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import slug from 'slug'
+import { LogoSymbol } from '#app/components/brand.tsx'
+import { SectionHeading } from '#app/components/section-heading.tsx'
 import { dates } from '#app/data/dates.ts'
+import { testimonials } from '#app/data/testimonials.ts'
+import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
-import { urlFor } from '#app/sanity/instance.ts'
-import slug from 'slug'
+import { pillars } from './ueber-uns+/philosophie.tsx'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)

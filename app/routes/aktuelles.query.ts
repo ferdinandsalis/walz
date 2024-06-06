@@ -1,7 +1,7 @@
 import groq from 'groq'
 import { z } from 'zod'
-import { PersonSchema } from './ueber-uns+/_index.query.ts'
 import { PhotoSchema } from '#app/sanity/schema/year.ts'
+import { PersonSchema } from './ueber-uns+/_index.query.ts'
 
 type Post = {
   title: string

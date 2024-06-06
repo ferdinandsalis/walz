@@ -1,4 +1,4 @@
-import type { LinksFunction } from '@remix-run/node'
+import  { type LinksFunction } from '@remix-run/node'
 import { Studio } from 'sanity'
 import { Hydrated } from '#app/components/hydrated.tsx'
 import studioCssUrl from '#app/styles/studio.css?url'

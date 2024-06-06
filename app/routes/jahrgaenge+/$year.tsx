@@ -1,11 +1,11 @@
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import { loadQuery } from '@sanity/react-loader'
-import { Link, MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
-import { calculateCurrentYear } from '#app/data/years.ts'
-import { query, YearSchema } from './$year.query.tsx'
-import { BabyIcon, DownloadIcon } from 'lucide-react'
-import { urlFor } from '#app/sanity/instance.ts'
+import { Link, type MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
+import { loadQuery } from '@sanity/react-loader'
+import { BabyIcon, DownloadIcon } from 'lucide-react'
+import { calculateCurrentYear } from '#app/data/years.ts'
+import { urlFor } from '#app/sanity/instance.ts'
+import { query, YearSchema } from './$year.query.tsx'
 
 export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `Jahrgang ${data?.data.letter} | Walz` }]

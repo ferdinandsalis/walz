@@ -1,7 +1,7 @@
+import { Form } from '@remix-run/react'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
-import { Form } from '@remix-run/react'
 
 export default function AdmissionsForm() {
   return (

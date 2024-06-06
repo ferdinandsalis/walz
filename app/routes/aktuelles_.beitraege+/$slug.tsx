@@ -1,10 +1,10 @@
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import { loadQuery } from '@sanity/react-loader'
 import { PortableText } from '@portabletext/react'
-import { MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { type MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
-import { type QueryResult, query } from './$slug.query.ts'
+import { loadQuery } from '@sanity/react-loader'
 import { urlFor } from '#app/sanity/instance.ts'
+import { type QueryResult, query } from './$slug.query.ts'
 
 export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `${data?.data.title} | Walz` }]
