@@ -10,6 +10,7 @@ export default defineConfig({
   name: 'walz',
   title: 'Walz',
   basePath: `/studio`,
+  // @ts-ignore it says its sanity v3 but typing suggest otherwise 🤷
   plugins: [structureTool(), visionTool(), mediaTool()],
   schema: {
     types: schemaTypes,

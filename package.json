@@ -5,7 +5,8 @@
   "description": "Website for Walz",
   "type": "module",
   "imports": {
-    "#*": "./*"
+    "#app/*": "./app/*",
+    "#tests/*": "./tests/*"
   },
   "license": "UNLICENSED",
   "scripts": {
@@ -20,12 +21,16 @@
     "test": "vitest",
     "test:e2e": "npm run test:e2e:dev --silent",
     "test:e2e:dev": "playwright test --ui",
+    "pretest:e2e:run": "npm run build",
+    "test:e2e:run": "cross-env CI=true playwright test",
     "test:e2e:install": "npx playwright install --with-deps chromium",
     "typecheck": "tsc",
     "deploy": "npm run build && fly deploy",
-    "start": "cross-env NODE_ENV=production node ."
+    "start": "cross-env NODE_ENV=production node .",
+    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
   },
   "dependencies": {
+    "@epic-web/cachified": "^5.2.0",
     "@nasa-gcn/remix-seo": "^2.0.0",
     "@portabletext/react": "^3.1.0",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -82,6 +87,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@epic-web/config": "^1.9.2",
     "@playwright/test": "^1.44.1",
     "@remix-run/dev": "^2.9.2",
     "@remix-run/eslint-config": "^2.9.2",

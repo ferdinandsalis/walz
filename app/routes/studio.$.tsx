@@ -2,7 +2,7 @@ import type { LinksFunction } from '@remix-run/node'
 import { Studio } from 'sanity'
 import { Hydrated } from '#app/components/hydrated.tsx'
 import studioCssUrl from '#app/styles/studio.css?url'
-import config from '#/sanity.config.ts'
+import config from '../../sanity.config.ts'
 
 export function meta() {
   return [{ title: 'Walz Studio' }, { name: 'robots', content: 'noindex' }]
