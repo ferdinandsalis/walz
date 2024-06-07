@@ -215,7 +215,7 @@ export default function Home() {
         </header>
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
           <Link
-            to="/faq#was-unterscheidet-die-walz"
+            to="/aktuelles/beitraege/walz-unterschiede"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
