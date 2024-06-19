@@ -181,8 +181,9 @@ export default defineType({
           mentorGivenNames: string
           mentorFamilyName: string
         }
+      console.log(photos)
       const latestPhoto = photos?.length
-        ? photos?.sort(({ takenAt }) => takenAt.getTime())[0]
+        ? photos?.sort(({ takenAt }) => new Date(takenAt).getTime())[0]
         : undefined
       return {
         media: latestPhoto?.asset,
