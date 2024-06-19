@@ -81,6 +81,11 @@ const yearPhoto = defineField({
       validation: rule => rule.required(),
     },
     {
+      name: 'motto',
+      type: 'string',
+      title: 'Motto',
+    },
+    {
       name: 'caption',
       type: 'string',
       title: 'Bildbeschreibung',
@@ -181,7 +186,6 @@ export default defineType({
           mentorGivenNames: string
           mentorFamilyName: string
         }
-      console.log(photos)
       const latestPhoto = photos?.length
         ? photos?.sort(({ takenAt }) => new Date(takenAt).getTime())[0]
         : undefined
