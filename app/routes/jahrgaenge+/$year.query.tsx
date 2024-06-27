@@ -17,7 +17,7 @@ export const query = groq`
       givenNames,
       "name": givenNames + " " + familyName,
     },
-    photos
+    photos | order(takenAt desc)
   }
 ` as string
 
