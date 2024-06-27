@@ -85,47 +85,49 @@ export default function Home() {
           <p className="relative">{hero.caption}</p>
         </div>
 
-        <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
-            <div className="flex items-center gap-2">
-              <h1 className="flex items-center gap-1">
-                <span className="sr-only">Nächster Termin</span>
-                <CalendarClockIcon
-                  size={24}
-                  className="inline-block text-secondary"
-                />
-              </h1>
-              <Link
-                key={latestDate.key}
-                to={`/aktuelles#${latestDate.key}`}
-                className="font-condensed font-bold"
-              >
-                <span className="">{latestDate.title}</span> am{' '}
-                <time
-                  dateTime={latestDate.startDate.toISOString()}
-                  className=""
+        {latestDate && (
+          <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+              <div className="flex items-center gap-2">
+                <h1 className="flex items-center gap-1">
+                  <span className="sr-only">Nächster Termin</span>
+                  <CalendarClockIcon
+                    size={24}
+                    className="inline-block text-secondary"
+                  />
+                </h1>
+                <Link
+                  key={latestDate.key}
+                  to={`/aktuelles#${latestDate.key}`}
+                  className="font-condensed font-bold"
                 >
-                  {latestDate.startDate.toLocaleDateString('de-AT', {
-                    day: 'numeric',
-                    month: 'long',
-                  })}
-                </time>
+                  <span className="">{latestDate.title}</span> am{' '}
+                  <time
+                    dateTime={latestDate.startDate.toISOString()}
+                    className=""
+                  >
+                    {latestDate.startDate.toLocaleDateString('de-AT', {
+                      day: 'numeric',
+                      month: 'long',
+                    })}
+                  </time>
+                </Link>
+              </div>{' '}
+              <Link
+                to="./aktuelles#termine"
+                className="group/more flex items-center font-condensed text-muted-foreground"
+              >
+                <span className="underline-offset-2 group-hover/more:underline">
+                  Alle Termine
+                </span>
+                <ArrowRight
+                  size="16"
+                  className="stroke-primary transition-transform group-hover/more:translate-x-1"
+                />
               </Link>
-            </div>{' '}
-            <Link
-              to="./aktuelles#termine"
-              className="group/more flex items-center font-condensed text-muted-foreground"
-            >
-              <span className="underline-offset-2 group-hover/more:underline">
-                Alle Termine
-              </span>
-              <ArrowRight
-                size="16"
-                className="stroke-primary transition-transform group-hover/more:translate-x-1"
-              />
-            </Link>
-          </div>
-        </article>
+            </div>
+          </article>
+        )}
       </div>
 
       <div className="grid gap-16 lg:grid-cols-6 lg:grid-rows-1">
