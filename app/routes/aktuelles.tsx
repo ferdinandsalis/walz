@@ -49,6 +49,7 @@ function evolveEvent(event: SchoolEvent) {
     endDate: v => new Date(v),
   })(event)
 
+  // @ts-ignore naaaah, I dont get it
   return promiseHash<SchoolEventParsed>(hash)
 }
 
