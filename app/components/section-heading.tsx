@@ -16,7 +16,7 @@ export function SectionHeading({
     >
       <h1
         id={id}
-        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-muted-foreground/30"
+        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.2em] text-muted-foreground/50"
       >
         <span className="rounded bg-background px-8 py-2">{children}</span>
       </h1>
