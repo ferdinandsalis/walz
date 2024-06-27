@@ -1,5 +1,10 @@
 import { Link, NavLink } from '@remix-run/react'
-import { ExternalLinkIcon, Home } from 'lucide-react'
+import {
+  ExternalLinkIcon,
+  Home,
+  InstagramIcon,
+  YoutubeIcon,
+} from 'lucide-react'
 import { cn } from '#app/utils/misc.tsx'
 import { LogoType } from './brand.tsx'
 import { NewsletterForm } from './newsletter.tsx'
@@ -111,22 +116,37 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-2 grid gap-2">
+          <p className="mb-2">Folge uns auf …</p>
           {/* Social Links */}
-          <Link
-            to="https://instagram.com/walz_wien"
-            className="inline-flex items-center gap-2"
-          >
-            <img
-              src="/instagram_glyph.svg"
-              alt="Instagram Logo"
-              className="w-6"
-            />
-            <span className="text-muted-foreground hover:text-primary">
-              Folge uns auf Instagram.
-            </span>
-            <ExternalLinkIcon size={18} className="stroke-primary" />
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="https://instagram.com/walz_wien"
+              className="inline-flex items-center gap-2 rounded bg-white/50 px-3 py-1"
+            >
+              <InstagramIcon size={20} className="stroke-primary" />
+              <span className="text-muted-foreground hover:text-primary">
+                Instagram
+              </span>
+              <ExternalLinkIcon
+                size={18}
+                className="stroke-muted-foreground/50"
+              />
+            </Link>
+            <Link
+              to="https://www.youtube.com/channel/UCV9s0X21PcGR5th-tl02BPg"
+              className="inline-flex items-center gap-2 rounded bg-white/50 px-3 py-1"
+            >
+              <YoutubeIcon size={20} className="stroke-primary" />
+              <span className="text-muted-foreground hover:text-primary">
+                Youtube
+              </span>
+              <ExternalLinkIcon
+                size={18}
+                className="stroke-muted-foreground/50"
+              />
+            </Link>
+          </div>
         </div>
       </div>
 
