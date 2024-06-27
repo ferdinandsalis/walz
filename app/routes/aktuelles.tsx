@@ -15,40 +15,57 @@ import {
   Link2Icon,
 } from 'lucide-react'
 import { marked } from 'marked'
-import { take } from 'ramda'
+import { evolve, groupBy, take } from 'ramda'
+import { promiseHash } from 'remix-utils/promise'
 import slug from 'slug'
 import { z } from 'zod'
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { dates as datesData } from '#app/data/dates.ts'
+import {
+  SchoolEvent,
+  SchoolEventParsed,
+  events as datesData,
+} from '#app/data/dates.ts'
 import { calculateCurrentYear } from '#app/data/years.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
-import  { type QueryResult, type Year , YearSchema, query } from './aktuelles.query.ts'
+import {
+  type QueryResult,
+  type Year,
+  YearSchema,
+  query,
+} from './aktuelles.query.ts'
 
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
+}
+
+function evolveEvent(event: SchoolEvent) {
+  const hash = evolve({
+    description: v => (v ? marked.parse(v) : v),
+    startDate: v => new Date(v),
+    endDate: v => new Date(v),
+  })(event)
+
+  return promiseHash<SchoolEventParsed>(hash)
 }
 
 export const loader = defineLoader(async ({ params }) => {
   const queryResult = await loadQuery<QueryResult>(query)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
-  const datesPromises = datesData.map(async date => {
-    return {
-      ...date,
-      description: date.description && (await marked.parse(date.description)),
-    }
-  })
+  const groupedDates = groupBy<SchoolEventParsed, string>(v => {
+    return new Date(v.startDate).getUTCFullYear().toString()
+  })(await Promise.all(datesData.map(evolveEvent)))
 
   return {
     query,
     params,
     data: {
       posts: take(3, queryResult.data.posts),
-      dates: await Promise.all(datesPromises),
+      groupedDates,
       years,
     },
   }
@@ -58,7 +75,7 @@ export default function Aktuelles() {
   const location = useLocation()
   const currentHash = location.hash.replace('#', '') || undefined
   const loaderData = useLoaderData<typeof loader>()
-  const { posts, years, dates } = loaderData.data
+  const { posts, years, groupedDates } = loaderData.data
 
   return (
     <div className="md:mt-12">
@@ -112,146 +129,165 @@ export default function Aktuelles() {
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Termine
           </h1>
+          <Accordion
+            collapsible
+            type="single"
+            defaultValue={currentHash}
+            className="grid gap-4"
+          >
+            {Object.entries(groupedDates).map(([year, dates]) => {
+              return (
+                <section>
+                  <h2 className="mb-2 text-right font-condensed text-body-lg font-bold text-muted-foreground/70">
+                    {year}
+                  </h2>
 
-          <Accordion collapsible type="single" defaultValue={currentHash}>
-            {dates.map((date, idx) => {
-              const key = `${date.startDate.toISOString()}_${slug(date.title)}`
-              return date.description ? (
-                <AccordionItem key={key} value={key}>
-                  <div
-                    id={key}
-                    className={cn(
-                      'border-b-2 border-b-background bg-card/50 transition-colors',
-                      {
-                        'border-b-secondary':
-                          idx === 0 || idx === dates.length - 2,
-                      },
-                    )}
-                  >
-                    <AccordionTrigger asChild>
-                      <div
-                        className={cn(
-                          'grid w-full grid-cols-3 gap-4 px-4 py-1',
-                          'transition-all [&[data-state=open]>svg]:rotate-180',
-                          'cursor-pointer items-center',
-                          'data-[state=open]:bg-primary/10',
-                        )}
-                      >
-                        <time
-                          className=""
-                          dateTime={date.startDate.toISOString()}
+                  <div className="grid gap-1">
+                    {dates?.map((date, idx) => {
+                      const key = `${date.startDate.toISOString()}_${slug(date.title)}`
+                      return date.description ? (
+                        <AccordionItem key={key} value={key}>
+                          <div
+                            id={key}
+                            className={cn('bg-card/50 transition-colors')}
+                          >
+                            <AccordionTrigger asChild>
+                              <div
+                                className={cn(
+                                  'grid w-full grid-cols-3 gap-4 px-4 py-1',
+                                  'transition-all [&[data-state=open]>svg]:rotate-180',
+                                  'cursor-pointer items-center',
+                                  'data-[state=open]:bg-primary/10',
+                                )}
+                              >
+                                <time
+                                  className=""
+                                  dateTime={date.startDate.toISOString()}
+                                >
+                                  {date.startDate.toLocaleString('de-AT', {
+                                    month: 'long',
+                                    day: '2-digit',
+                                  })}
+                                </time>
+                                <h1
+                                  className={cn('truncate font-bold')}
+                                  title={date.title}
+                                >
+                                  {date.title}
+                                </h1>
+                                <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
+                              </div>
+                            </AccordionTrigger>
+                          </div>
+                          {date.description && (
+                            <AccordionContent asChild>
+                              <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                                <h1 className="mb-4 text-h5 font-bold">
+                                  {date.title}
+                                </h1>
+                                <dl className="space-y-4">
+                                  <div className="grid grid-cols-2 gap-4">
+                                    {date.startTime && (
+                                      <div>
+                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                          Beginn
+                                        </dt>
+                                        <dd className="">
+                                          {date.startTime} Uhr
+                                        </dd>
+                                      </div>
+                                    )}
+                                    {date.endTime && (
+                                      <div>
+                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                          Ende
+                                        </dt>
+                                        <dd className="">{date.endTime} Uhr</dd>
+                                      </div>
+                                    )}
+                                    {date.links && (
+                                      <div className="col-span-2">
+                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                          Links
+                                        </dt>
+                                        <dd className="">
+                                          <ul className="list-inside list-disc">
+                                            {date.links.map(link => (
+                                              <li key={link.href}>
+                                                {link.download ? (
+                                                  <a
+                                                    href={link.href}
+                                                    download={link.download}
+                                                    className="inline-flex items-center gap-1"
+                                                  >
+                                                    {link.title}
+                                                    <DownloadIcon
+                                                      size={16}
+                                                      className="inline-block stroke-primary"
+                                                    />
+                                                  </a>
+                                                ) : (
+                                                  <Link
+                                                    className="underline underline-offset-2"
+                                                    to={link.href}
+                                                  >
+                                                    {link.title}
+                                                  </Link>
+                                                )}
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </dd>
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div>
+                                    <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                      Info
+                                    </dt>
+                                    <dd>
+                                      <p
+                                        className="max-w-prose hyphens-auto text-pretty"
+                                        dangerouslySetInnerHTML={{
+                                          __html: date?.description,
+                                        }}
+                                      ></p>
+                                    </dd>
+                                  </div>
+                                </dl>
+                              </div>
+                            </AccordionContent>
+                          )}
+                        </AccordionItem>
+                      ) : (
+                        <div
+                          key={idx}
+                          className={cn(
+                            'border-b-1 border-b-background bg-card/50',
+                            {
+                              '': idx,
+                            },
+                          )}
                         >
-                          {date.startDate.toLocaleString('de-AT', {
-                            month: 'long',
-                            day: '2-digit',
-                          })}
-                        </time>
-                        <h1 className="truncate" title={date.title}>
-                          {date.title}
-                        </h1>
-                        <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
-                      </div>
-                    </AccordionTrigger>
-                  </div>
-                  {date.description && (
-                    <AccordionContent asChild>
-                      <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                        <h1 className="mb-4 text-h5 font-bold">{date.title}</h1>
-                        <dl className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            {date.startTime && (
-                              <div>
-                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                  Beginn
-                                </dt>
-                                <dd className="">{date.startTime} Uhr</dd>
-                              </div>
-                            )}
-                            {date.endTime && (
-                              <div>
-                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                  Ende
-                                </dt>
-                                <dd className="">{date.endTime} Uhr</dd>
-                              </div>
-                            )}
-                            {date.links && (
-                              <div className="col-span-2">
-                                <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                  Links
-                                </dt>
-                                <dd className="">
-                                  <ul className="list-inside list-disc">
-                                    {date.links.map(link => (
-                                      <li key={link.href}>
-                                        {link.download ? (
-                                          <a
-                                            href={link.href}
-                                            download={link.download}
-                                            className="inline-flex items-center gap-1"
-                                          >
-                                            {link.title}
-                                            <DownloadIcon
-                                              size={16}
-                                              className="inline-block stroke-primary"
-                                            />
-                                          </a>
-                                        ) : (
-                                          <Link
-                                            className="underline underline-offset-2"
-                                            to={link.href}
-                                          >
-                                            {link.title}
-                                          </Link>
-                                        )}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </dd>
-                              </div>
-                            )}
+                          <div
+                            className={cn('grid grid-cols-3 gap-4 px-4 py-1')}
+                          >
+                            <time
+                              className=""
+                              dateTime={date.startDate.toISOString()}
+                            >
+                              {date.startDate.toLocaleString('de-AT', {
+                                month: 'long',
+                                day: '2-digit',
+                              })}
+                            </time>
+                            <h1 className="font-bold">{date.title}</h1>
                           </div>
-                          <div>
-                            <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                              Info
-                            </dt>
-                            <dd>
-                              <p
-                                className="max-w-prose hyphens-auto text-pretty"
-                                dangerouslySetInnerHTML={{
-                                  __html: date?.description,
-                                }}
-                              ></p>
-                            </dd>
-                          </div>
-                        </dl>
-                      </div>
-                    </AccordionContent>
-                  )}
-                </AccordionItem>
-              ) : (
-                <div
-                  key={idx}
-                  className={cn('border-b-2 border-b-background bg-card/50', {
-                    'border-b-secondary': idx === 0 || idx === dates.length - 2,
-                    '': idx,
-                  })}
-                >
-                  <div
-                    className={cn('grid grid-cols-3 gap-4 px-4 py-1', {
-                      'font-bold': date.type === 'internal',
-                      'text-muted-foreground': date.type !== 'internal',
+                        </div>
+                      )
                     })}
-                  >
-                    <time className="" dateTime={date.startDate.toISOString()}>
-                      {date.startDate.toLocaleString('de-AT', {
-                        month: 'long',
-                        day: '2-digit',
-                      })}
-                    </time>
-                    <h1>{date.title}</h1>
                   </div>
-                </div>
+                </section>
               )
             })}
           </Accordion>

@@ -11,18 +11,35 @@ import { take } from 'ramda'
 import slug from 'slug'
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
-import { dates } from '#app/data/dates.ts'
+import { events as datesData } from '#app/data/dates.ts'
 import { testimonials } from '#app/data/testimonials.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
 import { pillars } from './ueber-uns+/philosophie.tsx'
+import { Button } from '#app/components/ui/button.js'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
+  const upcomingDates = datesData
+    .filter(date => new Date(date.startDate).getTime() > new Date().getTime())
+    .sort(
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+    ) // Sort to ensure the first element is the earliest upcoming date
+
+  const latestDate =
+    upcomingDates.length > 0
+      ? {
+          ...upcomingDates[0],
+          startDate: new Date(upcomingDates[0].startDate),
+          key: `${slug(upcomingDates[0].title)}_${upcomingDates[0].startDate}`,
+        }
+      : null
 
   return {
     query,
+    latestDate,
     data: queryResult.data,
   }
 })
@@ -30,6 +47,7 @@ export const loader = defineLoader(async () => {
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()
   const latestPost = loaderData.data.posts[0]
+  const latestDate = loaderData.latestDate
   const hero = loaderData.data.hero
 
   return (
@@ -58,7 +76,7 @@ export default function Home() {
         </figure>
 
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
-          <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-32 sm:-right-10 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
+          <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-24 sm:right-8 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
           <p className="relative max-w-xl text-pretty font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
             Die <strong className="font-bold text-secondary">Walz</strong> soll
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
@@ -77,29 +95,22 @@ export default function Home() {
                   className="inline-block text-secondary"
                 />
               </h1>
-              {take(
-                1,
-                dates.filter(date => date.startDate > new Date()),
-              ).map(date => {
-                const key = `${date.startDate.toISOString()}_${slug(
-                  date.title,
-                )}`
-                return (
-                  <Link
-                    key={key}
-                    to={`/aktuelles#${key}`}
-                    className="font-condensed font-bold"
-                  >
-                    <span className="">{date.title}</span> am{' '}
-                    <time dateTime={date.startDate.toISOString()} className="">
-                      {date.startDate.toLocaleDateString('de-AT', {
-                        day: 'numeric',
-                        month: 'long',
-                      })}
-                    </time>
-                  </Link>
-                )
-              })}
+              <Link
+                key={latestDate.key}
+                to={`/aktuelles#${latestDate.key}`}
+                className="font-condensed font-bold"
+              >
+                <span className="">{latestDate.title}</span> am{' '}
+                <time
+                  dateTime={latestDate.startDate.toISOString()}
+                  className=""
+                >
+                  {latestDate.startDate.toLocaleDateString('de-AT', {
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                </time>
+              </Link>
             </div>{' '}
             <Link
               to="./aktuelles#termine"
