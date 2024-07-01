@@ -55,6 +55,18 @@
     @apply mb-4 mt-6 font-condensed text-xl font-bold;
   }
 
+  h3 {
+    @apply mb-2 mt-3 text-lg font-bold text-secondary;
+  }
+
+  blockquote {
+    @apply border-l-4 border-l-muted pl-4;
+  }
+
+  blockquote em {
+    @apply text-xl italic;
+  }
+
   ul {
     @apply list-inside list-disc;
   }
