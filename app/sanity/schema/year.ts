@@ -126,22 +126,18 @@ export default defineType({
       name: 'photos',
       type: 'array',
       of: [defineArrayMember(yearPhoto)],
-      validation: Rule => Rule.required().min(1),
     }),
     defineField({
       name: 'mentor',
       title: 'Mentor',
       type: 'reference',
-      options: {
-        filter: '$role in roles',
-        filterParams: { role: 'mentor' },
-      },
+      description:
+        'Der Mentor des Jahrgangs; es können alle Personen ausgewählt werden, auch die, die nicht als Mentor markiert sind.',
       to: [
         {
           type: 'person',
         },
       ],
-      validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'letter',

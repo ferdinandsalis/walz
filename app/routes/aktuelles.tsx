@@ -23,8 +23,8 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import {
-  SchoolEvent,
-  SchoolEventParsed,
+  type SchoolEvent,
+  type SchoolEventParsed,
   events as datesData,
 } from '#app/data/dates.ts'
 import { calculateCurrentYear } from '#app/data/years.ts'
@@ -87,37 +87,23 @@ export default function Aktuelles() {
       <div className="space-y-12 md:space-y-16">
         <Toc
           links={[
-            { name: 'Beiträge', to: '#beitraege' },
-            { name: 'Termine', to: '#termine' },
             { name: 'Jahrgänge', to: '#jahrgaenge' },
+            { name: 'Termine', to: '#termine' },
+            { name: 'Beiträge', to: '#beitraege' },
           ]}
         />
 
         <Divider />
 
-        <section id="beitraege" className="col-span-2 grid grid-cols-1 gap-4">
-          <header className="flex flex-col items-end md:flex-row">
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-              Beiträge
-            </h1>
-            <div className="md:ml-auto">
-              <Link
-                to="/aktuelles/beitraege/"
-                className="text-secondary underline-offset-2 hover:underline"
-              >
-                Alle Beiträge anzeigen
-              </Link>
-            </div>
-          </header>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {posts &&
-              posts.map(post => (
-                <PostItem
-                  title={post.title}
-                  previewText={post.previewText}
-                  linkTo={`/aktuelles/beitraege/${post.slug.current}`}
-                  key={post.slug.current}
-                />
+        <section id="jahrgaenge" className="space-y-8">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+            Jahrgänge
+          </h1>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {years
+              .filter(year => !year.graduatedAt)
+              .map(year => (
+                <YearCard key={year.letter} {...year} />
               ))}
           </div>
 
@@ -138,7 +124,7 @@ export default function Aktuelles() {
           >
             {Object.entries(groupedDates).map(([year, dates]) => {
               return (
-                <section>
+                <section key={year}>
                   <h2 className="mb-2 text-right font-condensed text-body-lg font-bold text-muted-foreground/70">
                     {year}
                   </h2>
@@ -298,15 +284,29 @@ export default function Aktuelles() {
 
         <Divider />
 
-        <section id="jahrgaenge" className="space-y-8">
-          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Jahrgänge
-          </h1>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {years
-              .filter(year => !year.graduatedAt)
-              .map(year => (
-                <YearCard key={year.letter} {...year} />
+        <section id="beitraege" className="col-span-2 grid grid-cols-1 gap-4">
+          <header className="flex flex-col items-end md:flex-row">
+            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+              Beiträge
+            </h1>
+            <div className="md:ml-auto">
+              <Link
+                to="/aktuelles/beitraege/"
+                className="text-secondary underline-offset-2 hover:underline"
+              >
+                Alle Beiträge anzeigen
+              </Link>
+            </div>
+          </header>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts &&
+              posts.map(post => (
+                <PostItem
+                  title={post.title}
+                  previewText={post.previewText}
+                  linkTo={`/aktuelles/beitraege/${post.slug.current}`}
+                  key={post.slug.current}
+                />
               ))}
           </div>
 

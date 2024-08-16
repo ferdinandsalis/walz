@@ -24,7 +24,6 @@ export const YearSchema = z.object({
 
 export type Year = z.infer<typeof YearSchema>
 
-// @ts-ignore
 export const query = groq`{
   "posts": *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -35,7 +34,8 @@ export const query = groq`{
     slug,
     publishedAt
   },
-  "years": *[_type == "year"] | order(startedAt desc) {
+  // filter years by those with empty graduatedAt
+  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {
     _id,
     _type,
     startedAt,

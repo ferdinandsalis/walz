@@ -1,7 +1,7 @@
 import { unstable_defineAction as defineAction } from '@remix-run/node'
 import z from 'zod'
+import * as Buttondown from '#app/utils/buttondown.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
-import * as Newsletter from '#app/utils/newsletter.ts'
 
 export const action = defineAction(async ({ request }) => {
   const formData = await request.formData()
@@ -12,7 +12,7 @@ export const action = defineAction(async ({ request }) => {
     })
     .parse(Object.fromEntries(formData.entries()))
 
-  await Newsletter.addSubscriber(data.email, 'walz.at')
+  await Buttondown.addSubscriber(data.email, 'walz.at')
 
   return { ok: true, data }
 })

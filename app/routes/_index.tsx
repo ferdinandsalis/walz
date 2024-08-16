@@ -6,48 +6,49 @@ import {
   CalendarClockIcon,
   LinkIcon,
   MessageCircleQuestionIcon,
+  QuoteIcon,
 } from 'lucide-react'
-import { take } from 'ramda'
 import slug from 'slug'
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
-import { events as datesData } from '#app/data/dates.ts'
-import { testimonials } from '#app/data/testimonials.ts'
+import { Button } from '#app/components/ui/button.js'
+import { events as eventsData } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { query, type QueryResult } from './_index.query.ts'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { Button } from '#app/components/ui/button.js'
+import { ALPHABET, alphabetMap } from '#app/sanity/schema/year.js'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
-  const upcomingDates = datesData
+  const upcomingEvents = eventsData
     .filter(date => new Date(date.startDate).getTime() > new Date().getTime())
     .sort(
       (a, b) =>
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
     ) // Sort to ensure the first element is the earliest upcoming date
 
-  const latestDate =
-    upcomingDates.length > 0
+  const latestEvent =
+    upcomingEvents.length > 0
       ? {
-          ...upcomingDates[0],
-          startDate: new Date(upcomingDates[0].startDate),
-          key: `${slug(upcomingDates[0].title)}_${upcomingDates[0].startDate}`,
+          ...upcomingEvents[0],
+          startDate: new Date(upcomingEvents[0].startDate),
+          key: `${slug(upcomingEvents[0].title)}_${upcomingEvents[0].startDate}`,
         }
       : null
 
   return {
     query,
-    latestDate,
+    latestEvent,
     data: queryResult.data,
   }
 })
 
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()
-  const latestPost = loaderData.data.posts[0]
-  const latestDate = loaderData.latestDate
+  const [latestPost, ...restPosts] = loaderData.data.posts
+  const latestDate = loaderData.latestEvent
+  const testimonials = loaderData.data.testimonials
   const hero = loaderData.data.hero
 
   return (
@@ -130,20 +131,18 @@ export default function Home() {
         )}
       </div>
 
-      <div className="grid gap-16 lg:grid-cols-6 lg:grid-rows-1">
-        <section className="space-y-4 lg:col-span-3 lg:row-start-1">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
+        <section className="col-span-1 space-y-4 md:col-span-4 lg:col-span-4">
           <div>
-            <h1 className="font-condensed text-lg font-bold text-primary lg:mb-4">
-              Was ist die Walz?
-            </h1>
-            <p className="max-w-xl text-pretty text-body-md md:text-body-lg lg:text-body-lg">
+            <h1 className="sr-only">Was ist die Walz?</h1>
+            <p className="max-w-xl text-pretty text-body-md lg:text-body-lg">
               In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
               geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
               ausloten und werden auf die Matura vorbereitet.
             </p>
           </div>
           <div>
-            <p>
+            <p className="text-balance">
               <Link
                 to={'/aktuelles/beitraege/walz-unterschiede'}
                 className="group text-body-md text-muted-foreground"
@@ -151,54 +150,127 @@ export default function Home() {
                 <MessageCircleQuestionIcon
                   size={28}
                   absoluteStrokeWidth
-                  className="inline-flex stroke-primary"
+                  className="relative -top-1 inline-flex stroke-primary"
                 />{' '}
                 <span className="underline-offset-2 group-hover:underline">
-                  Was unterscheidet die Walz von einer klassischen Oberstufe?
+                  Was unterscheidet die Walz von einer
+                  <br className="hidden lg:inline" /> klassischen Oberstufe?
                 </span>
               </Link>
             </p>
           </div>
         </section>
 
-        <section className="lg:col-span-3 lg:col-start-4 lg:row-start-1">
-          <h1 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
+        {false && (
+          <section className="md:col-span-3 lg:col-span-2">
+            <h1 className="sr-only">Walz kennenlernen</h1>
+            <div className="rounded-lg bg-secondary/20 p-6">
+              <p className="mb-4 text-body-md">
+                <span className="relative mb-1">🙇</span>{' '}
+                <strong className="font-bold">
+                  Die Walz stellt <br /> sich vor.
+                </strong>{' '}
+                Du willst mehr wissen? Klicke hier.
+              </p>
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="mr-auto text-body-sm shadow"
+              >
+                <Link to="/die-walz-kennenlernen">Mehr Info</Link>
+              </Button>
+            </div>
+          </section>
+        )}
+        <section className="md:col-span-6">
+          <h1 className="mb-4 mt-6 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
             Beiträge
           </h1>
-          <article className="relative max-w-prose rounded-lg bg-white shadow-md shadow-gray-200">
-            <div className="p-6">
-              <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
-                <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
-                  {latestPost.title}
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-6">
+            <article className="relative col-span-4 grid max-w-prose rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
+              {latestPost.cover && (
+                <figure className="relative lg:row-span-2">
+                  <img
+                    src={urlFor(latestPost.cover).quality(70).width(800).url()}
+                    alt={latestPost.cover.caption}
+                    className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
+                  />
+                  {latestPost.cover.attribution && (
+                    <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
+                      <p className="text-right text-body-xs text-card/70">
+                        {latestPost.cover.attribution}
+                      </p>
+                    </figcaption>
+                  )}
+                </figure>
+              )}
+              <div className="p-6">
+                <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
+                  <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
+                    {latestPost.title}
+                  </Link>
+                </h1>
+                <p className="text-body-xs text-muted-foreground">
+                  Veröffentlicht am{' '}
+                  <time>
+                    {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
+                      dateStyle: 'medium',
+                    })}
+                  </time>
+                </p>
+                <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
+                  {latestPost.previewText} <span>…</span>
+                </p>
+              </div>
+              <footer className="bg-primary/5 px-6 py-2 lg:col-start-2">
+                <Link
+                  to={`/aktuelles/beitraege/${latestPost.slug.current}`}
+                  className="group/more flex items-center font-condensed text-lg text-primary"
+                >
+                  <span className="underline-offset-2 group-hover/more:underline">
+                    Weiterlesen
+                  </span>
+                  <ArrowRight
+                    size="20"
+                    className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
+                  />
                 </Link>
-              </h1>
-              <p className="text-body-xs text-muted-foreground">
-                Veröffentlicht am{' '}
-                <time>
-                  {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
-                    dateStyle: 'medium',
-                  })}
-                </time>
-              </p>
-              <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
-                {latestPost.previewText} <span>…</span>
-              </p>
+              </footer>
+            </article>
+            <div className="col-span-2 grid gap-4">
+              {restPosts.map((post, idx) => {
+                return (
+                  <>
+                    <article key={idx} className="relative max-w-prose">
+                      <h1 className="max-w-xs font-condensed font-bold !leading-tight text-muted-foreground md:text-lg">
+                        <Link to={`/aktuelles/beitraege/${post.slug.current}`}>
+                          {post.title}
+                        </Link>
+                      </h1>
+                      <p className="mt-2 max-w-md text-balance text-body-sm leading-snug">
+                        {post.previewText.replace(/^(.{90}[^\s]*).*/, '$1')}{' '}
+                        <span>…</span>
+                      </p>
+                      <footer className="mt-2">
+                        <Link
+                          to={`/aktuelles/beitraege/${post.slug.current}`}
+                          className="font-condensed text-primary"
+                        >
+                          <span className="underline-offset-2 group-hover/more:underline">
+                            Weiterlesen
+                          </span>
+                        </Link>
+                      </footer>
+                    </article>
+                    {idx < restPosts.length - 1 && (
+                      <hr className="col-span-6" />
+                    )}
+                  </>
+                )
+              })}
             </div>
-            <footer className="mt-2 bg-primary/5 px-6 py-2">
-              <Link
-                to={`/aktuelles/beitraege/${latestPost.slug.current}`}
-                className="group/more flex items-center font-condensed text-lg text-primary"
-              >
-                <span className="underline-offset-2 group-hover/more:underline">
-                  Weiterlesen
-                </span>
-                <ArrowRight
-                  size="20"
-                  className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
-                />
-              </Link>
-            </footer>
-          </article>
+          </div>
         </section>
       </div>
 
@@ -227,17 +299,6 @@ export default function Home() {
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
-          <Link
-            to="/aktuelles/beitraege/walz-unterschiede"
-            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
-          >
-            <span className="min-w-10 bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
-            </span>
-            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
-              Was unterscheidet die Walz von einer klassischen Oberstufe?
-            </span>
-          </Link>
           <Link
             to="/faq#was-heisst-eigentlich-walz"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
@@ -291,24 +352,9 @@ export default function Home() {
             Stimmen aus der Walz
           </SectionHeading>
         </header>
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          {take(4, testimonials).map((entry, idx) => {
-            return (
-              <blockquote
-                key={idx}
-                className="relative max-w-prose bg-background"
-              >
-                <p className="text-md relative text-balance rounded-lg bg-card p-6 text-card-foreground shadow-sm lg:p-6 lg:text-body-md">
-                  {entry.text}
-                </p>
-                <footer className="ml-4 mt-3 lg:ml-6">
-                  <p className="text-body-sm font-bold">
-                    <span className="text-secondary">—</span> {entry.emoticon}{' '}
-                    {entry.name}
-                  </p>
-                </footer>
-              </blockquote>
-            )
+        <div className="grid grid-cols-1 items-center justify-items-center gap-8 md:grid-cols-2">
+          {testimonials.map((testimonial, idx) => {
+            return <TestimonialCard key={idx} {...testimonial} idx={idx} />
           })}
         </div>
       </section>
@@ -330,12 +376,14 @@ export default function Home() {
             <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
           </Link>
           <div className="md:col-span-2 md:col-start-5">
-            <h2 className="mb-2 font-condensed text-lg font-bold text-primary lg:mb-4">
+            <h2 className="mb-4 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
               Kontakt
             </h2>
             <div className="lg:text-body-md">
               <p>
-                <strong>Walz Wiener Lernzentrum</strong>
+                <strong className="text-primary">
+                  Walz Wiener Lernzentrum
+                </strong>
               </p>
               <p>Heinrich-Collin-Straße 9</p>
               <p>1140 Wien</p>
@@ -363,6 +411,53 @@ export default function Home() {
         </div>
       </section>
     </div>
+  )
+}
+
+type TestimonialCardProps = QueryResult['testimonials'][0] & { idx: number }
+
+function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
+  return (
+    <blockquote key={idx} className="relative max-w-sm bg-background">
+      <div className="relative rounded-lg bg-card p-6 drop-shadow after:absolute after:bottom-0 after:left-1/2 after:mb-[-16px] after:ml-[-8px] after:h-0 after:w-0 after:border-[33px] after:border-b-0 after:border-l-0 after:border-solid after:border-transparent after:border-t-card after:bg-card/0">
+        {/* big german open quote */}
+        <p className="text-balance text-body-sm !leading-[1.45] text-card-foreground md:min-h-32">
+          {entry.quote}
+        </p>
+        <QuoteIcon className="absolute right-2 h-12 w-12 fill-secondary stroke-none text-secondary" />
+      </div>
+      <footer className="ml-6 mt-3 flex items-center gap-4 lg:ml-8">
+        <figure
+          className="relative flex h-16 w-16 items-center justify-center rounded-full shadow-inner"
+          aria-hidden="true"
+        >
+          <img
+            src={urlFor(entry.photo.asset)
+              .quality(70)
+              .format('webp')
+              .width(200)
+              .height(200)
+              .url()}
+            alt={entry.photo.alt}
+            className="rounded-full"
+          />
+        </figure>
+        <div className="">
+          <p className="text-body-sm font-bold">
+            {entry.name}{' '}
+            <span className="align-super text-body-xs font-bold text-primary">
+              {alphabetMap[entry.year.letter]}
+            </span>{' '}
+          </p>
+          <p className="leading-none">
+            <span className="text-body-2xs uppercase tracking-widest text-muted-foreground">
+              Maturajahr{' '}
+              <span>{new Date(entry.year.graduatedAt).getFullYear()}</span>
+            </span>
+          </p>
+        </div>
+      </footer>
+    </blockquote>
   )
 }
 
@@ -401,7 +496,7 @@ export function LinkPhotoCard({
 
       <div className="relative rounded-b-lg border-t-4 border-t-primary bg-card p-6 pt-6 shadow-md">
         <hgroup className="flex-1">
-          <h1 className="mb-1 font-condensed text-xl font-bold text-secondary md:text-3xl lg:text-4xl">
+          <h1 className="mb-1 font-condensed text-xl font-bold text-secondary md:text-2xl">
             {title}
           </h1>
           <p className="text-lg font-bold leading-none">{abstract}</p>

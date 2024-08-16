@@ -1,5 +1,21 @@
 import { UserIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
+import { z } from 'zod'
+
+export const PersonSchema = z.object({
+  givenNames: z.string(),
+  familyName: z.string(),
+  portrait: z.any(),
+  roles: z.array(z.string()),
+  description: z.string(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  website: z.string().optional(),
+  priority: z.number(),
+  inactive: z.boolean(),
+})
+
+export type Person = z.infer<typeof PersonSchema>
 
 export default defineType({
   name: 'person',
@@ -44,13 +60,22 @@ export default defineType({
       title: 'Priorität',
     }),
     defineField({
+      name: 'inactive',
+      description: 'Person ist nicht mehr aktiv',
+      type: 'boolean',
+      title: 'Inaktiv',
+      initialValue: false,
+    }),
+    defineField({
       name: 'givenNames',
+      description: 'Vorname(n)',
       type: 'string',
       title: 'Vorname(n)',
       validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'familyName',
+      description: 'Nachname',
       type: 'string',
       title: 'Nachname',
       validation: Rule => [Rule.required()],
@@ -70,8 +95,9 @@ export default defineType({
           type: 'string',
         },
       ],
+      // check
       options: {
-        layout: 'radio',
+        layout: 'list',
         list: [
           { title: 'Leitung', value: 'leadership' },
           { title: 'Mentor', value: 'mentor' },

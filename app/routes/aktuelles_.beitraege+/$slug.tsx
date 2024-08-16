@@ -7,7 +7,7 @@ import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, query } from './$slug.query.ts'
 
 export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
-  return [{ title: `${data?.data.title} | Walz` }]
+  return [{ title: `${data?.data?.title} | Walz` }]
 }
 
 export const loader = defineLoader(async ({ params }) => {
