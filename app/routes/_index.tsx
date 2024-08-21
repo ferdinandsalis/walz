@@ -15,9 +15,9 @@ import { Button } from '#app/components/ui/button.js'
 import { events as eventsData } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
+import { alphabetMap } from '#app/sanity/schema/year.js'
 import { query, type QueryResult } from './_index.query.ts'
 import { pillars } from './ueber-uns+/philosophie.tsx'
-import { ALPHABET, alphabetMap } from '#app/sanity/schema/year.js'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)

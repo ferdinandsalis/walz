@@ -18,7 +18,7 @@ export const YearSchema = z.object({
   mentor: PersonSchema.pick({ givenNames: true, familyName: true }).extend({
     name: z.string(),
   }),
-  photos: z.array(PhotoSchema),
+  photos: z.array(PhotoSchema).nullable(),
   plan: z.string(),
 })
 
