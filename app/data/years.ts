@@ -7,7 +7,7 @@ export function calculateCurrentYear(
   current: Date = new Date(),
   options: Options = {},
 ) {
-  const schoolStartMonth = options.schoolStartMonth ?? 8 // Default to September
+  const schoolStartMonth = options.schoolStartMonth ?? 7 // Default to August
   const startYear = start.getFullYear()
   const currentYear = current.getFullYear()
 
