@@ -26,7 +26,7 @@ export const YearSchema = z.object({
   _type: z.string(),
   startedAt: z.coerce.date(),
   graduatedAt: z.coerce.date().nullable(),
-  plan: z.string(),
+  plan: z.string().nullable(),
   letter: z.string(),
   mentor: PersonSchema.pick({ givenNames: true, familyName: true }).extend({
     name: z.string(),

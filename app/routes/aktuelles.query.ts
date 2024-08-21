@@ -19,7 +19,7 @@ export const YearSchema = z.object({
     name: z.string(),
   }),
   photos: z.array(PhotoSchema).nullable(),
-  plan: z.string(),
+  plan: z.string().nullable(),
 })
 
 export type Year = z.infer<typeof YearSchema>
