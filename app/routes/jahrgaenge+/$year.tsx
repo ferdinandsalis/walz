@@ -1,5 +1,9 @@
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import { Link, type MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
+import {
+  Link,
+  type MetaArgs_SingleFetch,
+  useLoaderData,
+} from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
@@ -26,7 +30,6 @@ export const loader = defineLoader(async ({ params }) => {
 export default function Year() {
   const loaderData = useLoaderData<typeof loader>()
   const year = loaderData.data
-  const { width, height } = getImageDimensions(year.photos[0].asset)
 
   return (
     <article className="post space-y-8 hyphens-auto text-pretty">
@@ -63,18 +66,7 @@ export default function Year() {
       </header>
 
       {year.photos ? (
-        <figure className="max-w-3xl rounded-sm bg-card p-2 shadow">
-          <img
-            src={urlFor(year.photos[0]).quality(80).width(1000).url()}
-            width={width}
-            height={height}
-            alt={`${year.letter} Foto`}
-            className="flex-1 rounded-sm object-cover object-center"
-            style={{
-              aspectRatio: width / height,
-            }}
-          />
-        </figure>
+        <YearPhotos photos={year.photos} letter={year.letter} />
       ) : (
         <div className="flex flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
           <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
@@ -93,5 +85,37 @@ export default function Year() {
         </div>
       )}
     </article>
+  )
+}
+
+function YearPhotos({
+  photos,
+  letter,
+}: {
+  photos: {
+    asset?: any
+    takenAt: Date
+    attribution?: string
+    alt?: string
+    caption?: string
+  }[]
+  letter: string
+}) {
+  const currentPhoto = photos[0]
+  const { width, height } = getImageDimensions(currentPhoto.asset)
+
+  return (
+    <figure className="max-w-3xl rounded-sm bg-card p-2 shadow">
+      <img
+        src={urlFor(currentPhoto).quality(80).width(1000).url()}
+        width={width}
+        height={height}
+        alt={`${letter} Foto`}
+        className="flex-1 rounded-sm object-cover object-center"
+        style={{
+          aspectRatio: width / height,
+        }}
+      />
+    </figure>
   )
 }
