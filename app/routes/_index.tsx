@@ -296,6 +296,19 @@ export default function Home() {
 
       <section>
         <header className="mb-16 lg:mb-20">
+          <SectionHeading id="testimonials">
+            Stimmen aus der Walz
+          </SectionHeading>
+        </header>
+        <div className="grid grid-cols-1 items-center justify-items-center gap-8 md:grid-cols-2">
+          {testimonials.map((testimonial, idx) => {
+            return <TestimonialCard key={idx} {...testimonial} idx={idx} />
+          })}
+        </div>
+      </section>
+
+      <section>
+        <header className="mb-16 lg:mb-20">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
@@ -343,19 +356,6 @@ export default function Home() {
               Was kostet die Walz?
             </span>
           </Link>
-        </div>
-      </section>
-
-      <section>
-        <header className="mb-16 lg:mb-20">
-          <SectionHeading id="testimonials">
-            Stimmen aus der Walz
-          </SectionHeading>
-        </header>
-        <div className="grid grid-cols-1 items-center justify-items-center gap-8 md:grid-cols-2">
-          {testimonials.map((testimonial, idx) => {
-            return <TestimonialCard key={idx} {...testimonial} idx={idx} />
-          })}
         </div>
       </section>
 
