@@ -16,8 +16,8 @@ import { events as eventsData } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { alphabetMap } from '#app/sanity/schema/year.js'
-import { query, type QueryResult } from './_index.query.ts'
-import { pillars } from './ueber-uns+/philosophie.tsx'
+import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
+import { query, type QueryResult } from './query.ts'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
@@ -313,7 +313,7 @@ export default function Home() {
         </header>
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
           <Link
-            to="/faq#was-heisst-eigentlich-walz"
+            to="/haeufige-fragen#was-heisst-eigentlich-walz"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
@@ -324,7 +324,7 @@ export default function Home() {
             </span>
           </Link>
           <Link
-            to="/faq/#wie-kann-ich-die-walz-kennenlernen"
+            to="/haeufige-fragen/#wie-kann-ich-die-walz-kennenlernen"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
@@ -335,7 +335,7 @@ export default function Home() {
             </span>
           </Link>
           <Link
-            to="/faq/#wieso-gibt-es-externistenpruefungen"
+            to="/haeufige-fragen/#wieso-gibt-es-externistenpruefungen"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
@@ -346,7 +346,7 @@ export default function Home() {
             </span>
           </Link>
           <Link
-            to="/faq/#was-kostet-die-walz"
+            to="/haeufige-fragen/#was-kostet-die-walz"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">

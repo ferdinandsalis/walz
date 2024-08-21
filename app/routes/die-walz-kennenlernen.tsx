@@ -38,7 +38,7 @@ export default function GetToKnowRoute() {
         <fetcher.Form
           name="newsletter"
           method="POST"
-          action="/api/newsletter"
+          action="/resources/newsletter"
           className="grid max-w-xl gap-4 rounded-md"
           key={JSON.stringify(fetcher.data)}
         >

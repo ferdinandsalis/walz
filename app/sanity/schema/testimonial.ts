@@ -35,13 +35,18 @@ export default defineType({
       to: [{ type: 'year' }],
       validation: Rule => Rule.required(),
     }),
-
     defineField({
       name: 'quote',
       type: 'text',
       title: 'Zitat',
       validation: Rule => Rule.required(),
     }),
+    defineField({
+      name: 'achievement',
+      type: 'string',
+      title: 'Erfolg',
+    }),
+
     // Photo of the person giving the testimonial
     defineField({
       name: 'photo',

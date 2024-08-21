@@ -2,7 +2,7 @@ import { useFetcher } from '@remix-run/react'
 import { LoaderIcon } from 'lucide-react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { type action } from '#app/routes/api.newsletter.js'
+import { type action } from '#app/routes/resources+/newsletter.ts'
 import { Button } from './ui/button.tsx'
 import { Input } from './ui/input.tsx'
 
@@ -15,7 +15,7 @@ export function NewsletterForm() {
     <fetcher.Form
       name="newsletter"
       method="POST"
-      action="/api/newsletter"
+      action="/resources/newsletter"
       className="xl:p-8 grid max-w-xl rounded-md bg-card p-6 shadow-md"
       key={JSON.stringify(fetcher.data)}
     >

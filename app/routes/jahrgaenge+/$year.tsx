@@ -7,7 +7,7 @@ import {
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
-import { calculateCurrentYear } from '#app/data/years.ts'
+import { calculateCurrentYear } from '#app/utils/years.js'
 import { urlFor } from '#app/sanity/instance.ts'
 import { query, YearSchema } from './$year.query.tsx'
 

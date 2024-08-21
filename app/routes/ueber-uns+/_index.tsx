@@ -8,9 +8,9 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
-import { LinkPhotoCard } from '../_index.tsx'
+import { LinkPhotoCard } from '../_index/route.tsx'
 import { type Person, query, type QueryResult } from './_index.query.ts'
-import { pillars } from './philosophie.tsx'
+import { pillars } from './philosophie+/_layout.tsx'
 
 export function meta() {
   return [{ title: 'Über uns | Walz' }]

@@ -27,16 +27,11 @@ import {
   type SchoolEventParsed,
   events as datesData,
 } from '#app/data/dates.ts'
-import { calculateCurrentYear } from '#app/data/years.ts'
+import { calculateCurrentYear } from '#app/utils/years.js'
 import { urlFor } from '#app/sanity/instance.ts'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
-import {
-  type QueryResult,
-  type Year,
-  YearSchema,
-  query,
-} from './aktuelles.query.ts'
+import { type QueryResult, type Year, YearSchema, query } from './query.ts'
 
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]

@@ -1,7 +1,7 @@
 export default function Datenschutz() {
   return (
     <>
-      _<h1>Datenschutzerklärung</h1>
+      <h1>Datenschutzerklärung</h1>
       <p>
         Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln
         Ihre personenbezogenen Daten vertraulich und entsprechend der

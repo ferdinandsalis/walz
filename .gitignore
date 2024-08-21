@@ -1,7 +1,7 @@
 node_modules
 
 /build
-/server/build
+/server-build
 .env
 .cache
 /test-results/
