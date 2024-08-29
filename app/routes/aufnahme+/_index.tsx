@@ -1,16 +1,31 @@
-import { Link } from '@remix-run/react'
+import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { useLoaderData } from '@remix-run/react'
+import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
 import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { costs } from '#app/data/costs.ts'
 import { cn } from '#app/utils/misc.tsx'
+import {
+  type AufnahemQuery,
+  AufnahemQuerySchema,
+  aufnahmeQuery,
+} from './ _index.query.ts'
 
 export function meta() {
   return [{ title: 'Aufnahme | Walz' }]
 }
 
+export const loader = defineLoader(async () => {
+  const queryResult = await loadQuery<AufnahemQuery>(aufnahmeQuery)
+  return AufnahemQuerySchema.parse(queryResult.data)
+})
+
 export default function Aufnahme() {
+  const loaderData = useLoaderData<typeof loader>()
+  const current = loaderData.currentSchoolYear
+
+  console.log(loaderData)
   return (
     <div className="hyphens-auto text-balance md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
@@ -27,41 +42,34 @@ export default function Aufnahme() {
           ]}
         />
 
-        <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-          <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
-            <InfoIcon size={18} className="stroke-secondary" />
+        <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+          <div className="mb-2 flex items-center gap-1 text-secondary">
+            <InfoIcon size={16} className="stroke-secondary" />
             <span className="font-condensed text-body-sm">
-              Wichtige Information
+              Nächster Aufnahmetag
             </span>
           </div>
-          <p className="">
-            Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
-            sind noch Restplätze verfügbar. Für eine mögliche Nachaufnahme
-            melden Sie sich bitte bei{' '}
-            <Link
-              to="/ueber-uns#agnes-chorherr"
-              className="underline underline-offset-2"
-            >
-              Agnes Chorherr
-            </Link>{' '}
-            oder übermitteln Sie uns das ausgefüllte{' '}
+          <p className="text-body-xs/normal">
+            Der Aufnahmetag für den Jahrgang Delta (9. Schulstufe, Schulbeginn
+            September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
+            Aufnahmetag bitte das ausgefüllte{' '}
             <a
               download="Anmeldeformular.pdf"
               href="/downloads/anmeldeformular.pdf"
-              className="inline-flex items-center gap-1 underline underline-offset-2"
+              className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
             >
               Anmelde&shy;formular
-              <DownloadIcon size={18} className="stroke-primary" />
+              <DownloadIcon size={16} className="stroke-primary" />
             </a>{' '}
             an{' '}
             <a
               href="mailto:office@walz.at"
-              className="inline-flex items-center gap-1 underline underline-offset-2"
+              className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
             >
               office@walz.at
-              <ExternalLinkIcon size={18} className="stroke-primary" />
-            </a>
-            .
+              <ExternalLinkIcon size={16} className="stroke-primary" />
+            </a>{' '}
+            schicken. Weitere Infos folgen per Mail. .
           </p>
         </div>
 
@@ -84,18 +92,23 @@ export default function Aufnahme() {
             </p>
           </div>
 
-          <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
-              <InfoIcon size={18} className="stroke-secondary" />
-              <span className="font-condensed text-body-sm">
-                Wichtige Information
-              </span>
+          <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+            <div className="mb-2 flex items-center gap-1 text-secondary">
+              <InfoIcon size={16} className="stroke-secondary" />
+              <span className="font-condensed text-body-sm">Quereinstieg</span>
             </div>
-            <p className="">
-              <strong>Quereinstieg</strong>: Grundsätzlich ist es möglich, bei
-              den Jahrgängen Beta 1 (9. Schulstufe) und Alpha 2 (10. Schulstufe)
-              quer einzusteigen. Für weitere Infos und einen Gesprächstermin
-              melden Sie sich bei Agnes Chorherr (agnes.chorherr@walz.at).
+            <p className="text-body-xs/normal">
+              Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
+              sind noch Restplätze verfügbar. Für weitere Infos und einen
+              Gesprächstermin bitte bei{' '}
+              <a
+                href="mailto:agnes.chorherr@walz.at"
+                className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+              >
+                Agnes Chorherr
+                <ExternalLinkIcon size={16} className="stroke-primary" />
+              </a>{' '}
+              melden!
             </p>
           </div>
 
@@ -120,7 +133,7 @@ export default function Aufnahme() {
               bitten wir um Kontaktaufnahme unter{' '}
               <a
                 href="mailto:office@walz.at"
-                className="inline-flex items-center gap-1 underline underline-offset-2"
+                className="inline-flex items-center gap-1 stroke-primary text-muted-foreground underline underline-offset-2"
               >
                 office@walz.at <ExternalLinkIcon size={20} />
               </a>
@@ -128,23 +141,23 @@ export default function Aufnahme() {
             </p>
           </div>
 
-          <div className="relative max-w-lg rounded-md border border-secondary/20 bg-secondary/10 p-6 text-secondary">
-            <div className="absolute top-0 -mt-[15px] mb-2 flex items-center gap-2 rounded-md bg-card p-1 px-3 text-secondary shadow shadow-secondary/20">
-              <InfoIcon size={18} className="stroke-secondary" />
+          <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+            <div className="mb-2 flex items-center gap-1 text-secondary">
+              <InfoIcon size={16} className="stroke-secondary" />
               <span className="font-condensed text-body-sm">
                 Wichtige Information
               </span>
             </div>
-            <p className="">
+            <p className="text-body-xs/normal">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
               Walz.{' '}
               <a
                 download="Informationen und Rahmenbedingungen 23-24.pdf"
                 href="/downloads/Informationen_und_Rahmenbedingungen_23-24.pdf"
-                className="inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
+                className="inline-flex max-w-sm items-center gap-1 text-muted-foreground underline underline-offset-2"
               >
                 Hier herunterladen
-                <DownloadIcon size={20} className="flex-none stroke-primary" />
+                <DownloadIcon size={16} className="flex-none stroke-primary" />
               </a>{' '}
             </p>
           </div>
@@ -186,11 +199,12 @@ export default function Aufnahme() {
             </p>
           </div>
           <h2 className="font-condensed font-bold md:text-h4">
-            Beiträge Schuljahr 2023/2024
+            Beiträge Schuljahr {current?.start.getFullYear()}/
+            {current?.end.getFullYear().toString().slice(-2)}
           </h2>
           <div className="mb-8 max-w-prose text-base">
             <dl className="grid grid-cols-1 gap-2 divide-y divide-muted">
-              {costs.map((cost, idx) => {
+              {current?.costs.list.map((cost, idx) => {
                 const first = idx === 0
 
                 return (
@@ -198,13 +212,13 @@ export default function Aufnahme() {
                     className={cn('-mx-4 p-4', {
                       'rounded-md bg-card/90': first,
                     })}
-                    key={cost.name}
+                    key={cost.title}
                   >
                     <div className="grid grid-cols-2 py-2">
                       <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">
                           <dt className="font-condensed text-xl font-bold text-secondary md:text-2xl">
-                            {cost.name}
+                            {cost.title}
                           </dt>
                         </div>
                         <dd className="">
@@ -223,7 +237,7 @@ export default function Aufnahme() {
                         <span className="text-primary">
                           {cost.interval === 'ONCE'
                             ? `Einmalig`
-                            : `${cost.multiplier} × im Jahr`}
+                            : `${cost.quantity} × im Jahr`}
                         </span>
                       </div>
                     </div>
