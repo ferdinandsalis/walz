@@ -25,7 +25,6 @@ export default function Aufnahme() {
   const loaderData = useLoaderData<typeof loader>()
   const current = loaderData.currentSchoolYear
 
-  console.log(loaderData)
   return (
     <div className="hyphens-auto text-balance md:mt-12">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
@@ -54,11 +53,11 @@ export default function Aufnahme() {
             September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
             Aufnahmetag bitte das ausgefüllte{' '}
             <a
-              download="Anmeldeformular.pdf"
-              href="/downloads/anmeldeformular.pdf"
+              download="Aufnahmeformular.pdf"
+              href="/downloads/aufnahmeformular_2025.pdf"
               className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
             >
-              Anmelde&shy;formular
+              Aufnahme&shy;formular
               <DownloadIcon size={16} className="stroke-primary" />
             </a>{' '}
             an{' '}
