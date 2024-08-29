@@ -1,7 +1,7 @@
-import groq from 'groq'
+import { defineQuery } from 'groq'
 
 // @ts-ignore
-export const query = groq`
+export const beitraegeSlugQuery = defineQuery(`
 *[_type == "post" && slug.current == $slug][0] {
     _id,
     _type,
@@ -11,7 +11,7 @@ export const query = groq`
     slug,
     publishedAt
   }
-` as string
+`)
 
 export type QueryResult = {
   title: string

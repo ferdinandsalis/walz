@@ -4,19 +4,19 @@ import { type MetaArgs_SingleFetch, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { urlFor } from '#app/sanity/instance.ts'
-import { type QueryResult, query } from './$slug.query.ts'
+import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
 
 export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `${data?.data?.title} | Walz` }]
 }
 
 export const loader = defineLoader(async ({ params }) => {
-  const queryResult = await loadQuery<QueryResult>(query, params, {
+  const queryResult = await loadQuery<QueryResult>(beitraegeSlugQuery, params, {
     perspective: 'published',
   })
 
   return {
-    query,
+    query: beitraegeSlugQuery,
     params,
     data: queryResult.data,
   }

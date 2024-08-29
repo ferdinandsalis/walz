@@ -1,4 +1,4 @@
-import groq from 'groq'
+import { defineQuery } from 'groq'
 import { z } from 'zod'
 import { PhotoSchema } from '#app/sanity/schema/year.ts'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
@@ -24,7 +24,7 @@ export const YearSchema = z.object({
 
 export type Year = z.infer<typeof YearSchema>
 
-export const query = groq`{
+export const aktuellesQuery = defineQuery(`{
   "posts": *[_type == "post"] | order(publishedAt desc) {
     _id,
     _type,
@@ -49,7 +49,7 @@ export const query = groq`{
     },
     photos | order(takenAt desc)
   }
-}` as string
+}`)
 
 export type QueryResult = {
   posts: Post[]

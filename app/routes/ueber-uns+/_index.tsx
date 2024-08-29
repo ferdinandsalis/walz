@@ -1,6 +1,7 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
 import { loadQuery } from '@sanity/react-loader'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 import slug from 'slug'
@@ -8,8 +9,9 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
+import type { UeberUnsQueryResult } from '#app/sanity/types.d.ts'
 import { LinkPhotoCard } from '../_index/route.tsx'
-import { type Person, query, type QueryResult } from './_index.query.ts'
+import { ueberUnsQuery } from './_index.query.ts'
 import { pillars } from './philosophie+/_layout.tsx'
 
 export function meta() {
@@ -17,10 +19,10 @@ export function meta() {
 }
 
 export const loader = defineLoader(async () => {
-  const queryResult = await loadQuery<QueryResult>(query)
+  const queryResult = await loadQuery<UeberUnsQueryResult>(ueberUnsQuery)
 
   return {
-    query,
+    query: ueberUnsQuery,
     data: queryResult.data,
   }
 })
@@ -347,10 +349,21 @@ export default function UeberUns() {
   )
 }
 
-function StaffCard({ person }: { person: Person }) {
+function StaffCard({
+  person,
+}: {
+  person: {
+    name: string | null
+    portrait: SanityImageSource | null
+    description: string | null
+    email: string | null
+    website: string | null
+    phone: string | null
+  }
+}) {
   return (
     <figure
-      id={slug(person.name)}
+      id={person.name ? slug(person?.name) : ''}
       key={person.name}
       className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
@@ -367,7 +380,7 @@ function StaffCard({ person }: { person: Person }) {
             }
             width={256}
             height={256}
-            alt={person.name}
+            alt={person.name || ''}
             loading="lazy"
             className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
           />

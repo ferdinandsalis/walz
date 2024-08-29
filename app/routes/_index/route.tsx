@@ -8,6 +8,7 @@ import {
   MessageCircleQuestionIcon,
   QuoteIcon,
 } from 'lucide-react'
+import React from 'react'
 import slug from 'slug'
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
@@ -18,7 +19,6 @@ import { loadQuery } from '#app/sanity/loader.server.ts'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { query, type QueryResult } from './query.ts'
-import React from 'react'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)

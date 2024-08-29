@@ -1,6 +1,6 @@
-import groq from 'groq'
+import { defineQuery } from 'groq'
 
-export const query = groq`{
+export const query = defineQuery(`{
   "hero": *[_type == "home-hero"][0]{
     _id,
     _type,
@@ -29,7 +29,7 @@ export const query = groq`{
     cover,
     publishedAt
   }[0...3]
-}`
+}`)
 
 export type QueryResult = {
   hero: {

@@ -1,10 +1,10 @@
-import groq from 'groq'
+import { defineQuery } from 'groq'
 import { z } from 'zod'
 import { PhotoSchema } from '#app/sanity/schema/year.ts'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
 // @ts-ignore
-export const query = groq`
+export const yearQuery = defineQuery(`
   *[_type == "year" && letter == $year][0] {
     _id,
     _type,
@@ -19,7 +19,7 @@ export const query = groq`
     },
     photos | order(takenAt desc)
   }
-` as string
+`)
 
 export const YearSchema = z.object({
   _id: z.string(),

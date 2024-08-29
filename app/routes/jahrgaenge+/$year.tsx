@@ -7,21 +7,21 @@ import {
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
-import { calculateCurrentYear } from '#app/utils/years.js'
 import { urlFor } from '#app/sanity/instance.ts'
-import { query, YearSchema } from './$year.query.tsx'
+import { calculateCurrentYear } from '#app/utils/years.js'
+import { yearQuery, YearSchema } from './$year.query.tsx'
 
 export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
   return [{ title: `Jahrgang ${data?.data.letter} | Walz` }]
 }
 
 export const loader = defineLoader(async ({ params }) => {
-  const queryResult = await loadQuery(query, params, {
+  const queryResult = await loadQuery(yearQuery, params, {
     perspective: 'published',
   })
 
   return {
-    query,
+    query: yearQuery,
     params,
     data: YearSchema.parse(queryResult.data),
   }

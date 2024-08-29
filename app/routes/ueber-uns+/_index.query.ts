@@ -1,8 +1,7 @@
-import groq from 'groq'
+import { defineQuery } from 'groq'
 import { z } from 'zod'
 
-// @ts-ignore
-export const query = groq`{
+export const ueberUnsQuery = defineQuery(`{
   "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {
     _id,
     _type,
@@ -17,7 +16,7 @@ export const query = groq`{
     website,
     publishedAt
   }
-}` as string
+}`)
 
 export const PersonSchema = z.object({
   priority: z.number().optional(),
@@ -44,7 +43,3 @@ export const PersonSchema = z.object({
 })
 
 export type Person = z.infer<typeof PersonSchema>
-
-export type QueryResult = {
-  persons: Person[]
-}

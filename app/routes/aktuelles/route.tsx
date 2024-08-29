@@ -27,11 +27,16 @@ import {
   type SchoolEventParsed,
   events as datesData,
 } from '#app/data/dates.ts'
-import { calculateCurrentYear } from '#app/utils/years.js'
 import { urlFor } from '#app/sanity/instance.ts'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
-import { type QueryResult, type Year, YearSchema, query } from './query.ts'
+import { calculateCurrentYear } from '#app/utils/years.js'
+import {
+  type QueryResult,
+  type Year,
+  YearSchema,
+  aktuellesQuery,
+} from './query.ts'
 
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
@@ -49,7 +54,7 @@ function evolveEvent(event: SchoolEvent) {
 }
 
 export const loader = defineLoader(async ({ params }) => {
-  const queryResult = await loadQuery<QueryResult>(query)
+  const queryResult = await loadQuery<QueryResult>(aktuellesQuery)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
   const groupedDates = groupBy<SchoolEventParsed, string>(v => {
@@ -57,7 +62,7 @@ export const loader = defineLoader(async ({ params }) => {
   })(await Promise.all(datesData.map(evolveEvent)))
 
   return {
-    query,
+    query: aktuellesQuery,
     params,
     data: {
       posts: take(3, queryResult.data.posts),

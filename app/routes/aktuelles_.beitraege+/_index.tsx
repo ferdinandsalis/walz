@@ -2,10 +2,10 @@ import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { loadQuery } from '@sanity/react-loader'
 import { PostItem } from '../aktuelles/route.tsx'
-import { type QueryResult, query } from './_index.query.tsx'
+import { type QueryResult, beitraegeIndexQuery } from './_index.query.tsx'
 
 export const loader = defineLoader(async () => {
-  const queryResult = await loadQuery<QueryResult>(query)
+  const queryResult = await loadQuery<QueryResult>(beitraegeIndexQuery)
   return {
     data: queryResult.data,
   }

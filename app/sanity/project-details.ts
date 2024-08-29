@@ -9,7 +9,7 @@ export const projectDetails = (): ProjectDetails => {
     SANITY_PUBLIC_PROJECT_ID,
     SANITY_PUBLIC_DATASET,
     SANITY_PUBLIC_API_VERSION,
-  } = typeof document === 'undefined' ? process.env : window.ENV
+  } = typeof document === 'undefined' ? process.env : window.ENV || {}
 
   return {
     projectId: SANITY_PUBLIC_PROJECT_ID ?? `iaejvb99`,
