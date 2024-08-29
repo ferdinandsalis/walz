@@ -18,6 +18,7 @@ import { loadQuery } from '#app/sanity/loader.server.ts'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { query, type QueryResult } from './query.ts'
+import React from 'react'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
@@ -241,7 +242,7 @@ export default function Home() {
             <div className="col-span-2 grid gap-4">
               {restPosts.map((post, idx) => {
                 return (
-                  <>
+                  <React.Fragment key={idx}>
                     <article key={idx} className="relative max-w-prose">
                       <h1 className="max-w-xs font-condensed font-bold !leading-tight text-muted-foreground md:text-lg">
                         <Link to={`/aktuelles/beitraege/${post.slug.current}`}>
@@ -266,7 +267,7 @@ export default function Home() {
                     {idx < restPosts.length - 1 && (
                       <hr className="col-span-6" />
                     )}
-                  </>
+                  </React.Fragment>
                 )
               })}
             </div>
