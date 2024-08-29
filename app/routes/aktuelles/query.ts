@@ -17,6 +17,7 @@ export const YearSchema = z.object({
   graduatedAt: z.coerce.date().nullable(),
   mentor: PersonSchema.pick({ givenNames: true, familyName: true }).extend({
     name: z.string(),
+    slug: z.object({ current: z.string() }),
   }),
   photos: z.array(PhotoSchema).nullable(),
   plan: z.string().nullable(),
@@ -46,6 +47,7 @@ export const aktuellesQuery = defineQuery(`{
       familyName,
       givenNames,
       "name": givenNames + " " + familyName,
+      slug
     },
     photos | order(takenAt desc)
   }

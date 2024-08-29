@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div className="space-y-16 text-balance md:space-y-20 lg:space-y-24">
-      <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12">
+      <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12 md:shadow-md">
         <h1 className="sr-only">Einleitung</h1>
         <figure className="col-end relative col-start-1 row-start-1">
           <picture>

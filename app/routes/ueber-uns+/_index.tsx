@@ -1,11 +1,9 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from '@remix-run/react'
 import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
 import { loadQuery } from '@sanity/react-loader'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
-import slug from 'slug'
-import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
@@ -349,6 +347,7 @@ function StaffCard({
     name: string | null
     portrait: SanityImageSource | null
     description: string | null
+    slug: { current: string } | null
     email: string | null
     website: string | null
     phone: string | null
@@ -356,7 +355,7 @@ function StaffCard({
 }) {
   return (
     <figure
-      id={person.name ? slug(person?.name) : ''}
+      id={person.slug?.current}
       key={person.name}
       className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
     >
@@ -389,9 +388,11 @@ function StaffCard({
       </div>
       <figcaption className="flex flex-1 flex-col">
         <hgroup className="mb-2 flex-1">
-          <h1 className="mb-1 text-lg font-bold leading-tight text-primary">
-            {person.name}
-          </h1>
+          <Link to={`/ueber-uns#${person.slug?.current}`} className="block">
+            <h1 className="mb-1 text-lg font-bold leading-tight text-primary">
+              {person.name}
+            </h1>
+          </Link>
           <h2 className="max-w-[18ch] font-condensed text-sm leading-tight text-muted-foreground">
             {person.description}
           </h2>

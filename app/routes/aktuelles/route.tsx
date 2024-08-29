@@ -329,7 +329,7 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
           <div className="">
             <Link
               className="font-bold text-secondary hover:underline hover:underline-offset-2"
-              to={`/ueber-uns/#${mentor?.name}`}
+              to={`/ueber-uns/#${mentor?.slug.current}`}
             >
               {mentor?.name}
             </Link>

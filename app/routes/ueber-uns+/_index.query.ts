@@ -5,6 +5,7 @@ export const ueberUnsQuery = defineQuery(`{
   "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {
     _id,
     _type,
+    slug,
     portrait,
     givenNames,
     familyName,
@@ -19,6 +20,7 @@ export const ueberUnsQuery = defineQuery(`{
 }`)
 
 export const PersonSchema = z.object({
+  slug: z.object({ current: z.string() }),
   priority: z.number().optional(),
   givenNames: z.string(),
   familyName: z.string(),

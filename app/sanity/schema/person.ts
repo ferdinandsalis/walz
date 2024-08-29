@@ -55,6 +55,16 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      options: {
+        source: document => `${document.givenNames} ${document.familyName}`,
+        maxLength: 96,
+      },
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
       name: 'priority',
       type: 'number',
       title: 'Priorität',

@@ -196,15 +196,15 @@ export default function Aufnahme() {
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
-          <div className="mb-8 max-w-prose text-base">
-            <dl className="grid grid-cols-1 gap-2 divide-y divide-muted">
-              {current?.costs.list.map((cost, idx) => {
-                const first = idx === 0
+          <div className="mb-8 text-base">
+            <dl className="grid grid-cols-1 gap-1">
+              {current?.costs.list.map(cost => {
+                //const first = idx === 0
 
                 return (
                   <div
                     className={cn('-mx-4 p-4', {
-                      'rounded-md bg-card/90': first,
+                      'bg-card/90': true,
                     })}
                     key={cost.title}
                   >
