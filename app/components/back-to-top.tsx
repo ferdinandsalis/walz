@@ -1,9 +1,9 @@
 import { Link } from '@remix-run/react'
 import { ChevronUpIcon } from 'lucide-react'
 
-export function BackToTop() {
+export function BackToTop({ className }: { className?: string }) {
   return (
-    <div className="">
+    <div className={className}>
       <Link
         to="#"
         className="group inline-flex items-center gap-1 rounded-md bg-card/50 p-2 px-6 font-condensed text-lg transition-colors ease-in-out hover:bg-card"

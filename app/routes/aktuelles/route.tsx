@@ -19,7 +19,6 @@ import { evolve, groupBy, take } from 'ramda'
 import { promiseHash } from 'remix-utils/promise'
 import slug from 'slug'
 import { z } from 'zod'
-import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import {
@@ -93,7 +92,7 @@ export default function Aktuelles() {
           ]}
         />
 
-        <Divider />
+        <Divider withBackToTop={false} />
 
         <section id="jahrgaenge" className="space-y-8">
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
@@ -106,8 +105,6 @@ export default function Aktuelles() {
                 <YearCard key={year.letter} {...year} />
               ))}
           </div>
-
-          <BackToTop />
         </section>
 
         <Divider />
@@ -278,8 +275,6 @@ export default function Aktuelles() {
               )
             })}
           </Accordion>
-
-          <BackToTop />
         </section>
 
         <Divider />
@@ -309,9 +304,8 @@ export default function Aktuelles() {
                 />
               ))}
           </div>
-
-          <BackToTop />
         </section>
+        <Divider className="bg-transparent" />
       </div>
     </div>
   )

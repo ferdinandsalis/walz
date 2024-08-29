@@ -1,4 +1,4 @@
-import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Divider } from '#app/components/ui/divider.tsx'
 
 export function meta() {
   return [{ title: 'Curriculum | Walz' }]
@@ -12,7 +12,7 @@ export default function Curriculum() {
       </h1>
 
       <div id="in-jahren" className="space-y-8">
-        <div className="space-y-8 divide-y divide-muted md:space-y-12">
+        <div className="space-y-8 md:space-y-12">
           <article className="space-y-4 pt-4">
             <hgroup>
               <span
@@ -42,6 +42,8 @@ export default function Curriculum() {
             </div>
           </article>
 
+          <Divider />
+
           <article className="space-y-4 pt-4">
             <hgroup>
               <span
@@ -69,6 +71,8 @@ export default function Curriculum() {
               </p>
             </div>
           </article>
+
+          <Divider />
 
           <article className="space-y-4 pt-4">
             <hgroup>
@@ -101,6 +105,8 @@ export default function Curriculum() {
             </div>
           </article>
 
+          <Divider />
+
           <article className="space-y-4 pt-4">
             <hgroup>
               <span
@@ -132,6 +138,8 @@ export default function Curriculum() {
               </p>
             </div>
           </article>
+
+          <Divider />
 
           <article className="space-y-4 pt-4">
             <hgroup>
@@ -168,7 +176,7 @@ export default function Curriculum() {
           </article>
         </div>
 
-        <BackToTop />
+        <Divider className="bg-transparent" />
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react'
-import { Divider } from './ui/divider.tsx'
 
 export function SectionHeading({
   children,
@@ -20,7 +19,10 @@ export function SectionHeading({
       >
         <span className="rounded bg-background px-8 py-2">{children}</span>
       </h1>
-      <Divider className="-order-1 col-start-1 col-end-13 row-start-1" />
+      <div
+        role="presentation"
+        className="-order-1 col-start-1 col-end-13 row-start-1 h-[3px] rounded border-none bg-muted"
+      />
     </Link>
   )
 }

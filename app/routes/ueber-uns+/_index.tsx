@@ -47,7 +47,7 @@ export default function UeberUns() {
           ]}
         />
 
-        <Divider />
+        <Divider withBackToTop={false} />
 
         <div className="max-w-2xl space-y-4 hyphens-auto text-base md:text-xl">
           <p>
@@ -196,8 +196,6 @@ export default function UeberUns() {
               </div>
             </div>
           </article>
-
-          <BackToTop />
         </section>
 
         <Divider />
@@ -217,8 +215,6 @@ export default function UeberUns() {
               />
             ))}
           </div>
-
-          <BackToTop />
         </section>
 
         <Divider />
@@ -302,8 +298,6 @@ export default function UeberUns() {
               </p>
             </div>
           </article>
-
-          <BackToTop />
         </section>
 
         <Divider />
@@ -341,9 +335,8 @@ export default function UeberUns() {
               eingeräumt werden.
             </p>
           </div>
-
-          <BackToTop />
         </section>
+        <Divider className="bg-transparent" />
       </div>
     </div>
   )

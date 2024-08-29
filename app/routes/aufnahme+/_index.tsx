@@ -2,13 +2,12 @@ import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
-import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import {
-  type AufnahemQuery,
-  AufnahemQuerySchema,
+  type AufnahmeQuery,
+  AufnahmeQuerySchema,
   aufnahmeQuery,
 } from './ _index.query.ts'
 
@@ -17,8 +16,8 @@ export function meta() {
 }
 
 export const loader = defineLoader(async () => {
-  const queryResult = await loadQuery<AufnahemQuery>(aufnahmeQuery)
-  return AufnahemQuerySchema.parse(queryResult.data)
+  const queryResult = await loadQuery<AufnahmeQuery>(aufnahmeQuery)
+  return AufnahmeQuerySchema.parse(queryResult.data)
 })
 
 export default function Aufnahme() {
@@ -110,8 +109,6 @@ export default function Aufnahme() {
               melden!
             </p>
           </div>
-
-          <BackToTop />
         </article>
 
         <Divider />
@@ -160,8 +157,6 @@ export default function Aufnahme() {
               </a>{' '}
             </p>
           </div>
-
-          <BackToTop />
         </article>
 
         <Divider />
@@ -245,7 +240,6 @@ export default function Aufnahme() {
               })}
             </dl>
           </div>
-          <BackToTop />
         </article>
 
         <Divider />
@@ -262,9 +256,8 @@ export default function Aufnahme() {
               Einkommensnachweise und Begründung) gestellt werden.
             </p>
           </div>
-
-          <BackToTop />
         </article>
+        <Divider className="bg-transparent" />
       </div>
     </div>
   )

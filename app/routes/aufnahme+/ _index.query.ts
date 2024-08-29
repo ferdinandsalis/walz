@@ -1,7 +1,7 @@
 import { defineQuery } from 'groq'
 import { z } from 'zod'
 
-export const AufnahemQuerySchema = z.object({
+export const AufnahmeQuerySchema = z.object({
   currentSchoolYear: z
     .object({
       _id: z.string(),
@@ -25,7 +25,7 @@ export const AufnahemQuerySchema = z.object({
     .nullable(),
 })
 
-export type AufnahemQuery = z.infer<typeof AufnahemQuerySchema>
+export type AufnahmeQuery = z.infer<typeof AufnahmeQuerySchema>
 
 // current school year
 export const aufnahmeQuery = defineQuery(`{
