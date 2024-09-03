@@ -17,8 +17,10 @@ import { events as eventsData } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { alphabetMap } from '#app/sanity/schema/year.js'
+import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { query, type QueryResult } from './query.ts'
+import { getImageDimensions } from '@sanity/asset-utils'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)
@@ -51,12 +53,21 @@ export default function Home() {
   const latestDate = loaderData.latestEvent
   const testimonials = loaderData.data.testimonials
   const hero = loaderData.data.hero
+  const { width, height } = getImageDimensions(hero.image)
 
   return (
-    <div className="space-y-16 text-balance md:space-y-20 lg:space-y-24">
-      <div className="relative -mx-4 grid grid-cols-1 grid-rows-1 sm:-mx-8 sm:rounded-md md:-mx-12 md:shadow-md">
+    <div className="col-span-1 col-start-1 grid grid-cols-subgrid items-start gap-y-4 sm:gap-y-8 md:gap-y-12 lg:col-span-4 lg:gap-y-16 xl:col-span-2">
+      <div
+        id="intro-box"
+        className={cn(
+          'col-span-4 grid grid-cols-1 grid-rows-1 place-self-center',
+          'xl:col-span-2',
+          '-mx-4 sm:mx-0',
+          'relative sm:rounded-md sm:shadow-md',
+        )}
+      >
         <h1 className="sr-only">Einleitung</h1>
-        <figure className="col-end relative col-start-1 row-start-1">
+        <figure className="relative col-start-1 col-end-1 row-start-1">
           <picture>
             <source
               srcSet={urlFor(hero.image).quality(70).width(800).url()}
@@ -64,8 +75,10 @@ export default function Home() {
             />
             <img
               src={urlFor(hero.image).quality(70).width(1800).url()}
+              width={width}
+              height={height}
               alt={hero.caption}
-              className="h-96 w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
+              className="w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
             />
           </picture>
           {hero.image.attribution && (
@@ -79,7 +92,7 @@ export default function Home() {
 
         <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
           <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-24 sm:right-8 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
-          <p className="relative max-w-xl text-pretty font-sans text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
+          <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
             Die <strong className="font-bold text-secondary">Walz</strong> soll
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
             mitzuge­stalten.
@@ -132,8 +145,8 @@ export default function Home() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-6 md:gap-12">
-        <section className="col-span-1 space-y-4 md:col-span-4 lg:col-span-4">
+      <div className="grid grid-cols-subgrid gap-8 lg:col-span-2">
+        <section className="col-span-1 space-y-4">
           <div>
             <h1 className="sr-only">Was ist die Walz?</h1>
             <p className="max-w-xl text-pretty text-body-md lg:text-body-lg">
@@ -162,121 +175,118 @@ export default function Home() {
           </div>
         </section>
 
-        {false && (
-          <section className="md:col-span-3 lg:col-span-2">
-            <h1 className="sr-only">Walz kennenlernen</h1>
-            <div className="rounded-lg bg-secondary/20 p-6">
-              <p className="mb-4 text-body-md">
-                <span className="relative mb-1">🙇</span>{' '}
-                <strong className="font-bold">
-                  Die Walz stellt <br /> sich vor.
-                </strong>{' '}
-                Du willst mehr wissen? Klicke hier.
-              </p>
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="mr-auto text-body-sm shadow"
-              >
-                <Link to="/die-walz-kennenlernen">Mehr Info</Link>
-              </Button>
-            </div>
-          </section>
-        )}
-        <section className="md:col-span-6">
-          <h1 className="mb-4 mt-6 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
-            Beiträge
-          </h1>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-6">
-            <article className="relative col-span-4 grid max-w-prose rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
-              {latestPost.cover && (
-                <figure className="relative lg:row-span-2">
-                  <img
-                    src={urlFor(latestPost.cover).quality(70).width(800).url()}
-                    alt={latestPost.cover.caption}
-                    className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
-                  />
-                  {latestPost.cover.attribution && (
-                    <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
-                      <p className="text-right text-body-xs text-card/70">
-                        {latestPost.cover.attribution}
-                      </p>
-                    </figcaption>
-                  )}
-                </figure>
-              )}
-              <div className="p-6">
-                <h1 className="xl:text-3xl mb-2 max-w-xs font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl">
-                  <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
-                    {latestPost.title}
-                  </Link>
-                </h1>
-                <p className="text-body-xs text-muted-foreground">
-                  Veröffentlicht am{' '}
-                  <time>
-                    {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
-                      dateStyle: 'medium',
-                    })}
-                  </time>
-                </p>
-                <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
-                  {latestPost.previewText} <span>…</span>
-                </p>
-              </div>
-              <footer className="bg-primary/5 px-6 py-2 lg:col-start-2">
-                <Link
-                  to={`/aktuelles/beitraege/${latestPost.slug.current}`}
-                  className="group/more flex items-center font-condensed text-lg text-primary"
-                >
-                  <span className="underline-offset-2 group-hover/more:underline">
-                    Weiterlesen
-                  </span>
-                  <ArrowRight
-                    size="20"
-                    className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
-                  />
-                </Link>
-              </footer>
-            </article>
-            <div className="col-span-2 grid gap-4">
-              {restPosts.map((post, idx) => {
-                return (
-                  <React.Fragment key={idx}>
-                    <article key={idx} className="relative max-w-prose">
-                      <h1 className="max-w-xs font-condensed font-bold !leading-tight text-muted-foreground md:text-lg">
-                        <Link to={`/aktuelles/beitraege/${post.slug.current}`}>
-                          {post.title}
-                        </Link>
-                      </h1>
-                      <p className="mt-2 max-w-md text-balance text-body-sm leading-snug">
-                        {post.previewText.replace(/^(.{90}[^\s]*).*/, '$1')}{' '}
-                        <span>…</span>
-                      </p>
-                      <footer className="mt-2">
-                        <Link
-                          to={`/aktuelles/beitraege/${post.slug.current}`}
-                          className="font-condensed text-primary"
-                        >
-                          <span className="underline-offset-2 group-hover/more:underline">
-                            Weiterlesen
-                          </span>
-                        </Link>
-                      </footer>
-                    </article>
-                    {idx < restPosts.length - 1 && (
-                      <hr className="col-span-6" />
-                    )}
-                  </React.Fragment>
-                )
-              })}
-            </div>
+        <section className="">
+          <h1 className="sr-only">Walz kennenlernen</h1>
+          <div className="rounded-lg border border-secondary/40 bg-secondary/20 p-6 ring-8 ring-muted/30">
+            <p className="mb-4">
+              <strong className="font-bold">Lerne die Walz kennen</strong>{' '}
+              <span className="relative mb-1" aria-roledescription="emoji">
+                🙇
+              </span>{' '}
+              Neugierig geworden? Hier klicken für mehr Information.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="mr-auto shadow"
+            >
+              <Link to="/die-walz-kennenlernen">Mehr erfahren</Link>
+            </Button>
           </div>
         </section>
       </div>
 
-      <section>
-        <header className="mb-16">
+      <section className="grid gap-4 lg:col-span-2">
+        <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+          Beiträge
+        </h1>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-8 lg:gap-12">
+          <article className="relative col-span-4 grid rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
+            {latestPost.cover && (
+              <figure className="relative lg:row-span-2">
+                <img
+                  src={urlFor(latestPost.cover).quality(70).width(800).url()}
+                  alt={latestPost.cover.caption}
+                  className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
+                />
+                {latestPost.cover.attribution && (
+                  <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
+                    <p className="text-right text-body-xs text-card/70">
+                      {latestPost.cover.attribution}
+                    </p>
+                  </figcaption>
+                )}
+              </figure>
+            )}
+            <div className="p-6">
+              <h1 className="mb-2 max-w-xs text-balance font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl xl:text-3xl">
+                <Link to={`/aktuelles/beitraege/${latestPost.slug.current}`}>
+                  {latestPost.title}
+                </Link>
+              </h1>
+              <p className="text-body-xs text-muted-foreground">
+                Veröffentlicht am{' '}
+                <time>
+                  {new Date(latestPost.publishedAt).toLocaleString('de-AT', {
+                    dateStyle: 'medium',
+                  })}
+                </time>
+              </p>
+              <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
+                {latestPost.previewText} <span>…</span>
+              </p>
+            </div>
+            <footer className="bg-primary/5 px-6 py-2 lg:col-start-2">
+              <Link
+                to={`/aktuelles/beitraege/${latestPost.slug.current}`}
+                className="group/more flex items-center font-condensed text-lg text-primary"
+              >
+                <span className="underline-offset-2 group-hover/more:underline">
+                  Weiterlesen
+                </span>
+                <ArrowRight
+                  size="20"
+                  className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
+                />
+              </Link>
+            </footer>
+          </article>
+          <div className="col-span-2 grid auto-rows-min grid-cols-1 gap-4 sm:gap-8 md:gap-12">
+            {restPosts.map((post, idx) => {
+              return (
+                <React.Fragment key={idx}>
+                  <article key={idx} className="relative max-w-prose">
+                    <h1 className="max-w-xs text-balance font-condensed font-bold !leading-tight text-muted-foreground md:text-lg">
+                      <Link to={`/aktuelles/beitraege/${post.slug.current}`}>
+                        {post.title}
+                      </Link>
+                    </h1>
+                    <p className="mt-2 max-w-md text-balance text-body-sm leading-snug">
+                      {post.previewText.replace(/^(.{90}[^\s]*).*/, '$1')}{' '}
+                      <span>…</span>
+                    </p>
+                    <footer className="mt-2">
+                      <Link
+                        to={`/aktuelles/beitraege/${post.slug.current}`}
+                        className="font-condensed text-primary"
+                      >
+                        <span className="underline-offset-2 group-hover/more:underline">
+                          Weiterlesen
+                        </span>
+                      </Link>
+                    </footer>
+                  </article>
+                  {idx < restPosts.length - 1 && <hr className="" />}
+                </React.Fragment>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-8 lg:col-span-2">
+        <header className="py-4 md:py-8 lg:py-12">
           <SectionHeading id="philosophie">Unsere Philosophie</SectionHeading>
         </header>
 
@@ -295,8 +305,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
-        <header className="mb-16 lg:mb-20">
+      <section className="grid gap-8 lg:col-span-2">
+        <header className="py-4 md:py-8">
           <SectionHeading id="testimonials">
             Stimmen aus der Walz
           </SectionHeading>
@@ -308,60 +318,60 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
-        <header className="mb-16 lg:mb-20">
+      <section className="grid gap-8 lg:col-span-2">
+        <header className="py-4 md:py-8">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
         <div className="flex flex-row flex-wrap gap-3 md:flex-row">
           <Link
             to="/haeufige-fragen#was-heisst-eigentlich-walz"
-            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
-            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+            <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
+            <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Was heißt eigentlich Walz?
             </span>
           </Link>
           <Link
             to="/haeufige-fragen/#wie-kann-ich-die-walz-kennenlernen"
-            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
-            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+            <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
+            <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Wie kann ich die Walz kennenlernen?
             </span>
           </Link>
           <Link
             to="/haeufige-fragen/#wieso-gibt-es-externistenpruefungen"
-            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
-            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
+            <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
+            <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Wieso gibt es Externistenprüfungen?
             </span>
           </Link>
           <Link
             to="/haeufige-fragen/#was-kostet-die-walz"
-            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow md:text-body-lg"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
-            <span className="min-w-10 flex-none bg-card px-2 py-1 text-secondary group-hover:bg-secondary group-hover:text-card">
+            <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
               <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
             </span>
-            <span className="bg-primary/5 px-3 py-1 transition-colors ease-in-out group-hover:bg-primary/10">
+            <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Was kostet die Walz?
             </span>
           </Link>
         </div>
       </section>
 
-      <section>
-        <header className="mb-16 lg:mb-20">
+      <section className="grid gap-8 lg:col-span-2">
+        <header className="py-4 md:py-8">
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
         </header>
         <div className="grid gap-8 md:grid-cols-6">
@@ -392,7 +402,6 @@ export default function Home() {
               <p>Fax: 01 8042939-2000</p>
               <p>Email: office@walz.at</p>
             </div>
-
             <div className="mt-4">
               <p className="text-balance">
                 <Link

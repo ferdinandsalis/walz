@@ -25,12 +25,12 @@ export default function Aufnahme() {
   const current = loaderData.currentSchoolYear
 
   return (
-    <div className="hyphens-auto text-balance md:mt-12">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
+    <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
+      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Aufnahme
       </h1>
 
-      <div className="space-y-12 md:space-y-16">
+      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Vorgehensweise', to: '#vorgehensweise' },
@@ -39,15 +39,15 @@ export default function Aufnahme() {
             { name: 'Stipendien', to: '#stipendien' },
           ]}
         />
+      </div>
 
+      <div className="col-start-1 grid grid-cols-1 gap-16">
         <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
           <div className="mb-2 flex items-center gap-1 text-secondary">
             <InfoIcon size={16} className="stroke-secondary" />
-            <span className="font-condensed text-body-sm">
-              Nächster Aufnahmetag
-            </span>
+            <span className="font-condensed">Nächster Aufnahmetag</span>
           </div>
-          <p className="text-body-xs/normal">
+          <p className="text-body-sm/normal">
             Der Aufnahmetag für den Jahrgang Delta (9. Schulstufe, Schulbeginn
             September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
             Aufnahmetag bitte das ausgefüllte{' '}
@@ -93,9 +93,9 @@ export default function Aufnahme() {
           <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
             <div className="mb-2 flex items-center gap-1 text-secondary">
               <InfoIcon size={16} className="stroke-secondary" />
-              <span className="font-condensed text-body-sm">Quereinstieg</span>
+              <span className="font-condensed">Quereinstieg</span>
             </div>
-            <p className="text-body-xs/normal">
+            <p className="text-body-sm/normal">
               Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
               sind noch Restplätze verfügbar. Für weitere Infos und einen
               Gesprächstermin bitte bei{' '}
@@ -140,11 +140,9 @@ export default function Aufnahme() {
           <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
             <div className="mb-2 flex items-center gap-1 text-secondary">
               <InfoIcon size={16} className="stroke-secondary" />
-              <span className="font-condensed text-body-sm">
-                Wichtige Information
-              </span>
+              <span className="font-condensed">Wichtige Information</span>
             </div>
-            <p className="text-body-xs/normal">
+            <p className="text-body-sm/normal">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
               Walz.{' '}
               <a

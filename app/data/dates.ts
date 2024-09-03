@@ -24,7 +24,7 @@ export type SchoolEventParsed = {
 
 export const events: SchoolEvent[] = [
   {
-    title: 'Schulbeginn 🏫',
+    title: 'Schulbeginn',
     startDate: '2024-09-02',
     startTime: null,
     endDate: null,
@@ -104,7 +104,7 @@ export const events: SchoolEvent[] = [
     links: [],
   },
   {
-    title: 'Abschluss 🎓',
+    title: 'Schulende',
     startDate: '2025-06-26',
     startTime: null,
     endDate: null,

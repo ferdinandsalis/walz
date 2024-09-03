@@ -49,6 +49,7 @@
     "@sanity/vision": "^3.56.0",
     "@sentry/remix": "^8.27.0",
     "@sentry/vite-plugin": "^2.22.3",
+    "@tailwindcss/container-queries": "^0.1.1",
     "address": "^2.0.3",
     "autoprefixer": "^10.4.20",
     "chalk": "^5.3.0",

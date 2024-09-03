@@ -10,8 +10,13 @@ export function Divider({
   withBackToTop?: boolean
 }) {
   return (
-    <div role="presentation" className="group relative">
-      <hr className={cn('h-[3px] rounded border-none bg-muted', className)} />
+    <div
+      role="presentation"
+      className={cn(
+        'group relative h-[3px] rounded border-none bg-muted',
+        className,
+      )}
+    >
       {withBackToTop && (
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform">
           <Link

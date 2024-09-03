@@ -20,7 +20,7 @@ export function NewsletterForm() {
       key={JSON.stringify(fetcher.data)}
     >
       <HoneypotInputs />
-      <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-xl">
+      <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-body-md">
         <span className="font-bold">
           Möchtest du auf dem Laufenden bleiben?
         </span>{' '}
@@ -35,14 +35,14 @@ export function NewsletterForm() {
           placeholder="Deine E-Mail"
           disabled={done}
           defaultValue={done ? '' : undefined}
-          className="rounded-lg bg-white p-6 text-xl shadow-md placeholder:italic"
+          className="rounded-lg bg-white p-6 shadow-md md:text-body-md"
         />
       </div>
       <div className="flex items-center gap-4">
         <Button
           type="submit"
           size="lg"
-          className="rounded-lg bg-primary p-6 text-xl shadow-md"
+          className="rounded-lg bg-primary p-6 shadow-md md:text-body-md"
           disabled={fetcher.state === 'submitting'}
         >
           Abonnieren

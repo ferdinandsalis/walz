@@ -1,9 +1,10 @@
 import {
+  type ErrorResponse,
   isRouteErrorResponse,
   useParams,
   useRouteError,
 } from '@remix-run/react'
-import { type ErrorResponse } from '@remix-run/router'
+import { captureRemixErrorBoundaryError } from '@sentry/remix'
 import { getErrorMessage } from '#app/utils/misc.tsx'
 
 type StatusHandler = (info: {
@@ -25,6 +26,7 @@ export function GeneralErrorBoundary({
   unexpectedErrorHandler?: (error: unknown) => JSX.Element | null
 }) {
   const error = useRouteError()
+  captureRemixErrorBoundaryError(error)
   const params = useParams()
 
   if (typeof document !== 'undefined') {
@@ -32,21 +34,13 @@ export function GeneralErrorBoundary({
   }
 
   return (
-    <div className="container bg-card p-6 text-xl">
-      <p className="mb-2 font-bold">
-        Entschuldige, leider ist ein Fehler passiert.
-      </p>
-      <details className="bg-secondary/5 p-2">
-        <summary>Detail</summary>
-        <pre>
-          {isRouteErrorResponse(error)
-            ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
-                error,
-                params,
-              })
-            : unexpectedErrorHandler(error)}
-        </pre>
-      </details>
-    </div>
+    <>
+      {isRouteErrorResponse(error)
+        ? (statusHandlers?.[error.status] ?? defaultStatusHandler)({
+            error,
+            params,
+          })
+        : unexpectedErrorHandler(error)}
+    </>
   )
 }

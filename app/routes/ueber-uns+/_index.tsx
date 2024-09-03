@@ -30,12 +30,12 @@ export default function UeberUns() {
   const persons = loaderData.data.persons
 
   return (
-    <div className="hyphens-auto text-pretty md:mt-12">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
+    <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
+      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Über uns
       </h1>
 
-      <div className="space-y-12 md:space-y-16">
+      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Menschen', to: '#menschen' },
@@ -44,10 +44,10 @@ export default function UeberUns() {
             { name: 'Geschichte', to: '#geschichte' },
           ]}
         />
+      </div>
 
-        <Divider withBackToTop={false} />
-
-        <div className="max-w-2xl space-y-4 hyphens-auto text-base md:text-xl">
+      <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
+        <div className="max-w-2xl space-y-4 text-base md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
             verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben
@@ -67,7 +67,7 @@ export default function UeberUns() {
         </div>
 
         <section id="menschen">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+          <h1 className="mb-8 font-condensed text-h2 font-bold text-primary">
             Menschen
           </h1>
 
@@ -93,7 +93,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="mentor"
-                  className="font-condensed text-2xl font-bold text-secondary"
+                  className="font-condensed text-h3 font-bold text-secondary"
                 >
                   <a href="#mentor">Mentor:innen</a>
                 </h2>
@@ -115,7 +115,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="project_lead"
-                  className="font-condensed text-2xl font-bold text-secondary"
+                  className="font-condensed text-h3 font-bold text-secondary"
                 >
                   <a href="#project_lead">Projektleiter:innen</a>
                 </h2>
@@ -142,7 +142,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="administrator"
-                  className="font-condensed text-2xl font-bold text-secondary"
+                  className="font-condensed text-h3 font-bold text-secondary"
                 >
                   <a href="#administrator">Administrator:innen</a>
                 </h2>
@@ -168,7 +168,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="therapist"
-                  className="font-condensed text-2xl font-bold text-secondary"
+                  className="font-condensed text-h3 font-bold text-secondary"
                 >
                   <a href="#therapist">Therapeut:innen</a>
                 </h2>
@@ -199,7 +199,7 @@ export default function UeberUns() {
         <Divider />
 
         <section id="philosophie" className="space-y-8">
-          <h1 className="font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-h2 font-bold text-primary">
             Philosophie
           </h1>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -424,14 +424,12 @@ function StaffCard({
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
     <ScrollArea.Root type="always">
-      <ScrollArea.Viewport className="xl:-mx-24 -mx-4 rounded-md bg-stone-200/30 shadow-inner sm:-mx-8 md:-mx-12">
-        <div className="xl:px-24 flex gap-4 px-4 py-8 sm:px-8 md:px-12">
-          {children}
-        </div>
+      <ScrollArea.Viewport className="-mx-4 bg-stone-200/20 shadow-inner md:rounded-md">
+        <div className="flex gap-4 px-4 pb-8 pt-4">{children}</div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="xl:-mx-24 -mx-4 flex h-[12px] items-center bg-card px-[3px] sm:-mx-8 sm:rounded-full md:-mx-12"
+        className="sm:rounded-md-full -mx-4 flex h-[12px] items-center bg-stone-200/20 px-[3px] hover:bg-card"
       >
         <ScrollArea.Thumb className="relative !h-[8px] cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
       </ScrollArea.Scrollbar>

@@ -14,7 +14,7 @@ import { MenuIcon } from 'lucide-react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
-import { Footer, Navigation } from './components/shell.tsx'
+import { FooterNavigation, Navigation } from './components/shell.tsx'
 import {
   Collapsible,
   CollapsibleContent,
@@ -24,7 +24,7 @@ import appStyleSheetUrl from './styles/app.css?url'
 import fontStyleSheetUrl from './styles/font.css?url'
 import { getEnv } from './utils/env.server.ts'
 import { honeypot } from './utils/honeypot.server.ts'
-import { getDomainUrl } from './utils/misc.tsx'
+import { cn, getDomainUrl } from './utils/misc.tsx'
 
 export function links() {
   return [
@@ -115,19 +115,28 @@ function App() {
 
 function Layout({ children }: any) {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Collapsible>
-        <header className="2xl:my-16 container my-8 flex flex-col space-y-8 px-4 sm:px-8 md:flex-row md:flex-wrap md:items-center md:space-y-0 md:px-12 lg:my-12">
+    <div className="relative mx-auto mt-4 grid min-h-screen grid-cols-[0_1fr_0] items-start gap-x-4 gap-y-4 sm:mt-8 sm:gap-x-8 sm:gap-y-8 md:mt-12 md:grid-rows-[min-content_1fr_min-content] md:gap-y-12 lg:grid-cols-[0_minmax(min-content,732px)_minmax(min-content,320px)_0] lg:gap-y-16 xl:grid-cols-[0_248px_minmax(min-content,792px)_minmax(min-content,320px)_1fr]">
+      <Collapsible asChild>
+        <header
+          className={cn(
+            `col-span-1 col-start-2 row-start-1`,
+            'lg:col-span-2 lg:col-start-2',
+            'flex flex-col gap-4 md:flex-row md:flex-wrap md:gap-0',
+            'xl:col-span-1 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:flex-col xl:items-start xl:gap-8',
+            'xl:sticky xl:top-4',
+            'md:items-center',
+          )}
+        >
           <div className="flex flex-1 items-center justify-between">
             <Link
               to="/"
-              className="group flex items-center gap-2 outline-none"
+              className="group relative -top-1 flex items-center gap-2 py-1 outline-none"
               tabIndex={-1}
             >
               <LogoSymbol className="relative top-1 w-10 text-primary" />
               <LogoType className="w-20 fill-foreground/80" />
             </Link>
-            <CollapsibleTrigger className="relative top-1 rounded-md bg-card/50 p-2 hover:bg-card md:hidden">
+            <CollapsibleTrigger className="rounded-md bg-card/70 p-2 hover:bg-card md:hidden">
               <MenuIcon className="stroke-primary" />
             </CollapsibleTrigger>
           </div>
@@ -140,12 +149,14 @@ function Layout({ children }: any) {
         </header>
       </Collapsible>
 
-      <div className="container relative flex-1 px-4 sm:px-8 md:px-12">
+      <div className="col-span-1 col-start-2 row-start-2 grid grid-cols-subgrid md:col-span-2 md:col-start-2 xl:col-span-3 xl:row-start-1">
         {children}
       </div>
 
-      <div className="mt-24 border-b-8 border-b-secondary bg-muted/40">
-        <Footer />
+      <div className="col-span-3 row-start-3 mt-12 grid grid-cols-subgrid bg-muted/30 lg:col-span-4 lg:col-start-1 xl:col-span-5">
+        <div className="col-span-1 col-start-2 grid lg:col-span-2 lg:col-start-2 xl:col-span-3 xl:col-start-3">
+          <FooterNavigation />
+        </div>
       </div>
     </div>
   )

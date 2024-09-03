@@ -4,12 +4,12 @@ export function meta() {
 
 export default function Legal() {
   return (
-    <div className="md:mt-8">
-      <h1 className="xl:text-6xl mb-12 font-condensed text-xl font-bold text-primary md:text-4xl lg:text-5xl">
+    <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
+      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Impressum
       </h1>
 
-      <div className="space-y-12">
+      <div className="col-start-1 grid grid-cols-1 gap-16">
         <div>
           <p className="font-bold">W@lz Wiener Lernzentrum</p>
           <p>Heinrich-Collin-Straße 9</p>

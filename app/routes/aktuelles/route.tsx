@@ -78,12 +78,12 @@ export default function Aktuelles() {
   const { posts, years, groupedDates } = loaderData.data
 
   return (
-    <div className="md:mt-12">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-muted-foreground opacity-10">
+    <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
+      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Aktuelles
       </h1>
 
-      <div className="space-y-12 md:space-y-16">
+      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Jahrgänge', to: '#jahrgaenge' },
@@ -91,14 +91,14 @@ export default function Aktuelles() {
             { name: 'Beiträge', to: '#beitraege' },
           ]}
         />
+      </div>
 
-        <Divider withBackToTop={false} />
-
+      <div className="col-start-1 grid grid-cols-1 gap-16">
         <section id="jahrgaenge" className="space-y-8">
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Jahrgänge
           </h1>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {years
               .filter(year => !year.graduatedAt)
               .map(year => (
@@ -279,7 +279,7 @@ export default function Aktuelles() {
 
         <Divider />
 
-        <section id="beitraege" className="col-span-2 grid grid-cols-1 gap-4">
+        <section id="beitraege" className="grid grid-cols-1 gap-4">
           <header className="flex flex-col items-end md:flex-row">
             <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
               Beiträge
@@ -314,7 +314,7 @@ export default function Aktuelles() {
 function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
   return (
     <article key={letter} className="flex rounded-md bg-card shadow-md">
-      <div className="relative flex flex-1 flex-col overflow-hidden py-6 pl-6">
+      <div className="relative flex flex-1 flex-col p-6">
         <div className="text-1xl absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
           {alphabetMap[letter]}
         </div>
@@ -355,16 +355,16 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
       </div>
       <Link
         to={`/jahrgaenge/${letter}`}
-        className="xl:w-80 group relative flex aspect-video w-32 rounded-r-md md:w-60 lg:w-60"
+        className="group relative flex aspect-video flex-1 rounded-r-md"
       >
         {photos ? (
           <img
             src={urlFor(photos[0]).quality(70).width(600).url()}
             alt={`${letter} Foto`}
-            className="flex-1 rounded-r-md object-cover object-center"
+            className="w-32 flex-1 rounded-r-md object-cover object-center md:w-60 lg:w-60 xl:w-80"
           />
         ) : (
-          <div className="flex flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
+          <div className="inline-flex w-full flex-1 items-center justify-center overflow-hidden rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
             <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
           </div>
         )}

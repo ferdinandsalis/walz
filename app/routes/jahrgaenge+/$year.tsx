@@ -68,8 +68,10 @@ export default function Year() {
       {year.photos ? (
         <YearPhotos photos={year.photos} letter={year.letter} />
       ) : (
-        <div className="flex flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
-          <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
+        <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
+          <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/20 to-transparent">
+            <BabyIcon size={96} className="w-12 stroke-secondary/40 md:w-24" />
+          </div>
         </div>
       )}
 

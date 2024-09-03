@@ -1,3 +1,4 @@
+import containerQueryPlugin from '@tailwindcss/container-queries'
 import { type Config } from 'tailwindcss'
 import animatePlugin from 'tailwindcss-animate'
 import radixPlugin from 'tailwindcss-radix'
@@ -12,13 +13,13 @@ export default {
       padding: '2rem',
     },
     screens: {
-      sm: '640px',
+      sm: '600px',
       md: '768px',
-      lg: '1024px',
-      // 'xl': '1280px',
+      lg: '896px',
+      xl: '1160px',
     },
     // @ts-ignore
     extend: extendedTheme,
   },
-  plugins: [animatePlugin, radixPlugin],
+  plugins: [animatePlugin, radixPlugin, containerQueryPlugin],
 } satisfies Config

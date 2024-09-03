@@ -28,26 +28,28 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:divide-none md:rounded-full md:bg-transparent md:pr-6 md:shadow-none"
+      className="xl:flex-col xl:items-start xl:gap-0 flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3"
     >
       <NavLink
         to="/"
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'focu:ring-2 group flex-none items-center px-3 py-3 font-condensed text-lg font-bold text-gray-700 outline-none transition-all hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl',
+            'xl:p-1 xl:aspect-auto xl:rounded-none group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-none transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl',
+            'hover:text-primary',
             {
-              'ring-0': isActive,
-              'hover:text-stone-900': !isActive,
+              'text-stone-900 ring-0': isActive,
+              'xl:after:content-none relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""]':
+                isActive,
             },
           )
         }
       >
         <Home
           size={24}
-          className="order-1 hidden stroke-secondary md:block md:group-hover:scale-105"
+          className="xl:hidden order-1 hidden stroke-secondary md:block md:group-hover:scale-105"
         />
-        <span className="md:sr-only">Startseite</span>
+        <span className="xl:not-sr-only md:sr-only">Startseite</span>
       </NavLink>
       {navigation.main.map(item => (
         <NavLink
@@ -56,11 +58,11 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'px-3 py-3 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-all focus:ring-2 focus:ring-primary/20 md:rounded-md md:py-2 lg:text-xl',
+              'xl:p-1 px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl',
+              'hover:text-primary',
               {
                 'text-stone-900 ring-0': isActive,
-                'hover:text-primary': !isActive,
-                'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2.5px] after:w-10 after:bg-primary after:content-[""]':
+                'xl:after:content-none relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""]':
                   isActive,
               },
             )
@@ -73,9 +75,9 @@ export function Navigation() {
   )
 }
 
-export function Footer() {
+export function FooterNavigation() {
   return (
-    <footer className="container relative z-10 mx-auto grid grid-cols-2 items-start gap-12 px-4 py-12 sm:px-8 md:px-12 lg:py-24">
+    <footer className="relative z-10 grid grid-cols-2 items-start gap-12 py-12 lg:py-24">
       <div id="newsletter" className="col-span-2 md:col-span-1">
         <h1 className="sr-only">Newsletter</h1>
         <NewsletterForm />
@@ -89,7 +91,7 @@ export function Footer() {
               key={item.name}
               to={item.to}
               prefetch="intent"
-              className="font-condensed text-lg font-bold hover:text-primary md:text-xl"
+              className="font-condensed font-bold hover:text-primary md:text-body-md"
             >
               {item.name}
             </Link>
@@ -102,14 +104,14 @@ export function Footer() {
             <Link
               to="/impressum"
               prefetch="intent"
-              className="font-condensed text-lg text-muted-foreground underline underline-offset-2 hover:text-black"
+              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
             >
               Impressum
             </Link>
             <Link
               to="/datenschutz"
               prefetch="intent"
-              className="font-condensed text-lg text-gray-600 underline underline-offset-2 hover:text-gray-800"
+              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
             >
               Datenschutz
             </Link>
@@ -152,15 +154,15 @@ export function Footer() {
 
       <div className="col-span-2 justify-self-center">
         <Link to="." className="group mb-4 flex flex-col items-center">
-          <LogoType className="w-24 fill-foreground/80" />
+          <LogoType className="w-24 fill-foreground opacity-20" />
         </Link>
 
-        <p className="text-center text-base">
+        <p className="text-center">
           <span className="font-bold text-primary">
             {new Date().getFullYear()} &copy; Walz Wiener Lernzentrum
           </span>
           <br />
-          <span className="text-black/70">Alle Rechte vorbehalten</span>.
+          <span className="text-foreground/70">Alle Rechte vorbehalten</span>.
         </p>
       </div>
     </footer>
