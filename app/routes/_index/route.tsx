@@ -181,9 +181,9 @@ export default function Home() {
             <p className="mb-4">
               <strong className="font-bold">Lerne die Walz kennen</strong>{' '}
               <span className="relative mb-1" aria-roledescription="emoji">
-                🙇
+                👋
               </span>{' '}
-              Neugierig geworden? Hier klicken für mehr Information.
+              Neugierig geworden? Tag der offen Tür am 5. Oktober.
             </p>
             <Button
               asChild

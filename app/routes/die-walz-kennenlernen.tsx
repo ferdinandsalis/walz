@@ -24,7 +24,7 @@ export default function GetToKnowRoute() {
       <div className="col-start-1 grid grid-cols-1 gap-16">
         <section id="termine" className="grid gap-y-4">
           <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
-            Nächste Termin
+            Nächster Termin
           </h1>
           <div className="rounded-lg bg-card p-6">
             <h2 className="mb-4 font-condensed text-h3 font-bold text-secondary">
@@ -43,21 +43,23 @@ export default function GetToKnowRoute() {
                   <li>
                     <h4 className="text-primary">15:00–18:00</h4>
                     <p>
-                      Die Walz stellt sich vor Ausstellungen, Walz-Reisebüro,
-                      Informationsstand, Juniorcompanies, Führungen, Walz-Kino,
-                      Workshops in Fremdsprachen, Theater-Impro, offenes
-                      Atelier, u.v.m.
+                      Die Walz stellt sich vor.
+                      <br />
+                      Ausstellungen, Walz-Reisebüro, Informationsstand,
+                      Juniorcompanies, Führungen, Walz-Kino, Workshops in
+                      Fremdsprachen, Theater-Impro, offenes Atelier, u.v.m.
                     </p>
                   </li>
                   <li>
                     <h4 className="text-primary">19:00–20:30</h4>
                     <p>
                       Der Jahrgang Psi 4 spielt „Das Spiel ist aus“ von
-                      Jean-Paul Sartre Ève, eine Dame der Gesellschaft, und
-                      Pierre, der Revolutionär, sterben im selben Augenblick.
-                      Sie begegnen sich im Tod und merken, dass sie füreinander
-                      bestimmt waren. Kann ihre Liebe den Tod überwinden? Sie
-                      haben 24 Stunden Zeit, um das herauszufinden.
+                      Jean-Paul Sartre.
+                      <br /> Ève, eine Dame der Gesellschaft, und Pierre, der
+                      Revolutionär, sterben im selben Augenblick. Sie begegnen
+                      sich im Tod und merken, dass sie füreinander bestimmt
+                      waren. Kann ihre Liebe den Tod überwinden? Sie haben 24
+                      Stunden Zeit, um das herauszufinden.
                     </p>
                   </li>
                 </ol>
