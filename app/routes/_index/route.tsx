@@ -178,12 +178,15 @@ export default function Home() {
         <section className="">
           <h1 className="sr-only">Walz kennenlernen</h1>
           <div className="rounded-lg border border-secondary/40 bg-secondary/20 p-6 ring-8 ring-muted/30">
-            <p className="mb-4">
-              <strong className="font-bold">Lerne die Walz kennen</strong>{' '}
+            <p className="mb-4 text-pretty">
+              Lerne die Walz kennen{' '}
               <span className="relative mb-1" aria-roledescription="emoji">
                 👋
-              </span>{' '}
-              Neugierig geworden? Tag der offen Tür am 5. Oktober.
+              </span>
+              <br /> Komm vorbei! Nächster Termin:{' '}
+              <strong className="font-bold">
+                Tag der offen Tür am 5. Oktober.
+              </strong>
             </p>
             <Button
               asChild
