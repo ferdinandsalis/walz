@@ -178,7 +178,7 @@ export default function Home() {
         <section className="">
           <h1 className="sr-only">Walz kennenlernen</h1>
           <div className="rounded-lg border border-secondary/40 bg-secondary/20 p-6 ring-8 ring-muted/30">
-            <p className="mb-4 text-pretty">
+            <p className="mb-4 text-pretty lg:text-body-md">
               Lerne die Walz kennen{' '}
               <span className="relative mb-1" aria-roledescription="emoji">
                 👋

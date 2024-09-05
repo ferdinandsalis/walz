@@ -51,7 +51,7 @@ export default function GetToKnowRoute() {
                     </p>
                   </li>
                   <li>
-                    <h4 className="text-primary">19:00–20:30</h4>
+                    <h4 className="text-primary">18:00–19:30</h4>
                     <p>
                       Der Jahrgang Psi 4 spielt „Das Spiel ist aus“ von
                       Jean-Paul Sartre.
