@@ -1,5 +1,6 @@
 import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
+import { getImageDimensions } from '@sanity/asset-utils'
 import {
   ArrowRight,
   AsteriskIcon,
@@ -20,7 +21,6 @@ import { alphabetMap } from '#app/sanity/schema/year.js'
 import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { query, type QueryResult } from './query.ts'
-import { getImageDimensions } from '@sanity/asset-utils'
 
 export const loader = defineLoader(async () => {
   const queryResult = await loadQuery<QueryResult>(query)

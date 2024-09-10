@@ -21,7 +21,7 @@ export const extendedTheme = {
     /** 28px size / 36px high / bold */
     h4: ['1.75rem', { lineHeight: '2.25rem', fontWeight: '700' }],
     /** 24px size / 32px high / bold */
-    h5: ['1.5rem', { lineHeight: '2rem', fontWeight: '700' }],
+    h5: ['1.375rem', { lineHeight: '2rem', fontWeight: '700' }],
     /** 16px size / 20px high / bold */
     h6: ['1rem', { lineHeight: '1.25rem', fontWeight: '700' }],
 
