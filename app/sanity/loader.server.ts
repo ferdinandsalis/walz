@@ -22,6 +22,6 @@ async function setSanityServerClient() {
   }
 }
 
-setSanityServerClient()
+setSanityServerClient().catch(console.error)
 
 export const { loadQuery } = queryStore

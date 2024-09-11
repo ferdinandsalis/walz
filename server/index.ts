@@ -1,7 +1,6 @@
 import crypto from 'crypto'
-import { createRequestHandler as _createRequestHandler } from '@remix-run/express'
+import { createRequestHandler } from '@remix-run/express'
 import { installGlobals, type ServerBuild } from '@remix-run/node'
-import * as Sentry from '@sentry/remix'
 import { ip as ipAddress } from 'address'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
@@ -17,10 +16,6 @@ const MODE = process.env.NODE_ENV ?? 'development'
 const IS_PROD = MODE === 'production'
 const IS_DEV = MODE === 'development'
 const ALLOW_INDEXING = process.env.ALLOW_INDEXING !== 'false'
-
-const createRequestHandler = IS_PROD
-  ? Sentry.wrapExpressCreateRequestHandler(_createRequestHandler)
-  : _createRequestHandler
 
 const viteDevServer = IS_PROD
   ? undefined
