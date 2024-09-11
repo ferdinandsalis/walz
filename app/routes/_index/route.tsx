@@ -1,4 +1,3 @@
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import {
@@ -22,7 +21,7 @@ import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { query, type QueryResult } from './query.ts'
 
-export const loader = defineLoader(async () => {
+export async function loader() {
   const queryResult = await loadQuery<QueryResult>(query)
   const upcomingEvents = eventsData
     .filter(date => new Date(date.startDate).getTime() > new Date().getTime())
@@ -45,7 +44,7 @@ export const loader = defineLoader(async () => {
     latestEvent,
     data: queryResult.data,
   }
-})
+}
 
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()

@@ -1,8 +1,8 @@
 import { generateSitemap } from '@nasa-gcn/remix-seo'
-import { type ServerBuild , unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { type LoaderFunctionArgs, type ServerBuild } from '@remix-run/node'
 import { getDomainUrl } from '#app/utils/misc.tsx'
 
-export const loader = defineLoader(async ({ request, context }) => {
+export async function loader({ request, context }: LoaderFunctionArgs) {
   const serverBuild = (await context.serverBuild) as ServerBuild
   return generateSitemap(request, serverBuild.routes, {
     siteUrl: getDomainUrl(request),
@@ -10,4 +10,4 @@ export const loader = defineLoader(async ({ request, context }) => {
       'Cache-Control': `public, max-age=${60 * 5}`,
     },
   })
-})
+}

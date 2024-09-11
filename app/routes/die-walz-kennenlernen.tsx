@@ -1,4 +1,4 @@
-import { unstable_defineAction as defineAction } from '@remix-run/node'
+import { type ActionFunctionArgs } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
 import { getImage } from '@sanity/asset-utils'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
@@ -6,12 +6,12 @@ import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { urlFor } from '#app/sanity/instance.js'
 
-export const action = defineAction(async ({ request }) => {
+export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
   const data = Object.fromEntries(formData.entries()) as { email: string }
-  console.log(data)
+
   return { ok: true, data }
-})
+}
 
 export default function GetToKnowRoute() {
   const imageAsset = getImage(

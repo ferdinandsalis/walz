@@ -1,5 +1,4 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
 import { loadQuery } from '@sanity/react-loader'
@@ -16,14 +15,14 @@ export function meta() {
   return [{ title: 'Über uns | Walz' }]
 }
 
-export const loader = defineLoader(async () => {
+export async function loader() {
   const queryResult = await loadQuery<UeberUnsQueryResult>(ueberUnsQuery)
 
   return {
     query: ueberUnsQuery,
     data: queryResult.data,
   }
-})
+}
 
 export default function UeberUns() {
   const loaderData = useLoaderData<typeof loader>()

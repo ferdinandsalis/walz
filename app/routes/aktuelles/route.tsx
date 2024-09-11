@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, useLoaderData, useLocation } from '@remix-run/react'
 import { loadQuery } from '@sanity/react-loader'
 import {
@@ -52,7 +52,7 @@ function evolveEvent(event: SchoolEvent) {
   return promiseHash<SchoolEventParsed>(hash)
 }
 
-export const loader = defineLoader(async ({ params }) => {
+export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery<QueryResult>(aktuellesQuery)
   const years = z.array(YearSchema).parse(queryResult.data.years)
 
@@ -69,12 +69,12 @@ export const loader = defineLoader(async ({ params }) => {
       years,
     },
   }
-})
+}
 
 export default function Aktuelles() {
+  const loaderData = useLoaderData<typeof loader>()
   const location = useLocation()
   const currentHash = location.hash.replace('#', '') || undefined
-  const loaderData = useLoaderData<typeof loader>()
   const { posts, years, groupedDates } = loaderData.data
 
   return (

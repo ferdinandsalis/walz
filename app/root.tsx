@@ -1,4 +1,4 @@
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
+import { type LoaderFunctionArgs } from '@remix-run/node'
 import {
   Link,
   Links,
@@ -39,7 +39,7 @@ export function meta() {
   return [{ title: 'Walz' }]
 }
 
-export const loader = defineLoader(async ({ request }) => {
+export async function loader({ request }: LoaderFunctionArgs) {
   return {
     requestInfo: {
       origin: getDomainUrl(request),
@@ -52,7 +52,7 @@ export const loader = defineLoader(async ({ request }) => {
     },
     ENV: getEnv(),
   }
-})
+}
 
 function Document({
   children,

@@ -1,7 +1,6 @@
 {
   "include": ["types/env.d.ts", "app/sanity/types.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "types": ["@remix-run/react/future/single-fetch.d.ts"],
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,

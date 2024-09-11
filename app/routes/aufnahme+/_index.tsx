@@ -1,4 +1,3 @@
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
@@ -15,10 +14,10 @@ export function meta() {
   return [{ title: 'Aufnahme | Walz' }]
 }
 
-export const loader = defineLoader(async () => {
+export async function loader() {
   const queryResult = await loadQuery<AufnahmeQuery>(aufnahmeQuery)
   return AufnahmeQuerySchema.parse(queryResult.data)
-})
+}
 
 export default function Aufnahme() {
   const loaderData = useLoaderData<typeof loader>()

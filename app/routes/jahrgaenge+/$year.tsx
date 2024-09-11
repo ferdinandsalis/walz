@@ -1,9 +1,5 @@
-import { unstable_defineLoader as defineLoader } from '@remix-run/node'
-import {
-  Link,
-  type MetaArgs_SingleFetch,
-  useLoaderData,
-} from '@remix-run/react'
+import { type LoaderFunctionArgs } from '@remix-run/node'
+import { Link, type MetaArgs, useLoaderData } from '@remix-run/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
@@ -11,11 +7,11 @@ import { urlFor } from '#app/sanity/instance.ts'
 import { calculateCurrentYear } from '#app/utils/years.js'
 import { yearQuery, YearSchema } from './$year.query.tsx'
 
-export function meta({ data }: MetaArgs_SingleFetch<typeof loader>) {
+export function meta({ data }: MetaArgs<typeof loader>) {
   return [{ title: `Jahrgang ${data?.data.letter} | Walz` }]
 }
 
-export const loader = defineLoader(async ({ params }) => {
+export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery(yearQuery, params, {
     perspective: 'published',
   })
@@ -25,7 +21,7 @@ export const loader = defineLoader(async ({ params }) => {
     params,
     data: YearSchema.parse(queryResult.data),
   }
-})
+}
 
 export default function Year() {
   const loaderData = useLoaderData<typeof loader>()
