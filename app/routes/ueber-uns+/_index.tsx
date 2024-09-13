@@ -387,24 +387,28 @@ function StaffCard({
             {person.description}
           </h2>
         </hgroup>
-        <div>
+        <div className="leading-tight">
           {person.email && (
-            <a
-              href={`mailto:${person.email}`}
-              className="text-sm text-secondary"
-            >
-              {person.email}
-            </a>
+            <div>
+              <a
+                href={`mailto:${person.email}`}
+                className="truncate text-body-xs text-secondary"
+              >
+                {person.email}
+              </a>
+            </div>
           )}
           {person.website && (
-            <a
-              href={person.website}
-              className="inline-flex items-center gap-1 truncate whitespace-nowrap text-sm text-secondary"
-            >
-              Webseite <ExternalLinkIcon size={16} />
-            </a>
+            <div>
+              <a
+                href={person.website}
+                className="inline-flex items-center gap-1 truncate text-body-xs text-secondary"
+              >
+                Webseite <ExternalLinkIcon size={16} />
+              </a>
+            </div>
           )}
-          <p className="text-sm">{person.phone}</p>
+          <div className="text-body-xs">{person.phone}</div>
         </div>
       </figcaption>
     </figure>
