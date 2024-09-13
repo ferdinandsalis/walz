@@ -5,6 +5,7 @@ const personFields = `
   _id,
   _type,
   priority,
+  inactive,
   slug,
   portrait,
   givenNames,
@@ -18,19 +19,19 @@ const personFields = `
 `
 
 export const ueberUnsQuery = defineQuery(`{
-  "leadership": *[_type == "person" && "leadership" in roles] | order(priority desc, familyName asc) {
+  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {
     ${personFields}
   },
-  "mentor": *[_type == "person" && "mentor" in roles] | order(priority desc, familyName asc) {
+  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {
     ${personFields}
   },
-  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority desc, familyName asc) {
+  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {
     ${personFields}
   },
-  "administrator": *[_type == "person" && "administrator" in roles] | order(priority desc, familyName asc) {
+  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {
     ${personFields}
   },
-  "therapist": *[_type == "person" && "therapist" in roles] | order(priority desc, familyName asc) {
+  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {
     ${personFields}
   }
 }`)
