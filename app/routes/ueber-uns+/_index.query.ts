@@ -1,21 +1,37 @@
 import { defineQuery } from 'groq'
 import { z } from 'zod'
 
+const personFields = `
+  _id,
+  _type,
+  priority,
+  slug,
+  portrait,
+  givenNames,
+  familyName,
+  "name": givenNames + " " + familyName,
+  description,
+  email,
+  phone,
+  website,
+  publishedAt
+`
+
 export const ueberUnsQuery = defineQuery(`{
-  "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {
-    _id,
-    _type,
-    slug,
-    portrait,
-    givenNames,
-    familyName,
-    "name": givenNames + " " + familyName,
-    description,
-    roles,
-    email,
-    phone,
-    website,
-    publishedAt
+  "leadership": *[_type == "person" && "leadership" in roles] | order(priority desc, familyName asc) {
+    ${personFields}
+  },
+  "mentor": *[_type == "person" && "mentor" in roles] | order(priority desc, familyName asc) {
+    ${personFields}
+  },
+  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority desc, familyName asc) {
+    ${personFields}
+  },
+  "administrator": *[_type == "person" && "administrator" in roles] | order(priority desc, familyName asc) {
+    ${personFields}
+  },
+  "therapist": *[_type == "person" && "therapist" in roles] | order(priority desc, familyName asc) {
+    ${personFields}
   }
 }`)
 

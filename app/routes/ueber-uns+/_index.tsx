@@ -26,7 +26,8 @@ export async function loader() {
 
 export default function UeberUns() {
   const loaderData = useLoaderData<typeof loader>()
-  const persons = loaderData.data.persons
+  const { leadership, mentor, project_lead, administrator, therapist } =
+    loaderData.data
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
@@ -75,11 +76,9 @@ export default function UeberUns() {
               Leitung
             </h1>
             <StaffRoll>
-              {persons
-                .filter(person => person?.roles?.includes('leadership'))
-                .map(person => (
-                  <StaffCard key={person.name} person={person} />
-                ))}
+              {leadership.map(person => (
+                <StaffCard key={person.name} person={person} />
+              ))}
             </StaffRoll>
           </article>
 
@@ -103,11 +102,9 @@ export default function UeberUns() {
                   sie in individuellen Lernsituationen begleiten.
                 </p>
                 <StaffRoll>
-                  {persons
-                    .filter(person => person?.roles?.includes('mentor'))
-                    .map(person => (
-                      <StaffCard key={person.name} person={person} />
-                    ))}
+                  {mentor.map(person => (
+                    <StaffCard key={person.name} person={person} />
+                  ))}
                 </StaffRoll>
               </div>
 
@@ -130,11 +127,9 @@ export default function UeberUns() {
                   </p>
                 </div>
                 <StaffRoll>
-                  {persons
-                    .filter(person => person?.roles?.includes('project_lead'))
-                    .map(person => (
-                      <StaffCard key={person.name} person={person} />
-                    ))}
+                  {project_lead.map(person => (
+                    <StaffCard key={person.name} person={person} />
+                  ))}
                 </StaffRoll>
               </div>
 
@@ -156,11 +151,9 @@ export default function UeberUns() {
                   </p>
                 </div>
                 <StaffRoll>
-                  {persons
-                    .filter(person => person?.roles?.includes('administrator'))
-                    .map(person => (
-                      <StaffCard key={person.name} person={person} />
-                    ))}
+                  {administrator.map(person => (
+                    <StaffCard key={person.name} person={person} />
+                  ))}
                 </StaffRoll>
               </div>
 
@@ -184,11 +177,9 @@ export default function UeberUns() {
                   </p>
                 </div>
                 <StaffRoll>
-                  {persons
-                    .filter(person => person?.roles?.includes('therapist'))
-                    .map(person => (
-                      <StaffCard key={person.name} person={person} />
-                    ))}
+                  {therapist.map(person => (
+                    <StaffCard key={person.name} person={person} />
+                  ))}
                 </StaffRoll>
               </div>
             </div>

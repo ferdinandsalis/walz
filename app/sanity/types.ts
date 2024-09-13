@@ -391,6 +391,103 @@ export type AllSanitySchemaTypes =
   | MediaTag
   | Slug
 export declare const internalGroqTypeReferenceTo: unique symbol
+// Source: ./app/routes/_index/query.ts
+// Variable: query
+// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  }[0...4],  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
+export type QueryResult = {
+  hero: {
+    _id: string
+    _type: 'home-hero'
+    image: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    caption: null
+    attribution: null
+  } | null
+  testimonials: Array<{
+    _id: string
+    _type: 'testimonial'
+    name: string | null
+    quote: string | null
+    photo: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      attribution?: string
+      alt?: string
+      _type: 'image'
+    } | null
+    year: {
+      graduatedAt: string | null
+      startedAt: string | null
+      letter:
+        | 'alpha'
+        | 'beta'
+        | 'chi'
+        | 'delta'
+        | 'epsilon'
+        | 'eta'
+        | 'gamma'
+        | 'hho'
+        | 'iota'
+        | 'kappa'
+        | 'lambda'
+        | 'my'
+        | 'ny'
+        | 'omega'
+        | 'omikron'
+        | 'phi'
+        | 'pi'
+        | 'psi'
+        | 'sigma'
+        | 'tau'
+        | 'theta'
+        | 'xi'
+        | 'ypsilon'
+        | 'zeta'
+        | null
+    } | null
+  }>
+  posts: Array<{
+    _id: string
+    _type: 'post'
+    title: string | null
+    previewText: string | null
+    slug: Slug | null
+    cover: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    publishedAt: string | null
+  }>
+}
+
 // Source: ./app/routes/aktuelles_.beitraege+/$slug.query.ts
 // Variable: beitraegeSlugQuery
 // Query: *[_type == "post" && slug.current == $slug][0] {    _id,    _type,    title,    cover,    body,    slug,    publishedAt  }
@@ -500,103 +597,6 @@ export type BeitraegeIndexQueryResult = {
   }>
 }
 
-// Source: ./app/routes/_index/query.ts
-// Variable: query
-// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  }[0...4],  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
-export type QueryResult = {
-  hero: {
-    _id: string
-    _type: 'home-hero'
-    image: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      caption?: string
-      alt?: string
-      attribution?: string
-      _type: 'image'
-    } | null
-    caption: null
-    attribution: null
-  } | null
-  testimonials: Array<{
-    _id: string
-    _type: 'testimonial'
-    name: string | null
-    quote: string | null
-    photo: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      attribution?: string
-      alt?: string
-      _type: 'image'
-    } | null
-    year: {
-      graduatedAt: string | null
-      startedAt: string | null
-      letter:
-        | 'alpha'
-        | 'beta'
-        | 'chi'
-        | 'delta'
-        | 'epsilon'
-        | 'eta'
-        | 'gamma'
-        | 'hho'
-        | 'iota'
-        | 'kappa'
-        | 'lambda'
-        | 'my'
-        | 'ny'
-        | 'omega'
-        | 'omikron'
-        | 'phi'
-        | 'pi'
-        | 'psi'
-        | 'sigma'
-        | 'tau'
-        | 'theta'
-        | 'xi'
-        | 'ypsilon'
-        | 'zeta'
-        | null
-    } | null
-  }>
-  posts: Array<{
-    _id: string
-    _type: 'post'
-    title: string | null
-    previewText: string | null
-    slug: Slug | null
-    cover: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      caption?: string
-      alt?: string
-      attribution?: string
-      _type: 'image'
-    } | null
-    publishedAt: string | null
-  }>
-}
-
 // Source: ./app/routes/aufnahme+/ _index.query.ts
 // Variable: aufnahmeQuery
 // Query: {    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {        _id,        _type,        start,        end,        costs->{            definedAt,            list        }    }[0]}
@@ -606,11 +606,12 @@ export type AufnahmeQueryResult = {
 
 // Source: ./app/routes/ueber-uns+/_index.query.ts
 // Variable: ueberUnsQuery
-// Query: {  "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {    _id,    _type,    slug,    portrait,    givenNames,    familyName,    "name": givenNames + " " + familyName,    description,    roles,    email,    phone,    website,    publishedAt  }}
+// Query: {  "leadership": *[_type == "person" && "leadership" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "mentor": *[_type == "person" && "mentor" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "administrator": *[_type == "person" && "administrator" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "therapist": *[_type == "person" && "therapist" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  }}
 export type UeberUnsQueryResult = {
-  persons: Array<{
+  leadership: Array<{
     _id: string
     _type: 'person'
+    priority: number | null
     slug: null
     portrait: {
       asset?: {
@@ -630,7 +631,118 @@ export type UeberUnsQueryResult = {
     familyName: string | null
     name: string | null
     description: string | null
-    roles: Array<string> | null
+    email: string | null
+    phone: string | null
+    website: string | null
+    publishedAt: null
+  }>
+  mentor: Array<{
+    _id: string
+    _type: 'person'
+    priority: number | null
+    slug: null
+    portrait: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    givenNames: string | null
+    familyName: string | null
+    name: string | null
+    description: string | null
+    email: string | null
+    phone: string | null
+    website: string | null
+    publishedAt: null
+  }>
+  project_lead: Array<{
+    _id: string
+    _type: 'person'
+    priority: number | null
+    slug: null
+    portrait: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    givenNames: string | null
+    familyName: string | null
+    name: string | null
+    description: string | null
+    email: string | null
+    phone: string | null
+    website: string | null
+    publishedAt: null
+  }>
+  administrator: Array<{
+    _id: string
+    _type: 'person'
+    priority: number | null
+    slug: null
+    portrait: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    givenNames: string | null
+    familyName: string | null
+    name: string | null
+    description: string | null
+    email: string | null
+    phone: string | null
+    website: string | null
+    publishedAt: null
+  }>
+  therapist: Array<{
+    _id: string
+    _type: 'person'
+    priority: number | null
+    slug: null
+    portrait: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    givenNames: string | null
+    familyName: string | null
+    name: string | null
+    description: string | null
     email: string | null
     phone: string | null
     website: string | null
@@ -642,10 +754,10 @@ export type UeberUnsQueryResult = {
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
+    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  }[0...4],\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': QueryResult
     '\n*[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    cover,\n    body,\n    slug,\n    publishedAt\n  }\n': BeitraegeSlugQueryResult
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
-    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  }[0...4],\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': QueryResult
     '{\n    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
-    '{\n  "persons": *[_type == "person"] | order(priority asc) | order(familyName asc) {\n    _id,\n    _type,\n    slug,\n    portrait,\n    givenNames,\n    familyName,\n    "name": givenNames + " " + familyName,\n    description,\n    roles,\n    email,\n    phone,\n    website,\n    publishedAt\n  }\n}': UeberUnsQueryResult
+    '{\n  "leadership": *[_type == "person" && "leadership" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }
 }
