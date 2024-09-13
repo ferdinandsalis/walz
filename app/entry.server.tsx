@@ -19,7 +19,7 @@ init()
 global.ENV = getEnv()
 
 if (ENV.MODE === 'production' && ENV.SENTRY_DSN) {
-  await import('./utils/monitoring.server.ts')
+  import('./utils/monitoring.server.ts')
     .then(({ init }) => init())
     .catch(error => {
       console.error(error)
