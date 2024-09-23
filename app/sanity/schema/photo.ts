@@ -1,25 +1,33 @@
-import { TrophyIcon } from 'lucide-react'
+import { CameraIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-  name: 'home-hero',
-  title: 'Home Hero',
+  name: 'photo',
+  title: 'Foto',
   type: 'document',
-  icon: TrophyIcon,
+  icon: CameraIcon,
   fields: [
     defineField({
       name: 'image',
-      title: 'Hauptbild',
       type: 'image',
+      title: 'Image',
       options: {
         hotspot: true,
       },
       fields: [
         {
+          name: 'caputuredAt',
+          type: 'datetime',
+          title: 'Captured at',
+          description: 'Date and time the image was captured.',
+          validation: Rule => Rule.required(),
+        },
+        {
           name: 'caption',
           type: 'string',
           title: 'Image caption',
           description: 'Caption displayed below the image.',
+          validation: Rule => Rule.required(),
         },
         {
           name: 'alt',
@@ -34,17 +42,12 @@ export default defineType({
           description: 'Attribution of the image.',
         },
       ],
-      validation: Rule => Rule.required(),
     }),
   ],
   preview: {
     select: {
       title: 'image.caption',
-      image: 'image',
-    },
-    prepare(selection) {
-      const { title, image } = selection
-      return { media: image, title: `${title}` }
+      media: 'image',
     },
   },
 })

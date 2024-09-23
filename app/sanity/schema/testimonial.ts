@@ -1,4 +1,4 @@
-import { VoicemailIcon } from 'lucide-react'
+import { MicVocalIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
 
@@ -19,7 +19,7 @@ export default defineType({
   name: 'testimonial',
   title: 'Testimonial',
   type: 'document',
-  icon: VoicemailIcon,
+  icon: MicVocalIcon,
   fields: [
     defineField({
       name: 'name',
