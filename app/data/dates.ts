@@ -39,7 +39,8 @@ export const events: SchoolEvent[] = [
     startTime: null,
     endDate: null,
     endTime: null,
-    description: null,
+    description:
+      'Der Jahrgang Psi 4 spielt „Das Spiel ist aus“ von Jean-Paul Sartre.',
     type: 'internal',
     links: [],
   },
@@ -49,7 +50,8 @@ export const events: SchoolEvent[] = [
     startTime: null,
     endDate: null,
     endTime: null,
-    description: null,
+    description:
+      'Ein Nachmittag für interessierte Jugendliche, Eltern und Freund:innen zum Mitmachen und Miterleben.',
     type: 'internal',
     links: [],
   },
@@ -59,7 +61,7 @@ export const events: SchoolEvent[] = [
     startTime: null,
     endDate: null,
     endTime: null,
-    description: null,
+    description: 'Infos folgen',
     type: 'internal',
     links: [],
   },
@@ -69,7 +71,8 @@ export const events: SchoolEvent[] = [
     startTime: null,
     endDate: null,
     endTime: null,
-    description: null,
+    description:
+      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
     type: 'internal',
     links: [],
   },
@@ -89,7 +92,8 @@ export const events: SchoolEvent[] = [
     startTime: null,
     endDate: null,
     endTime: null,
-    description: null,
+    description:
+      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
     type: 'internal',
     links: [],
   },
