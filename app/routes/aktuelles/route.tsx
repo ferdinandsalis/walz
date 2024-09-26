@@ -189,7 +189,7 @@ export default function Aktuelles() {
                                         <dd className="">{date.endTime} Uhr</dd>
                                       </div>
                                     )}
-                                    {date.links && (
+                                    {date.links && date.links.length > 0 && (
                                       <div className="col-span-2">
                                         <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                           Links
