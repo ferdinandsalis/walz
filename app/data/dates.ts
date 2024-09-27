@@ -36,7 +36,7 @@ export const events: SchoolEvent[] = [
   {
     title: 'Theateraufführung',
     startDate: '2024-10-04',
-    startTime: null,
+    startTime: '19:00',
     endDate: null,
     endTime: null,
     description:
@@ -47,7 +47,7 @@ export const events: SchoolEvent[] = [
   {
     title: 'Tag der offenen Tür',
     startDate: '2024-10-05',
-    startTime: null,
+    startTime: '15:00',
     endDate: null,
     endTime: null,
     description:
