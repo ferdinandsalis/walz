@@ -392,9 +392,9 @@ export type AllSanitySchemaTypes =
   | Slug
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./app/routes/_index/query.ts
-// Variable: query
-// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  }[0...4],  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
-export type QueryResult = {
+// Variable: homeQuery
+// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    achievement,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  }[0...4],  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
+export type HomeQueryResult = {
   hero: {
     _id: string
     _type: 'home-hero'
@@ -419,6 +419,7 @@ export type QueryResult = {
     _id: string
     _type: 'testimonial'
     name: string | null
+    achievement: string | null
     quote: string | null
     photo: {
       asset?: {
@@ -606,12 +607,13 @@ export type AufnahmeQueryResult = {
 
 // Source: ./app/routes/ueber-uns+/_index.query.ts
 // Variable: ueberUnsQuery
-// Query: {  "leadership": *[_type == "person" && "leadership" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "mentor": *[_type == "person" && "mentor" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "administrator": *[_type == "person" && "administrator" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "therapist": *[_type == "person" && "therapist" in roles] | order(priority asc) | order(familyName asc) {      _id,  _type,  priority,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  }}
+// Query: {  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  }}
 export type UeberUnsQueryResult = {
   leadership: Array<{
     _id: string
     _type: 'person'
     priority: number | null
+    inactive: boolean | null
     slug: null
     portrait: {
       asset?: {
@@ -640,6 +642,7 @@ export type UeberUnsQueryResult = {
     _id: string
     _type: 'person'
     priority: number | null
+    inactive: boolean | null
     slug: null
     portrait: {
       asset?: {
@@ -668,6 +671,7 @@ export type UeberUnsQueryResult = {
     _id: string
     _type: 'person'
     priority: number | null
+    inactive: boolean | null
     slug: null
     portrait: {
       asset?: {
@@ -696,6 +700,7 @@ export type UeberUnsQueryResult = {
     _id: string
     _type: 'person'
     priority: number | null
+    inactive: boolean | null
     slug: null
     portrait: {
       asset?: {
@@ -724,6 +729,7 @@ export type UeberUnsQueryResult = {
     _id: string
     _type: 'person'
     priority: number | null
+    inactive: boolean | null
     slug: null
     portrait: {
       asset?: {
@@ -754,10 +760,10 @@ export type UeberUnsQueryResult = {
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  }[0...4],\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': QueryResult
+    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  }[0...4],\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': HomeQueryResult
     '\n*[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    cover,\n    body,\n    slug,\n    publishedAt\n  }\n': BeitraegeSlugQueryResult
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
     '{\n    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
-    '{\n  "leadership": *[_type == "person" && "leadership" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles] | order(priority asc) | order(familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
+    '{\n  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }
 }

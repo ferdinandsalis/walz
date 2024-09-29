@@ -109,8 +109,10 @@ export default function Curriculum() {
                   />
                 </CarouselItem>
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <div className="flex justify-center gap-4 px-8">
+                <CarouselPrevious />
+                <CarouselNext />
+              </div>
             </Carousel>
           </div>
         </article>

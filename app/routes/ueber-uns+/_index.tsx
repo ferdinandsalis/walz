@@ -351,21 +351,24 @@ function StaffCard({
     >
       <div className="grid grid-cols-1 grid-rows-6">
         {person.portrait ? (
-          <img
-            src={
-              urlFor(person.portrait)
-                .quality(60)
-                .width(256)
-                .height(256)
-                .auto('format')
-                .url() || ''
-            }
-            width={256}
-            height={256}
-            alt={person.name || ''}
-            loading="lazy"
-            className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary object-cover text-center text-xs text-white ring-4 ring-secondary"
-          />
+          <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary">
+            <img
+              src={
+                urlFor(person.portrait)
+                  .quality(60)
+                  .width(256)
+                  .height(256)
+                  .auto('format')
+                  .url() || ''
+              }
+              width={256}
+              height={256}
+              alt={person.name || ''}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full rounded-full object-cover"
+            />
+            <div className="absolute inset-0 rounded-full ring-4 ring-inset ring-foreground/10" />
+          </div>
         ) : (
           <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary ring-4 ring-secondary">
             <SmileIcon size={96} className="w-10 stroke-white/20 md:w-16" />
@@ -418,7 +421,7 @@ function StaffCard({
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
     <ScrollArea.Root type="always">
-      <ScrollArea.Viewport className="-mx-4 bg-stone-200/20 shadow-inner md:rounded-md">
+      <ScrollArea.Viewport className="-mx-4 bg-muted/30 md:rounded-md">
         <div className="flex gap-4 px-4 pb-8 pt-4">{children}</div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar

@@ -293,7 +293,7 @@ export default function Aktuelles() {
               </Link>
             </div>
           </header>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {posts &&
               posts.map(post => (
                 <PostItem
