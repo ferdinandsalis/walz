@@ -20,7 +20,7 @@ export const homeQuery = defineQuery(`{
       startedAt,
       letter
     }
-  }[0...4],
+  },
   "posts": *[_type == "post"] | order(publishedAt desc) {
     _id,
     _type,
