@@ -117,6 +117,7 @@ const yearPhoto = defineField({
 })
 
 export default defineType({
+  // this should be named class
   name: 'year',
   title: 'Jahrgang',
   type: 'document',
@@ -169,25 +170,64 @@ export default defineType({
       title: 'Jahresplan',
     }),
   ],
+  orderings: [
+    {
+      name: 'startedAt',
+      title: 'Start (absteigend)',
+      by: [{ field: 'startedAt', direction: 'desc' }],
+    },
+    {
+      name: 'startedAt',
+      title: 'Start (aufsteigend)',
+      by: [{ field: 'startedAt', direction: 'asc' }],
+    },
+    {
+      name: 'graduatedAt',
+      title: 'Ende (absteigend)',
+      by: [{ field: 'graduatedAt', direction: 'desc' }],
+    },
+    {
+      name: 'graduatedAt',
+      title: 'Ende (aufsteigend)',
+      by: [{ field: 'graduatedAt', direction: 'asc' }],
+    },
+  ],
   preview: {
     select: {
       letter: 'letter',
       photos: 'photos',
+      graduatedAt: 'graduatedAt',
+      startedAt: 'startedAt',
       mentorGivenNames: 'mentor.givenNames',
       mentorFamilyName: 'mentor.familyName',
     },
     prepare(selection) {
-      const { letter, photos, mentorGivenNames, mentorFamilyName } =
-        selection as Pick<Year, 'letter' | 'photos'> & {
-          mentorGivenNames: string
-          mentorFamilyName: string
-        }
+      const {
+        letter,
+        photos,
+        mentorGivenNames,
+        mentorFamilyName,
+        graduatedAt,
+        startedAt,
+      } = selection as Pick<Year, 'letter' | 'photos'> & {
+        mentorGivenNames: string
+        mentorFamilyName: string
+        graduatedAt: Date | null
+        startedAt: Date
+      }
       const latestPhoto = photos?.length
         ? photos?.sort(({ takenAt }) => new Date(takenAt).getTime())[0]
         : undefined
       return {
         media: latestPhoto?.asset,
-        title: `${letter} ${alphabetMap[letter]} (${mentorGivenNames} ${mentorFamilyName})`,
+        title: `${letter} ${alphabetMap[letter]} ${
+          mentorGivenNames && mentorFamilyName
+            ? `(${mentorGivenNames} ${mentorFamilyName})`
+            : ''
+        }`,
+        subtitle: `${new Date(startedAt).getFullYear()} - ${
+          graduatedAt ? new Date(graduatedAt).getFullYear() : ''
+        }`,
       }
     },
   },

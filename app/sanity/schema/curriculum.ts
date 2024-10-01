@@ -1,6 +1,7 @@
+import { CameraIcon, ClipboardIcon } from 'lucide-react'
 import { defineField, defineArrayMember, defineType } from 'sanity'
 
-export const Curriculum = defineType({
+export const curriculum = defineType({
   name: 'curriculum',
   title: 'Curriculum',
   type: 'document',
@@ -14,18 +15,65 @@ export const Curriculum = defineType({
     defineField({
       name: 'description',
       type: 'text',
-      title: 'Description',
-      validation: Rule => Rule.required(),
+      title: 'Beschreibung',
     }),
-    // field for the curriculum's year
-    // there are a total of 5 years in the curriculum
+    {
+      name: 'years',
+      type: 'array',
+      title: 'Jahre',
+      of: [
+        {
+          type: 'object',
+          title: 'Jahr',
+          fields: [
+            {
+              name: 'yearNumber',
+              type: 'number',
+              title: 'Jahr',
+              validation: Rule => Rule.required().min(1).max(5),
+            },
+            {
+              name: 'description',
+              type: 'text',
+              title: 'Beschreibung',
+            },
+            {
+              name: 'projects',
+              type: 'array',
+              title: 'Projekte',
+              of: [{ type: 'reference', to: [{ type: 'project' }] }],
+            },
+          ],
+        },
+      ],
+      validation: Rule => Rule.required().length(5),
+    },
   ],
 })
 
-export const CurriculumYear = defineType({
-  name: 'curriculum-year',
-  title: 'Curriculum Year',
+export const photo = defineField({
+  name: 'photo',
+  title: 'Foto',
+  type: 'image',
+  icon: CameraIcon,
+  options: {
+    hotspot: true,
+    metadata: ['blurhash', 'lqip', 'palette', 'image', 'exif', 'location'],
+  },
+  fields: [
+    defineField({
+      name: 'caption',
+      type: 'string',
+      title: 'Caption',
+    }),
+  ],
+})
+
+export const project = defineType({
+  name: 'project',
+  title: 'Projekt',
   type: 'document',
+  icon: ClipboardIcon,
   fields: [
     defineField({
       name: 'name',
@@ -34,11 +82,29 @@ export const CurriculumYear = defineType({
       validation: Rule => Rule.required(),
     }),
     defineField({
-      name: 'projects',
+      name: 'description',
+      type: 'text',
+      title: 'Beschreibung',
+    }),
+    defineField({
+      name: 'photos',
+      title: 'Fotos',
       type: 'array',
-      title: 'Projekte',
-      of: [defineArrayMember({ type: 'reference', to: [{ type: 'project' }] })],
-      validation: Rule => Rule.required(),
+      of: [defineArrayMember(photo)],
     }),
   ],
+  preview: {
+    select: {
+      title: 'name',
+      media: 'photos.0.asset',
+    },
+    prepare(selection) {
+      const { title, media } = selection
+      console.log(selection)
+      return {
+        title,
+        media,
+      }
+    },
+  },
 })

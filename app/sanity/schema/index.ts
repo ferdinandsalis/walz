@@ -1,7 +1,7 @@
 import costs from './costs.ts'
+import { curriculum, project } from './curriculum.ts'
 import homeHero from './home-hero.ts'
 import person from './person.ts'
-import photo from './photo.ts'
 import post from './post.ts'
 import schoolYear from './school-year.ts'
 import testimonial from './testimonial.ts'
@@ -13,7 +13,8 @@ export const schemaTypes = [
   schoolYear,
   costs,
   person,
-  photo,
   year,
   post,
+  curriculum,
+  project,
 ]

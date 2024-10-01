@@ -1,6 +1,7 @@
 import { MicVocalIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
+import { alphabetMap } from './year.ts'
 
 export const Testimonial = z.object({
   name: z.string(),
@@ -17,7 +18,7 @@ export type Testimonial = z.infer<typeof Testimonial>
 
 export default defineType({
   name: 'testimonial',
-  title: 'Testimonial',
+  title: 'Erfahrungsberichte',
   type: 'document',
   icon: MicVocalIcon,
   fields: [
@@ -69,4 +70,29 @@ export default defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      name: 'name',
+      yearLetter: 'year.letter',
+      yearStartedAt: 'year.startedAt',
+      yearGraduatedAt: 'year.graduatedAt',
+      quote: 'quote',
+      photo: 'photo.asset',
+    },
+    prepare({
+      name,
+      yearLetter,
+      yearStartedAt,
+      yearGraduatedAt,
+      photo,
+      quote,
+    }) {
+      return {
+        title: `${name} ${alphabetMap[yearLetter]}`,
+        subtitle: `${new Date(yearStartedAt).getFullYear()} - ${yearGraduatedAt ? new Date(yearGraduatedAt).getFullYear() : ''}`,
+        media: photo,
+        description: quote,
+      }
+    },
+  },
 })

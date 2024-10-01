@@ -1,19 +1,28 @@
-import { getImage } from '@sanity/asset-utils'
+import { useLoaderData } from '@remix-run/react'
 import {
   Carousel,
   CarouselItem,
   CarouselContent,
   CarouselNext,
   CarouselPrevious,
-} from '#app/components/ui/carousel.js'
+} from '#app/components/ui/carousel.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { urlFor } from '#app/sanity/instance.js'
+import { urlFor } from '#app/sanity/instance.ts'
+import { loadQuery } from '#app/sanity/loader.server.ts'
+import { curriculumQuery, type CurriculumQueryResult } from './query.ts'
 
 export function meta() {
   return [{ title: 'Curriculum | Walz' }]
 }
 
+export async function loader() {
+  const queryResult = await loadQuery<CurriculumQueryResult>(curriculumQuery)
+  return { data: queryResult.data }
+}
+
 export default function Curriculum() {
+  const { data } = useLoaderData<typeof loader>()
+
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 text-balance lg:col-span-2">
       <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
@@ -64,62 +73,15 @@ export default function Curriculum() {
             </div>
           </div>
           <div>
-            <Carousel
-              className="w-full"
-              opts={{
-                align: 'start',
-              }}
-            >
-              <CarouselContent>
-                <CarouselItem className="h-56 basis-auto">
-                  <img
-                    src={urlFor(
-                      getImage(
-                        'https://cdn.sanity.io/images/iaejvb99/production/2f24bbc27cee6d6f4363c20ebb2dbfe9bf87eb12-1475x985.jpg',
-                      ),
-                    )
-                      .height(256)
-                      .format('webp')
-                      .url()}
-                    className="h-full object-cover"
-                  />
-                </CarouselItem>
-                <CarouselItem className="h-56 basis-auto">
-                  <img
-                    src={urlFor(
-                      getImage(
-                        'https://cdn.sanity.io/images/iaejvb99/production/4bb465814e4be4848499559d026dce59a8b33b36-394x296.jpg',
-                      ),
-                    )
-                      .height(256)
-                      .url()}
-                    className="h-full object-cover"
-                  />
-                </CarouselItem>
-                <CarouselItem className="h-56 basis-auto">
-                  <img
-                    src={urlFor(
-                      getImage(
-                        'https://cdn.sanity.io/images/iaejvb99/production/e05d6bdfb5eda2bdcfafb48dcba9582fec7baaa1-440x585.jpg',
-                      ),
-                    )
-                      .height(256)
-                      .url()}
-                    className="h-full object-cover"
-                  />
-                </CarouselItem>
-              </CarouselContent>
-              <div className="flex justify-center gap-4 px-8">
-                <CarouselPrevious />
-                <CarouselNext />
-              </div>
-            </Carousel>
+            <YearCarousel
+              photos={data?.years[0].projects.flatMap(p => p.photos)}
+            />
           </div>
         </article>
 
         <Divider />
 
-        <article className="space-y-4 pt-4">
+        <article className="space-y-8 pt-4">
           <hgroup>
             <h1 className="text-h4 font-bold text-muted-foreground">2. Jahr</h1>
             <p className="font-condensed text-h2 font-bold text-primary">
@@ -165,11 +127,16 @@ export default function Curriculum() {
               </ul>
             </div>
           </div>
+          <div>
+            <YearCarousel
+              photos={data?.years[1].projects.flatMap(p => p.photos)}
+            />
+          </div>
         </article>
 
         <Divider />
 
-        <article className="space-y-4 pt-4">
+        <article className="space-y-8 pt-4">
           <hgroup>
             <h1 className="text-h4 font-bold text-muted-foreground">3. Jahr</h1>
             <p className="font-condensed text-h2 font-bold text-primary">
@@ -219,11 +186,16 @@ export default function Curriculum() {
               </ul>
             </div>
           </div>
+          <div>
+            <YearCarousel
+              photos={data?.years[2].projects.flatMap(p => p.photos)}
+            />
+          </div>
         </article>
 
         <Divider />
 
-        <article className="space-y-4 pt-4">
+        <article className="space-y-8 pt-4">
           <hgroup>
             <h1 className="text-h5 font-bold text-muted-foreground">4. Jahr</h1>
             <p className="font-condensed text-h2 font-bold text-primary">
@@ -272,11 +244,16 @@ export default function Curriculum() {
               </ul>
             </div>
           </div>
+          <div>
+            <YearCarousel
+              photos={data?.years[3].projects.flatMap(p => p.photos)}
+            />
+          </div>
         </article>
 
         <Divider />
 
-        <article className="space-y-4 pt-4">
+        <article className="space-y-8 pt-4">
           <hgroup>
             <h1 className="text-h5 font-bold text-muted-foreground">5. Jahr</h1>
             <p className="font-condensed text-h2 font-bold text-primary">
@@ -322,10 +299,54 @@ export default function Curriculum() {
               </ul>
             </div>
           </div>
+          <div>
+            <YearCarousel
+              photos={data?.years[4].projects.flatMap(p => p.photos)}
+            />
+          </div>
         </article>
 
         <Divider className="bg-transparent" />
       </div>
     </div>
+  )
+}
+
+function YearCarousel({ photos }: { photos: any[] }) {
+  // this is Embla carousel
+  return (
+    <Carousel
+      opts={{
+        loop: true,
+        align: 'start',
+        duration: 20,
+      }}
+    >
+      <div className="-mx-4 w-full rounded bg-muted/30 px-4 py-4">
+        <CarouselContent className="-ml-2">
+          {photos.map(photo =>
+            photo.asset ? (
+              <CarouselItem
+                key={photo._key}
+                className="basis-1/2 pl-2 md:basis-1/3"
+              >
+                <img
+                  src={urlFor(photo)
+                    .height(512)
+                    .width(512)
+                    .format('webp')
+                    .url()}
+                  className="h-full rounded object-cover shadow"
+                />
+              </CarouselItem>
+            ) : null,
+          )}
+        </CarouselContent>
+      </div>
+      <div className="mt-4 flex justify-center gap-2 px-8">
+        <CarouselPrevious variant="ghost" />
+        <CarouselNext variant="ghost" />
+      </div>
+    </Carousel>
   )
 }
