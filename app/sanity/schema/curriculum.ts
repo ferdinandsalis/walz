@@ -33,15 +33,28 @@ export const curriculum = defineType({
               validation: Rule => Rule.required().min(1).max(5),
             },
             {
+              name: 'title',
+              type: 'string',
+              title: 'Titel',
+              validation: Rule => Rule.required(),
+            },
+            {
               name: 'description',
               type: 'text',
               title: 'Beschreibung',
+              validation: Rule => Rule.required(),
             },
             {
               name: 'projects',
               type: 'array',
               title: 'Projekte',
               of: [{ type: 'reference', to: [{ type: 'project' }] }],
+            },
+            {
+              name: 'externalExams',
+              type: 'array',
+              title: 'Externe Prüfungen',
+              of: [{ type: 'string' }],
             },
           ],
         },

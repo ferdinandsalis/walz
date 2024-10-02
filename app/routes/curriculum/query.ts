@@ -10,6 +10,8 @@ export const curriculumQuery = groq`*[_type == "curriculum"][0]{
     _ref,
     yearNumber,
     description,
+    title,
+    externalExams,
     projects[]-> {
       _id,
       _type,
@@ -30,6 +32,8 @@ export type CurriculumQueryResult = {
     _ref: string
     yearNumber: number
     description: string
+    title: string
+    externalExams: string[]
     projects: {
       _id: string
       _type: string
