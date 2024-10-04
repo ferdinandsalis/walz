@@ -86,9 +86,9 @@ export default function Home() {
           )}
         </figure>
 
-        <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/30 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
+        <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/10 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
           <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-24 sm:right-8 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
-          <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl md:text-5xl lg:text-6xl">
             Die <strong className="font-bold text-secondary">Walz</strong> soll
             darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
             mitzuge­stalten.

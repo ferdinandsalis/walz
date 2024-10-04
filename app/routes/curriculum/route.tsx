@@ -291,7 +291,7 @@ function YearCarousel({ photos }: { photos: any[] }) {
             photo?.asset ? (
               <CarouselItem
                 key={photo._key}
-                className="basis-1/2 pl-2 md:basis-1/3"
+                className="pl-2 sm:basis-1/2 md:basis-1/3"
               >
                 <img
                   src={urlFor(photo)
