@@ -1,17 +1,17 @@
 import { Link } from '@remix-run/react'
 import { BackToTop } from '#app/components/back-to-top.tsx'
+import { Divider } from '#app/components/ui/divider.js'
 
 export default function Faq() {
   return (
-    <div className="hyphens-auto text-pretty md:mt-8">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
+    <div className="relative grid grid-cols-subgrid items-start gap-8 text-balance lg:col-span-2">
+      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Häufige Fragen
       </h1>
-
-      <div className="grid gap-12">
-        <article id="was-heisst-eigentlich-walz">
+      <div className="col-start-1 grid grid-cols-1 gap-16 text-balance md:text-body-md">
+        <article id="was-heisst-eigentlich-walz" className="grid gap-8">
           <Link to=".#was-heisst-eigentlich-walz">
-            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
+            <h2 className="font-condensed text-h2 font-bold text-primary">
               Was heißt eigentlich Walz?
             </h2>
           </Link>
@@ -27,9 +27,14 @@ export default function Faq() {
           </div>
         </article>
 
-        <article id="wieso-gibt-es-externistenpruefungen">
+        <Divider />
+
+        <article
+          id="wieso-gibt-es-externistenpruefungen"
+          className="grid gap-8"
+        >
           <Link to=".#wieso-gibt-es-externistenpruefungen">
-            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
+            <h2 className="font-condensed text-h2 font-bold text-primary">
               Wieso gibt es Externistenprüfungen?
             </h2>
           </Link>
@@ -61,9 +66,45 @@ export default function Faq() {
           </div>
         </article>
 
-        <article id="wie-kann-ich-die-walz-kennenlernen">
+        <Divider />
+
+        <article
+          id="warum-ist-die-walz-smartphone-freie-zone"
+          className="grid gap-8"
+        >
+          <Link to=".#warum-ist-die-walz-smartphone-freie-zone">
+            <h2 className="font-condensed text-h2 font-bold text-primary">
+              Warum ist die Walz Smartphone-freie Zone?
+            </h2>
+          </Link>
+          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
+            <p>
+              Jonathan Haidt beschreibt in seinem Buch Generation Angst, dass
+              übermäßiger Smartphone-Gebrauch besonders bei jungen Menschen zu
+              Einsamkeit, sozialer Isolation und erhöhter Angst führen kann
+              („The Atlantic“ Artikel zum Buch). Die Weltgesundheitsorganisation
+              (WHO) warnt sogar, dass mehr als 10 Prozent der Jugendlichen an
+              Smartphone-Sucht leiden. Um dem entgegenzuwirken, ist die Walz
+              seit 2017 eine Smartphone-freie Zone. Dies hilft, das Gefühl von
+              FOMO (Fear of Missing Out) zu vermeiden, da niemand w ährend der
+              Pausen sein Handy nutzt. Ein weiteres Ziel ist es, die
+              Aufmerksamkeitsspanne der Schüler:innen zu verbessern, da sie sich
+              ohne ständige Ablenkung besser konzentrieren können – eine
+              wesentliche Fähigkeit, um die Matura erfolgreich zu bestehen.
+              Besonders im Jugendalter ist die Peer-Group von großer Bedeutung.
+              In einer Smartphone-freien Umgebung lernen die Schüler:innen,
+              sozial zu sein und echte, zwischenmenschliche Kommunikation zu
+              pflegen, was für ihre soziale und emotionale Entwicklung
+              entscheidend ist.
+            </p>
+          </div>
+        </article>
+
+        <Divider />
+
+        <article id="wie-kann-ich-die-walz-kennenlernen" className="grid gap-8">
           <Link to=".#wie-kann-ich-die-walz-kennenlernen">
-            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
+            <h2 className="font-condensed text-h2 font-bold text-primary">
               Wie kann ich die Walz kennenlernen?
             </h2>
           </Link>
@@ -114,9 +155,11 @@ export default function Faq() {
           </div>
         </article>
 
-        <article id="was-kostet-die-walz">
+        <Divider />
+
+        <article id="was-kostet-die-walz" className="grid gap-8">
           <Link to=".#was-kostet-die-walz">
-            <h2 className="mb-2 font-condensed text-2xl font-bold text-primary">
+            <h2 className="font-condensed text-h2 font-bold text-primary">
               Was kostet die Walz?
             </h2>
           </Link>

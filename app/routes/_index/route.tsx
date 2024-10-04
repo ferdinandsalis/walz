@@ -375,6 +375,17 @@ export default function Home() {
             </span>
           </Link>
           <Link
+            to="/haeufige-fragen/#warum-ist-die-walz-smartphone-freie-zone"
+            className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+          >
+            <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+            </span>
+            <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              Warum ist die Walz Smartphone-freie Zone?
+            </span>
+          </Link>
+          <Link
             to="/haeufige-fragen/#was-kostet-die-walz"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
