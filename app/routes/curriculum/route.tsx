@@ -287,8 +287,8 @@ function YearCarousel({ photos }: { photos: any[] }) {
     >
       <div className="-mx-4 w-full rounded bg-muted/30 px-4 py-4">
         <CarouselContent className="-ml-2">
-          {photos.map(photo =>
-            photo.asset ? (
+          {photos?.map(photo =>
+            photo?.asset ? (
               <CarouselItem
                 key={photo._key}
                 className="basis-1/2 pl-2 md:basis-1/3"
