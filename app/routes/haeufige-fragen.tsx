@@ -81,21 +81,27 @@ export default function Faq() {
             <p>
               Jonathan Haidt beschreibt in seinem Buch Generation Angst, dass
               übermäßiger Smartphone-Gebrauch besonders bei jungen Menschen zu
-              Einsamkeit, sozialer Isolation und erhöhter Angst führen kann
-              („The Atlantic“ Artikel zum Buch). Die Weltgesundheitsorganisation
-              (WHO) warnt sogar, dass mehr als 10 Prozent der Jugendlichen an
-              Smartphone-Sucht leiden. Um dem entgegenzuwirken, ist die Walz
-              seit 2017 eine Smartphone-freie Zone. Dies hilft, das Gefühl von
-              FOMO (Fear of Missing Out) zu vermeiden, da niemand w ährend der
-              Pausen sein Handy nutzt. Ein weiteres Ziel ist es, die
-              Aufmerksamkeitsspanne der Schüler:innen zu verbessern, da sie sich
-              ohne ständige Ablenkung besser konzentrieren können – eine
-              wesentliche Fähigkeit, um die Matura erfolgreich zu bestehen.
-              Besonders im Jugendalter ist die Peer-Group von großer Bedeutung.
-              In einer Smartphone-freien Umgebung lernen die Schüler:innen,
-              sozial zu sein und echte, zwischenmenschliche Kommunikation zu
-              pflegen, was für ihre soziale und emotionale Entwicklung
-              entscheidend ist.
+              Einsamkeit, sozialer Isolation und erhöhter Angst führen kann (
+              <Link
+                to="https://www.theatlantic.com/technology/archive/2024/03/teen-childhood-smartphone-use-mental-health-effects/677722/"
+                target="_blank"
+                className="underline underline-offset-2"
+              >
+                The Atlantic Artikel zum Buch
+              </Link>
+              ). Die Weltgesundheitsorganisation (WHO) warnt sogar, dass mehr
+              als 10 Prozent der Jugendlichen an Smartphone-Sucht leiden. Um dem
+              entgegenzuwirken, ist die Walz seit 2017 eine Smartphone-freie
+              Zone. Dies hilft, das Gefühl von FOMO (Fear of Missing Out) zu
+              vermeiden, da niemand während der Pausen sein Handy nutzt. Ein
+              weiteres Ziel ist es, die Aufmerksamkeitsspanne der Schüler:innen
+              zu verbessern, da sie sich ohne ständige Ablenkung besser
+              konzentrieren können – eine wesentliche Fähigkeit, um die Matura
+              erfolgreich zu bestehen. Besonders im Jugendalter ist die
+              Peer-Group von großer Bedeutung. In einer Smartphone-freien
+              Umgebung lernen die Schüler:innen, sozial zu sein und echte,
+              zwischenmenschliche Kommunikation zu pflegen, was für ihre soziale
+              und emotionale Entwicklung entscheidend ist.
             </p>
           </div>
         </article>
