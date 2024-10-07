@@ -474,13 +474,13 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
           aria-hidden="true"
         >
           <img
-            src={urlFor(entry.photo.asset)
+            src={urlFor(entry.photo?.asset ?? {})
               .quality(70)
               .format('webp')
               .width(200)
               .height(200)
               .url()}
-            alt={entry.photo?.alt}
+            alt={entry.photo?.alt || ''}
             className="rounded-full shadow-md"
           />
           <div
@@ -493,13 +493,16 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
             {entry.name}
             {'  '}
             <span className="align-super font-bold text-secondary">
-              {alphabetMap[entry.year.letter]}
+              {alphabetMap[entry.year?.letter ?? '']}
             </span>{' '}
           </p>
           <p className="mb-2 leading-none">
             <span className="text-body-2xs uppercase tracking-widest text-muted-foreground">
               Maturajahr{' '}
-              <span>{new Date(entry.year.graduatedAt).getFullYear()}</span>
+              <span>
+                {entry.year?.graduatedAt &&
+                  new Date(entry.year.graduatedAt).getFullYear()}
+              </span>
             </span>
           </p>
           <p>{entry.achievement}</p>
