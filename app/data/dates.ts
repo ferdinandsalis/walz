@@ -77,6 +77,17 @@ export const events: SchoolEvent[] = [
     links: [],
   },
   {
+    title: 'TikTok, Vapen, Liken & Zocken',
+    startDate: '2024-11-19',
+    startTime: '19:00',
+    endDate: null,
+    endTime: null,
+    description:
+      'Eine Podiumsdiskussion mit Expert:innen zu Suchtverhalten im Jugendalter.',
+    type: 'internal',
+    links: [],
+  },
+  {
     title: 'Schattentheater',
     startDate: '2024-12-18',
     startTime: null,
