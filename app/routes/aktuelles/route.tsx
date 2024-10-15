@@ -27,7 +27,7 @@ import {
   events as datesData,
 } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
-import year, { alphabetMap } from '#app/sanity/schema/year.ts'
+import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
 import { calculateCurrentYear } from '#app/utils/years.js'
 import {
