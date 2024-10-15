@@ -66,17 +66,6 @@ export const events: SchoolEvent[] = [
     links: [],
   },
   {
-    title: 'Infoabend',
-    startDate: '2024-11-21',
-    startTime: null,
-    endDate: null,
-    endTime: null,
-    description:
-      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
-    type: 'internal',
-    links: [],
-  },
-  {
     title: 'TikTok, Vapen, Liken & Zocken',
     startDate: '2024-11-19',
     startTime: '19:00',
@@ -84,6 +73,17 @@ export const events: SchoolEvent[] = [
     endTime: null,
     description:
       'Eine Podiumsdiskussion mit Expert:innen zu Suchtverhalten im Jugendalter.',
+    type: 'internal',
+    links: [],
+  },
+  {
+    title: 'Infoabend',
+    startDate: '2024-11-21',
+    startTime: null,
+    endDate: null,
+    endTime: null,
+    description:
+      'Interessierten Eltern stellen wir das pädagogische Konzept und das Programm der Walz vor, die Aufnahmevoraussetzungen und der Ablauf des Aufnahmetags wird erklärt und die Schulbeiträge werden erläutert. Natürlich bleibt auch Zeit für Fragen und Gespräche. Interessierte Jugendliche können selbstverständlich mitkommen.',
     type: 'internal',
     links: [],
   },

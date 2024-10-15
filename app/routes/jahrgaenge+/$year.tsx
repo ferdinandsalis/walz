@@ -76,6 +76,7 @@ export default function Year() {
           <a
             href={year.plan}
             className="text-muted-foreground underline underline-offset-2"
+            download={`${year.letter}-${year.plan}.pdf`}
           >
             Jahresplan herunterladen
           </a>

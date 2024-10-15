@@ -46,12 +46,9 @@ export default function Curriculum() {
                 Projekte
               </h2>
               <ul className="list-inside list-disc" aria-label="Projekte">
-                <li>Landschaftspflege</li>
-                <li>Landwirtschaft</li>
-                <li>Handwerk</li>
-                <li>Schattentheater</li>
-                <li>Zeichnen</li>
-                <li>Tanz und Akrobatik</li>
+                {data.years[0].projects?.map(project => {
+                  return <li key={project._id}>{project.name}</li>
+                })}
               </ul>
             </div>
             <div className="space-y-2">
@@ -94,13 +91,9 @@ export default function Curriculum() {
                 Projekte
               </h2>
               <ul className="list-inside list-disc" aria-label="Projekte">
-                <li>Kamp</li>
-                <li>Holzschlag</li>
-                <li>Irland</li>
-                <li>Theaterwerkstatt</li>
-                <li>Kühtai</li>
-                <li>Steinhauen</li>
-                <li>Sprachpraktikum 2. Fremdsprache</li>
+                {data.years[1].projects?.map(project => {
+                  return <li key={project._id}>{project.name}</li>
+                })}
               </ul>
             </div>
             <div className="space-y-2">
@@ -143,15 +136,9 @@ export default function Curriculum() {
                 Projekte
               </h2>
               <ul className="list-inside list-disc" aria-label="Projekte">
-                <li>Palfau</li>
-                <li>Theaterwerkstatt</li>
-                <li>Shakespeare</li>
-                <li>Sprachpraktikum 2. Fremdsprache</li>
-                <li>Medienarbeit</li>
-                <li>Junior Company</li>
-                <li>Potenzialanalyse</li>
-                <li>Mann/Frau Projekt</li>
-                <li>Sozialpraktikum</li>
+                {data.years[2].projects?.map(project => {
+                  return <li key={project._id}>{project.name}</li>
+                })}
               </ul>
             </div>
             <div className="space-y-2">
@@ -194,12 +181,9 @@ export default function Curriculum() {
                 Projekte
               </h2>
               <ul className="list-inside list-disc" aria-label="Projekte">
-                <li>Autonomie</li>
-                <li>Theater</li>
-                <li>Sozialpraktikum</li>
-                <li>Kunst Toskana</li>
-                <li>Sprachpraktikum 2.Fremdsprache</li>
-                <li>Junior Company</li>
+                {data.years[3].projects?.map(project => {
+                  return <li key={project._id}>{project.name}</li>
+                })}
               </ul>
             </div>
             <div className="space-y-2">
@@ -242,10 +226,9 @@ export default function Curriculum() {
                 Projekte
               </h2>
               <ul className="list-inside list-disc" aria-label="Projekte">
-                <li>Kunst in Paris</li>
-                <li>Literaturwoche</li>
-                <li>Sprachpraktikum Englisch</li>
-                <li>Abschlussreise</li>
+                {data.years[4].projects?.map(project => {
+                  return <li key={project._id}>{project.name}</li>
+                })}
               </ul>
             </div>
             <div className="space-y-2">
@@ -285,7 +268,7 @@ function YearCarousel({ photos }: { photos: any[] }) {
         duration: 20,
       }}
     >
-      <div className="-mx-4 w-full rounded bg-muted/30 px-4 py-4">
+      <div className="rounded bg-muted/30 px-4 py-4 md:-mx-4">
         <CarouselContent className="-ml-2">
           {photos?.map(photo =>
             photo?.asset ? (
@@ -299,7 +282,7 @@ function YearCarousel({ photos }: { photos: any[] }) {
                     .width(512)
                     .format('webp')
                     .url()}
-                  className="h-full rounded object-cover shadow"
+                  className="rounded object-cover shadow"
                 />
               </CarouselItem>
             ) : null,

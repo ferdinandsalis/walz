@@ -192,7 +192,7 @@ export default function UeberUns() {
           <h1 className="font-condensed text-h2 font-bold text-primary">
             Philosophie
           </h1>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {pillars.map(pillar => (
               <LinkPhotoCard
                 key={pillar.title}
@@ -426,7 +426,7 @@ function StaffRoll({ children }: { children: React.ReactNode }) {
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="sm:rounded-md-full -mx-4 flex h-[12px] items-center bg-stone-200/20 px-[3px] hover:bg-card"
+        className="-mx-4 flex h-[12px] items-center rounded-b-md bg-muted/20 px-[3px] shadow-inner hover:bg-muted-foreground/10"
       >
         <ScrollArea.Thumb className="relative !h-[8px] cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
       </ScrollArea.Scrollbar>

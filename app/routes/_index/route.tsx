@@ -315,12 +315,12 @@ export default function Home() {
           className="space-y-8 rounded-md bg-muted/30 py-8"
           opts={{ loop: true }}
         >
-          <CarouselContent className="py-2">
+          <CarouselContent className="-ml-8 px-8 py-2 lg:-ml-20">
             {testimonials.map((testimonial, idx) => {
               return (
                 <CarouselItem
                   key={idx}
-                  className="flex items-start justify-center px-8 md:items-center md:px-8 lg:px-20"
+                  className="flex items-start justify-center pl-8 md:items-center lg:pl-20"
                 >
                   <TestimonialCard idx={idx} {...testimonial} />
                 </CarouselItem>
