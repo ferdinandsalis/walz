@@ -56,12 +56,24 @@ export const events: SchoolEvent[] = [
     links: [],
   },
   {
-    title: 'Präsentation Theaterwerkstatt',
+    title: 'Theateraufführung: MEΔEA',
     startDate: '2024-11-14',
-    startTime: null,
+    startTime: '19:00',
     endDate: null,
     endTime: null,
-    description: 'Infos folgen',
+    description:
+      'Königstocher, Priesterin, Flüchtling, Mutter, Heilerin, Femme Fatale, Verlassene, Hexe, Zauberin, Kindsmörderin - der Mythos zeichnet viele unterschiedliche Bilder einer faszinierenden Frau. Wer ist Medea heute?',
+    type: 'internal',
+    links: [],
+  },
+  {
+    title: 'Theateraufführung: MEΔEA',
+    startDate: '2024-11-15',
+    startTime: '19:00',
+    endDate: null,
+    endTime: null,
+    description:
+      'Königstocher, Priesterin, Flüchtling, Mutter, Heilerin, Femme Fatale, Verlassene, Hexe, Zauberin, Kindsmörderin - der Mythos zeichnet viele unterschiedliche Bilder einer faszinierenden Frau. Wer ist Medea heute?',
     type: 'internal',
     links: [],
   },

@@ -1,4 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
+import React from 'react'
 import {
   Carousel,
   CarouselItem,
@@ -30,231 +31,84 @@ export default function Curriculum() {
       </h1>
 
       <div className="col-start-1 grid grid-cols-1 gap-16 text-balance md:text-body-md">
-        <article className="space-y-8 pt-4">
-          <hgroup>
-            <h1 className="text-h4 font-bold text-muted-foreground">1. Jahr</h1>
-            <p className="font-condensed text-h2 font-bold text-primary">
-              {data?.years[0].title}
-            </p>
-          </hgroup>
-          <div className="mb-8 max-w-prose space-y-4">
-            <p>{data?.years[0].description}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Projekte
-              </h2>
-              <ul className="list-inside list-disc" aria-label="Projekte">
-                {data.years[0].projects?.map(project => {
-                  return <li key={project._id}>{project.name}</li>
-                })}
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Externe Prüfungen
-              </h2>
-              <ul className="list-inside list-disc">
-                {data?.years[0]?.externalExams?.length > 0 ? (
-                  data?.years[0].externalExams.map(exam => (
-                    <li key={exam}>{exam}</li>
-                  ))
-                ) : (
-                  <li>keine</li>
-                )}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <YearCarousel
-              photos={data?.years[0].projects.flatMap(p => p.photos)}
-            />
-          </div>
-        </article>
-
-        <Divider />
-
-        <article className="space-y-8 pt-4">
-          <hgroup>
-            <h1 className="text-h4 font-bold text-muted-foreground">2. Jahr</h1>
-            <p className="font-condensed text-h2 font-bold text-primary">
-              {data?.years[1].title}
-            </p>
-          </hgroup>
-          <div className="mb-8 max-w-prose space-y-4">
-            <p>{data?.years[1].description}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Projekte
-              </h2>
-              <ul className="list-inside list-disc" aria-label="Projekte">
-                {data.years[1].projects?.map(project => {
-                  return <li key={project._id}>{project.name}</li>
-                })}
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Externe Prüfungen
-              </h2>
-              <ul className="list-inside list-disc">
-                {data?.years[1]?.externalExams?.length > 0 ? (
-                  data?.years[1].externalExams.map(exam => (
-                    <li key={exam}>{exam}</li>
-                  ))
-                ) : (
-                  <li>keine</li>
-                )}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <YearCarousel
-              photos={data?.years[1].projects.flatMap(p => p.photos)}
-            />
-          </div>
-        </article>
-
-        <Divider />
-
-        <article className="space-y-8 pt-4">
-          <hgroup>
-            <h1 className="text-h4 font-bold text-muted-foreground">3. Jahr</h1>
-            <p className="font-condensed text-h2 font-bold text-primary">
-              {data?.years[2].title}
-            </p>
-          </hgroup>
-          <div className="mb-8 max-w-prose space-y-4">
-            <p>{data?.years[2].description}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Projekte
-              </h2>
-              <ul className="list-inside list-disc" aria-label="Projekte">
-                {data.years[2].projects?.map(project => {
-                  return <li key={project._id}>{project.name}</li>
-                })}
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Externe Prüfungen
-              </h2>
-              <ul className="list-inside list-disc">
-                {data?.years[2]?.externalExams?.length > 0 ? (
-                  data?.years[2].externalExams.map(exam => (
-                    <li key={exam}>{exam}</li>
-                  ))
-                ) : (
-                  <li>keine</li>
-                )}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <YearCarousel
-              photos={data?.years[2].projects.flatMap(p => p.photos)}
-            />
-          </div>
-        </article>
-
-        <Divider />
-
-        <article className="space-y-8 pt-4">
-          <hgroup>
-            <h1 className="text-h5 font-bold text-muted-foreground">4. Jahr</h1>
-            <p className="font-condensed text-h2 font-bold text-primary">
-              {data?.years[3].title}
-            </p>
-          </hgroup>
-          <div className="mb-8 max-w-prose space-y-4">
-            <p>{data?.years[3].description}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Projekte
-              </h2>
-              <ul className="list-inside list-disc" aria-label="Projekte">
-                {data.years[3].projects?.map(project => {
-                  return <li key={project._id}>{project.name}</li>
-                })}
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Externe Prüfungen
-              </h2>
-              <ul className="list-inside list-disc">
-                {data?.years[3]?.externalExams?.length > 0 ? (
-                  data?.years[3].externalExams.map(exam => (
-                    <li key={exam}>{exam}</li>
-                  ))
-                ) : (
-                  <li>keine</li>
-                )}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <YearCarousel
-              photos={data?.years[3].projects.flatMap(p => p.photos)}
-            />
-          </div>
-        </article>
-
-        <Divider />
-
-        <article className="space-y-8 pt-4">
-          <hgroup>
-            <h1 className="text-h5 font-bold text-muted-foreground">5. Jahr</h1>
-            <p className="font-condensed text-h2 font-bold text-primary">
-              {data?.years[4].title}
-            </p>
-          </hgroup>
-          <div className="mb-8 max-w-prose space-y-4">
-            <p>{data?.years[4].description}</p>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Projekte
-              </h2>
-              <ul className="list-inside list-disc" aria-label="Projekte">
-                {data.years[4].projects?.map(project => {
-                  return <li key={project._id}>{project.name}</li>
-                })}
-              </ul>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-condensed text-h4 font-bold text-secondary">
-                Externe Prüfungen
-              </h2>
-              <ul className="list-inside list-disc">
-                {data?.years[4]?.externalExams?.length > 0 ? (
-                  data?.years[4].externalExams.map(exam => (
-                    <li key={exam}>{exam}</li>
-                  ))
-                ) : (
-                  <li>keine</li>
-                )}
-              </ul>
-            </div>
-          </div>
-          <div>
-            <YearCarousel
-              photos={data?.years[4].projects.flatMap(p => p.photos)}
-            />
-          </div>
-        </article>
-
+        {data.years.map((year, index) => (
+          <React.Fragment key={year._id}>
+            <YearSection year={year} yearNumber={index + 1} />
+            {index < data.years.length - 1 && <Divider />}
+          </React.Fragment>
+        ))}
         <Divider className="bg-transparent" />
       </div>
+    </div>
+  )
+}
+
+function YearSection({
+  year,
+  yearNumber,
+}: {
+  year: {
+    title: string
+    description: string
+    projects: any[]
+    externalExams: string[]
+  }
+  yearNumber: number
+}) {
+  return (
+    <article className="space-y-8 pt-4">
+      <hgroup>
+        <h1 className="text-h4 font-bold text-muted-foreground">
+          {yearNumber}. Jahr
+        </h1>
+        <p className="font-condensed text-h2 font-bold text-primary">
+          {year.title}
+        </p>
+      </hgroup>
+      <div className="mb-8 max-w-prose space-y-4">
+        <p>{year.description}</p>
+      </div>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <ProjectsList projects={year.projects} />
+        <ExternalExamsList exams={year.externalExams} />
+      </div>
+      <div>
+        <YearCarousel photos={year.projects.flatMap(p => p.photos)} />
+      </div>
+    </article>
+  )
+}
+
+function ProjectsList({
+  projects,
+}: {
+  projects: { _id: string; name: string }[]
+}) {
+  return (
+    <div className="space-y-2">
+      <h2 className="font-condensed text-h4 font-bold text-secondary">
+        Projekte
+      </h2>
+      <ul className="list-inside list-disc" aria-label="Projekte">
+        {projects?.map(project => <li key={project._id}>{project.name}</li>)}
+      </ul>
+    </div>
+  )
+}
+
+function ExternalExamsList({ exams }: { exams: string[] }) {
+  return (
+    <div className="space-y-2">
+      <h2 className="font-condensed text-h4 font-bold text-secondary">
+        Externe Prüfungen
+      </h2>
+      <ul className="list-inside list-disc">
+        {exams?.length > 0 ? (
+          exams.map(exam => <li key={exam}>{exam}</li>)
+        ) : (
+          <li>keine</li>
+        )}
+      </ul>
     </div>
   )
 }
