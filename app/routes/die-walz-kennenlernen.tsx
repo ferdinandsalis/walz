@@ -45,7 +45,7 @@ const upcomingEvents: Event[] = [
 const pastEvents: Event[] = [
   {
     title: 'Tag der Offenen Tür',
-    date: 'Donnerstag, 23. November 2023',
+    date: 'Samstag, 5. Oktober 2024',
     time: '15:00 Uhr',
     location:
       'Theatersaal, Walz Wiener Lernzentrum\nHeinrich-Collin-Straße 9\n1140 Wien',
