@@ -318,7 +318,7 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
       className="flex flex-wrap rounded-md bg-card shadow-md"
     >
       <div className="relative flex flex-1 flex-col p-6">
-        <div className="text-1xl absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
+        <div className="text-1xl font-greek absolute right-14 top-10 scale-[7] font-black lowercase text-primary opacity-10">
           {alphabetMap[letter]}
         </div>
 

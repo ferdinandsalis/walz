@@ -7,6 +7,13 @@ export const extendedTheme = {
   fontFamily: {
     sans: ['Museo Sans', 'Museo Sans Fallback'],
     condensed: ['Museo Sans Condensed', 'Museo Sans Condensed Fallback'],
+    greek: [
+      'Segoe UI',
+      'Helvetica Neue',
+      'Arial Unicode MS',
+      'Lucida Grande',
+      'sans-serif',
+    ],
   },
   fontSize: {
     // 1rem = 16px

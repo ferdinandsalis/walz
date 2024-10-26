@@ -48,7 +48,7 @@ export const ALPHABET: GreekLetter[] = [
   { name: 'xi', symbol: 'ξ' },
   { name: 'omikron', symbol: 'ο' },
   { name: 'pi', symbol: 'π' },
-  { name: 'hho', symbol: 'ρ' },
+  { name: 'rho', symbol: 'ρ' },
   { name: 'sigma', symbol: 'σ' },
   { name: 'tau', symbol: 'τ' },
   { name: 'ypsilon', symbol: 'υ' },

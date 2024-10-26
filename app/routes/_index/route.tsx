@@ -492,7 +492,7 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
           <p className="font-bold text-primary md:text-body-md">
             {entry.name}
             {'  '}
-            <span className="align-super font-bold text-secondary">
+            <span className="font-greek align-super font-bold text-secondary">
               {alphabetMap[entry.year?.letter ?? '']}
             </span>{' '}
           </p>

@@ -1,4 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
+import { InfoIcon } from 'lucide-react'
 import React from 'react'
 import {
   Carousel,
@@ -50,11 +51,20 @@ function YearSection({
   year: {
     title: string
     description: string
-    projects: any[]
+    projects: { _id: string; name: string; photos: any[] }[]
     externalExams: string[]
   }
   yearNumber: number
 }) {
+  const photos = React.useMemo(() => {
+    return year.projects.flatMap(p => {
+      if (p.photos && p.photos.length > 0) {
+        return p.photos.map(photo => ({ ...photo, projectName: p.name }))
+      }
+      return []
+    })
+  }, [year.projects])
+
   return (
     <article className="space-y-8 pt-4">
       <hgroup>
@@ -72,9 +82,7 @@ function YearSection({
         <ProjectsList projects={year.projects} />
         <ExternalExamsList exams={year.externalExams} />
       </div>
-      <div>
-        <YearCarousel photos={year.projects.flatMap(p => p.photos)} />
-      </div>
+      <div>{year.projects.length > 0 && <YearCarousel photos={photos} />}</div>
     </article>
   )
 }
@@ -90,7 +98,7 @@ function ProjectsList({
         Projekte
       </h2>
       <ul className="list-inside list-disc" aria-label="Projekte">
-        {projects?.map(project => <li key={project._id}>{project.name}</li>)}
+        {projects?.map(project => <li key={project.name}>{project.name}</li>)}
       </ul>
     </div>
   )
@@ -127,17 +135,25 @@ function YearCarousel({ photos }: { photos: any[] }) {
           {photos?.map(photo =>
             photo?.asset ? (
               <CarouselItem
-                key={photo._key}
+                key={photo._id}
                 className="pl-2 sm:basis-1/2 md:basis-1/3"
               >
-                <img
-                  src={urlFor(photo)
-                    .height(512)
-                    .width(512)
-                    .format('webp')
-                    .url()}
-                  className="rounded object-cover shadow"
-                />
+                <div className="group relative overflow-hidden rounded">
+                  <img
+                    src={urlFor(photo)
+                      .height(512)
+                      .width(512)
+                      .format('webp')
+                      .url()}
+                    className="rounded object-cover shadow"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3 font-condensed">
+                    <span className="text-xs text-card drop-shadow">
+                      {photo.projectName}
+                      {photo.caption ? `, ${photo.caption}` : ''}
+                    </span>
+                  </div>
+                </div>
               </CarouselItem>
             ) : null,
           )}
