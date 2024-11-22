@@ -100,13 +100,13 @@ export const events: SchoolEvent[] = [
     links: [],
   },
   {
-    title: 'Schattentheater',
+    title: 'Schattentheater: Die Schneekönigin',
     startDate: '2024-12-18',
     startTime: '18:00',
     endDate: null,
     endTime: null,
     description:
-      'Menschen-Schattentheater vor und hinter der Leinwand, in seiner Schlichtheit magisch und zauberhaft - gleich einem riesigen, lebendig gewordenen Bilderbuch aus Scherenschnitten. Der Jahrgang Gamma inszeniert “Die Schneekönigin” : Wenn nach einer kalten Winternacht Eisblumen die Fenster schmücken, war die Schneekönigin unterwegs - erzählt die Großmutter Gerda und Kai. Da wissen die beiden Freunde noch nicht, dass die Schneekönigin ihr Leben schon bald verändern wird. Sie entführt Kai in ihr Schloss im hohen Norden Gerda macht sich auf den Weg ihren Freund zu retten und besteht dabei viele Abenteuer!\n\nDas Stück ist für Kinder ab 6 Jahren geeignet',
+      'Der Jahrgang Gamma inszeniert “Die Schneekönigin” : Wenn nach einer kalten Winternacht Eisblumen die Fenster schmücken, war die Schneekönigin unterwegs - erzählt die Großmutter Gerda und Kai. Da wissen die beiden Freunde noch nicht, dass die Schneekönigin ihr Leben schon bald verändern wird. Sie entführt Kai in ihr Schloss im hohen Norden Gerda macht sich auf den Weg ihren Freund zu retten und besteht dabei viele Abenteuer!\n\nDas Stück ist für Kinder ab 6 Jahren geeignet',
     type: 'internal',
     links: [],
   },
