@@ -1,6 +1,5 @@
 import { defineQuery } from 'groq'
 
-// @ts-ignore
 export const beitraegeSlugQuery = defineQuery(`
 *[_type == "post" && slug.current == $slug][0] {
     _id,

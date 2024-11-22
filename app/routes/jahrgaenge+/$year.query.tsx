@@ -3,9 +3,8 @@ import { z } from 'zod'
 import { PhotoSchema } from '#app/sanity/schema/year.ts'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
-// @ts-ignore
 export const yearQuery = defineQuery(`
-  *[_type == "year" && letter == $year][0] {
+  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {
     _id,
     _type,
     startedAt,

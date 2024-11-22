@@ -13,10 +13,10 @@ export function meta() {
 
 export default function Philosophie() {
   const matches = useMatches()
-  const current = matches.at(-1)
+  const current = matches?.at(-1)?.handle
 
   return (
-    <div className="md:mt-12">
+    <div className="md:mt-12 lg:col-span-2">
       <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
         Über uns
       </h1>
@@ -34,7 +34,7 @@ export default function Philosophie() {
         <section id="philosophie">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {pillars
-              .filter(pillar => pillar !== current?.handle)
+              .filter(pillar => pillar !== current)
               .map(pillar => (
                 <LinkPhotoCard
                   key={pillar.title}

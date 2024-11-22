@@ -12,9 +12,14 @@ export function meta({ data }: MetaArgs<typeof loader>) {
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const queryResult = await loadQuery(yearQuery, params, {
-    perspective: 'published',
-  })
+  const [letter, startedAt] = params?.year?.split('-') ?? []
+  const queryResult = await loadQuery(
+    yearQuery,
+    { letter, startedAt },
+    {
+      perspective: 'published',
+    },
+  )
 
   return {
     query: yearQuery,

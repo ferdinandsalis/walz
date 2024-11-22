@@ -1,5 +1,4 @@
 import { useLoaderData } from '@remix-run/react'
-import { InfoIcon } from 'lucide-react'
 import React from 'react'
 import {
   Carousel,
