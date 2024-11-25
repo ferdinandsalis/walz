@@ -1,6 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
-import  { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
+import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
 import { projectDetails } from './project-details.ts'
 
 export const client = createClient({

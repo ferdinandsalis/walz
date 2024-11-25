@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router'
 import { ChevronUpIcon } from 'lucide-react'
 
 export function BackToTop({ className }: { className?: string }) {

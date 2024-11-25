@@ -1,6 +1,6 @@
 import crypto from 'crypto'
-import { createRequestHandler } from '@remix-run/express'
-import { installGlobals, type ServerBuild } from '@remix-run/node'
+import { createRequestHandler } from '@react-router/express'
+import { type ServerBuild } from 'react-router'
 import { ip as ipAddress } from 'address'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
@@ -9,8 +9,6 @@ import express from 'express'
 import rateLimit from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
 import morgan from 'morgan'
-
-installGlobals({ nativeFetch: true })
 
 const MODE = process.env.NODE_ENV ?? 'development'
 const IS_PROD = MODE === 'production'
@@ -151,7 +149,7 @@ app.use((req, res, next) => {
 
 async function getBuild() {
   const build = viteDevServer
-    ? viteDevServer.ssrLoadModule('virtual:remix/server-build')
+    ? viteDevServer.ssrLoadModule('virtual:react-router/server-build')
     : // @ts-ignore this should exist before running the server
       // but it may not exist just yet.
       await import('../build/server/index.js')

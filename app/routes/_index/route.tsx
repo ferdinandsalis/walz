@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import {
   ArrowRight,
@@ -140,7 +140,6 @@ export default function Home() {
           </article>
         )}
       </div>
-
       <div className="grid grid-cols-subgrid gap-8 lg:col-span-2">
         <section className="col-span-1 space-y-4">
           <div>
@@ -193,7 +192,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
       <section className="grid gap-4 lg:col-span-2">
         <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
           Beiträge
@@ -284,7 +282,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="grid gap-8 lg:col-span-2">
         <header className="py-4 md:py-8 lg:py-12">
           <SectionHeading id="philosophie">Unsere Philosophie</SectionHeading>
@@ -304,7 +301,6 @@ export default function Home() {
           })}
         </div>
       </section>
-
       <section className="grid gap-8 lg:col-span-2">
         <header className="py-4 md:py-8">
           <SectionHeading id="testimonials">
@@ -333,7 +329,6 @@ export default function Home() {
           </div>
         </Carousel>
       </section>
-
       <section className="grid gap-8 lg:col-span-2">
         <header className="py-4 md:py-8">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
@@ -396,7 +391,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
       <section className="grid gap-8 lg:col-span-2">
         <header className="py-4 md:py-8">
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
@@ -492,7 +486,7 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
           <p className="font-bold text-primary md:text-body-md">
             {entry.name}
             {'  '}
-            <span className="font-greek align-super font-bold text-secondary">
+            <span className="align-super font-greek font-bold text-secondary">
               {alphabetMap[entry.year?.letter ?? '']}
             </span>{' '}
           </p>

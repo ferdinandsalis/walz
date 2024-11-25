@@ -1,4 +1,4 @@
-import { useFetcher } from '@remix-run/react'
+import { useFetcher } from 'react-router'
 import { LoaderIcon } from 'lucide-react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
@@ -16,7 +16,7 @@ export function NewsletterForm() {
       name="newsletter"
       method="POST"
       action="/resources/newsletter"
-      className="xl:p-8 grid max-w-xl rounded-md bg-card p-6 shadow-md"
+      className="grid max-w-xl rounded-md bg-card p-6 shadow-md xl:p-8"
       key={JSON.stringify(fetcher.data)}
     >
       <HoneypotInputs />

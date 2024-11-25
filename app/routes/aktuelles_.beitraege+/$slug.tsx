@@ -1,6 +1,6 @@
 import { PortableText } from '@portabletext/react'
-import { type LoaderFunctionArgs } from '@remix-run/node'
-import { type MetaArgs, useLoaderData } from '@remix-run/react'
+import { type LoaderFunctionArgs } from 'react-router'
+import { type MetaArgs, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { urlFor } from '#app/sanity/instance.ts'

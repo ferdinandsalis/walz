@@ -1,4 +1,4 @@
-import { Link, NavLink } from '@remix-run/react'
+import { Link, NavLink } from 'react-router'
 import {
   ExternalLinkIcon,
   Home,
@@ -28,18 +28,18 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="xl:flex-col xl:items-start xl:gap-0 flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3"
+      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0"
     >
       <NavLink
         to="/"
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'xl:p-1 xl:aspect-auto xl:rounded-none group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-none transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl',
+            'group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-none transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
             'hover:text-primary',
             {
               'text-stone-900 ring-0': isActive,
-              'xl:after:content-none relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""]':
+              'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""] xl:after:content-none':
                 isActive,
             },
           )
@@ -47,9 +47,9 @@ export function Navigation() {
       >
         <Home
           size={24}
-          className="xl:hidden order-1 hidden stroke-secondary md:block md:group-hover:scale-105"
+          className="order-1 hidden stroke-secondary md:block md:group-hover:scale-105 xl:hidden"
         />
-        <span className="xl:not-sr-only md:sr-only">Startseite</span>
+        <span className="md:sr-only xl:not-sr-only">Startseite</span>
       </NavLink>
       {navigation.main.map(item => (
         <NavLink
@@ -58,11 +58,11 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'xl:p-1 px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl',
+              'px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
               'hover:text-primary',
               {
                 'text-stone-900 ring-0': isActive,
-                'xl:after:content-none relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""]':
+                'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""] xl:after:content-none':
                   isActive,
               },
             )

@@ -3,7 +3,7 @@ import {
   isRouteErrorResponse,
   useParams,
   useRouteError,
-} from '@remix-run/react'
+} from 'react-router'
 import { captureRemixErrorBoundaryError } from '@sentry/remix'
 import { getErrorMessage } from '#app/utils/misc.tsx'
 

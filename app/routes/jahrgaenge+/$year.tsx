@@ -1,5 +1,5 @@
-import { type LoaderFunctionArgs } from '@remix-run/node'
-import { Link, type MetaArgs, useLoaderData } from '@remix-run/react'
+import { type LoaderFunctionArgs } from 'react-router'
+import { Link, type MetaArgs, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'

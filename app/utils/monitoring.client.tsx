@@ -1,4 +1,4 @@
-import { useLocation, useMatches } from '@remix-run/react'
+import { useLocation, useMatches } from 'react-router'
 import * as Sentry from '@sentry/remix'
 import { useEffect } from 'react'
 

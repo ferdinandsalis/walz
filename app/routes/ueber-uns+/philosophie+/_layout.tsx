@@ -1,4 +1,4 @@
-import { Outlet, useMatches } from '@remix-run/react'
+import { Outlet, useMatches } from 'react-router'
 import { SectionHeading } from '#app/components/section-heading.tsx'
 import { LinkPhotoCard } from '#app/routes/_index/route.tsx'
 import { handle as educationHandle } from './bildung.tsx'

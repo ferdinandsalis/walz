@@ -1,6 +1,15 @@
 {
-  "include": ["types/env.d.ts", "app/sanity/types.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "@epic-web/config/reset.d.ts",
+    ".react-router/types/**/*",
+    "**/*.ts",
+    "**/*.tsx",
+    "app/sanity/types.ts",
+    "types/env.d.ts"
+  ],
   "compilerOptions": {
+    "types": ["@react-router/node", "vite/client"],
+    "rootDirs": [".", "./.react-router/types"],
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "isolatedModules": true,
     "esModuleInterop": true,

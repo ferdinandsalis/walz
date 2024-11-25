@@ -1,11 +1,13 @@
 import { PassThrough } from 'stream'
+
 import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
-  createReadableStreamFromReadable,
   type HandleDocumentRequestFunction,
-} from '@remix-run/node'
-import { RemixServer } from '@remix-run/react'
+} from 'react-router'
+
+import { createReadableStreamFromReadable } from '@react-router/node'
+import { ServerRouter } from 'react-router'
 import * as Sentry from '@sentry/remix'
 import chalk from 'chalk'
 import { isbot } from 'isbot'
@@ -29,7 +31,8 @@ if (ENV.MODE === 'production' && ENV.SENTRY_DSN) {
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 
 export default async function handleRequest(...args: DocRequestArgs) {
-  const [request, responseStatusCode, responseHeaders, remixContext] = args
+  const [request, responseStatusCode, responseHeaders, reactRouterContext] =
+    args
   const callbackName = isbot(request.headers.get('user-agent'))
     ? 'onAllReady'
     : 'onShellReady'
@@ -39,9 +42,9 @@ export default async function handleRequest(...args: DocRequestArgs) {
     const timings = makeTimings('render', 'renderToPipeableStream')
 
     const { pipe, abort } = renderToPipeableStream(
-      <RemixServer
+      <ServerRouter
         abortDelay={ABORT_DELAY}
-        context={remixContext}
+        context={reactRouterContext}
         url={request.url}
       />,
       {

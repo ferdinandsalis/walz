@@ -1,5 +1,5 @@
 import { generateSitemap } from '@nasa-gcn/remix-seo'
-import { type LoaderFunctionArgs, type ServerBuild } from '@remix-run/node'
+import { type LoaderFunctionArgs, type ServerBuild } from 'react-router'
 import { getDomainUrl } from '#app/utils/misc.tsx'
 
 export async function loader({ request, context }: LoaderFunctionArgs) {

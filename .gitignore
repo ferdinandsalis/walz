@@ -2,6 +2,7 @@ node_modules
 
 /build
 /server-build
+.react-router/
 .env
 .cache
 /test-results/

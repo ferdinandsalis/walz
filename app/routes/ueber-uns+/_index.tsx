@@ -1,5 +1,5 @@
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { Link, useLoaderData } from '@remix-run/react'
+import { Link, useLoaderData } from 'react-router'
 import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
 import { loadQuery } from '@sanity/react-loader'
 import { ExternalLinkIcon, SmileIcon } from 'lucide-react'

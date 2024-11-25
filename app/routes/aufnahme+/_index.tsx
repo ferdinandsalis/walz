@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
 import { Toc } from '#app/components/toc.tsx'

@@ -1,16 +1,9 @@
-import { vitePlugin as remix } from '@remix-run/dev'
+import { reactRouter } from '@react-router/dev/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { glob } from 'glob'
-import { flatRoutes } from 'remix-flat-routes'
 import { defineConfig } from 'vite'
 
 const MODE = process.env.NODE_ENV
-
-declare module '@remix-run/server-runtime' {
-  interface Future {
-    v3_singleFetch: true
-  }
-}
 
 export default defineConfig({
   build: {
@@ -26,29 +19,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    remix({
-      ignoredRouteFiles: ['**/*'],
-      serverModuleFormat: 'esm',
-      future: {
-        unstable_optimizeDeps: true,
-        v3_lazyRouteDiscovery: true,
-        v3_singleFetch: true,
-        v3_fetcherPersist: true,
-        v3_relativeSplatPath: true,
-        v3_throwAbortReason: true,
-      },
-      routes: async defineRoutes => {
-        return flatRoutes('routes', defineRoutes, {
-          ignoredRouteFiles: [
-            '.*',
-            '**/*.css',
-            '**/*.query.ts',
-            '**/*.test.{js,jsx,ts,tsx}',
-            '**/__*.*',
-          ],
-        })
-      },
-    }),
+    reactRouter(),
     process.env.SENTRY_AUTH_TOKEN
       ? sentryVitePlugin({
           disable: MODE !== 'production',

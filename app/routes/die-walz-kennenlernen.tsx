@@ -1,5 +1,5 @@
-import { type ActionFunctionArgs } from '@remix-run/node'
-import { useFetcher } from '@remix-run/react'
+import { type ActionFunctionArgs } from 'react-router'
+import { useFetcher } from 'react-router'
 import { getImage } from '@sanity/asset-utils'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { Button } from '#app/components/ui/button.tsx'

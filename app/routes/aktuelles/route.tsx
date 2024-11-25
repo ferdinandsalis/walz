@@ -4,8 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
-import { type LoaderFunctionArgs } from '@remix-run/node'
-import { Link, useLoaderData, useLocation } from '@remix-run/react'
+import { type LoaderFunctionArgs } from 'react-router'
+import { Link, useLoaderData, useLocation } from 'react-router'
 import { loadQuery } from '@sanity/react-loader'
 import {
   ArrowRight,

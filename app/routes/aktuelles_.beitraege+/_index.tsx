@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from 'react-router'
 import { loadQuery } from '@sanity/react-loader'
 import { PostItem } from '../aktuelles/route.tsx'
 import { type QueryResult, beitraegeIndexQuery } from './_index.query.tsx'

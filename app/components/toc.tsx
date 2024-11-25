@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link } from 'react-router'
 import { BookOpen } from 'lucide-react'
 import { cn } from '#app/utils/misc.js'
 

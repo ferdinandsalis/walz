@@ -8,9 +8,6 @@ export default defineType({
   title: 'Post',
   type: 'document',
   icon: NewspaperIcon,
-  options: {
-    hotspot: true,
-  },
   fields: [
     defineField({
       name: 'title',

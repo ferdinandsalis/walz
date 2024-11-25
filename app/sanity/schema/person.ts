@@ -22,9 +22,6 @@ export default defineType({
   title: 'Person',
   type: 'document',
   icon: UserIcon,
-  options: {
-    hotspot: true,
-  },
   fields: [
     defineField({
       name: 'portrait',

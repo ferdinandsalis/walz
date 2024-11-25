@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@remix-run/react'
+import { Link, useLocation } from 'react-router'
 import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
 
 export async function loader() {
