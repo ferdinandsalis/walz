@@ -30,7 +30,7 @@ interface Event {
 const upcomingEvents: Event[] = [
   {
     title: 'Infoabend',
-    date: 'Donnerstag, 21. November 2024',
+    date: 'Donnerstag, 19. November 2024',
     time: '19:00 Uhr',
     location:
       'Theatersaal, Walz Wiener Lernzentrum\nHeinrich-Collin-Straße 9\n1140 Wien',
