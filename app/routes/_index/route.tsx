@@ -179,7 +179,7 @@ export default function Home() {
                 👋
               </span>
               <br /> Komm vorbei! Nächster Termin:{' '}
-              <strong className="font-bold">Infoabend am 21. November.</strong>
+              <strong className="font-bold">Infoabend am 19. Februar.</strong>
             </p>
             <Button
               asChild
