@@ -30,7 +30,7 @@ interface Event {
 const upcomingEvents: Event[] = [
   {
     title: 'Infoabend',
-    date: 'Donnerstag, 19. Februar 2025',
+    date: 'Wednesday, 19. Februar 2025',
     time: '19:00 Uhr',
     location:
       'Theatersaal, Walz Wiener Lernzentrum\nHeinrich-Collin-Straße 9\n1140 Wien',
@@ -43,6 +43,18 @@ const upcomingEvents: Event[] = [
 ]
 
 const pastEvents: Event[] = [
+  {
+    title: 'Infoabend',
+    date: 'Donnerstag, 21. November 2024',
+    time: '19:00 Uhr',
+    location:
+      'Theatersaal, Walz Wiener Lernzentrum\nHeinrich-Collin-Straße 9\n1140 Wien',
+    description:
+      'Bevor im März der nächste Aufnahmetag stattfindet, möchten wir allen interessierten Eltern und Jugendlichen die Gelegenheit geben, sich direkt in unseren Räumlichkeiten über das Konzept der Walz, die verschiedenen Projekte, die Kosten sowie über das Aufnahmeverfahren ein Bild zu machen. Renate Chorherr wird Sie durch unser Curriculum führen, und Brigitte Fasching wird die organisatorischen Abläufe erläutern. Im Anschluss besteht die Möglichkeit, offene Fragen zu klären und persönliche Gespräche zu führen.',
+    imageUrl:
+      'https://cdn.sanity.io/images/iaejvb99/production/a06fe23837d6fd1c638ee0c2f138cf9e842bcf54-7222x4820.jpg',
+    program: [],
+  },
   {
     title: 'Tag der Offenen Tür',
     date: 'Samstag, 5. Oktober 2024',
