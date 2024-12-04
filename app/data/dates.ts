@@ -106,7 +106,7 @@ export const events: SchoolEvent[] = [
     endDate: null,
     endTime: null,
     description:
-      'Der Jahrgang Gamma inszeniert “Die Schneekönigin” : Wenn nach einer kalten Winternacht Eisblumen die Fenster schmücken, war die Schneekönigin unterwegs - erzählt die Großmutter Gerda und Kai. Da wissen die beiden Freunde noch nicht, dass die Schneekönigin ihr Leben schon bald verändern wird. Sie entführt Kai in ihr Schloss im hohen Norden Gerda macht sich auf den Weg ihren Freund zu retten und besteht dabei viele Abenteuer!\n\nDas Stück ist für Kinder ab 6 Jahren geeignet',
+      'Der Jahrgang Gamma inszeniert “Die Schneekönigin” : Wenn nach einer kalten Winternacht Eisblumen die Fenster schmücken, war die Schneekönigin unterwegs - erzählt die Großmutter Gerda und Kai. Da wissen die beiden Freunde noch nicht, dass die Schneekönigin ihr Leben schon bald verändern wird. Sie entführt Kai in ihr Schloss im hohen Norden Gerda macht sich auf den Weg ihren Freund zu retten und besteht dabei viele Abenteuer!\n\nDas Stück ist für Kinder ab 6 Jahren geeignet.\n\nAufgrund des großen Andrangs bitten wir um Anmeldung bei barbara.brunner@walz.at. Wir freuen uns auf Ihr Kommen und einen unvergesslichen Theaterabend mit Ihnen und Ihren Kindern!',
     type: 'internal',
     links: [],
   },

@@ -1,6 +1,5 @@
-import { type ActionFunctionArgs } from 'react-router'
-import { useFetcher } from 'react-router'
 import { getImage } from '@sanity/asset-utils'
+import { type ActionFunctionArgs, useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
@@ -30,7 +29,7 @@ interface Event {
 const upcomingEvents: Event[] = [
   {
     title: 'Infoabend',
-    date: 'Wednesday, 19. Februar 2025',
+    date: 'Mittwoch, 19. Februar 2025',
     time: '19:00 Uhr',
     location:
       'Theatersaal, Walz Wiener Lernzentrum\nHeinrich-Collin-Straße 9\n1140 Wien',
@@ -160,15 +159,17 @@ function EventCard({ event }: { event: Event }) {
 // Add this new CompactEventCard component
 function CompactEventCard({ event }: { event: Event }) {
   return (
-    <div className="grid gap-2 rounded-lg bg-card p-4 shadow-sm">
-      <h3 className="font-condensed text-h4 font-bold text-primary">
-        {event.title}
-      </h3>
-      <div className="text-sm text-muted-foreground">
-        <div>{event.date}</div>
-        {event.time && <div>{event.time}</div>}
-      </div>
-      <p className="text-sm">{event.description}</p>
+    <div className="grid content-start gap-4 rounded-lg bg-card p-4 shadow-sm">
+      <header>
+        <h3 className="font-condensed text-h4 font-bold text-primary">
+          {event.title}
+        </h3>
+        <div className="text-sm text-muted-foreground">
+          <div>{event.date}</div>
+          {event.time && <div>{event.time}</div>}
+        </div>
+      </header>
+      <p className="text-sm">{event.description.slice(0, 100)}…</p>
     </div>
   )
 }
