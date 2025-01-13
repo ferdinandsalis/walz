@@ -113,10 +113,10 @@ export const events: SchoolEvent[] = [
   {
     title: "Gestrandet - eine Eigenproduktion der Betas",
     startDate: '2025-01-29',
-    startTime: '19:00',
+    startTime: '19:10',
     endDate: null,
     endTime: null,
-    description: 'Infos folgen',
+    description: 'Bäckerin Sabine macht sich auf den Weg, ihr Bistro Mc Semmel zu öffnen. Doch dort, wo gestern noch die zubetonierte Fußgängerzone war, steht jetzt ein seltsames, buntes Objekt. Was es ist und wer es dorthin gestellt hat, weiß Keiner … oder doch?',
     type: 'internal',
     links: [],
   },
