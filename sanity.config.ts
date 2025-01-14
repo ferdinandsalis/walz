@@ -21,11 +21,12 @@ export default defineConfig({
           .title('Content')
           .items([
             S.documentTypeListItem('post').title('Posts'),
+            S.documentTypeListItem('event').title('Ereignisse'),
             S.divider(),
-            S.documentTypeListItem('schoolYear').title('Schuljahr'),
             S.documentTypeListItem('costs').title('Kosten'),
             S.documentTypeListItem('person').title('Personen'),
             S.documentTypeListItem('year').title('Jahrgang'),
+            S.documentTypeListItem('schoolYear').title('Schuljahr'),
             S.documentTypeListItem('testimonial').title('Erfahrungsberichte'),
 
             S.divider(),
