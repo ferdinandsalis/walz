@@ -1,21 +1,18 @@
 import { PassThrough } from 'stream'
 
-import {
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-  type HandleDocumentRequestFunction,
-} from 'react-router'
-
 import { createReadableStreamFromReadable } from '@react-router/node'
-import { ServerRouter } from 'react-router'
 import * as Sentry from '@sentry/remix'
 import chalk from 'chalk'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
+import {
+  ServerRouter,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type HandleDocumentRequestFunction,
+} from 'react-router'
 import { getEnv, init } from './utils/env.server.ts'
 import { makeTimings } from './utils/timing.server.ts'
-
-const ABORT_DELAY = 5000
 
 init()
 global.ENV = getEnv()
@@ -30,6 +27,9 @@ if (ENV.MODE === 'production' && ENV.SENTRY_DSN) {
 
 type DocRequestArgs = Parameters<HandleDocumentRequestFunction>
 
+// Reject all pending promises from handler functions after 10 seconds
+export const streamTimeout = 10000
+
 export default async function handleRequest(...args: DocRequestArgs) {
   const [request, responseStatusCode, responseHeaders, reactRouterContext] =
     args
@@ -42,11 +42,7 @@ export default async function handleRequest(...args: DocRequestArgs) {
     const timings = makeTimings('render', 'renderToPipeableStream')
 
     const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter
-        abortDelay={ABORT_DELAY}
-        context={reactRouterContext}
-        url={request.url}
-      />,
+      <ServerRouter context={reactRouterContext} url={request.url} />,
       {
         [callbackName]: () => {
           const body = new PassThrough()
@@ -69,7 +65,9 @@ export default async function handleRequest(...args: DocRequestArgs) {
       },
     )
 
-    setTimeout(abort, 10000)
+    // Abort the streaming render pass after 11 seconds to allow the rejected
+    // boundaries to be flushed
+    setTimeout(abort, streamTimeout + 1000)
   })
 }
 
