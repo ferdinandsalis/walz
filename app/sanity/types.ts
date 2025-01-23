@@ -393,7 +393,7 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol
 // Source: ./app/routes/_index/query.ts
 // Variable: homeQuery
-// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    achievement,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  },  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
+// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },    "closestEvent": *[_type == "event" && start.date >= now()] | order(start.date asc)[0] {    _id,    _type,    title,    location,    description,    start,    end,    type  },  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    achievement,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  },  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
 export type HomeQueryResult = {
   hero: {
     _id: string
@@ -415,6 +415,7 @@ export type HomeQueryResult = {
     caption: null
     attribution: null
   } | null
+  closestEvent: null
   testimonials: Array<{
     _id: string
     _type: 'testimonial'
@@ -486,6 +487,91 @@ export type HomeQueryResult = {
       _type: 'image'
     } | null
     publishedAt: string | null
+  }>
+}
+
+// Source: ./app/routes/aktuelles/query.ts
+// Variable: aktuellesQuery
+// Query: {  "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },  // sort by start date from and till a date; exclude holidays  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {    _id,    _type,    title,    location,    description,    start,    end,    type,    attachments {      _type,      asset->{        url      }    }  },  // filter years by those with empty graduatedAt  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos | order(takenAt desc)  }}
+export type AktuellesQueryResult = {
+  posts: Array<{
+    _id: string
+    _type: 'post'
+    title: string | null
+    cover: {
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      caption?: string
+      alt?: string
+      attribution?: string
+      _type: 'image'
+    } | null
+    previewText: string | null
+    slug: Slug | null
+    publishedAt: string | null
+  }>
+  events: Array<never>
+  years: Array<{
+    _id: string
+    _type: 'year'
+    startedAt: string | null
+    graduatedAt: string | null
+    plan: string | null
+    letter:
+      | 'alpha'
+      | 'beta'
+      | 'chi'
+      | 'delta'
+      | 'epsilon'
+      | 'eta'
+      | 'gamma'
+      | 'hho'
+      | 'iota'
+      | 'kappa'
+      | 'lambda'
+      | 'my'
+      | 'ny'
+      | 'omega'
+      | 'omikron'
+      | 'phi'
+      | 'pi'
+      | 'psi'
+      | 'sigma'
+      | 'tau'
+      | 'theta'
+      | 'xi'
+      | 'ypsilon'
+      | 'zeta'
+      | null
+    mentor: {
+      familyName: string | null
+      givenNames: string | null
+      name: string | null
+      slug: null
+    } | null
+    photos: Array<{
+      asset?: {
+        _ref: string
+        _type: 'reference'
+        _weak?: boolean
+        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+      }
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      takenAt?: string
+      motto?: string
+      caption?: string
+      attribution?: string
+      alt?: string
+      _type: 'photo'
+      _key: string
+    }> | null
   }>
 }
 
@@ -607,8 +693,67 @@ export type AufnahmeQueryResult = {
 
 // Source: ./app/routes/curriculum/query.ts
 // Variable: curriculumQuery
-// Query: *[_type == "curriculum"][0]{  name,  description,  years[] {    _id,    _type,    _ref,    yearNumber,    description,    projects[]-> {      _id,      _type,      _ref,      name,      description,      photos    }  }}
+// Query: *[_type == "curriculum"][0]{  name,  description,  years[] {    _id,    _type,    _ref,    yearNumber,    description,    title,    externalExams,    projects[]-> {      _id,      _type,      _ref,      name,      description,      photos    }  }}
 export type CurriculumQueryResult = null
+
+// Source: ./app/routes/jahrgaenge+/$year.query.tsx
+// Variable: yearQuery
+// Query: *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,    },    photos | order(takenAt desc)  }
+export type YearQueryResult = {
+  _id: string
+  _type: 'year'
+  startedAt: string | null
+  graduatedAt: string | null
+  plan: string | null
+  letter:
+    | 'alpha'
+    | 'beta'
+    | 'chi'
+    | 'delta'
+    | 'epsilon'
+    | 'eta'
+    | 'gamma'
+    | 'hho'
+    | 'iota'
+    | 'kappa'
+    | 'lambda'
+    | 'my'
+    | 'ny'
+    | 'omega'
+    | 'omikron'
+    | 'phi'
+    | 'pi'
+    | 'psi'
+    | 'sigma'
+    | 'tau'
+    | 'theta'
+    | 'xi'
+    | 'ypsilon'
+    | 'zeta'
+    | null
+  mentor: {
+    familyName: string | null
+    givenNames: string | null
+    name: string | null
+  } | null
+  photos: Array<{
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    takenAt?: string
+    motto?: string
+    caption?: string
+    attribution?: string
+    alt?: string
+    _type: 'photo'
+    _key: string
+  }> | null
+} | null
 
 // Source: ./app/routes/ueber-uns+/_index.query.ts
 // Variable: ueberUnsQuery
@@ -765,11 +910,13 @@ export type UeberUnsQueryResult = {
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  },\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': HomeQueryResult
+    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },  \n  "closestEvent": *[_type == "event" && start.date >= now()] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  },\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': HomeQueryResult
+    '{\n  "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n  // sort by start date from and till a date; exclude holidays\n  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type,\n    attachments {\n      _type,\n      asset->{\n        url\n      }\n    }\n  },\n  // filter years by those with empty graduatedAt\n  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos | order(takenAt desc)\n  }\n}': AktuellesQueryResult
     '\n*[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    cover,\n    body,\n    slug,\n    publishedAt\n  }\n': BeitraegeSlugQueryResult
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
     '{\n    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
-    '*[_type == "curriculum"][0]{\n  name,\n  description,\n  years[] {\n    _id,\n    _type,\n    _ref,\n    yearNumber,\n    description,\n    projects[]-> {\n      _id,\n      _type,\n      _ref,\n      name,\n      description,\n      photos\n    }\n  }\n}': CurriculumQueryResult
+    '*[_type == "curriculum"][0]{\n  name,\n  description,\n  years[] {\n    _id,\n    _type,\n    _ref,\n    yearNumber,\n    description,\n    title,\n    externalExams,\n    projects[]-> {\n      _id,\n      _type,\n      _ref,\n      name,\n      description,\n      photos\n    }\n  }\n}': CurriculumQueryResult
+    '\n  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n    },\n    photos | order(takenAt desc)\n  }\n': YearQueryResult
     '{\n  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }
 }

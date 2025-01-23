@@ -1,8 +1,12 @@
-import { type LoaderFunctionArgs } from 'react-router'
-import { Link, type MetaArgs, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
+import {
+  type LoaderFunctionArgs,
+  Link,
+  type MetaArgs,
+  useLoaderData,
+} from 'react-router'
 import { urlFor } from '#app/sanity/instance.ts'
 import { calculateCurrentYear } from '#app/utils/years.js'
 import { yearQuery, YearSchema } from './$year.query.tsx'

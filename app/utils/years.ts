@@ -27,3 +27,11 @@ export function calculateCurrentYear(
 
   return completedYears
 }
+
+export function determineCurrentSchoolYear(currentDate: Date = new Date()) {
+  const currentYear = currentDate.getFullYear()
+  const currentMonth = currentDate.getMonth()
+  const fromYear = currentMonth < 7 ? currentYear - 1 : currentYear
+  const toYear = fromYear + 1
+  return { from: new Date(fromYear, 7, 1), to: new Date(toYear, 6, 31) }
+}

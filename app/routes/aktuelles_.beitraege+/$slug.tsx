@@ -1,8 +1,11 @@
 import { PortableText } from '@portabletext/react'
-import { type LoaderFunctionArgs } from 'react-router'
-import { type MetaArgs, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
+import {
+  type LoaderFunctionArgs,
+  type MetaArgs,
+  useLoaderData,
+} from 'react-router'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
 
@@ -17,8 +20,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   return {
     query: beitraegeSlugQuery,
-    params,
     data: queryResult.data,
+    params,
   }
 }
 

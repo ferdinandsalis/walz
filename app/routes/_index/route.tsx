@@ -28,28 +28,14 @@ import { type HomeQueryResult } from '#app/sanity/types.ts'
 import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
+import { EventSchema } from '#app/sanity/schema/event.tsx'
 
 export async function loader() {
   const queryResult = await loadQuery<HomeQueryResult>(homeQuery)
-  const upcomingEvents = eventsData
-    .filter(date => new Date(date.startDate).getTime() > new Date().getTime())
-    .sort(
-      (a, b) =>
-        new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-    ) // Sort to ensure the first element is the earliest upcoming date
-
-  const latestEvent =
-    upcomingEvents.length > 0
-      ? {
-          ...upcomingEvents[0],
-          startDate: new Date(upcomingEvents[0].startDate),
-          key: `${slug(upcomingEvents[0].title)}_${upcomingEvents[0].startDate}`,
-        }
-      : null
+  console.log(queryResult)
 
   return {
     query: homeQuery,
-    latestEvent,
     data: queryResult.data,
   }
 }
@@ -57,7 +43,7 @@ export async function loader() {
 export default function Home() {
   const loaderData = useLoaderData<typeof loader>()
   const [latestPost, ...restPosts] = loaderData.data.posts
-  const latestDate = loaderData.latestEvent
+  const closestEvent = EventSchema.parse(loaderData.data.closestEvent)
   const testimonials = loaderData.data.testimonials
   const hero = loaderData.data.hero
 
@@ -96,7 +82,7 @@ export default function Home() {
           {hero?.caption && <p className="relative">{hero.caption}</p>}
         </div>
 
-        {latestDate && (
+        {closestEvent && (
           <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
               <div className="flex items-center gap-2">
@@ -108,16 +94,16 @@ export default function Home() {
                   />
                 </h1>
                 <Link
-                  key={latestDate.key}
-                  to={`/aktuelles#${latestDate.key}`}
+                  key={closestEvent._id}
+                  to={`/aktuelles#${closestEvent._id}`}
                   className="font-condensed font-bold"
                 >
-                  <span className="">{latestDate.title}</span> am{' '}
+                  <span className="">{closestEvent.title}</span> am{' '}
                   <time
-                    dateTime={latestDate.startDate.toISOString()}
+                    dateTime={closestEvent.start.date.toISOString()}
                     className=""
                   >
-                    {latestDate.startDate.toLocaleDateString('de-AT', {
+                    {closestEvent.start.date.toLocaleDateString('de-AT', {
                       day: 'numeric',
                       month: 'long',
                     })}

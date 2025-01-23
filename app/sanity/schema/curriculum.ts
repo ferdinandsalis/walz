@@ -113,7 +113,6 @@ export const project = defineType({
     },
     prepare(selection) {
       const { title, media } = selection
-      console.log(selection)
       return {
         title,
         media,

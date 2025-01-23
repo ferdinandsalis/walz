@@ -1,35 +1,38 @@
+import { PortableText } from '@portabletext/react'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
-import { type LoaderFunctionArgs } from 'react-router'
-import { Link, useLoaderData, useLocation } from 'react-router'
 import { loadQuery } from '@sanity/react-loader'
 import {
   ArrowRight,
   BabyIcon,
   ChevronDown,
+  ChevronUp,
   DownloadIcon,
   Link2Icon,
 } from 'lucide-react'
-import { marked } from 'marked'
-import { evolve, groupBy, take } from 'ramda'
-import { promiseHash } from 'remix-utils/promise'
+import { groupBy, evolve } from 'ramda'
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  type LoaderFunctionArgs,
+} from 'react-router'
 import slug from 'slug'
 import { z } from 'zod'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import {
-  type SchoolEvent,
-  type SchoolEventParsed,
-  events as datesData,
-} from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
+import { EventSchema, tType, type Event } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
-import { calculateCurrentYear } from '#app/utils/years.js'
+import {
+  calculateCurrentYear,
+  determineCurrentSchoolYear,
+} from '#app/utils/years.ts'
 import {
   type QueryResult,
   type Year,
@@ -41,33 +44,23 @@ export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
 }
 
-function evolveEvent(event: SchoolEvent) {
-  const hash = evolve({
-    description: v => (v ? marked.parse(v) : v),
-    startDate: v => new Date(v),
-    endDate: v => new Date(v),
-  })(event)
-
-  // @ts-ignore naaaah, I dont get it
-  return promiseHash<SchoolEventParsed>(hash)
-}
-
 export async function loader({ params }: LoaderFunctionArgs) {
-  const queryResult = await loadQuery<QueryResult>(aktuellesQuery)
-  const years = z.array(YearSchema).parse(queryResult.data.years)
-
-  const groupedDates = groupBy<SchoolEventParsed, string>(v => {
-    return new Date(v.startDate).getUTCFullYear().toString()
-  })(await Promise.all(datesData.map(evolveEvent)))
+  const schoolYear = determineCurrentSchoolYear()
+  const queryResult = await loadQuery<QueryResult>(aktuellesQuery, {
+    fromDate: schoolYear.from.toISOString(),
+    toDate: schoolYear.to.toISOString(),
+  })
 
   return {
     query: aktuellesQuery,
     params,
-    data: {
-      posts: take(3, queryResult.data.posts),
-      groupedDates,
-      years,
-    },
+    data: evolve({
+      years: z.array(YearSchema).parse,
+      events: events =>
+        groupBy<Event>(event => {
+          return new Date(event.start.date).getUTCFullYear().toString()
+        })(z.array(EventSchema).parse(events)),
+    })(queryResult.data),
   }
 }
 
@@ -75,7 +68,7 @@ export default function Aktuelles() {
   const loaderData = useLoaderData<typeof loader>()
   const location = useLocation()
   const currentHash = location.hash.replace('#', '') || undefined
-  const { posts, years, groupedDates } = loaderData.data
+  const { posts, years, events } = loaderData.data
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
@@ -119,7 +112,7 @@ export default function Aktuelles() {
             defaultValue={currentHash}
             className="grid gap-4"
           >
-            {Object.entries(groupedDates).map(([year, dates]) => {
+            {Object.entries(events).map(([year, yearEvents]) => {
               return (
                 <section key={year}>
                   <h2 className="mb-2 text-right font-condensed text-body-lg font-bold text-muted-foreground/70">
@@ -127,115 +120,124 @@ export default function Aktuelles() {
                   </h2>
 
                   <div className="grid gap-1">
-                    {dates?.map((date, idx) => {
-                      const key = `${date.startDate.toISOString()}_${slug(date.title)}`
-                      return date.description ? (
-                        <AccordionItem key={key} value={key}>
+                    {yearEvents?.map((event, idx) => {
+                      return event.description ? (
+                        <AccordionItem key={event._id} value={event._id}>
                           <div
-                            id={key}
+                            id={event._id}
                             className={cn('bg-card/50 transition-colors')}
                           >
                             <AccordionTrigger asChild>
                               <div
                                 className={cn(
-                                  'grid w-full grid-cols-3 gap-4 px-4 py-1',
-                                  'transition-all [&[data-state=open]>svg]:rotate-180',
-                                  'cursor-pointer items-center',
-                                  'data-[state=open]:bg-primary/10',
+                                  'user-select-none group grid w-full cursor-pointer grid-cols-3 items-center gap-4 px-4 py-1 transition-all data-[state=open]:bg-secondary/10',
                                 )}
                               >
                                 <time
                                   className=""
-                                  dateTime={date.startDate.toISOString()}
+                                  dateTime={event.start.date.toISOString()}
                                 >
-                                  {date.startDate.toLocaleString('de-AT', {
+                                  {event.start.date.toLocaleString('de-AT', {
                                     month: 'long',
                                     day: '2-digit',
                                   })}
                                 </time>
-                                <h1
-                                  className={cn('truncate font-bold')}
-                                  title={date.title}
-                                >
-                                  {date.title}
-                                </h1>
-                                <ChevronDown className="h-4 w-4 shrink-0 justify-self-end stroke-primary transition-transform duration-200" />
+                                <div className="flex items-center gap-2">
+                                  {event.type === 'theater' ? '🎭' : ''}
+                                  {event.type === 'exam' ? '📝' : ''}
+                                  {event.type === 'project' ? '🎨' : ''}
+                                  {event.type === 'holiday' ? '🏖️' : ''}
+                                  {event.type === 'talk' ? '🎤' : ''}
+                                  <h1
+                                    className={cn('truncate font-bold')}
+                                    title={event.title}
+                                  >
+                                    {event.title}
+                                  </h1>
+                                </div>
+                                <div className="flex items-center gap-1 justify-self-end">
+                                  {event.type && (
+                                    <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-body-2xs text-primary/80">
+                                      {tType(event.type)}
+                                    </span>
+                                  )}
+                                  <ChevronUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 stroke-primary transition-transform duration-300" />
+                                </div>
                               </div>
                             </AccordionTrigger>
                           </div>
-                          {date.description && (
+                          {event.description && (
                             <AccordionContent asChild>
                               <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
                                 <h1 className="mb-4 text-h5 font-bold">
-                                  {date.title}
+                                  {event.title}
                                 </h1>
                                 <dl className="space-y-4">
                                   <div className="grid grid-cols-2 gap-4">
-                                    {date.startTime && (
+                                    {event.start.time && (
                                       <div>
                                         <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                           Beginn
                                         </dt>
                                         <dd className="">
-                                          {date.startTime} Uhr
+                                          {event.start.time} Uhr
                                         </dd>
                                       </div>
                                     )}
-                                    {date.endTime && (
+                                    {event.end?.time && (
                                       <div>
                                         <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                           Ende
                                         </dt>
-                                        <dd className="">{date.endTime} Uhr</dd>
-                                      </div>
-                                    )}
-                                    {date.links && date.links.length > 0 && (
-                                      <div className="col-span-2">
-                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                          Links
-                                        </dt>
                                         <dd className="">
-                                          <ul className="list-inside list-disc">
-                                            {date.links.map(link => (
-                                              <li key={link.href}>
-                                                {link.download ? (
-                                                  <a
-                                                    href={link.href}
-                                                    download={link.download}
-                                                    className="inline-flex items-center gap-1"
-                                                  >
-                                                    {link.title}
-                                                    <DownloadIcon
-                                                      size={16}
-                                                      className="inline-block stroke-primary"
-                                                    />
-                                                  </a>
-                                                ) : (
-                                                  <Link
-                                                    className="underline underline-offset-2"
-                                                    to={link.href}
-                                                  >
-                                                    {link.title}
-                                                  </Link>
-                                                )}
-                                              </li>
-                                            ))}
-                                          </ul>
+                                          {event.end.time} Uhr
                                         </dd>
                                       </div>
                                     )}
+                                    {event.attachments &&
+                                      event.attachments.length > 0 && (
+                                        <div className="col-span-2">
+                                          <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                            Links
+                                          </dt>
+                                          <dd className="">
+                                            <ul className="list-inside list-disc">
+                                              {event.attachments.map(
+                                                attachment => {
+                                                  return (
+                                                    <li
+                                                      key={
+                                                        attachment.asset._type
+                                                      }
+                                                    >
+                                                      <a
+                                                        href={
+                                                          attachment.asset.url
+                                                        }
+                                                        download="true"
+                                                        className="inline-flex items-center gap-1"
+                                                      >
+                                                        {attachment.asset.url}
+                                                        <DownloadIcon
+                                                          size={16}
+                                                          className="inline-block stroke-primary"
+                                                        />
+                                                      </a>
+                                                    </li>
+                                                  )
+                                                },
+                                              )}
+                                            </ul>
+                                          </dd>
+                                        </div>
+                                      )}
                                   </div>
                                   <div>
                                     <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                       Info
                                     </dt>
                                     <dd>
-                                      <p
-                                        className="max-w-prose hyphens-auto text-pretty"
-                                        dangerouslySetInnerHTML={{
-                                          __html: date?.description,
-                                        }}
-                                      ></p>
+                                      <PortableText value={event.description} />
                                     </dd>
                                   </div>
                                 </dl>
@@ -258,14 +260,14 @@ export default function Aktuelles() {
                           >
                             <time
                               className=""
-                              dateTime={date.startDate.toISOString()}
+                              dateTime={event.start.date.toISOString()}
                             >
-                              {date.startDate.toLocaleString('de-AT', {
+                              {event.start.date.toLocaleString('de-AT', {
                                 month: 'long',
                                 day: '2-digit',
                               })}
                             </time>
-                            <h1 className="font-bold">{date.title}</h1>
+                            <h1 className="font-bold">{event.title}</h1>
                           </div>
                         </div>
                       )

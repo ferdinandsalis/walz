@@ -7,47 +7,42 @@ export const AttachmentSchema = z.object({
   asset: z.object({
     _type: z.literal('reference'),
     _ref: z.string(),
+    url: z.string(),
   }),
 })
 
 export const EventSchema = z.object({
+  _id: z.string(),
+  _type: z.literal('event'),
   title: z.string(),
   location: z.string().nullable(),
-  description: z.string().nullable(),
-  start: z.union([
-    z.object({
-      date: z.string(),
-      dateTime: z.string().nullable(),
-    }),
-    z.object({
-      date: z.string().nullable(),
-      dateTime: z.string(),
-    }),
-  ]),
-  end: z.union([
-    z.object({
-      date: z.string(),
-      dateTime: z.string().nullable(),
-    }),
-    z.object({
-      date: z.string().nullable(),
-      dateTime: z.string(),
-    }),
-  ]),
-  type: z.union([
-    z.literal('general'),
-    z.literal('talk'),
-    z.literal('holiday'),
-    z.literal('theater'),
-    z.literal('exam'),
-    z.literal('project'),
-  ]),
-  attachments: z.array(AttachmentSchema),
+  description: z.array(z.any()).nullable(),
+  start: z.object({
+    date: z.coerce.date(),
+    time: z.string().optional(),
+  }),
+  end: z
+    .object({
+      date: z.coerce.date().optional(),
+      time: z.string().optional(),
+    })
+    .nullable(),
+  type: z
+    .union([
+      z.literal('general'),
+      z.literal('talk'),
+      z.literal('holiday'),
+      z.literal('theater'),
+      z.literal('exam'),
+      z.literal('project'),
+    ])
+    .nullable(),
+  attachments: z.array(AttachmentSchema).nullable().optional(),
 })
 
 export type Event = z.infer<typeof EventSchema>
 
-function tType(type: Event['type']) {
+export function tType(type: Event['type']) {
   switch (type) {
     case 'general':
       return 'Allgemein'
@@ -86,7 +81,14 @@ export default defineType({
       name: 'description',
       type: 'array',
       title: 'Beschreibung',
-      of: [{ type: 'block' }],
+      of: [
+        {
+          type: 'block',
+        },
+        {
+          type: 'image',
+        },
+      ],
     }),
     defineField({
       name: 'location',
@@ -149,6 +151,15 @@ export default defineType({
           name: 'time',
           type: 'string',
           title: 'Uhrzeit',
+          validation: rule =>
+            rule.custom(time => {
+              if (time && /^\d{2}:\d{2}$/.test(time)) {
+                return true
+              } else if (!!time) {
+                return 'Ungültiges Zeitformat'
+              }
+              return true
+            }),
           components: {
             // @ts-ignore
             input: MyTimeInput,
@@ -189,6 +200,15 @@ export default defineType({
           name: 'time',
           type: 'string',
           title: 'Uhrzeit',
+          validation: rule =>
+            rule.custom(time => {
+              if (time && /^\d{2}:\d{2}$/.test(time)) {
+                return true
+              } else if (!!time) {
+                return 'Ungültiges Zeitformat'
+              }
+              return true
+            }),
           components: {
             // @ts-ignore
             input: MyTimeInput,

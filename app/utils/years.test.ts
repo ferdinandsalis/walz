@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest'
-import { calculateCurrentYear } from './years.ts'
+import { calculateCurrentYear, determineCurrentSchoolYear } from './years.ts'
 
 describe.concurrent('calculate current school years', () => {
   it('counts the years', async ({ expect }) => {
@@ -22,5 +22,18 @@ describe.concurrent('calculate current school years', () => {
       new Date('2024-05-04'),
     )
     expect(years).toBe(3)
+  })
+})
+
+describe.concurrent('determine current school year eg. 2023/24', () => {
+  it('determines it correctly early in the year', async ({ expect }) => {
+    const earlyInYear = determineCurrentSchoolYear(new Date('2023-01-01'))
+    expect(earlyInYear.from.getFullYear()).toBe(2022)
+    expect(earlyInYear.to.getFullYear()).toBe(2023)
+  })
+  it('determines it correctly late in the year', async ({ expect }) => {
+    const lateInYear = determineCurrentSchoolYear(new Date('2023-09-04'))
+    expect(lateInYear.from.getFullYear()).toBe(2023)
+    expect(lateInYear.to.getFullYear()).toBe(2024)
   })
 })
