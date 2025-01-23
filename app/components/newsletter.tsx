@@ -1,5 +1,5 @@
-import { useFetcher } from 'react-router'
 import { LoaderIcon } from 'lucide-react'
+import { useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
 import { type action } from '#app/routes/resources+/newsletter.ts'

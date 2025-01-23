@@ -1,10 +1,10 @@
-import { Link, NavLink } from 'react-router'
 import {
   ExternalLinkIcon,
   Home,
   InstagramIcon,
   YoutubeIcon,
 } from 'lucide-react'
+import { Link, NavLink } from 'react-router'
 import { cn } from '#app/utils/misc.tsx'
 import { LogoType } from './brand.tsx'
 import { NewsletterForm } from './newsletter.tsx'

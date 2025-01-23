@@ -1,5 +1,5 @@
-import { Link } from 'react-router'
 import { ChevronUpIcon } from 'lucide-react'
+import { Link } from 'react-router'
 import { cn } from '#app/utils/misc.js'
 
 export function Divider({

@@ -1,5 +1,5 @@
-import { Link } from 'react-router'
 import { ChevronUpIcon } from 'lucide-react'
+import { Link } from 'react-router'
 
 export function BackToTop({ className }: { className?: string }) {
   return (

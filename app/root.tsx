@@ -1,3 +1,5 @@
+import { withSentry } from '@sentry/remix'
+import { MenuIcon } from 'lucide-react'
 import {
   Link,
   Links,
@@ -8,9 +10,8 @@ import {
   useLoaderData,
   useLocation,
 } from 'react-router'
-import { withSentry } from '@sentry/remix'
-import { MenuIcon } from 'lucide-react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
+import { type Route } from '../.react-router/types/app/+types/root.ts'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { FooterNavigation, Navigation } from './components/shell.tsx'
@@ -24,7 +25,6 @@ import fontStyleSheetUrl from './styles/font.css?url'
 import { getEnv } from './utils/env.server.ts'
 import { honeypot } from './utils/honeypot.server.ts'
 import { cn, getDomainUrl } from './utils/misc.tsx'
-import { type Route } from '../.react-router/types/app/+types/root.ts'
 
 export function links() {
   return [
