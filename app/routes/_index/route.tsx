@@ -1,4 +1,3 @@
-import { Link, useLoaderData } from 'react-router'
 import { getImageDimensions } from '@sanity/asset-utils'
 import {
   ArrowRight,
@@ -9,7 +8,7 @@ import {
   QuoteIcon,
 } from 'lucide-react'
 import React from 'react'
-import slug from 'slug'
+import { Link, useLoaderData } from 'react-router'
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
 import { Button } from '#app/components/ui/button.js'
@@ -20,19 +19,17 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '#app/components/ui/carousel.tsx'
-import { events as eventsData } from '#app/data/dates.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
+import { EventSchema } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
 import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
-import { EventSchema } from '#app/sanity/schema/event.tsx'
 
 export async function loader() {
   const queryResult = await loadQuery<HomeQueryResult>(homeQuery)
-  console.log(queryResult)
 
   return {
     query: homeQuery,
