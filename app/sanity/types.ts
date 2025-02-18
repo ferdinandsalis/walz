@@ -696,6 +696,14 @@ export type AufnahmeQueryResult = {
 // Query: *[_type == "curriculum"][0]{  name,  description,  years[] {    _id,    _type,    _ref,    yearNumber,    description,    title,    externalExams,    projects[]-> {      _id,      _type,      _ref,      name,      description,      photos    }  }}
 export type CurriculumQueryResult = null
 
+// Source: ./app/routes/die-walz-kennenlernen/query.ts
+// Variable: kennenlernenQuery
+// Query: {  "upcomingEvents": *[_type == "event"] | order(start.date asc)[0...1] {    _id,    title,    start,    location,    description,    cover,  },  "pastEvents": *[_type == "event"] | order(start.date desc)[0...2] {    _id,    title,    start,    location,    description,    cover,  }}
+export type KennenlernenQueryResult = {
+  upcomingEvents: Array<never>
+  pastEvents: Array<never>
+}
+
 // Source: ./app/routes/jahrgaenge+/$year.query.tsx
 // Variable: yearQuery
 // Query: *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,    },    photos | order(takenAt desc)  }
@@ -916,6 +924,7 @@ declare module '@sanity/client' {
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
     '{\n    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
     '*[_type == "curriculum"][0]{\n  name,\n  description,\n  years[] {\n    _id,\n    _type,\n    _ref,\n    yearNumber,\n    description,\n    title,\n    externalExams,\n    projects[]-> {\n      _id,\n      _type,\n      _ref,\n      name,\n      description,\n      photos\n    }\n  }\n}': CurriculumQueryResult
+    '{\n  "upcomingEvents": *[_type == "event"] | order(start.date asc)[0...1] {\n    _id,\n    title,\n    start,\n    location,\n    description,\n    cover,\n  },\n  "pastEvents": *[_type == "event"] | order(start.date desc)[0...2] {\n    _id,\n    title,\n    start,\n    location,\n    description,\n    cover,\n  }\n}': KennenlernenQueryResult
     '\n  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n    },\n    photos | order(takenAt desc)\n  }\n': YearQueryResult
     '{\n  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }

@@ -16,6 +16,15 @@ export const EventSchema = z.object({
   _type: z.literal('event'),
   title: z.string(),
   location: z.string().nullable(),
+  cover: z
+    .object({
+      _type: z.literal('image'),
+      asset: z.object({
+        _ref: z.string(),
+      }),
+    })
+    .optional()
+    .nullable(),
   description: z.array(z.any()).nullable(),
   start: z.object({
     date: z.coerce.date(),
@@ -35,12 +44,11 @@ export const EventSchema = z.object({
       z.literal('theater'),
       z.literal('exam'),
       z.literal('project'),
+      z.literal('orientation'),
     ])
     .nullable(),
   attachments: z.array(AttachmentSchema).nullable().optional(),
 })
-
-export type Event = z.infer<typeof EventSchema>
 
 export function tType(type: Event['type']) {
   switch (type) {
@@ -91,6 +99,15 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'cover',
+      type: 'image',
+      title: 'Deckbild',
+      description: 'Bild für das Ereignis',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'location',
       type: 'string',
       title: 'Ort',
@@ -108,6 +125,7 @@ export default defineType({
           { title: 'Theater', value: 'theater' },
           { title: 'Prüfung', value: 'exam' },
           { title: 'Projekt', value: 'project' },
+          { title: 'Kennenlernen', value: 'orientation' },
         ],
       },
     }),

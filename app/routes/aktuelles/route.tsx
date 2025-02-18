@@ -9,7 +9,6 @@ import { loadQuery } from '@sanity/react-loader'
 import {
   ArrowRight,
   BabyIcon,
-  ChevronDown,
   ChevronUp,
   DownloadIcon,
   Link2Icon,
@@ -21,12 +20,11 @@ import {
   useLocation,
   type LoaderFunctionArgs,
 } from 'react-router'
-import slug from 'slug'
 import { z } from 'zod'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
-import { EventSchema, tType, type Event } from '#app/sanity/schema/event.tsx'
+import { EventSchema, tType } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
 import { cn } from '#app/utils/misc.tsx'
 import {
@@ -43,6 +41,8 @@ import {
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
 }
+
+type Event = z.infer<typeof EventSchema>
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const schoolYear = determineCurrentSchoolYear()
@@ -237,7 +237,23 @@ export default function Aktuelles() {
                                       Info
                                     </dt>
                                     <dd>
-                                      <PortableText value={event.description} />
+                                      <PortableText
+                                        value={event.description}
+                                        components={{
+                                          block: {
+                                            h4: ({ children }) => (
+                                              <h4 className="font-bold">
+                                                {children}
+                                              </h4>
+                                            ),
+                                            p: ({ children }) => (
+                                              <p className="mb-4 text-body-sm">
+                                                {children}
+                                              </p>
+                                            ),
+                                          },
+                                        }}
+                                      />
                                     </dd>
                                   </div>
                                 </dl>
