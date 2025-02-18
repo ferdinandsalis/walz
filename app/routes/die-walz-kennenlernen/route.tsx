@@ -80,10 +80,9 @@ export default function GetToKnowRoute() {
   )
 }
 
-type EventCard = z.infer<typeof EventSchema>
+type Event = z.infer<typeof EventSchema>
 
-// Add this new EventCard component
-function EventCard({ event }: { event: EventCard }) {
+function EventCard({ event }: { event: Event }) {
   return (
     <div className="grid-rows-auto grid grid-cols-1 overflow-hidden text-pretty rounded-lg bg-card shadow-md">
       {event.cover && (
@@ -100,7 +99,7 @@ function EventCard({ event }: { event: EventCard }) {
         </figure>
       )}
       <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/10 p-8 sm:rounded-t-md">
-        <h2 className="font-condensed text-h2 font-bold text-primary drop-shadow-lg">
+        <h2 className="font-condensed text-h2 font-bold text-secondary drop-shadow-xl">
           {event.title}
         </h2>
       </div>
@@ -147,9 +146,22 @@ function EventCard({ event }: { event: EventCard }) {
               value={event.description}
               onMissingComponent={false}
               components={{
+                marks: {
+                  link: ({ children, value }) => {
+                    return (
+                      <a
+                        href={value.href}
+                        target="_blank"
+                        className="text-primary underline"
+                      >
+                        {children}
+                      </a>
+                    )
+                  },
+                },
                 block: {
                   h4: ({ children }) => (
-                    <h4 className="font-bold">{children}</h4>
+                    <h4 className="font-bold text-primary">{children}</h4>
                   ),
                   p: ({ children }) => (
                     <p className="mb-4 text-body-sm">{children}</p>
@@ -164,11 +176,11 @@ function EventCard({ event }: { event: EventCard }) {
   )
 }
 
-function CompactEventCard({ event }: { event: EventCard }) {
+function CompactEventCard({ event }: { event: Event }) {
   return (
     <div className="grid content-start gap-4 rounded-lg bg-card p-4 shadow-sm">
       <header>
-        <h3 className="font-condensed text-h4 font-bold text-primary">
+        <h3 className="font-condensed text-h5 font-bold text-secondary">
           {event.title}
         </h3>
         <div className="text-sm text-muted-foreground">

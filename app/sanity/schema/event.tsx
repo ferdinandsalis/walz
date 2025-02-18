@@ -64,6 +64,8 @@ export function tType(type: Event['type']) {
       return 'Prüfung'
     case 'project':
       return 'Projekt'
+    case 'orientation':
+      return 'Kennenlernen'
     default:
       return type
   }

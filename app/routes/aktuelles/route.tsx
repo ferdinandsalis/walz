@@ -240,6 +240,19 @@ export default function Aktuelles() {
                                       <PortableText
                                         value={event.description}
                                         components={{
+                                          marks: {
+                                            link: ({ children, value }) => {
+                                              return (
+                                                <a
+                                                  href={value.href}
+                                                  target="_blank"
+                                                  className="text-primary underline"
+                                                >
+                                                  {children}
+                                                </a>
+                                              )
+                                            },
+                                          },
                                           block: {
                                             h4: ({ children }) => (
                                               <h4 className="font-bold">

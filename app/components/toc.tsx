@@ -13,7 +13,7 @@ export function Toc({
 }) {
   return (
     <nav className={cn('grid gap-3', className)}>
-      <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+      <h2 className="flex items-center gap-2 text-body-sm font-bold uppercase tracking-widest text-muted-foreground">
         <BookOpen size={18} className="inline-block stroke-primary" />
         {title}
       </h2>
@@ -23,7 +23,7 @@ export function Toc({
             <li key={link.to} className="text-secondary">
               <Link
                 to={link.to}
-                className="font-condensed text-foreground md:text-body-md"
+                className="font-condensed text-body-md text-foreground"
               >
                 {link.name}
               </Link>
