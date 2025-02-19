@@ -55,7 +55,7 @@ export function tType(type: Event['type']) {
     case 'general':
       return 'Allgemein'
     case 'talk':
-      return 'Vortrag'
+      return 'Präsentation'
     case 'holiday':
       return 'Ferien'
     case 'theater':
@@ -122,7 +122,7 @@ export default defineType({
         layout: 'dropdown',
         list: [
           { title: 'Allgemein', value: 'general' },
-          { title: 'Vortrag', value: 'talk' },
+          { title: 'Präsentation', value: 'talk' },
           { title: 'Ferien', value: 'holiday' },
           { title: 'Theater', value: 'theater' },
           { title: 'Prüfung', value: 'exam' },

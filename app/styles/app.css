@@ -60,11 +60,11 @@
   }
 
   blockquote {
-    @apply border-l-4 border-l-muted pl-4;
+    @apply border-l-4 border-l-primary pl-4 italic;
   }
 
   blockquote em {
-    @apply text-xl italic;
+    @apply text-xl;
   }
 
   ul {
@@ -72,11 +72,11 @@
   }
 
   p:not(:last-child) {
-    @apply mb-4;
+    @apply my-3;
   }
 
   figure:not(:last-child) {
-    @apply mb-4;
+    @apply my-3;
   }
 
   a {

@@ -8,7 +8,7 @@ export const homeQuery = defineQuery(`{
     "caption": image->caption,
     "attribution": image->attribution
   },  
-  "closestEvent": *[_type == "event" && start.date >= now()] | order(start.date asc)[0] {
+  "closestEvent": *[_type == "event" && type != "holiday" && start.date >= now()] | order(start.date asc)[0] {
     _id,
     _type,
     title,

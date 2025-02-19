@@ -38,6 +38,14 @@ export default function Post() {
         <PortableText
           value={post.body}
           components={{
+            block: {
+              normal: ({ children }) => (
+                <p className="[&:not(:last-child)]:mb-2">{children}</p>
+              ),
+              h4: ({ children }) => (
+                <h4 className="font-bold text-primary">{children}</h4>
+              ),
+            },
             types: {
               paragraph: ({ value }) => {
                 return <p className="mb-2">{value}</p>
@@ -54,7 +62,7 @@ export default function Post() {
 const ImageComponent = ({ value, isInline }: any) => {
   const { width, height } = getImageDimensions(value)
   return (
-    <figure className="rounded-sm bg-card p-2 shadow">
+    <figure className="rounded bg-muted/30 p-3">
       <img
         src={urlFor(value)
           .width(isInline ? 100 : 800)
@@ -72,7 +80,7 @@ const ImageComponent = ({ value, isInline }: any) => {
         }}
       />
       {value.attribution && (
-        <figcaption className="mt-1 text-right text-xs">
+        <figcaption className="mt-2 text-right text-body-xs text-muted-foreground">
           {value.attribution}
         </figcaption>
       )}

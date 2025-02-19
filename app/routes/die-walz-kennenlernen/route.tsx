@@ -2,6 +2,7 @@ import { PortableText } from '@portabletext/react'
 import { loadQuery } from '@sanity/react-loader'
 import { evolve, map } from 'ramda'
 import {
+  Link,
   type LoaderFunctionArgs,
   useFetcher,
   useLoaderData,
@@ -86,7 +87,7 @@ function EventCard({ event }: { event: Event }) {
   return (
     <div className="grid-rows-auto grid grid-cols-1 overflow-hidden text-pretty rounded-lg bg-card shadow-md">
       {event.cover && (
-        <figure className="col-start-1 row-start-1">
+        <figure className="relative col-start-1 row-start-1">
           <img
             src={urlFor(event.cover)
               .quality(70)
@@ -96,10 +97,14 @@ function EventCard({ event }: { event: Event }) {
             alt={event.title}
             className="object-cover grayscale md:aspect-video lg:aspect-[21/8]"
           />
+          <div
+            aria-role="presenatation"
+            className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"
+          />
         </figure>
       )}
-      <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/10 p-8 sm:rounded-t-md">
-        <h2 className="font-condensed text-h2 font-bold text-secondary drop-shadow-xl">
+      <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-end bg-black/10 p-6 sm:rounded-t-md">
+        <h2 className="font-condensed text-h2 font-bold leading-none text-secondary shadow-lg">
           {event.title}
         </h2>
       </div>
@@ -108,7 +113,7 @@ function EventCard({ event }: { event: Event }) {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {event.location && (
               <div className="grid gap-2">
-                <h3 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <h3 className="text-body-xs font-bold uppercase tracking-widest text-primary">
                   Wo?
                 </h3>
                 <div
@@ -119,7 +124,7 @@ function EventCard({ event }: { event: Event }) {
               </div>
             )}
             <div className="grid content-start gap-2">
-              <h3 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <h3 className="text-body-xs font-bold uppercase tracking-widest text-primary">
                 Wann?
               </h3>
               <div>
@@ -132,15 +137,14 @@ function EventCard({ event }: { event: Event }) {
                   })}
                   {event.start.time && (
                     <>
-                      {' '}
-                      <span>{event.start.time}</span>
+                      , <span>{event.start.time}</span>
                     </>
                   )}
                 </div>
               </div>
             </div>
           </div>
-          <hr className="border-muted-foreground/10" />
+          <hr className="border-muted" />
           <div>
             <PortableText
               value={event.description}
@@ -149,22 +153,32 @@ function EventCard({ event }: { event: Event }) {
                 marks: {
                   link: ({ children, value }) => {
                     return (
-                      <a
-                        href={value.href}
-                        target="_blank"
-                        className="text-primary underline"
+                      <Link
+                        to={value.href}
+                        className="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
                       >
                         {children}
-                      </a>
+                      </Link>
                     )
                   },
                 },
+                list: {
+                  bullet: ({ children }) => (
+                    <ul className="my-3 me-3 ms-3 list-inside list-disc">
+                      {children}
+                    </ul>
+                  ),
+                },
+                listItem: {
+                  bullet: ({ children }) => <li>{children}</li>,
+                },
                 block: {
+                  normal: ({ children }) => (
+                    <p className="[&:not(:last-child)]:mb-3">{children}</p>
+                  ),
+
                   h4: ({ children }) => (
                     <h4 className="font-bold text-primary">{children}</h4>
-                  ),
-                  p: ({ children }) => (
-                    <p className="mb-4 text-body-sm">{children}</p>
                   ),
                 },
               }}
@@ -178,7 +192,7 @@ function EventCard({ event }: { event: Event }) {
 
 function CompactEventCard({ event }: { event: Event }) {
   return (
-    <div className="grid content-start gap-4 rounded-lg bg-card p-4 shadow-sm">
+    <div className="grid content-start gap-4 rounded-lg bg-card p-6 shadow-sm">
       <header>
         <h3 className="font-condensed text-h5 font-bold text-secondary">
           {event.title}
@@ -192,8 +206,7 @@ function CompactEventCard({ event }: { event: Event }) {
             })}
             {event.start.time && (
               <>
-                {' '}
-                <span>{event.start.time}</span>
+                , <span>{event.start.time}</span>
               </>
             )}
           </div>
