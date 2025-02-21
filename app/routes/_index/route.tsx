@@ -162,7 +162,7 @@ export default function Home() {
                 👋
               </span>
               <br /> Komm vorbei! Nächster Termin:{' '}
-              <strong className="font-bold">Infoabend am 19. Februar.</strong>
+              <strong className="font-bold">Lebenswerkstatt Walz am 15. Mai</strong>
             </p>
             <Button
               asChild
