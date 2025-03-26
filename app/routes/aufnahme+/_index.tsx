@@ -1,6 +1,6 @@
-import { useLoaderData } from 'react-router'
 import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
+import { useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { cn } from '#app/utils/misc.tsx'
@@ -41,37 +41,6 @@ export default function Aufnahme() {
       </div>
 
       <div className="col-start-1 grid grid-cols-1 gap-16">
-        <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-          <div className="mb-2 flex items-center gap-1 text-secondary">
-            <InfoIcon size={16} className="stroke-secondary" />
-            <span className="font-condensed">Nächster Aufnahmetag</span>
-          </div>
-          <p className="text-body-sm/normal">
-            Der Aufnahmetag für den Jahrgang Delta (9. Schulstufe, Schulbeginn
-            September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
-            Aufnahmetag bitte das ausgefüllte{' '}
-            <a
-              download="Aufnahmeformular.pdf"
-              href="/downloads/aufnahmeformular_2025.pdf"
-              className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-            >
-              Aufnahme&shy;formular
-              <DownloadIcon size={16} className="stroke-primary" />
-            </a>{' '}
-            an{' '}
-            <a
-              href="mailto:office@walz.at"
-              className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-            >
-              office@walz.at
-              <ExternalLinkIcon size={16} className="stroke-primary" />
-            </a>{' '}
-            schicken. Weitere Infos folgen per Mail. .
-          </p>
-        </div>
-
-        <Divider />
-
         <article id="vorgehensweise" className="space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Vorgehensweise
@@ -257,5 +226,43 @@ export default function Aufnahme() {
         <Divider className="bg-transparent" />
       </div>
     </div>
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function AdmissionDay() {
+  return (
+    <>
+      <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+        <div className="mb-2 flex items-center gap-1 text-secondary">
+          <InfoIcon size={16} className="stroke-secondary" />
+          <span className="font-condensed">Nächster Aufnahmetag</span>
+        </div>
+        <p className="text-body-sm/normal">
+          Der Aufnahmetag für den Jahrgang Delta (9. Schulstufe, Schulbeginn
+          September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
+          Aufnahmetag bitte das ausgefüllte{' '}
+          <a
+            download="Aufnahmeformular.pdf"
+            href="/downloads/aufnahmeformular_2025.pdf"
+            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+          >
+            Aufnahme&shy;formular
+            <DownloadIcon size={16} className="stroke-primary" />
+          </a>{' '}
+          an{' '}
+          <a
+            href="mailto:office@walz.at"
+            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+          >
+            office@walz.at
+            <ExternalLinkIcon size={16} className="stroke-primary" />
+          </a>{' '}
+          schicken. Weitere Infos folgen per Mail. .
+        </p>
+      </div>
+
+      <Divider />
+    </>
   )
 }
