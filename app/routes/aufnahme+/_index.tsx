@@ -64,9 +64,8 @@ export default function Aufnahme() {
               <span className="font-condensed">Quereinstieg</span>
             </div>
             <p className="text-body-sm/normal">
-              Für den Jahrgang Gamma (9. Schulstufe, Schulbeginn September 2024)
-              sind noch Restplätze verfügbar. Für weitere Infos und einen
-              Gesprächstermin bitte bei{' '}
+              Plätze im Jahrgang Delta Im September 2025 startet der Jahrgang
+              Delta. Für eine Nachmeldung vereinbaren Sie bitte einen Termin bei{' '}
               <a
                 href="mailto:agnes.chorherr@walz.at"
                 className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
