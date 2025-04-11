@@ -61,11 +61,11 @@ export default function Aufnahme() {
           <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
             <div className="mb-2 flex items-center gap-1 text-secondary">
               <InfoIcon size={16} className="stroke-secondary" />
-              <span className="font-condensed">Quereinstieg</span>
+              <span className="font-condensed">Plätze im Jahrgang Delta</span>
             </div>
             <p className="text-body-sm/normal">
-              Plätze im Jahrgang Delta Im September 2025 startet der Jahrgang
-              Delta. Für eine Nachmeldung vereinbaren Sie bitte einen Termin bei{' '}
+              Im September 2025 startet der Jahrgang Delta. Für eine Nachmeldung
+              vereinbaren Sie bitte einen Termin bei{' '}
               <a
                 href="mailto:agnes.chorherr@walz.at"
                 className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
