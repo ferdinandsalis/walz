@@ -72,8 +72,8 @@ export default function Aufnahme() {
               >
                 Agnes Chorherr
                 <ExternalLinkIcon size={16} className="stroke-primary" />
-              </a>{' '}
-              melden!
+              </a>
+              !
             </p>
           </div>
         </article>
