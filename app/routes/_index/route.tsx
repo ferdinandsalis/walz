@@ -108,7 +108,7 @@ export default function Home() {
                 </Link>
               </div>{' '}
               <Link
-                to="./aktuelles#termine"
+                to="./aktuelles#schuljahr"
                 className="group/more flex items-center font-condensed text-muted-foreground"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
@@ -162,7 +162,9 @@ export default function Home() {
                 👋
               </span>
               <br /> Komm vorbei! Nächster Termin:{' '}
-              <strong className="font-bold">Lebenswerkstatt Walz am 15. Mai</strong>
+              <strong className="font-bold">
+                Lebenswerkstatt Walz am 15. Mai
+              </strong>
             </p>
             <Button
               asChild

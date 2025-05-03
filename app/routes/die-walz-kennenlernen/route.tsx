@@ -27,16 +27,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
     params,
     data: evolve({
       upcomingEvents: map(e => EventSchema.parse(e)),
-      pastEvents: map(e => EventSchema.parse(e)),
     })(queryResult.data),
   }
 }
 
 export default function GetToKnowRoute() {
   const loaderData = useLoaderData<typeof loader>()
-  const { upcomingEvents, pastEvents } = loaderData.data
+  const { upcomingEvents } = loaderData.data
   const nextEvent = upcomingEvents[0]
-  const lastTwoPastEvents = pastEvents
+  const otherUpcomingEvents = upcomingEvents.slice(1)
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
@@ -64,13 +63,13 @@ export default function GetToKnowRoute() {
           )}
         </section>
 
-        {lastTwoPastEvents.length > 0 && (
+        {otherUpcomingEvents.length > 0 && (
           <section id="vergangene-termine" className="grid gap-y-4">
             <h2 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
-              Vergangene Termine
+              Weitere Termine
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
-              {lastTwoPastEvents.map((event, index) => (
+              {otherUpcomingEvents.map((event, index) => (
                 <CompactEventCard key={index} event={event} />
               ))}
             </div>
@@ -218,7 +217,6 @@ function CompactEventCard({ event }: { event: Event }) {
 
 export function ReminderForm() {
   const fetcher = useFetcher()
-  //const showSpinner = useSpinDelay(fetcher.state !== 'idle')
   const done = !!fetcher.data
 
   return (

@@ -80,7 +80,7 @@ export default function Aktuelles() {
         <Toc
           links={[
             { name: 'Jahrgänge', to: '#jahrgaenge' },
-            { name: 'Termine', to: '#termine' },
+            { name: 'Schuljahr', to: '#schuljahr' },
             { name: 'Beiträge', to: '#beitraege' },
           ]}
         />
@@ -102,9 +102,9 @@ export default function Aktuelles() {
 
         <Divider />
 
-        <section id="termine" className="space-y-8">
+        <section id="schuljahr" className="space-y-8">
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Termine
+            Schuljahr
           </h1>
           <Accordion
             collapsible
@@ -121,128 +121,105 @@ export default function Aktuelles() {
 
                   <div className="grid gap-1">
                     {yearEvents?.map((event, idx) => {
-                      return event.description ? (
-                        <AccordionItem key={event._id} value={event._id}>
-                          <div
-                            id={event._id}
-                            className={cn('bg-card/50 transition-colors')}
-                          >
-                            <AccordionTrigger asChild>
-                              <div
-                                className={cn(
-                                  'user-select-none group grid w-full cursor-pointer grid-cols-3 items-center gap-4 px-4 py-1 transition-all data-[state=open]:bg-secondary/10',
-                                )}
-                              >
-                                <time
-                                  className=""
-                                  dateTime={event.start.date.toISOString()}
+                      const isPastEvent =
+                        new Date(event.start.date) < new Date()
+                      const isNextEvent =
+                        idx > 0 &&
+                        new Date(yearEvents[idx - 1].start.date) < new Date() &&
+                        new Date(event.start.date) >= new Date()
+
+                      return (
+                        <>
+                          {isNextEvent && (
+                            <div className="relative text-center">
+                              <hr className="rounded-full border-2 border-secondary" />
+                            </div>
+                          )}
+                          <AccordionItem key={event._id} value={event._id}>
+                            <div
+                              id={event._id}
+                              className={cn('bg-card/50 transition-colors', {
+                                'opacity-50': isPastEvent,
+                              })}
+                            >
+                              <AccordionTrigger asChild>
+                                <div
+                                  className={cn(
+                                    'user-select-none group grid w-full cursor-pointer grid-cols-3 items-center gap-4 px-4 py-1 transition-all data-[state=open]:bg-secondary/10',
+                                  )}
                                 >
-                                  {event.start.date.toLocaleString('de-AT', {
-                                    month: 'long',
-                                    day: '2-digit',
-                                  })}
-                                </time>
-                                <div className="flex items-center gap-2">
-                                  {event.type === 'theater' ? '🎭' : ''}
-                                  {event.type === 'exam' ? '📝' : ''}
-                                  {event.type === 'project' ? '🎨' : ''}
-                                  {event.type === 'holiday' ? '🏖️' : ''}
-                                  {event.type === 'talk' ? '🎤' : ''}
-                                  <h1
-                                    className={cn('truncate font-bold')}
-                                    title={event.title}
+                                  <time
+                                    className=""
+                                    dateTime={event.start.date.toISOString()}
                                   >
+                                    {event.start.date.toLocaleString('de-AT', {
+                                      month: 'long',
+                                      day: '2-digit',
+                                    })}
+                                  </time>
+                                  <div className="flex items-center gap-2">
+                                    {event.type === 'theater' ? '🎭' : ''}
+                                    {event.type === 'exam' ? '📝' : ''}
+                                    {event.type === 'project' ? '🎨' : ''}
+                                    {event.type === 'holiday' ? '🏖️' : ''}
+                                    {event.type === 'talk' ? '🎤' : ''}
+                                    <h1
+                                      className={cn('truncate font-bold')}
+                                      title={event.title}
+                                    >
+                                      {event.title}
+                                    </h1>
+                                  </div>
+                                  <div className="flex items-center gap-1 justify-self-end">
+                                    {event.type && (
+                                      <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-body-2xs text-primary/80">
+                                        {tType(event.type)}
+                                      </span>
+                                    )}
+                                    <ChevronUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 stroke-primary transition-transform duration-300" />
+                                  </div>
+                                </div>
+                              </AccordionTrigger>
+                            </div>
+                            {event.description && (
+                              <AccordionContent asChild>
+                                <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                                  <h1 className="mb-4 text-h5 font-bold">
                                     {event.title}
                                   </h1>
-                                </div>
-                                <div className="flex items-center gap-1 justify-self-end">
-                                  {event.type && (
-                                    <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-body-2xs text-primary/80">
-                                      {tType(event.type)}
-                                    </span>
-                                  )}
-                                  <ChevronUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 stroke-primary transition-transform duration-300" />
-                                </div>
-                              </div>
-                            </AccordionTrigger>
-                          </div>
-                          {event.description && (
-                            <AccordionContent asChild>
-                              <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                                <h1 className="mb-4 text-h5 font-bold">
-                                  {event.title}
-                                </h1>
-                                <dl className="space-y-4">
-                                  <div className="grid grid-cols-2 gap-4">
-                                    {event.start.time && (
-                                      <div>
-                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                          Beginn
-                                        </dt>
-                                        <dd className="">
-                                          {event.start.time} Uhr
-                                        </dd>
-                                      </div>
-                                    )}
-                                    {event.end?.time && (
-                                      <div>
-                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                          Ende
-                                        </dt>
-                                        <dd className="">
-                                          {event.end.time} Uhr
-                                        </dd>
-                                      </div>
-                                    )}
-                                    {event.attachments &&
-                                      event.attachments.length > 0 && (
-                                        <div className="col-span-2">
+                                  <dl className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                      {event.start.time && (
+                                        <div>
                                           <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                            Links
+                                            Beginn
                                           </dt>
                                           <dd className="">
-                                            <ul className="list-inside list-disc">
-                                              {event.attachments.map(
-                                                attachment => {
-                                                  return (
-                                                    <li
-                                                      key={
-                                                        attachment.asset._type
-                                                      }
-                                                    >
-                                                      <a
-                                                        href={
-                                                          attachment.asset.url
-                                                        }
-                                                        download="true"
-                                                        className="inline-flex items-center gap-1"
-                                                      >
-                                                        {attachment.asset.url}
-                                                        <DownloadIcon
-                                                          size={16}
-                                                          className="inline-block stroke-primary"
-                                                        />
-                                                      </a>
-                                                    </li>
-                                                  )
-                                                },
-                                              )}
-                                            </ul>
+                                            {event.start.time} Uhr
                                           </dd>
                                         </div>
                                       )}
-                                  </div>
-                                  <div>
-                                    <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                      Info
-                                    </dt>
-                                    <dd>
-                                      <PortableText
-                                        value={event.description}
-                                        components={{
-                                          marks: {
-                                            link: ({ children, value }) => {
-                                              return (
+                                      {event.end?.time && (
+                                        <div>
+                                          <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                            Ende
+                                          </dt>
+                                          <dd className="">
+                                            {event.end.time} Uhr
+                                          </dd>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div>
+                                      <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                        Info
+                                      </dt>
+                                      <dd>
+                                        <PortableText
+                                          value={event.description}
+                                          components={{
+                                            marks: {
+                                              link: ({ children, value }) => (
                                                 <a
                                                   href={value.href}
                                                   target="_blank"
@@ -250,55 +227,42 @@ export default function Aktuelles() {
                                                 >
                                                   {children}
                                                 </a>
-                                              )
+                                              ),
                                             },
-                                          },
-                                          block: {
-                                            h4: ({ children }) => (
-                                              <h4 className="font-bold">
-                                                {children}
-                                              </h4>
-                                            ),
-                                            p: ({ children }) => (
-                                              <p className="mb-4 text-body-sm">
-                                                {children}
-                                              </p>
-                                            ),
-                                          },
-                                        }}
-                                      />
-                                    </dd>
-                                  </div>
-                                </dl>
-                              </div>
-                            </AccordionContent>
-                          )}
-                        </AccordionItem>
-                      ) : (
-                        <div
-                          key={idx}
-                          className={cn(
-                            'border-b-1 border-b-background bg-card/50',
-                            {
-                              '': idx,
-                            },
-                          )}
-                        >
-                          <div
-                            className={cn('grid grid-cols-3 gap-4 px-4 py-1')}
-                          >
-                            <time
-                              className=""
-                              dateTime={event.start.date.toISOString()}
-                            >
-                              {event.start.date.toLocaleString('de-AT', {
-                                month: 'long',
-                                day: '2-digit',
-                              })}
-                            </time>
-                            <h1 className="font-bold">{event.title}</h1>
-                          </div>
-                        </div>
+                                            list: {
+                                              bullet: ({ children }) => (
+                                                <ul className="my-2 list-disc pl-6">
+                                                  {children}
+                                                </ul>
+                                              ),
+                                              number: ({ children }) => (
+                                                <ol className="my-2 list-decimal pl-6">
+                                                  {children}
+                                                </ol>
+                                              ),
+                                            },
+                                            block: {
+                                              h4: ({ children }) => (
+                                                <h4 className="font-bold">
+                                                  {children}
+                                                </h4>
+                                              ),
+                                              normal: ({ children }) => (
+                                                <div className="mb-2 text-body-sm leading-normal">
+                                                  {children}
+                                                </div>
+                                              ),
+                                            },
+                                          }}
+                                        />
+                                      </dd>
+                                    </div>
+                                  </dl>
+                                </div>
+                              </AccordionContent>
+                            )}
+                          </AccordionItem>
+                        </>
                       )
                     })}
                   </div>
