@@ -1,4 +1,5 @@
 import * as queryStore from '@sanity/react-loader'
+import { type SanityClient } from 'sanity'
 import { client } from './instance.ts'
 
 const clientWithToken = client.withConfig({
@@ -17,7 +18,7 @@ async function setSanityServerClient() {
       error.message ==
         'You have to set the Sanity client with `setServerClient` before any data fetching is done'
     ) {
-      queryStore.setServerClient(clientWithToken)
+      queryStore.setServerClient(clientWithToken as unknown as SanityClient)
     }
   }
 }
