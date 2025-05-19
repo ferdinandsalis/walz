@@ -201,14 +201,19 @@ export default function Home() {
             {latestPost.cover && (
               <Link
                 to={`/aktuelles/beitraege/${latestPost.slug?.current}`}
-                className="group"
+                className="group flex lg:row-span-2"
               >
-                <figure className="relative opacity-80 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0 lg:row-span-2">
-                  <img
-                    src={urlFor(latestPost.cover).quality(70).width(800).url()}
-                    alt={latestPost.cover.caption}
-                    className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
-                  />
+                <figure className="relative flex opacity-80 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0">
+                  <picture className="flex">
+                    <img
+                      src={urlFor(latestPost.cover)
+                        .quality(70)
+                        .width(800)
+                        .url()}
+                      alt={latestPost.cover.caption}
+                      className="aspect-square w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
+                    />
+                  </picture>
                   {latestPost.cover.attribution && (
                     <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
                       <p className="text-right text-body-xs text-card/70">
@@ -514,7 +519,7 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
 function HeroImage({ image, caption }: { image: any; caption: string | null }) {
   const { width, height } = getImageDimensions(image)
   return (
-    <picture>
+    <picture className="flex">
       <source
         srcSet={urlFor(image).quality(70).width(800).url()}
         media="(max-width: 800px)"
