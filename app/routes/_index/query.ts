@@ -18,6 +18,16 @@ export const homeQuery = defineQuery(`{
     end,
     type
   },
+  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {
+    _id,
+    _type,
+    title,
+    location,
+    description,
+    start,
+    end,
+    type
+  },
   "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {
     _id,
     _type,

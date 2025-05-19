@@ -41,6 +41,9 @@ export default function Home() {
   const loaderData = useLoaderData<typeof loader>()
   const [latestPost, ...restPosts] = loaderData.data.posts
   const closestEvent = EventSchema.parse(loaderData.data.closestEvent)
+  const closestOrientation = EventSchema.parse(
+    loaderData.data.closestOrientation,
+  )
   const testimonials = loaderData.data.testimonials
   const hero = loaderData.data.hero
 
@@ -127,7 +130,7 @@ export default function Home() {
         <section className="col-span-1 space-y-4">
           <div>
             <h1 className="sr-only">Was ist die Walz?</h1>
-            <p className="max-w-2xl text-pretty text-body-md lg:text-body-lg xl:text-body-xl">
+            <p className="max-w-2xl text-pretty text-body-md xl:text-body-lg">
               In der Walz können Jugendliche zwischen 14 und 19 Jahren in einem
               geschützten Rahmen ihre Potenziale entfalten, ihre Möglichkeiten
               ausloten und werden auf die Matura vorbereitet.
@@ -153,29 +156,41 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="">
-          <h1 className="sr-only">Walz kennenlernen</h1>
-          <div className="rounded-lg border border-secondary/10 bg-secondary/20 p-6 ring-8 ring-muted/20">
-            <p className="mb-4 text-pretty lg:text-body-md">
-              Lerne die Walz kennen{' '}
-              <span className="relative mb-1" aria-roledescription="emoji">
-                👋
-              </span>
-              <br /> Komm vorbei! Nächster Termin:{' '}
-              <strong className="font-bold">
-                Lebenswerkstatt Walz am 15. Mai
-              </strong>
-            </p>
-            <Button
-              asChild
-              size="lg"
-              variant="secondary"
-              className="mr-auto shadow"
-            >
-              <Link to="/die-walz-kennenlernen">Mehr erfahren</Link>
-            </Button>
-          </div>
-        </section>
+        {closestOrientation && (
+          <section className="">
+            <h1 className="sr-only">Walz kennenlernen</h1>
+            <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
+              <p className="mb-4 text-pretty text-body-md">
+                Lerne die Walz kennen{' '}
+                <span className="relative mb-1" aria-roledescription="emoji">
+                  👋
+                </span>
+                <br /> Komm vorbei! Nächster Termin:{' '}
+                <strong className="font-bold">
+                  {closestOrientation.title}
+                  <br />
+                  <time
+                    dateTime={closestOrientation.start.date.toISOString()}
+                    className="font-bold"
+                  >
+                    {closestOrientation.start.date.toLocaleDateString('de-AT', {
+                      day: 'numeric',
+                      month: 'long',
+                    })}
+                  </time>
+                </strong>
+              </p>
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="mr-auto shadow"
+              >
+                <Link to="/die-walz-kennenlernen">Mehr erfahren</Link>
+              </Button>
+            </div>
+          </section>
+        )}
       </div>
       <section className="grid gap-4 lg:col-span-2">
         <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
@@ -184,20 +199,25 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-8">
           <article className="relative col-span-4 grid rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
             {latestPost.cover && (
-              <figure className="relative lg:row-span-2">
-                <img
-                  src={urlFor(latestPost.cover).quality(70).width(800).url()}
-                  alt={latestPost.cover.caption}
-                  className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
-                />
-                {latestPost.cover.attribution && (
-                  <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
-                    <p className="text-right text-body-xs text-card/70">
-                      {latestPost.cover.attribution}
-                    </p>
-                  </figcaption>
-                )}
-              </figure>
+              <Link
+                to={`/aktuelles/beitraege/${latestPost.slug?.current}`}
+                className="group"
+              >
+                <figure className="relative opacity-80 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0 lg:row-span-2">
+                  <img
+                    src={urlFor(latestPost.cover).quality(70).width(800).url()}
+                    alt={latestPost.cover.caption}
+                    className="w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
+                  />
+                  {latestPost.cover.attribution && (
+                    <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
+                      <p className="text-right text-body-xs text-card/70">
+                        {latestPost.cover.attribution}
+                      </p>
+                    </figcaption>
+                  )}
+                </figure>
+              </Link>
             )}
             <div className="p-6">
               <h1 className="mb-2 max-w-xs text-balance font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl xl:text-3xl">
@@ -504,7 +524,7 @@ function HeroImage({ image, caption }: { image: any; caption: string | null }) {
         width={width}
         height={height}
         alt={caption || ''}
-        className="w-full object-cover sm:aspect-video sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
+        className="aspect-square w-full object-cover sm:aspect-auto sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
       />
     </picture>
   )
