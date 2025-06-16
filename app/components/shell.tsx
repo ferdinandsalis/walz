@@ -99,8 +99,14 @@ export function FooterNavigation() {
         </nav>
 
         <div className="relative z-10">
-          {/* Legal Links */}
           <div className="grid grid-cols-1 gap-1">
+            <Link
+              to="/unterstuetzer"
+              prefetch="intent"
+              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
+            >
+              Unterstützer
+            </Link>
             <Link
               to="/impressum"
               prefetch="intent"
@@ -120,7 +126,6 @@ export function FooterNavigation() {
 
         <div className="col-span-2 grid gap-2">
           <p className="mb-2">Folge uns auf …</p>
-          {/* Social Links */}
           <div className="flex flex-wrap gap-2">
             <Link
               to="https://instagram.com/walz_wien"
