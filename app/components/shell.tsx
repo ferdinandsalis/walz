@@ -105,7 +105,7 @@ export function FooterNavigation() {
               prefetch="intent"
               className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
             >
-              Unterstützer
+              Unterstützende
             </Link>
             <Link
               to="/impressum"

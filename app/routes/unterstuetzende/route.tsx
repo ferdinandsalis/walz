@@ -7,12 +7,11 @@ export default function Unterstuetzer() {
       <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
         <div className="max-w-2xl space-y-12 text-base md:text-xl">
           <p className="text-body-md">
-            Hier findest du Informationen zu unseren Unterstützern. Die Walz ist
-            ein gemeinnütziger Verein und finanziert sich überwiegend über
-            Schulgeld. Ein besonderer Dank gilt Ehrensache Walz: Durch das
-            Engagement von Eltern und Ehemaligen können wir Teil- und
-            Vollstipendien anbieten, die es Jugendlichen unabhängig der
-            finanziellen Situation ihrer Eltern ermöglichen, die Walz zu
+            Die Walz ist ein gemeinnütziger Verein und finanziert sich
+            überwiegend über Schulgeld. Ein besonderer Dank gilt Ehrensache
+            Walz: Durch das Engagement von Eltern und Ehemaligen können wir
+            Teil- und Vollstipendien anbieten, die es Jugendlichen unabhängig
+            der finanziellen Situation ihrer Eltern ermöglichen, die Walz zu
             besuchen. Zusätzlich danken wir unseren Förderern für ihre
             Unterstützung.
           </p>
