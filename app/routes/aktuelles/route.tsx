@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { groupBy, evolve } from 'ramda'
 import {
+  href,
   Link,
   useLoaderData,
   useLocation,
@@ -319,15 +320,21 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
 
         <div className="flex-1">
           <h1 className="inline-flex gap-1 text-3xl font-bold">
-            <span>{letter}</span>
-            <span className="text-lg font-bold text-primary">
-              {calculateCurrentYear(startedAt)}
-            </span>
+            <Link
+              to={href(`/jahrgaenge/:year`, {
+                year: `${letter}-${startedAt.getFullYear()}`,
+              })}
+            >
+              <span>{letter}</span>
+              <span className="align-super text-lg font-bold text-primary">
+                {calculateCurrentYear(startedAt)}
+              </span>
+            </Link>
           </h1>
           <div className="">
             <Link
               className="font-bold text-secondary hover:underline hover:underline-offset-2"
-              to={`/ueber-uns/#${mentor?.slug.current}`}
+              to={{ hash: mentor?.slug.current, pathname: href('/ueber-uns') }}
             >
               {mentor?.name}
             </Link>
@@ -353,7 +360,9 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
         )}
       </div>
       <Link
-        to={`/jahrgaenge/${letter}-${startedAt.getFullYear()}`}
+        to={href(`/jahrgaenge/:year`, {
+          year: `${letter}-${startedAt.getFullYear()}`,
+        })}
         className="group relative flex aspect-video flex-1 rounded-r-md"
       >
         {photos ? (
