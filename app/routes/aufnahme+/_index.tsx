@@ -58,24 +58,7 @@ export default function Aufnahme() {
             </p>
           </div>
 
-          <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-            <div className="mb-2 flex items-center gap-1 text-secondary">
-              <InfoIcon size={16} className="stroke-secondary" />
-              <span className="font-condensed">Plätze im Jahrgang Delta</span>
-            </div>
-            <p className="text-body-sm/normal">
-              Im September 2025 startet der Jahrgang Delta. Für eine Nachmeldung
-              vereinbaren Sie bitte einen Termin bei{' '}
-              <a
-                href="mailto:agnes.chorherr@walz.at"
-                className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-              >
-                Agnes Chorherr
-                <ExternalLinkIcon size={16} className="stroke-primary" />
-              </a>
-              !
-            </p>
-          </div>
+          <AdmissionDay />
         </article>
 
         <Divider />
@@ -231,37 +214,57 @@ export default function Aufnahme() {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function AdmissionDay() {
   return (
-    <>
-      <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-        <div className="mb-2 flex items-center gap-1 text-secondary">
-          <InfoIcon size={16} className="stroke-secondary" />
-          <span className="font-condensed">Nächster Aufnahmetag</span>
-        </div>
-        <p className="text-body-sm/normal">
-          Der Aufnahmetag für den Jahrgang Delta (9. Schulstufe, Schulbeginn
-          September 2025) findet am 15.März 2025 statt. Für die Anmeldung zum
-          Aufnahmetag bitte das ausgefüllte{' '}
-          <a
-            download="Aufnahmeformular.pdf"
-            href="/downloads/aufnahmeformular_2025.pdf"
-            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-          >
-            Aufnahme&shy;formular
-            <DownloadIcon size={16} className="stroke-primary" />
-          </a>{' '}
-          an{' '}
-          <a
-            href="mailto:office@walz.at"
-            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-          >
-            office@walz.at
-            <ExternalLinkIcon size={16} className="stroke-primary" />
-          </a>{' '}
-          schicken. Weitere Infos folgen per Mail. .
-        </p>
+    <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+      <div className="mb-2 flex items-center gap-1 text-secondary">
+        <InfoIcon size={16} className="stroke-secondary" />
+        <span className="font-condensed">Nächster Aufnahmetag</span>
       </div>
+      <p className="text-body-sm/normal">
+        Der Aufnahmetag für den Jahrgang Epsilon (9. Schulstufe, Schulbeginn
+        September 2026) findet am 21. Februar 2026 statt. Für die Anmeldung zum
+        Aufnahmetag bitte das ausgefüllte{' '}
+        <a
+          download="Aufnahmeformular.pdf"
+          href="/downloads/aufnahmeformular_2026.pdf"
+          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+        >
+          Aufnahme&shy;formular
+          <DownloadIcon size={16} className="stroke-primary" />
+        </a>{' '}
+        an{' '}
+        <a
+          href="mailto:office@walz.at"
+          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+        >
+          office@walz.at
+          <ExternalLinkIcon size={16} className="stroke-primary" />
+        </a>{' '}
+        schicken. Weitere Infos folgen per Mail. .
+      </p>
+    </div>
+  )
+}
 
-      <Divider />
-    </>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function AdmissionDelta() {
+  return (
+    <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
+      <div className="mb-2 flex items-center gap-1 text-secondary">
+        <InfoIcon size={16} className="stroke-secondary" />
+        <span className="font-condensed">Plätze im Jahrgang Delta</span>
+      </div>
+      <p className="text-body-sm/normal">
+        Im September 2025 startet der Jahrgang Delta. Für eine Nachmeldung
+        vereinbaren Sie bitte einen Termin bei{' '}
+        <a
+          href="mailto:agnes.chorherr@walz.at"
+          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+        >
+          Agnes Chorherr
+          <ExternalLinkIcon size={16} className="stroke-primary" />
+        </a>
+        !
+      </p>
+    </div>
   )
 }
