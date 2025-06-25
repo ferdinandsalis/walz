@@ -47,14 +47,14 @@ export default function Aufnahme() {
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
-              Der Aufnahmetag für das folgende Schuljahr findet im März statt.
-              Hier haben die Jugendlichen bei einigen Übungen und persönlichen
-              Gesprächen die Möglichkeit, sich mit der Arbeitsweise in der Walz
-              vertraut zu machen. Im Anschluss daran trifft das Aufnahmeteam der
-              Walz gemeinsam die Entscheidung, wem die Aufnahme in den neuen
-              Jahrgang angeboten wird. Nach der Zusage von Seiten der Eltern und
-              des/der Jugendlichen und der Einzahlung des Aufnahmebeitrags ist
-              der Platz im neuen Jahrgang fix.
+              Der Aufnahmetag für das folgende Schuljahr findet im Februar
+              statt. Hier haben die Jugendlichen bei einigen Übungen und
+              persönlichen Gesprächen die Möglichkeit, sich mit der Arbeitsweise
+              in der Walz vertraut zu machen. Im Anschluss daran trifft das
+              Aufnahmeteam der Walz gemeinsam die Entscheidung, wem die Aufnahme
+              in den neuen Jahrgang angeboten wird. Nach der Zusage von Seiten
+              der Eltern und des/der Jugendlichen und der Einzahlung des
+              Aufnahmebeitrags ist der Platz im neuen Jahrgang fix.
             </p>
           </div>
 
