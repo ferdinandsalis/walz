@@ -132,23 +132,6 @@ export default function Faq() {
               kennenzulernen!
             </p>
             <p>
-              Jährlich entsteht das{' '}
-              <Link to="/boty/" className="underline underline-offset-2">
-                Book of the Year
-              </Link>{' '}
-              mit Erfahrungsberichten, ausgewählten Fotos und vielem mehr. Zum
-              Durchblättern schicken wir dir auch gerne gegen einen
-              Unkostenbeitrag eines oder mehrere per Post zu. Dafür schicke uns
-              eine Mail an{' '}
-              <a
-                href="mailto:info@walz.at"
-                className="underline underline-offset-2"
-              >
-                info@walz.at
-              </a>
-              .
-            </p>
-            <p>
               Alle Termine findest du{' '}
               <Link
                 to="/aktuelles#termine"
