@@ -165,7 +165,7 @@ export default function Home() {
                 <span className="relative mb-1" aria-roledescription="emoji">
                   👋
                 </span>
-                <br /> Komm vorbei! Nächster Termin:{' '}
+                <br /> Nächster Termin:{' '}
                 <strong className="font-bold">
                   {closestOrientation.title}
                   <br />
