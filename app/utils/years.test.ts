@@ -32,6 +32,11 @@ describe.concurrent('determine current school year eg. 2023/24', () => {
     expect(earlyInYear.to.getFullYear()).toBe(2023)
   })
   it('determines it correctly late in the year', async ({ expect }) => {
+    const lateInYear = determineCurrentSchoolYear(new Date('2023-07-01'))
+    expect(lateInYear.from.getFullYear()).toBe(2023)
+    expect(lateInYear.to.getFullYear()).toBe(2024)
+  })
+  it('determines it correctly late in the year', async ({ expect }) => {
     const lateInYear = determineCurrentSchoolYear(new Date('2023-09-04'))
     expect(lateInYear.from.getFullYear()).toBe(2023)
     expect(lateInYear.to.getFullYear()).toBe(2024)

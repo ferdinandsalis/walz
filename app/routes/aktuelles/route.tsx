@@ -59,7 +59,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       years: z.array(YearSchema).parse,
       events: events =>
         groupBy<Event>(event => {
-          return new Date(event.start.date).getUTCFullYear().toString()
+          return new Date(event.start.date).getFullYear().toString()
         })(z.array(EventSchema).parse(events)),
     })(queryResult.data),
   }

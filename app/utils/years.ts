@@ -31,7 +31,12 @@ export function calculateCurrentYear(
 export function determineCurrentSchoolYear(currentDate: Date = new Date()) {
   const currentYear = currentDate.getFullYear()
   const currentMonth = currentDate.getMonth()
-  const fromYear = currentMonth < 7 ? currentYear - 1 : currentYear
+  // since its zero-based, July is month 6
+  const fromYear = currentMonth < 6 ? currentYear - 1 : currentYear
   const toYear = fromYear + 1
-  return { from: new Date(fromYear, 7, 1), to: new Date(toYear, 6, 31) }
+  // Use local time to avoid timezone issues
+  return {
+    from: new Date(fromYear, 6, 1, 0, 0, 0, 0), // July 1st, local time
+    to: new Date(toYear, 5, 30, 23, 59, 59, 999), // June 30th, local time
+  }
 }
