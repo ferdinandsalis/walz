@@ -1,0 +1,82 @@
+# Dependabot configuration for automated dependency updates
+# Documentation: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # NPM dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Vienna"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "ferdinandsalis"
+    assignees:
+      - "ferdinandsalis"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    # Group updates by type
+    groups:
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      testing:
+        patterns:
+          - "@playwright/*"
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+      build-tools:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "typescript"
+          - "eslint*"
+          - "prettier*"
+      sanity:
+        patterns:
+          - "@sanity/*"
+          - "sanity"
+    # Ignore specific packages that need manual review
+    ignore:
+      - dependency-name: "node"
+        # Major version updates need manual testing
+        update-types: ["version-update:semver-major"]
+      # React Router - only allow patch updates
+      - dependency-name: "react-router"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+      - dependency-name: "@react-router/*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  # Docker updates  
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+      timezone: "Europe/Vienna"
+    commit-message:
+      prefix: "docker"
+    labels:
+      - "docker"
+      - "automated"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "github-actions"
+      - "automated"
