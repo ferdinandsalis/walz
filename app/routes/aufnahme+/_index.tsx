@@ -40,6 +40,9 @@ export default function Aufnahme() {
         />
       </div>
 
+      <LateralEntryBox />
+      <AdmissionDay />
+
       <div className="col-start-1 grid grid-cols-1 gap-16">
         <article id="vorgehensweise" className="space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
@@ -57,8 +60,6 @@ export default function Aufnahme() {
               Aufnahmebeitrags ist der Platz im neuen Jahrgang fix.
             </p>
           </div>
-
-          <LateralEntryBox />
         </article>
 
         <Divider />
@@ -75,24 +76,6 @@ export default function Aufnahme() {
               positiv abschließen (keine Aufstiegsklausel).
             </p>
             <p>
-              Zu den Möglichkeiten einer Aufnahme in einen bestehenden Jahrgang
-              bitten wir um Kontaktaufnahme unter{' '}
-              <a
-                href="mailto:office@walz.at"
-                className="inline-flex items-center gap-1 stroke-primary text-muted-foreground underline underline-offset-2"
-              >
-                office@walz.at <ExternalLinkIcon size={20} />
-              </a>
-              .
-            </p>
-          </div>
-
-          <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-            <div className="mb-2 flex items-center gap-1 text-secondary">
-              <InfoIcon size={16} className="stroke-secondary" />
-              <span className="font-condensed">Wichtige Information</span>
-            </div>
-            <p className="text-body-sm/normal">
               Informationen und Rahmenbedingungen für einen Schulbesuch in der
               Walz.{' '}
               <a
