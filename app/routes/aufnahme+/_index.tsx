@@ -40,9 +40,6 @@ export default function Aufnahme() {
         />
       </div>
 
-      <LateralEntryBox />
-      <AdmissionDay />
-
       <div className="col-start-1 grid grid-cols-1 gap-16">
         <article id="vorgehensweise" className="space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
@@ -60,6 +57,8 @@ export default function Aufnahme() {
               Aufnahmebeitrags ist der Platz im neuen Jahrgang fix.
             </p>
           </div>
+
+          <AdmissionDay />
         </article>
 
         <Divider />
@@ -88,6 +87,8 @@ export default function Aufnahme() {
               </a>{' '}
             </p>
           </div>
+
+          <LateralEntryBox />
         </article>
 
         <Divider />
@@ -233,7 +234,7 @@ function LateralEntryBox() {
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
         <InfoIcon size={16} className="stroke-secondary" />
-        <span className="font-condensed">Quereinstieg möglich!</span>
+        <span className="font-condensed">Quereinstieg möglich</span>
       </div>
       <div className="text-body-sm/normal">
         <p>
