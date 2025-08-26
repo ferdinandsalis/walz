@@ -58,7 +58,7 @@ export default function Aufnahme() {
             </p>
           </div>
 
-          <AdmissionDay />
+          <LateralEntryBox />
         </article>
 
         <Divider />
@@ -245,26 +245,25 @@ function AdmissionDay() {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function AdmissionDelta() {
+function LateralEntryBox() {
   return (
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
         <InfoIcon size={16} className="stroke-secondary" />
-        <span className="font-condensed">Plätze im Jahrgang Delta</span>
+        <span className="font-condensed">Quereinstieg möglich!</span>
       </div>
-      <p className="text-body-sm/normal">
-        Im September 2025 startet der Jahrgang Delta. Für eine Nachmeldung
-        vereinbaren Sie bitte einen Termin bei{' '}
-        <a
-          href="mailto:agnes.chorherr@walz.at"
-          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-        >
-          Agnes Chorherr
-          <ExternalLinkIcon size={16} className="stroke-primary" />
-        </a>
-        !
-      </p>
+      <div className="text-body-sm/normal">
+        <p>
+          In Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos & Vorstellungstermin bei Agnes Chorherr:{' '}
+          <a
+            href="mailto:agnes.chorherr@walz.at"
+            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+          >
+            agnes.chorherr@walz.at
+            <ExternalLinkIcon size={16} className="stroke-primary" />
+          </a>
+        </p>
+      </div>
     </div>
   )
 }
