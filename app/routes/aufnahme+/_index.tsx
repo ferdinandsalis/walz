@@ -223,7 +223,7 @@ function AdmissionDay() {
           office@walz.at
           <ExternalLinkIcon size={16} className="stroke-primary" />
         </a>{' '}
-        schicken. Weitere Infos folgen per Mail. .
+        schicken. Weitere Infos folgen per Mail.
       </p>
     </div>
   )
@@ -238,7 +238,9 @@ function LateralEntryBox() {
       </div>
       <div className="text-body-sm/normal">
         <p>
-          In Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos & Vorstellungstermin bei Agnes Chorherr:{' '}
+          In Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und
+          Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos &
+          Vorstellungstermin bei Agnes Chorherr:{' '}
           <a
             href="mailto:agnes.chorherr@walz.at"
             className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
