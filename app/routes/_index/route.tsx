@@ -87,7 +87,6 @@ export default function Home() {
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
               <div className="flex items-center gap-2">
                 <h1 className="flex items-center gap-1">
-                  <span className="sr-only">Nächster Termin</span>
                   <CalendarClockIcon
                     size={24}
                     className="inline-block text-secondary"
@@ -161,11 +160,10 @@ export default function Home() {
             <h1 className="sr-only">Walz kennenlernen</h1>
             <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
               <p className="mb-4 text-pretty text-body-md">
-                Lerne die Walz kennen{' '}
                 <span className="relative mb-1" aria-roledescription="emoji">
                   👋
-                </span>
-                <br /> Nächster Termin:{' '}
+                </span>{' '}
+                Lerne die Walz kennen <br />
                 <strong className="font-bold">
                   {closestOrientation.title}
                   <br />
@@ -194,7 +192,7 @@ export default function Home() {
       </div>
       <section className="grid gap-4 lg:col-span-2">
         <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
-          Beiträge
+          Unser Blog
         </h1>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-8">
           <article className="relative col-span-4 grid rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
