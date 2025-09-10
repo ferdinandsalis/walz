@@ -80,29 +80,14 @@ export default function Aktuelles() {
       <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
-            { name: 'Jahrgänge', to: '#jahrgaenge' },
             { name: 'Schuljahr', to: '#schuljahr' },
-            { name: 'Beiträge', to: '#beitraege' },
+            { name: 'Jahrgänge', to: '#jahrgaenge' },
+            { name: 'Blog', to: '#blog' },
           ]}
         />
       </div>
 
       <div className="col-start-1 grid grid-cols-1 gap-16">
-        <section id="jahrgaenge" className="space-y-8">
-          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Jahrgänge
-          </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {years
-              .filter(year => !year.graduatedAt)
-              .map(year => (
-                <YearCard key={year.letter} {...year} />
-              ))}
-          </div>
-        </section>
-
-        <Divider />
-
         <section id="schuljahr" className="space-y-8">
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Schuljahr
@@ -275,17 +260,32 @@ export default function Aktuelles() {
 
         <Divider />
 
-        <section id="beitraege" className="grid grid-cols-1 gap-4">
+        <section id="jahrgaenge" className="space-y-8">
+          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+            Jahrgänge
+          </h1>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {years
+              .filter(year => !year.graduatedAt)
+              .map(year => (
+                <YearCard key={year.letter} {...year} />
+              ))}
+          </div>
+        </section>
+
+        <Divider />
+
+        <section id="blog" className="grid grid-cols-1 gap-4">
           <header className="flex flex-col items-end md:flex-row">
             <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-              Beiträge
+              Blog
             </h1>
             <div className="md:ml-auto">
               <Link
                 to="/aktuelles/beitraege/"
                 className="text-secondary underline-offset-2 hover:underline"
               >
-                Alle Beiträge anzeigen
+                Alle Posts anzeigen
               </Link>
             </div>
           </header>
