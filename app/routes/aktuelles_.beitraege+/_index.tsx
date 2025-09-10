@@ -17,7 +17,7 @@ export default function Index() {
   return (
     <>
       <h1 className="mb-8 font-condensed text-2xl font-bold text-primary md:text-4xl">
-        Beiträge
+        Blog
       </h1>
       <ul className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {posts?.map(
