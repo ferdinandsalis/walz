@@ -261,9 +261,17 @@ export default function Aktuelles() {
         <Divider />
 
         <section id="jahrgaenge" className="space-y-8">
-          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Jahrgänge
-          </h1>
+          <header className="flex items-center justify-between">
+            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+              Jahrgänge
+            </h1>
+            <Link
+              to="/jahrgaenge"
+              className="text-secondary underline-offset-2 hover:underline"
+            >
+              Alle Jahrgänge anzeigen
+            </Link>
+          </header>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {years
               .filter(year => !year.graduatedAt)
