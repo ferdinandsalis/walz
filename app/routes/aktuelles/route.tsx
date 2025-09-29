@@ -265,20 +265,22 @@ export default function Aktuelles() {
             <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
               Jahrgänge
             </h1>
-            <Link
-              to="/jahrgaenge"
-              className="text-secondary underline-offset-2 hover:underline"
-            >
-              Alle Jahrgänge anzeigen
-            </Link>
           </header>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
             {years
               .filter(year => !year.graduatedAt)
               .map(year => (
                 <YearCard key={year.letter} {...year} />
               ))}
           </div>
+          <footer>
+            <Link
+              to="/jahrgaenge"
+              className="text-primary underline-offset-2 hover:underline"
+            >
+              Alle Jahrgänge anzeigen
+            </Link>
+          </footer>
         </section>
 
         <Divider />
@@ -315,14 +317,21 @@ export default function Aktuelles() {
   )
 }
 
-function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
+export function YearCard({
+  letter,
+  startedAt,
+  graduatedAt,
+  mentor,
+  photos,
+  plan,
+}: Omit<Year, 'mentor'> & { mentor: Year['mentor'] | null }) {
   return (
     <article
       key={letter}
-      className="flex flex-wrap rounded-md bg-card shadow-md"
+      className="grid h-full grid-cols-1 rounded-md bg-card shadow-md sm:grid-cols-[1fr,auto]"
     >
-      <div className="relative flex flex-1 flex-col p-6">
-        <div className="text-1xl absolute right-14 top-10 scale-[7] font-greek font-black lowercase text-primary opacity-10">
+      <div className="relative flex flex-col overflow-hidden p-6">
+        <div className="pointer-events-none absolute right-4 top-4 text-6xl font-greek font-black lowercase text-primary opacity-10 md:right-8 md:top-8 md:text-7xl lg:text-8xl">
           {alphabetMap[letter]}
         </div>
 
@@ -334,19 +343,30 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
               })}
             >
               <span>{letter}</span>
-              <span className="align-super text-lg font-bold text-primary">
-                {calculateCurrentYear(startedAt)}
-              </span>
+              {graduatedAt ? (
+                <span className="align-super text-lg font-bold text-primary">
+                  {new Date(graduatedAt).getFullYear()}
+                </span>
+              ) : (
+                <span className="align-super text-lg font-bold text-primary">
+                  {calculateCurrentYear(startedAt)}
+                </span>
+              )}
             </Link>
           </h1>
-          <div className="">
-            <Link
-              className="font-bold text-secondary hover:underline hover:underline-offset-2"
-              to={{ hash: mentor?.slug.current, pathname: href('/ueber-uns') }}
-            >
-              {mentor?.name}
-            </Link>
-          </div>
+          {mentor && (
+            <div className="">
+              <Link
+                className="font-bold text-secondary hover:underline hover:underline-offset-2"
+                to={{
+                  hash: mentor?.slug.current,
+                  pathname: href('/ueber-uns'),
+                }}
+              >
+                {mentor?.name}
+              </Link>
+            </div>
+          )}
           <p className="text-muted-foreground">
             {startedAt.toLocaleString('de-at', {
               dateStyle: 'long',
@@ -371,22 +391,22 @@ function YearCard({ letter, startedAt, mentor, photos, plan }: Year) {
         to={href(`/jahrgaenge/:year`, {
           year: `${letter}-${startedAt.getFullYear()}`,
         })}
-        className="group relative flex aspect-video flex-1 rounded-r-md"
+        className="group relative min-h-48 w-full sm:min-h-0 sm:w-40 md:w-48 lg:w-56"
       >
         {photos ? (
           <img
             src={urlFor(photos[0]).quality(70).width(600).url()}
             alt={`${letter} Foto`}
-            className="w-32 flex-1 rounded-r-md object-cover object-center md:w-60 lg:w-60 xl:w-80"
+            className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
           />
         ) : (
-          <div className="inline-flex w-full flex-1 items-center justify-center overflow-hidden rounded-r-md bg-gradient-to-t from-secondary/40 to-transparent">
+          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-gradient-to-t from-secondary/40 to-transparent sm:rounded-b-none sm:rounded-r-md">
             <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
           </div>
         )}
         <div
           role="presentation"
-          className="absolute inset-0 rounded-r-md ring-2 ring-inset ring-card/30 transition-all group-hover:ring-secondary"
+          className="absolute inset-0 rounded-b-md ring-2 ring-inset ring-card/30 transition-all group-hover:ring-secondary sm:rounded-b-none sm:rounded-r-md"
         >
           <Link2Icon
             className="absolute bottom-2 right-2 stroke-card group-hover:stroke-primary"

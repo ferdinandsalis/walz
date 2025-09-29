@@ -6,6 +6,7 @@ import { PersonSchema } from '#app/routes/ueber-uns+/_index.query.ts'
 // Define the Photo schema
 export const PhotoSchema = z.object({
   takenAt: z.coerce.date(),
+  motto: z.string().optional(),
   caption: z.string().optional(),
   attribution: z.string().optional(),
   alt: z.string().optional(),

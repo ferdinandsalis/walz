@@ -1,12 +1,14 @@
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
 import { BabyIcon, DownloadIcon } from 'lucide-react'
+import { useState } from 'react'
 import {
   type LoaderFunctionArgs,
   Link,
   type MetaArgs,
   useLoaderData,
 } from 'react-router'
+import { cn } from '#app/utils/misc.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { calculateCurrentYear } from '#app/utils/years.js'
 import { yearQuery, YearSchema } from './$year.query.tsx'
@@ -103,27 +105,76 @@ function YearPhotos({
   photos: {
     asset?: any
     takenAt: Date
+    motto?: string
     attribution?: string
     alt?: string
     caption?: string
   }[]
   letter: string
 }) {
-  const currentPhoto = photos[0]
-  const { width, height } = getImageDimensions(currentPhoto.asset)
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0)
+  const selectedPhoto = photos[selectedPhotoIndex]
+  const { width, height } = getImageDimensions(selectedPhoto.asset)
 
   return (
-    <figure className="max-w-3xl rounded-sm bg-card p-2 shadow">
-      <img
-        src={urlFor(currentPhoto).quality(80).width(1000).url()}
-        width={width}
-        height={height}
-        alt={`${letter} Foto`}
-        className="flex-1 rounded-sm object-cover object-center"
-        style={{
-          aspectRatio: width / height,
-        }}
-      />
-    </figure>
+    <div className="max-w-5xl">
+      <div className="flex flex-col gap-4 lg:flex-row">
+        <figure className="relative flex-1">
+          <img
+            src={urlFor(selectedPhoto).quality(80).width(1000).url()}
+            width={width}
+            height={height}
+            alt={`${letter} Foto`}
+            className="w-full rounded-sm object-cover object-center shadow-md"
+            style={{
+              aspectRatio: width / height,
+            }}
+          />
+          {selectedPhoto.motto && (
+            <figcaption className="absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+              <p className="font-condensed text-lg text-white">
+                Motto: "{selectedPhoto.motto}"
+              </p>
+            </figcaption>
+          )}
+        </figure>
+
+        {photos.length > 1 && (
+          <div className="flex flex-row gap-4 overflow-x-auto lg:flex-col lg:overflow-x-visible">
+            {photos.map((photo, index) => {
+              const year = new Date(photo.takenAt).getFullYear()
+              return (
+                <button
+                  key={index}
+                  onClick={() => setSelectedPhotoIndex(index)}
+                  className={cn(
+                    'group relative overflow-hidden rounded-sm transition-all',
+                    selectedPhotoIndex === index
+                      ? 'ring-2 ring-inset'
+                      : 'hover:opacity-80',
+                  )}
+                >
+                  <img
+                    src={urlFor(photo)
+                      .quality(70)
+                      .width(150)
+                      .height(100)
+                      .fit('crop')
+                      .url()}
+                    alt={`${letter} Foto ${year}`}
+                    className="w-30 h-20 object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-1">
+                    <span className="text-xs font-medium text-white">
+                      {year}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
