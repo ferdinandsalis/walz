@@ -7,7 +7,16 @@ export const homeQuery = defineQuery(`{
     image,
     "caption": image->caption,
     "attribution": image->attribution
-  },  
+  },
+  "shoutout": *[_type == "home-shoutout"] | order(_createdAt desc)[0]{
+    _id,
+    _type,
+    emoji,
+    title,
+    subtitle,
+    buttonText,
+    buttonLink
+  },
   "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {
     _id,
     _type,

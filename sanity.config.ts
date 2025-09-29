@@ -27,9 +27,9 @@ export default defineConfig({
             S.documentTypeListItem('year').title('Jahrgang'),
             S.documentTypeListItem('schoolYear').title('Schuljahr'),
             S.documentTypeListItem('testimonial').title('Erfahrungsberichte'),
-
             S.divider(),
             S.documentTypeListItem('home-hero').title('Home Hero'),
+            S.documentTypeListItem('home-shoutout').title('Home Shoutout'),
             S.divider(),
             S.listItem()
               .title('Curriculum')
@@ -53,9 +53,14 @@ export default defineConfig({
   document: {
     // For singleton types, filter out actions that are not explicitly included
     // in the `singletonActions` list defined above
-    actions: (input, context) =>
-      singletonTypes.has(context.schemaType)
-        ? input.filter(({ action }) => action && singletonActions.has(action))
-        : input,
+    actions: (input, context) => {
+      if (singletonTypes.has(context.schemaType)) {
+        return input.filter(
+          ({ action }) => action && singletonActions.has(action),
+        )
+      }
+
+      return input
+    },
   },
 })
