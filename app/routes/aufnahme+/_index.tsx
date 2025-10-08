@@ -1,5 +1,16 @@
 import { loadQuery } from '@sanity/react-loader'
-import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
+import {
+  DownloadIcon,
+  ExternalLinkIcon,
+  FileCheck,
+  GraduationCap,
+  Handshake,
+  InfoIcon,
+  Mail,
+  MessageSquare,
+  Phone,
+  Users,
+} from 'lucide-react'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
@@ -220,6 +231,85 @@ export default function Aufnahme() {
         </article>
         <Divider className="bg-transparent" />
       </div>
+    </div>
+  )
+}
+
+function AdmissionTimeline() {
+  const steps = [
+    {
+      icon: Mail,
+      title: 'Onlineformular ausfüllen',
+      date: '',
+    },
+    {
+      icon: Phone,
+      title: 'Telefonische Terminvergabe nach dem Tag der offenen Tür',
+      date: 'ab 15. November 2025',
+    },
+    {
+      icon: MessageSquare,
+      title: 'Aufnahmegespräch',
+      date: '',
+    },
+    {
+      icon: Handshake,
+      title: 'Feedback',
+      date: 'bis Jänner 2026',
+    },
+    {
+      icon: FileCheck,
+      title: 'Unterschriebene Unterlagen & Überweisung Aufnahmebetrag',
+      subtitle: '→ Platz fix',
+      date: 'Bis spätestens 1 Woche nach den Semesterferien',
+    },
+    {
+      icon: FileCheck,
+      title: 'Positives Abschlusszeugnis 8. Schulstufe',
+      date: 'Juni 2025',
+    },
+    {
+      icon: Users,
+      title: 'Jahrgangstreffen & erster Elternabend',
+      date: 'Juni 2026',
+    },
+    {
+      icon: GraduationCap,
+      title: 'Schulbeginn',
+      date: 'September 2026',
+    },
+  ]
+
+  return (
+    <div className="relative max-w-2xl">
+      {steps.map((step, index) => {
+        const Icon = step.icon
+        return (
+          <div key={index} className="relative flex gap-3">
+            <div className="flex flex-col items-center">
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded bg-secondary shadow-md">
+                <Icon className="h-6 w-6 text-white" />
+              </div>
+              {index < steps.length - 1 && (
+                <div className="my-2 h-16 w-0.5 bg-secondary/30" />
+              )}
+            </div>
+            <div className="flex-1 pb-2">
+              <h3 className="font-condensed text-lg font-bold leading-tight">
+                {step.title}
+              </h3>
+              {step.subtitle && (
+                <p className="mt-1 text-sm font-bold text-secondary">
+                  {step.subtitle}
+                </p>
+              )}
+              {step.date && (
+                <p className="mt-1 text-sm text-primary">{step.date}</p>
+              )}
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }
