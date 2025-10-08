@@ -144,11 +144,6 @@ export default function Aktuelles() {
                                     })}
                                   </time>
                                   <div className="flex items-center gap-2">
-                                    {event.type === 'theater' ? '🎭' : ''}
-                                    {event.type === 'exam' ? '📝' : ''}
-                                    {event.type === 'project' ? '🎨' : ''}
-                                    {event.type === 'holiday' ? '🏖️' : ''}
-                                    {event.type === 'talk' ? '🎤' : ''}
                                     <h1
                                       className={cn('truncate font-bold')}
                                       title={event.title}
@@ -266,7 +261,13 @@ export default function Aktuelles() {
               Jahrgänge
             </h1>
           </header>
-          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
+          <div
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns:
+                'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+            }}
+          >
             {years
               .filter(year => !year.graduatedAt)
               .map(year => (
@@ -331,7 +332,7 @@ export function YearCard({
       className="grid h-full grid-cols-1 rounded-md bg-card shadow-md sm:grid-cols-[1fr,auto]"
     >
       <div className="relative flex flex-col overflow-hidden p-6">
-        <div className="pointer-events-none absolute right-4 top-4 text-6xl font-greek font-black lowercase text-primary opacity-10 md:right-8 md:top-8 md:text-7xl lg:text-8xl">
+        <div className="pointer-events-none absolute right-4 top-4 font-greek text-6xl font-black lowercase text-primary opacity-10 md:right-8 md:top-8 md:text-7xl lg:text-8xl">
           {alphabetMap[letter]}
         </div>
 
