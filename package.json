@@ -79,6 +79,7 @@
     "react-router": "^7.9.3",
     "remix-flat-routes": "^0.6.5",
     "remix-utils": "^7.7.0",
+    "resend": "^6.1.2",
     "sanity": "^4.10.1",
     "slug": "^9.1.0",
     "spin-delay": "^2.0.1",

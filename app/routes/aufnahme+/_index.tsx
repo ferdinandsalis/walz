@@ -1,7 +1,8 @@
 import { loadQuery } from '@sanity/react-loader'
 import { DownloadIcon, ExternalLinkIcon, InfoIcon } from 'lucide-react'
-import { useLoaderData } from 'react-router'
+import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
+import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { cn } from '#app/utils/misc.tsx'
 import {
@@ -47,14 +48,27 @@ export default function Aufnahme() {
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
-              Der Aufnahmetag für das folgende Schuljahr findet im Februar
-              statt. Hier haben die Jugendlichen bei einigen Übungen und
-              persönlichen Gesprächen die Möglichkeit, sich mit der Arbeitsweise
-              in der Walz vertraut zu machen. Im Anschluss daran trifft das
-              Aufnahmeteam der Walz gemeinsam die Entscheidung, wem die Aufnahme
-              in den neuen Jahrgang angeboten wird. Nach der Zusage von Seiten
-              der Eltern und des/der Jugendlichen und der Einzahlung des
-              Aufnahmebeitrags ist der Platz im neuen Jahrgang fix.
+              Wenn du dich an der Walz bewerben willst, fülle bitte das
+              Anmeldeformular aus.
+            </p>
+            <p>
+              Nach Absenden des Formulars senden wir dir und deinen Eltern eine
+              Bestätigung per Mail mit Details zum Aufnahmetermin zu. Ab Mitte
+              November melden wir uns telefonisch bei deinen Eltern, um einen
+              Aufnahmetermin zu vereinbaren.
+            </p>
+            <p>
+              Bei einem persönlichen Aufnahmegespräch mit der Schulleiterin und
+              dem/der Mentor:in werden die gegenseitigen Erwartungen abgeklärt
+              und bei kleinen Aufgaben bekommst du einen ersten Einblick in die
+              Arbeitsweise der Walz. Wir bitten die Eltern, zum Aufnahmetermin
+              mitzukommen.
+            </p>
+            <p>
+              Ab Jänner erhalten du und deine Eltern eine Zu- oder Absage. Wenn
+              ihr euch für die Walz entscheidet, ist dein Platz fix reserviert,
+              sobald der Schulvertrag unterschrieben und der Aufnahmebeitrag
+              eingezahlt ist.
             </p>
           </div>
 
@@ -75,18 +89,33 @@ export default function Aufnahme() {
               positiv abschließen (keine Aufstiegsklausel).
             </p>
             <p>
-              Informationen und Rahmenbedingungen für einen Schulbesuch in der
-              Walz.{' '}
+              Alle wichtigen Informationen und Rahmenbedingungen sind in unserem
+              Schulvertrag zusammengefasst.{' '}
               <a
-                download="Informationen und Rahmenbedingungen 23-24.pdf"
-                href="/downloads/Informationen_und_Rahmenbedingungen_23-24.pdf"
+                download="Schulvertrag September 2026.pdf"
+                href="/downloads/schulvertrag_september_2026.pdf"
                 className="inline-flex max-w-sm items-center gap-1 text-muted-foreground underline underline-offset-2"
               >
                 Hier herunterladen
                 <DownloadIcon size={16} className="flex-none stroke-primary" />
-              </a>{' '}
+              </a>
             </p>
           </div>
+
+          <section>
+            <h2 className="mb-4 font-condensed text-h5 font-bold md:text-h4">
+              Quereinstieg
+            </h2>
+            <div className="max-w-prose space-y-4 text-base md:text-xl">
+              <p>
+                Grundsätzlich ist ein Quereinstieg in den ersten 3 Walzjahren
+                möglich (9., 10., 11. Schulstufe). Wenn du dich für einen
+                Quereinstieg interessierst, fülle bitte das Anmeldeformular aus
+                und wir melden uns für einen persönlichen Vorstellungstermin,
+                bei dem auch deine Eltern dabei sein sollen.
+              </p>
+            </div>
+          </section>
 
           <LateralEntryBox />
         </article>
@@ -124,7 +153,7 @@ export default function Aufnahme() {
               2019).
             </p>
           </div>
-          <h2 className="font-condensed font-bold md:text-h4">
+          <h2 className="font-condensed text-h5 font-bold md:text-h4">
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
@@ -195,36 +224,23 @@ export default function Aufnahme() {
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function AdmissionDay() {
   return (
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
-        <InfoIcon size={16} className="stroke-secondary" />
-        <span className="font-condensed">Nächster Aufnahmetag</span>
+        <InfoIcon size={18} className="stroke-secondary" />
+        <span className="font-condensed text-body-md">Aufnahmetermin</span>
       </div>
-      <p className="text-body-sm/normal">
-        Der Aufnahmetag für den Jahrgang Epsilon (9. Schulstufe, Schulbeginn
-        September 2026) findet am 21. Februar 2026 statt. Für die Anmeldung zum
-        Aufnahmetag bitte das ausgefüllte{' '}
-        <a
-          download="Aufnahmeformular.pdf"
-          href="/downloads/aufnahmeformular_2026.pdf"
-          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-        >
-          Aufnahme&shy;formular
-          <DownloadIcon size={16} className="stroke-primary" />
-        </a>{' '}
-        an{' '}
-        <a
-          href="mailto:office@walz.at"
-          className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
-        >
-          office@walz.at
-          <ExternalLinkIcon size={16} className="stroke-primary" />
-        </a>{' '}
-        schicken. Weitere Infos folgen per Mail.
-      </p>
+      <div className="space-y-4 text-body-sm/normal">
+        <p>
+          Für einen Aufnahmetermin für den Jahrgang Epsilon (9. Schulstufe,
+          Schulbeginn September 2026) fülle das Aufnahmeformular aus. Weitere
+          Infos folgen per Mail.
+        </p>
+        <Button asChild>
+          <Link to="/aufnahme/formular">Zum Anmeldeformular</Link>
+        </Button>
+      </div>
     </div>
   )
 }
@@ -233,12 +249,12 @@ function LateralEntryBox() {
   return (
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
-        <InfoIcon size={16} className="stroke-secondary" />
-        <span className="font-condensed">Quereinstieg möglich</span>
+        <InfoIcon size={18} className="stroke-secondary" />
+        <span className="font-condensed text-body-md">Plätze frei</span>
       </div>
-      <div className="text-body-sm/normal">
+      <div className="space-y-4 text-body-sm/normal">
         <p>
-          In Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und
+          Im Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und
           Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos &
           Vorstellungstermin bei Agnes Chorherr:{' '}
           <a

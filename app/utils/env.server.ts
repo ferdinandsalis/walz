@@ -7,6 +7,7 @@ const schema = z.object({
   GOOGLE_MAPS_API_KEY: z.string(),
   SENTRY_DSN: z.string(),
   HONEYPOT_SECRET: z.string(),
+  RESEND_API_KEY: z.string(),
   SANITY_PUBLIC_PROJECT_ID: z.string(),
   SANITY_PUBLIC_DATASET: z.string(),
   SANITY_PUBLIC_API_VERSION: z.string(),

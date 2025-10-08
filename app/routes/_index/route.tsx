@@ -363,7 +363,7 @@ export default function Home() {
           </SectionHeading>
         </header>
         <Carousel
-          className="space-y-8 rounded-md bg-muted/30 py-8"
+          className="space-y-8 rounded-md bg-muted/30 py-8 shadow-inner"
           opts={{ loop: true }}
         >
           <CarouselContent className="-ml-8 px-8 py-2 lg:-ml-20">
