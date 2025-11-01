@@ -21,7 +21,7 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
       - name: 📥 Download deps
@@ -36,7 +36,7 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
       - name: 📥 Download deps
@@ -51,7 +51,7 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v5
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
       - name: 📥 Download deps
@@ -80,7 +80,7 @@ jobs:
       - name: 🏄 Copy test env vars
         run: cp .env.example .env
       - name: ⎔ Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
       - name: 📥 Download deps
