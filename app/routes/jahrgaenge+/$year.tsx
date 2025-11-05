@@ -125,33 +125,35 @@ function YearPhotos({
     <div className="max-w-5xl">
       <div className="flex flex-col gap-4 lg:flex-row">
         <Dialog>
-          <figure className="relative flex-1 group">
-            <DialogTrigger asChild>
-              <button className="relative w-full cursor-zoom-in">
-                <img
-                  src={urlFor(selectedPhoto).quality(80).width(1000).url()}
-                  width={width}
-                  height={height}
-                  alt={`${letter} Foto`}
-                  className="w-full rounded-sm object-cover object-center shadow-md"
-                  style={{
-                    aspectRatio: width / height,
-                  }}
-                />
-                <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                  <ZoomInIcon className="h-5 w-5 text-white" />
-                </div>
-              </button>
-            </DialogTrigger>
-            {selectedPhoto.motto && (
-              <figcaption className="absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12 pointer-events-none">
-                <p className="font-condensed text-lg text-white">
-                  Motto: "{selectedPhoto.motto}"
-                </p>
-              </figcaption>
-            )}
+          <figure className="group flex-1">
+            <div className="relative flex">
+              <DialogTrigger asChild>
+                <button className="relative w-full cursor-zoom-in">
+                  <img
+                    src={urlFor(selectedPhoto).quality(80).width(1000).url()}
+                    width={width}
+                    height={height}
+                    alt={`${letter} Foto`}
+                    className="w-full rounded-sm object-cover object-center shadow-md"
+                    style={{
+                      aspectRatio: width / height,
+                    }}
+                  />
+                  <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                    <ZoomInIcon className="h-5 w-5 text-white" />
+                  </div>
+                </button>
+              </DialogTrigger>
+              {selectedPhoto.motto && (
+                <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+                  <p className="font-condensed text-body-sm text-white">
+                    Motto: "{selectedPhoto.motto}"
+                  </p>
+                </figcaption>
+              )}
+            </div>
           </figure>
-          <DialogContent className="max-w-7xl w-[95vw] max-h-[95vh] p-0 overflow-hidden">
+          <DialogContent className="max-h-[95vh] w-[95vw] max-w-7xl overflow-hidden p-0">
             <div className="relative flex items-center justify-center bg-black">
               <img
                 src={urlFor(selectedPhoto).quality(90).width(2400).url()}
