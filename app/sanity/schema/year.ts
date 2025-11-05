@@ -23,6 +23,12 @@ export const YearSchema = z.object({
   mentor: PersonSchema,
   photos: z.array(PhotoSchema),
   plan: z.any(),
+  featuredPhoto: z.object({
+    asset: z.object({
+      _ref: z.string(),
+      _type: z.string(),
+    }).optional(),
+  }).optional().nullable(),
 })
 
 export type Year = z.infer<typeof YearSchema>
@@ -128,6 +134,13 @@ export default defineType({
       name: 'photos',
       type: 'array',
       of: [defineArrayMember(yearPhoto)],
+    }),
+    defineField({
+      name: 'featuredPhoto',
+      title: 'Hauptfoto',
+      type: 'reference',
+      description: 'Das Foto, das zuerst auf Karten und der Jahrgangsseite angezeigt wird. Falls nicht gesetzt, wird das neueste Foto (nach Datum) verwendet.',
+      to: [{ type: 'sanity.imageAsset' }],
     }),
     defineField({
       name: 'mentor',
