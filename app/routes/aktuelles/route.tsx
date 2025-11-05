@@ -32,6 +32,7 @@ import {
   calculateCurrentYear,
   determineCurrentSchoolYear,
 } from '#app/utils/years.ts'
+import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import {
   type QueryResult,
   type Year,
@@ -325,7 +326,11 @@ export function YearCard({
   mentor,
   photos,
   plan,
-}: Omit<Year, 'mentor'> & { mentor: Year['mentor'] | null }) {
+  featuredPhoto,
+}: Omit<Year, 'mentor'> & {
+  mentor: Year['mentor'] | null
+  featuredPhoto?: Year['featuredPhoto']
+}) {
   return (
     <article
       key={letter}
@@ -396,7 +401,7 @@ export function YearCard({
       >
         {photos ? (
           <img
-            src={urlFor(photos[0]).quality(70).width(600).url()}
+            src={urlFor(selectFeaturedPhoto(photos, featuredPhoto)).quality(70).width(600).url()}
             alt={`${letter} Foto`}
             className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
           />

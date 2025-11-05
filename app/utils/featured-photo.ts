@@ -11,7 +11,7 @@ export function selectFeaturedPhoto(
   // If a featured photo is set, try to find it in the photos array
   if (featuredPhotoRef?.asset?._ref) {
     const featured = photos.find(
-      p => p.asset._ref === featuredPhotoRef.asset._ref,
+      p => p.asset._ref === featuredPhotoRef.asset!._ref,
     )
     if (featured) return featured
   }
