@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from '#app/components/ui/dialog.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
+import { type Photo } from '#app/sanity/schema/year.ts'
+import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
 import { calculateCurrentYear } from '#app/utils/years.js'
 import { yearQuery, YearSchema } from './$year.query.tsx'
@@ -78,7 +80,7 @@ export default function Year() {
       </header>
 
       {year.photos ? (
-        <YearPhotos photos={year.photos} letter={year.letter} />
+        <YearPhotos photos={year.photos} letter={year.letter} featuredPhoto={year.featuredPhoto} />
       ) : (
         <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
           <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/20 to-transparent">
@@ -106,18 +108,15 @@ export default function Year() {
 function YearPhotos({
   photos,
   letter,
+  featuredPhoto,
 }: {
-  photos: {
-    asset?: any
-    takenAt: Date
-    motto?: string
-    attribution?: string
-    alt?: string
-    caption?: string
-  }[]
+  photos: Photo[]
   letter: string
+  featuredPhoto?: any
 }) {
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0)
+  const featured = selectFeaturedPhoto(photos, featuredPhoto)
+  const initialIndex = photos.findIndex(p => p.asset._ref === featured.asset._ref)
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(initialIndex >= 0 ? initialIndex : 0)
   const selectedPhoto = photos[selectedPhotoIndex]
   const { width, height } = getImageDimensions(selectedPhoto.asset)
 
