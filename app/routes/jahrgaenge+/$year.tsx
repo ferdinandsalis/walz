@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from '#app/components/ui/dialog.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
-import { type Photo } from '#app/sanity/schema/year.ts'
+import { type Photo, type Year } from '#app/sanity/schema/year.ts'
 import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
 import { calculateCurrentYear } from '#app/utils/years.js'
@@ -112,7 +112,7 @@ function YearPhotos({
 }: {
   photos: Photo[]
   letter: string
-  featuredPhoto?: any
+  featuredPhoto?: Year['featuredPhoto']
 }) {
   const featured = selectFeaturedPhoto(photos, featuredPhoto)
   const initialIndex = photos.findIndex(p => p.asset._ref === featured.asset._ref)
