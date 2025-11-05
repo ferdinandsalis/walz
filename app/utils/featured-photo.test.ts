@@ -41,4 +41,8 @@ describe('selectFeaturedPhoto', () => {
     const result = selectFeaturedPhoto(sameDatePhotos)
     expect(result.asset._ref).toBe('photo-1')
   })
+
+  it('throws error when photos array is empty', () => {
+    expect(() => selectFeaturedPhoto([])).toThrow('Cannot select featured photo from empty photos array')
+  })
 })

@@ -4,6 +4,10 @@ export function selectFeaturedPhoto(
   photos: Photo[],
   featuredPhotoRef?: { asset?: { _ref: string; _type: string } } | null,
 ): Photo {
+  if (photos.length === 0) {
+    throw new Error('Cannot select featured photo from empty photos array')
+  }
+
   // If a featured photo is set, try to find it in the photos array
   if (featuredPhotoRef?.asset?._ref) {
     const featured = photos.find(
