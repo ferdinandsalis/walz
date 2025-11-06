@@ -26,7 +26,7 @@ import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { EventSchema, tType } from '#app/sanity/schema/event.tsx'
-import { alphabetMap } from '#app/sanity/schema/year.ts'
+import { alphabetMap } from '#app/sanity/schema/year.tsx'
 import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
 import {

@@ -1,6 +1,6 @@
 import { defineQuery } from 'groq'
 import { z } from 'zod'
-import { PhotoSchema } from '#app/sanity/schema/year.ts'
+import { PhotoSchema } from '#app/sanity/schema/year.tsx'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
 export const yearQuery = defineQuery(`

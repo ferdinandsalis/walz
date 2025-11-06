@@ -1,7 +1,57 @@
 import { GraduationCapIcon } from 'lucide-react'
+import React from 'react'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { z } from 'zod'
 import { PersonSchema } from '#app/routes/ueber-uns+/_index.query.ts'
+
+// Custom component to display the asset reference
+function AssetRefDisplay(props: any) {
+	const ref = props.value?.asset?._ref || props.parent?.asset?._ref
+	if (!ref) return null
+
+	return (
+		<div style={{ padding: '12px 0' }}>
+			<label
+				style={{
+					display: 'block',
+					fontSize: '13px',
+					fontWeight: 600,
+					marginBottom: '8px',
+					color: '#1f2937',
+				}}
+			>
+				Asset-Referenz (für Hauptfoto)
+			</label>
+			<code
+				style={{
+					display: 'block',
+					padding: '10px 12px',
+					background: '#f3f4f6',
+					border: '1px solid #e5e7eb',
+					borderRadius: '4px',
+					fontFamily: 'monospace',
+					fontSize: '13px',
+					userSelect: 'all',
+					cursor: 'text',
+					color: '#374151',
+					wordBreak: 'break-all',
+				}}
+			>
+				{ref}
+			</code>
+			<p
+				style={{
+					fontSize: '12px',
+					color: '#6b7280',
+					marginTop: '6px',
+					marginBottom: 0,
+				}}
+			>
+				Diese Referenz kann in das Hauptfoto-Feld kopiert werden.
+			</p>
+		</div>
+	)
+}
 
 // Define the Photo schema
 export const PhotoSchema = z.object({
@@ -76,6 +126,13 @@ const yearPhoto = defineField({
     hotspot: true,
   },
   fields: [
+    {
+      name: 'assetRef',
+      type: 'string',
+      components: {
+        input: AssetRefDisplay,
+      },
+    },
     {
       name: 'takenAt',
       type: 'date',

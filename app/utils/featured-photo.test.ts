@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { selectFeaturedPhoto } from './featured-photo.ts'
-import type { Photo } from '#app/sanity/schema/year.ts'
+import type { Photo } from '#app/sanity/schema/year.tsx'
 
 describe('selectFeaturedPhoto', () => {
   const mockPhotos: Photo[] = [
