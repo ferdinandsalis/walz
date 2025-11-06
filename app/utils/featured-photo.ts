@@ -2,16 +2,16 @@ import type { Photo } from '#app/sanity/schema/year.ts'
 
 export function selectFeaturedPhoto(
   photos: Photo[],
-  featuredPhotoRef?: { asset?: { _ref: string; _type: string } } | null,
+  featuredPhotoRef?: string | null,
 ): Photo {
   if (photos.length === 0) {
     throw new Error('Cannot select featured photo from empty photos array')
   }
 
   // If a featured photo is set, try to find it in the photos array
-  if (featuredPhotoRef?.asset?._ref) {
+  if (featuredPhotoRef) {
     const featured = photos.find(
-      p => p.asset._ref === featuredPhotoRef.asset!._ref,
+      p => p.asset._ref === featuredPhotoRef,
     )
     if (featured) return featured
   }

@@ -24,13 +24,13 @@ describe('selectFeaturedPhoto', () => {
   })
 
   it('returns featured photo when it exists in array', () => {
-    const featuredRef = { asset: { _ref: 'photo-1', _type: 'reference' } }
+    const featuredRef = 'photo-1'
     const result = selectFeaturedPhoto(mockPhotos, featuredRef)
     expect(result.asset._ref).toBe('photo-1')
   })
 
   it('falls back to most recent when featured photo not found', () => {
-    const featuredRef = { asset: { _ref: 'photo-999', _type: 'reference' } }
+    const featuredRef = 'photo-999'
     const result = selectFeaturedPhoto(mockPhotos, featuredRef)
     expect(result.asset._ref).toBe('photo-3')
   })

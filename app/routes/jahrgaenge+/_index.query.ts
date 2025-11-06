@@ -18,12 +18,7 @@ export const jahrgaengeQuery = defineQuery(`{
       slug
     },
     photos | order(takenAt desc),
-    featuredPhoto {
-      asset {
-        _ref,
-        _type
-      }
-    }
+    featuredPhoto
   },
   "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {
     _id,
@@ -39,12 +34,7 @@ export const jahrgaengeQuery = defineQuery(`{
       slug
     },
     photos | order(takenAt desc),
-    featuredPhoto {
-      asset {
-        _ref,
-        _type
-      }
-    }
+    featuredPhoto
   }
 }`)
 
@@ -60,12 +50,7 @@ export const YearSchema = z.object({
   }).nullable(),
   photos: z.array(PhotoSchema).nullable(),
   plan: z.string().nullable(),
-  featuredPhoto: z.object({
-    asset: z.object({
-      _ref: z.string(),
-      _type: z.string(),
-    }).optional(),
-  }).optional().nullable(),
+  featuredPhoto: z.string().optional().nullable(),
 })
 
 export type Year = z.infer<typeof YearSchema>

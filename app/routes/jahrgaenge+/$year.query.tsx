@@ -17,12 +17,7 @@ export const yearQuery = defineQuery(`
       "name": givenNames + " " + familyName,
     },
     photos | order(takenAt desc),
-    featuredPhoto {
-      asset {
-        _ref,
-        _type
-      }
-    }
+    featuredPhoto
   }
 `)
 
@@ -37,12 +32,7 @@ export const YearSchema = z.object({
     name: z.string(),
   }),
   photos: z.array(PhotoSchema).nullable(),
-  featuredPhoto: z.object({
-    asset: z.object({
-      _ref: z.string(),
-      _type: z.string(),
-    }).optional(),
-  }).optional().nullable(),
+  featuredPhoto: z.string().optional().nullable(),
 })
 
 export type Year = z.infer<typeof YearSchema>
