@@ -132,18 +132,10 @@ export default defineType({
     }),
     defineField({
       name: 'featuredPhoto',
-      title: 'Hauptfoto',
+      title: 'Hauptfoto (Asset-Referenz)',
       type: 'string',
-      description: 'Das Foto, das zuerst auf Karten und der Jahrgangsseite angezeigt wird. Falls nicht gesetzt, wird das neueste Foto (nach Datum) verwendet.',
-      options: {
-        list: ((context: any) => {
-          const photos = context.document?.photos || []
-          return photos.map((photo: any, index: number) => ({
-            title: photo.takenAt ? new Date(photo.takenAt).getFullYear().toString() : `Foto ${index + 1}`,
-            value: photo.asset?._ref || '',
-          }))
-        }) as any,
-      },
+      description: 'Die Asset-Referenz (_ref) des Fotos, das zuerst angezeigt werden soll. Falls leer, wird das neueste Foto (nach Datum) verwendet. Die Referenz findet man in den Foto-Details.',
+      placeholder: 'z.B. image-abc123...',
     }),
     defineField({
       name: 'mentor',
