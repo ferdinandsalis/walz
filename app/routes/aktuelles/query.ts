@@ -45,7 +45,15 @@ export const aktuellesQuery = defineQuery(`{
       "name": givenNames + " " + familyName,
       slug
     },
-    photos | order(takenAt desc),
+    photos[] {
+      _key,
+      takenAt,
+      motto,
+      caption,
+      attribution,
+      alt,
+      asset
+    } | order(takenAt desc),
     featuredPhoto
   }
 }`)

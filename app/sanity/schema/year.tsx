@@ -1,53 +1,69 @@
 import { GraduationCapIcon } from 'lucide-react'
 import React from 'react'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType, set, useFormValue } from 'sanity'
+import type { StringInputProps } from 'sanity'
 import { z } from 'zod'
 import { PersonSchema } from '#app/routes/ueber-uns+/_index.query.ts'
 
-// Custom component to display the asset reference
-function AssetRefDisplay(props: any) {
-	const ref = props.value?.asset?._ref || props.parent?.asset?._ref
-	if (!ref) return null
+// Custom dropdown component to select featured photo from the photos array
+function FeaturedPhotoSelector(props: StringInputProps) {
+	// Get all photos from the current document
+	const photos = useFormValue(['photos']) as Array<{
+		_key: string
+		takenAt: string
+		motto?: string
+		asset?: { _ref: string }
+	}> | undefined
+
+	// Sort photos by date (newest first) for consistent ordering
+	const sortedPhotos = photos
+		? [...photos].sort((a, b) =>
+				new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime()
+			)
+		: []
 
 	return (
-		<div style={{ padding: '12px 0' }}>
-			<label
-				style={{
-					display: 'block',
-					fontSize: '13px',
-					fontWeight: 600,
-					marginBottom: '8px',
-					color: '#1f2937',
+		<div>
+			<select
+				id={props.id}
+				value={props.value || ''}
+				onChange={(event) => {
+					const newValue = event.target.value || undefined
+					props.onChange(newValue ? set(newValue) : set(undefined))
 				}}
-			>
-				Asset-Referenz (für Hauptfoto)
-			</label>
-			<code
 				style={{
-					display: 'block',
-					padding: '10px 12px',
-					background: '#f3f4f6',
-					border: '1px solid #e5e7eb',
+					width: '100%',
+					padding: '8px 12px',
+					fontSize: '14px',
+					border: '1px solid #d1d5db',
 					borderRadius: '4px',
-					fontFamily: 'monospace',
-					fontSize: '13px',
-					userSelect: 'all',
-					cursor: 'text',
-					color: '#374151',
-					wordBreak: 'break-all',
+					backgroundColor: 'white',
+					cursor: 'pointer',
 				}}
 			>
-				{ref}
-			</code>
+				<option value="">Neuestes Foto (Standard)</option>
+				{sortedPhotos.map((photo) => {
+					const date = new Date(photo.takenAt)
+					const year = date.getFullYear()
+					const label = photo.motto
+						? `${year} - ${photo.motto}`
+						: `${year}`
+
+					return (
+						<option key={photo._key} value={photo._key}>
+							{label}
+						</option>
+					)
+				})}
+			</select>
 			<p
 				style={{
+					marginTop: '8px',
 					fontSize: '12px',
 					color: '#6b7280',
-					marginTop: '6px',
-					marginBottom: 0,
 				}}
 			>
-				Diese Referenz kann in das Hauptfoto-Feld kopiert werden.
+				Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden soll.
 			</p>
 		</div>
 	)
@@ -55,11 +71,12 @@ function AssetRefDisplay(props: any) {
 
 // Define the Photo schema
 export const PhotoSchema = z.object({
+  _key: z.string(),
   takenAt: z.coerce.date(),
-  motto: z.string().optional(),
-  caption: z.string().optional(),
-  attribution: z.string().optional(),
-  alt: z.string().optional(),
+  motto: z.string().optional().nullable(),
+  caption: z.string().optional().nullable(),
+  attribution: z.string().optional().nullable(),
+  alt: z.string().optional().nullable(),
   asset: z.any(),
 })
 
@@ -127,13 +144,6 @@ const yearPhoto = defineField({
   },
   fields: [
     {
-      name: 'assetRef',
-      type: 'string',
-      components: {
-        input: AssetRefDisplay,
-      },
-    },
-    {
       name: 'takenAt',
       type: 'date',
       title: 'Fotografiert am',
@@ -167,7 +177,7 @@ const yearPhoto = defineField({
     },
     prepare(selection) {
       const { date, asset } = selection as any
-      const year = date ? new Date(date).getFullYear() : ''
+      const year = date ? new Date(date).getFullYear().toString() : ''
       const ref = asset?._ref || ''
       return {
         media: asset,
@@ -192,10 +202,12 @@ export default defineType({
     }),
     defineField({
       name: 'featuredPhoto',
-      title: 'Hauptfoto (Asset-Referenz)',
+      title: 'Hauptfoto',
       type: 'string',
-      description: 'Die Asset-Referenz (_ref) des Fotos, das zuerst angezeigt werden soll. Falls leer, wird das neueste Foto (nach Datum) verwendet. Die Referenz findet man in den Foto-Details.',
-      placeholder: 'z.B. image-abc123...',
+      description: 'Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden soll. Falls leer, wird das neueste Foto (nach Datum) verwendet.',
+      components: {
+        input: FeaturedPhotoSelector,
+      },
     }),
     defineField({
       name: 'mentor',

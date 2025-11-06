@@ -16,7 +16,15 @@ export const yearQuery = defineQuery(`
       givenNames,
       "name": givenNames + " " + familyName,
     },
-    photos | order(takenAt desc),
+    photos[] {
+      _key,
+      takenAt,
+      motto,
+      caption,
+      attribution,
+      alt,
+      asset
+    } | order(takenAt desc),
     featuredPhoto
   }
 `)

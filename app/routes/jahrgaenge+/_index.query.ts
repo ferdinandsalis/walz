@@ -17,7 +17,15 @@ export const jahrgaengeQuery = defineQuery(`{
       "name": givenNames + " " + familyName,
       slug
     },
-    photos | order(takenAt desc),
+    photos[] {
+      _key,
+      takenAt,
+      motto,
+      caption,
+      attribution,
+      alt,
+      asset
+    } | order(takenAt desc),
     featuredPhoto
   },
   "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {
@@ -33,7 +41,15 @@ export const jahrgaengeQuery = defineQuery(`{
       "name": givenNames + " " + familyName,
       slug
     },
-    photos | order(takenAt desc),
+    photos[] {
+      _key,
+      takenAt,
+      motto,
+      caption,
+      attribution,
+      alt,
+      asset
+    } | order(takenAt desc),
     featuredPhoto
   }
 }`)
