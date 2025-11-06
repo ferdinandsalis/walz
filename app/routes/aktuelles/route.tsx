@@ -27,12 +27,12 @@ import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { EventSchema, tType } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.ts'
+import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
 import {
   calculateCurrentYear,
   determineCurrentSchoolYear,
 } from '#app/utils/years.ts'
-import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import {
   type QueryResult,
   type Year,
@@ -399,7 +399,7 @@ export function YearCard({
         })}
         className="group relative min-h-48 w-full sm:min-h-0 sm:w-40 md:w-48 lg:w-56"
       >
-        {photos ? (
+        {photos && photos.length > 0 ? (
           <img
             src={urlFor(selectFeaturedPhoto(photos, featuredPhoto)).quality(70).width(600).url()}
             alt={`${letter} Foto`}

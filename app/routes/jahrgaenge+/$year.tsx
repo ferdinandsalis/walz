@@ -79,7 +79,7 @@ export default function Year() {
         </div>
       </header>
 
-      {year.photos ? (
+      {year.photos && year.photos.length > 0 ? (
         <YearPhotos photos={year.photos} letter={year.letter} featuredPhoto={year.featuredPhoto} />
       ) : (
         <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
