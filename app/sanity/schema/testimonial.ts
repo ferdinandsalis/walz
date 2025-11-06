@@ -1,7 +1,7 @@
 import { MicVocalIcon } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
-import { alphabetMap } from './year.ts'
+import { alphabetMap } from './year.tsx'
 
 export const Testimonial = z.object({
   name: z.string(),
