@@ -7,7 +7,7 @@ import person from './person.ts'
 import post from './post.ts'
 import schoolYear from './school-year.ts'
 import testimonial from './testimonial.ts'
-import year from './year.ts'
+import year from './year.tsx'
 
 export const schemaTypes = [
   event,
