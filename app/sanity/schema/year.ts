@@ -110,9 +110,11 @@ const yearPhoto = defineField({
     },
     prepare(selection) {
       const { date, asset } = selection as any
+      const year = date ? new Date(date).getFullYear() : ''
+      const ref = asset?._ref ? ` (${asset._ref})` : ''
       return {
         media: asset,
-        title: `${date ? new Date(date).getFullYear() : ''}`,
+        title: `${year}${ref}`,
       }
     },
   },
