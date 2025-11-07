@@ -1,3 +1,4 @@
+import { isbot } from 'isbot'
 import { LoaderIcon } from 'lucide-react'
 import {
   type ActionFunctionArgs,
@@ -48,6 +49,12 @@ const aufnahmeFormSchema = z.object({
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
+
+  // Check for bot user agents
+  const userAgent = request.headers.get('user-agent')
+  if (userAgent && isbot(userAgent)) {
+    throw new Response('Bot detected', { status: 403 })
+  }
 
   // Check honeypot for spam
   checkHoneypot(formData)
