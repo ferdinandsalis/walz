@@ -30,10 +30,6 @@ export default function Legal() {
               <dd>Renate Chorherr</dd>
             </div>
             <div>
-              <dt className="font-bold">Leiterin der Administration</dt>
-              <dd>Brigitte Fasching</dd>
-            </div>
-            <div>
               <dt className="font-bold">
                 Für den Inhalt der Seite verantwortlich
               </dt>
