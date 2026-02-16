@@ -64,16 +64,18 @@ export default function Aufnahme() {
             </p>
             <p>
               Nach Absenden des Formulars senden wir dir und deinen Eltern eine
-              Bestätigung per Mail mit Details zum Aufnahmetermin zu. Ab Mitte
-              November melden wir uns telefonisch bei deinen Eltern, um einen
-              Aufnahmetermin zu vereinbaren.
+              Bestätigung per Mail mit Details zum Aufnahmetermin zu. Für den
+              neuen Jahrgang beginnen wir ab Mitte November (nach dem Tag der
+              offenen Tür) das Aufnahmeverfahren. Dafür melden wir uns
+              telefonisch bei deinen Eltern, um einen Aufnahmetermin zu
+              vereinbaren.
             </p>
             <p>
-              Bei einem persönlichen Aufnahmegespräch mit der Schulleiterin und
+              Bei dem persönlichen Aufnahmegespräch mit der Schulleiterin und
               dem/der Mentor:in werden die gegenseitigen Erwartungen abgeklärt
               und bei kleinen Aufgaben bekommst du einen ersten Einblick in die
-              Arbeitsweise der Walz. Wir bitten die Eltern, zum Aufnahmetermin
-              mitzukommen.
+              Arbeitsweise der Walz. Wir bitten deine Eltern, zum
+              Aufnahmetermin mitzukommen.
             </p>
             <p>
               Ab Jänner erhalten du und deine Eltern eine Zu- oder Absage. Wenn
