@@ -25,13 +25,16 @@ const viteDevServer = IS_PROD
 
 const app = express()
 
+// Redirect bare domain to canonical www hostname
 app.use((req, res, next) => {
-  // Check if the request header contains 'www.'
-  if (req?.headers?.host && req?.headers?.host.slice(0, 4) === 'www.') {
-    // Remove 'www.' and redirect to non-www domain
-    const newHost = req.headers.host.slice(4)
-    return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl)
+  const forwardedHost = req.get('X-Forwarded-Host')
+  const rawHost = forwardedHost ?? req.get('host') ?? ''
+  const host = rawHost.split(':')[0].toLowerCase()
+
+  if (host === 'walz.at') {
+    return res.redirect(301, `https://www.walz.at${req.originalUrl}`)
   }
+
   next()
 })
 
