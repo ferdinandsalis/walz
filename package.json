@@ -60,7 +60,7 @@
     "close-with-grace": "^2.3.0",
     "clsx": "^2.1.1",
     "compression": "^1.8.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.1.0",
     "crypto-js": "^4.2.0",
     "embla-carousel-react": "^8.6.0",
     "execa": "^9.6.0",
