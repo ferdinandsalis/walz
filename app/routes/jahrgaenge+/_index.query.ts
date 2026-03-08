@@ -36,10 +36,12 @@ export const YearSchema = z.object({
   letter: z.string(),
   startedAt: z.coerce.date(),
   graduatedAt: z.coerce.date().nullable(),
-  mentor: PersonSchema.pick({ givenNames: true, familyName: true }).extend({
-    name: z.string(),
-    slug: z.object({ current: z.string() }),
-  }).nullable(),
+  mentor: PersonSchema.pick({ givenNames: true, familyName: true })
+    .extend({
+      name: z.string(),
+      slug: z.object({ current: z.string() }),
+    })
+    .nullable(),
   photos: z.array(PhotoSchema).nullable(),
   plan: z.string().nullable(),
   featuredPhoto: z.string().optional().nullable(),

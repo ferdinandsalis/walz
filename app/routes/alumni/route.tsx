@@ -63,9 +63,9 @@ export default function Alumni() {
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Eltern und ehemalige Jugendliche wissen: Der Besuch der Walz
-                verändert. In einem turbulenten Lebensalter — oft nach Jahren der
-                Unlust — hat die Walz vielen geholfen, wieder arbeitsfähig zu
-                werden. Und die eigene Persönlichkeit zu entfalten. Die
+                verändert. In einem turbulenten Lebensalter — oft nach Jahren
+                der Unlust — hat die Walz vielen geholfen, wieder arbeitsfähig
+                zu werden. Und die eigene Persönlichkeit zu entfalten. Die
                 Betreuung durch Projektleiter:innen und Mentor:innen geht weit
                 über den ohnehin hohen Level der Walz hinaus.
               </p>
@@ -109,7 +109,7 @@ export default function Alumni() {
           </div>
 
           <div className="max-w-2xl rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20 md:p-8">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="mb-4 flex items-center gap-2">
               <HeartHandshakeIcon size={28} className="stroke-secondary" />
               <h2 className="font-condensed text-h4 font-bold text-primary">
                 Spendenkonto
