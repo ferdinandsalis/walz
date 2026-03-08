@@ -27,30 +27,6 @@ export const jahrgaengeQuery = defineQuery(`{
       asset
     } | order(takenAt desc),
     featuredPhoto
-  },
-  "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {
-    _id,
-    _type,
-    startedAt,
-    graduatedAt,
-    "plan": plan.asset->url,
-    letter,
-    mentor->{
-      familyName,
-      givenNames,
-      "name": givenNames + " " + familyName,
-      slug
-    },
-    photos[] {
-      _key,
-      takenAt,
-      motto,
-      caption,
-      attribution,
-      alt,
-      asset
-    } | order(takenAt desc),
-    featuredPhoto
   }
 }`)
 
@@ -73,5 +49,4 @@ export type Year = z.infer<typeof YearSchema>
 
 export type QueryResult = {
   currentYears: Year[]
-  alumniYears: Year[]
 }
