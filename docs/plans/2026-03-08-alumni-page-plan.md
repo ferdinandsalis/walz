@@ -31,26 +31,14 @@ const navigation = {
   // ... rest unchanged
 ```
 
-**Step 2: Add Alumni link to footer**
+**Step 2: Verify dev server shows the new nav item**
 
-In `FooterNavigation()`, add an Alumni link in the secondary links column (after "Unterstützende"):
-
-```tsx
-<Link
-  to="/alumni"
-  prefetch="intent"
-  className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
->
-  Alumni
-</Link>
-```
-
-**Step 3: Verify dev server shows the new nav item**
+Note: The footer already renders `navigation.main` via `.map()`, so adding to the array covers both nav and footer automatically.
 
 Run: `npm run dev` (if not running)
 Check: Navigate to localhost — "Alumni" should appear in nav after "Aufnahme" at all breakpoints.
 
-**Step 4: Commit**
+**Step 3: Commit**
 
 ```bash
 git add app/components/shell.tsx
@@ -358,7 +346,41 @@ git commit -m "Add Alumni page with Ehrensache Walz and alumni year listings"
 
 ---
 
-### Task 4: Simplify Jahrgänge page (remove alumni section)
+### Task 4: Visual review and refinement (frontend-design skill)
+
+**REQUIRED SKILL:** Use the `frontend-design` skill for this task.
+
+**Step 1: Review the Alumni page in-browser**
+
+Run the dev server (`npm run dev` if not running). Open `/alumni` in the browser using browser-tools. Take a screenshot and evaluate against the project's design system:
+
+- Does the page match the visual style of existing pages (`/ueber-uns`, `/unterstuetzende`)?
+- Is the donation card prominent and inviting, not generic?
+- Does typography, spacing, and color use match the site's existing tokens?
+- Is there clear visual hierarchy: story → impact → CTA?
+- Does the page look cohesive at mobile, md, and lg breakpoints?
+
+**Step 2: Refine styling if needed**
+
+Fix any visual issues found. Common things to check:
+- Donation card should feel warm/inviting (it's a charity ask, not a form)
+- Spacing between sections should match other pages
+- The IBAN should be easy to copy/read
+
+**Step 3: Check navigation at all breakpoints**
+
+Verify "Alumni" fits in the horizontal nav at md breakpoint without wrapping or overflow. If it wraps, adjust font size or padding.
+
+**Step 4: Commit any refinements**
+
+```bash
+git add -u
+git commit -m "Refine Alumni page styling"
+```
+
+---
+
+### Task 5: Simplify Jahrgänge page (remove alumni section)
 
 **Files:**
 - Modify: `app/routes/jahrgaenge+/_index.tsx`
@@ -467,7 +489,7 @@ git commit -m "Remove alumni section from Jahrgänge, link to Alumni page"
 
 ---
 
-### Task 5: Add E2E test for Alumni page
+### Task 6: Add E2E test for Alumni page
 
 **Files:**
 - Modify: `tests/pages.spec.ts`
@@ -504,7 +526,7 @@ git commit -m "Add E2E test for Alumni page"
 
 ---
 
-### Task 6: Typecheck and lint
+### Task 7: Typecheck and lint
 
 **Step 1: Run typecheck**
 
