@@ -67,14 +67,14 @@ export default function Alumni() {
                 turbulenten Lebensalter und oft nach Jahren der Unlust hat die
                 Walz vielen geholfen, wieder arbeitsfähig zu werden und die
                 eigene Persönlichkeit zu entfalten. Die Betreuung vieler
-                Jugendlicher durch die Projektleiter*innen und Mentor*innen geht
+                Jugendlicher durch die Projektleiter:innen und Mentor:innen geht
                 sehr oft weit über den in der Walz ohnehin sehr hohen Level
                 hinaus.
               </p>
               <p>
                 Aus Dankbarkeit und Verbundenheit mit der Walz entstand die
                 Initiative „Ehrensache Walz". Heute wird sie von Eltern
-                (ehemaliger) Walzist*innen sowie von ehemaligen Walzist*innen
+                (ehemaliger) Walzist:innen sowie von ehemaligen Walzist:innen
                 selbst weitergetragen.
               </p>
             </div>
