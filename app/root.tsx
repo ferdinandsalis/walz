@@ -44,7 +44,7 @@ export async function loader({ request }: Route.LoaderArgs) {
       origin: getDomainUrl(request),
       path: new URL(request.url).pathname,
     },
-    honeyProps: honeypot.getInputProps() as {
+    honeyProps: (await honeypot.getInputProps()) as {
       nameFieldName: string
       validFromFieldName: string | null
       encryptedValidFrom: string

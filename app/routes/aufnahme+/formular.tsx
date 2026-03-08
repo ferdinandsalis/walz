@@ -1,5 +1,5 @@
-import { isbot } from 'isbot'
 import { CircleNotch } from '@phosphor-icons/react'
+import { isbot } from 'isbot'
 import {
   type ActionFunctionArgs,
   Form,
@@ -57,7 +57,7 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   // Check honeypot for spam
-  checkHoneypot(formData)
+  await checkHoneypot(formData)
 
   // Validate form data
   const parseResult = aufnahmeFormSchema.safeParse(

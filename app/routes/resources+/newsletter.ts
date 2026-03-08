@@ -5,7 +5,7 @@ import { checkHoneypot } from '#app/utils/honeypot.server.ts'
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
-  checkHoneypot(formData)
+  await checkHoneypot(formData)
   const data = z
     .object({
       email: z.string().email(),
