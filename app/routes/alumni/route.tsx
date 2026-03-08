@@ -49,11 +49,6 @@ export default function Alumni() {
 
           <div className="max-w-2xl space-y-4 text-base md:text-xl">
             <p>
-              Die Walz hat vielen Jugendlichen geholfen, ihre Persönlichkeit zu
-              entfalten. Aus Dankbarkeit ermöglichen Eltern und Ehemalige mit
-              Stipendien diese Chance auch für andere.
-            </p>
-            <p>
               „Ehrensache Walz" wurde vom Vater eines Ex-Walzisten ins Leben
               gerufen. Ziel der Initiative ist es, Jugendlichen den Besuch der
               Walz zu ermöglichen, auch wenn ihre Familien die dafür notwendigen
@@ -67,20 +62,17 @@ export default function Alumni() {
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
-                Vielen Eltern und ehemaligen Jugendlichen ist bewusst, dass der
-                Besuch der Walz eine ganz besondere Chance ist. Gerade in einem
-                turbulenten Lebensalter und oft nach Jahren der Unlust hat die
-                Walz vielen geholfen, wieder arbeitsfähig zu werden und die
-                eigene Persönlichkeit zu entfalten. Die Betreuung vieler
-                Jugendlicher durch die Projektleiter:innen und Mentor:innen geht
-                sehr oft weit über den in der Walz ohnehin sehr hohen Level
-                hinaus.
+                Eltern und ehemalige Jugendliche wissen: Der Besuch der Walz
+                verändert. In einem turbulenten Lebensalter — oft nach Jahren der
+                Unlust — hat die Walz vielen geholfen, wieder arbeitsfähig zu
+                werden. Und die eigene Persönlichkeit zu entfalten. Die
+                Betreuung durch Projektleiter:innen und Mentor:innen geht weit
+                über den ohnehin hohen Level der Walz hinaus.
               </p>
               <p>
-                Aus Dankbarkeit und Verbundenheit mit der Walz entstand die
-                Initiative „Ehrensache Walz". Heute wird sie von Eltern
-                (ehemaliger) Walzist:innen sowie von ehemaligen Walzist:innen
-                selbst weitergetragen.
+                Aus Dankbarkeit und Verbundenheit entstand die Initiative
+                „Ehrensache Walz". Heute tragen sie Eltern (ehemaliger)
+                Walzist:innen und ehemalige Walzist:innen selbst weiter.
               </p>
             </div>
           </article>
@@ -91,9 +83,8 @@ export default function Alumni() {
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
-                Die Initiative möchte möglichst vielen Jugendlichen, unabhängig
-                von der finanziellen Situation ihrer Familien, eine Walzkarriere
-                ermöglichen.
+                Die Initiative ermöglicht Jugendlichen den Besuch der Walz —
+                unabhängig von der finanziellen Situation ihrer Familien.
               </p>
             </div>
           </article>
@@ -104,17 +95,16 @@ export default function Alumni() {
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
-                Im Schuljahr 24/25 konnten durch diese Unterstützung vier
-                Teilstipendien vergeben werden. Der Bedarf ist jedoch viel höher.
+                Im Schuljahr 24/25 vergab die Initiative vier Teilstipendien.
+                Der Bedarf ist viel höher.
               </p>
             </div>
           </article>
 
           <div className="max-w-2xl space-y-4 text-base md:text-xl">
             <p className="font-bold">
-              Unterstütze „Ehrensache Walz" mit einer einmaligen oder
-              regelmäßigen Spende und ermögliche Jugendlichen den Besuch der
-              Walz.
+              Unterstütze „Ehrensache Walz" — mit einer einmaligen oder
+              regelmäßigen Spende.
             </p>
           </div>
 
@@ -157,8 +147,8 @@ export default function Alumni() {
 
             <div className="mt-6 space-y-3 border-t border-secondary/20 pt-4 text-body-sm">
               <p>
-                Die Walz ist spendenbegünstigt. Für die steuerliche Begünstigung
-                benötigen wir Name und Geburtsdatum.
+                Spenden an die Walz sind steuerlich absetzbar. Dafür benötigen
+                wir Name und Geburtsdatum.
               </p>
               <p>
                 Für Fragen zu der Initiative, Spenden und der steuerlichen
