@@ -1,6 +1,10 @@
+import {
+  Baby,
+  DownloadSimple,
+  MagnifyingGlassPlus,
+} from '@phosphor-icons/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
-import { Baby, DownloadSimple, MagnifyingGlassPlus } from '@phosphor-icons/react'
 import { useState } from 'react'
 import {
   type LoaderFunctionArgs,
@@ -80,7 +84,11 @@ export default function Year() {
       </header>
 
       {year.photos && year.photos.length > 0 ? (
-        <YearPhotos photos={year.photos} letter={year.letter} featuredPhoto={year.featuredPhoto} />
+        <YearPhotos
+          photos={year.photos}
+          letter={year.letter}
+          featuredPhoto={year.featuredPhoto}
+        />
       ) : (
         <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
           <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/20 to-transparent">
@@ -115,8 +123,12 @@ function YearPhotos({
   featuredPhoto?: Year['featuredPhoto']
 }) {
   const featured = selectFeaturedPhoto(photos, featuredPhoto)
-  const initialIndex = photos.findIndex(p => p.asset._ref === featured.asset._ref)
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(initialIndex >= 0 ? initialIndex : 0)
+  const initialIndex = photos.findIndex(
+    p => p.asset._ref === featured.asset._ref,
+  )
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(
+    initialIndex >= 0 ? initialIndex : 0,
+  )
   const selectedPhoto = photos[selectedPhotoIndex]
   const { width, height } = getImageDimensions(selectedPhoto.asset)
 

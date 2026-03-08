@@ -1,5 +1,5 @@
-import { visionTool } from '@sanity/vision'
 import { BookBookmark } from '@phosphor-icons/react'
+import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { projectDetails } from './app/sanity/project-details.ts'

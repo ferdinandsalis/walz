@@ -136,10 +136,7 @@ export function FooterNavigation() {
               <span className="text-muted-foreground hover:text-primary">
                 Instagram
               </span>
-              <ArrowSquareOut
-                size={18}
-                className="text-muted-foreground/50"
-              />
+              <ArrowSquareOut size={18} className="text-muted-foreground/50" />
             </Link>
             <Link
               to="https://www.youtube.com/channel/UCV9s0X21PcGR5th-tl02BPg"
@@ -149,10 +146,7 @@ export function FooterNavigation() {
               <span className="text-muted-foreground hover:text-primary">
                 Youtube
               </span>
-              <ArrowSquareOut
-                size={18}
-                className="text-muted-foreground/50"
-              />
+              <ArrowSquareOut size={18} className="text-muted-foreground/50" />
             </Link>
           </div>
         </div>

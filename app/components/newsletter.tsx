@@ -47,9 +47,7 @@ export function NewsletterForm() {
         >
           Abonnieren
         </Button>
-        {showSpinner && (
-          <CircleNotch className="animate-spin text-secondary" />
-        )}
+        {showSpinner && <CircleNotch className="animate-spin text-secondary" />}
         {done && <p className="text-green-500">Aktion Erfolgreich</p>}
       </div>
     </fetcher.Form>

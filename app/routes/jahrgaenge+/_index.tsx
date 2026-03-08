@@ -1,12 +1,12 @@
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
 import { z } from 'zod'
+import { YearCard } from '../aktuelles/route.tsx'
 import {
   type QueryResult,
   YearSchema,
   jahrgaengeQuery,
 } from './_index.query.ts'
-import { YearCard } from '../aktuelles/route.tsx'
 
 export function meta() {
   return [{ title: 'Jahrgänge | Walz' }]

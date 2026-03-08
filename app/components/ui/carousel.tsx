@@ -1,7 +1,7 @@
+import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from 'embla-carousel-react'
-import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import React from 'react'
 import { Button } from '#app/components/ui/button.tsx'
 import { cn } from '#app/utils/misc.tsx'

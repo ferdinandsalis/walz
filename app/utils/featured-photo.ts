@@ -1,4 +1,4 @@
-import type { Photo } from '#app/sanity/schema/year.tsx'
+import { type Photo } from '#app/sanity/schema/year.tsx'
 
 export function selectFeaturedPhoto(
   photos: Photo[],
@@ -10,9 +10,7 @@ export function selectFeaturedPhoto(
 
   // If a featured photo is set, try to find it by _key in the photos array
   if (featuredPhotoKey) {
-    const featured = photos.find(
-      p => p._key === featuredPhotoKey,
-    )
+    const featured = photos.find(p => p._key === featuredPhotoKey)
     if (featured) return featured
   }
 

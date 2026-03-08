@@ -3,7 +3,7 @@
 // internal re-exports from ./csr/*.d.ts lack .d.mts counterparts.
 
 declare module '@phosphor-icons/react' {
-  import type { ComponentType, SVGAttributes } from 'react'
+  import { type ComponentType, type SVGAttributes } from 'react'
 
   interface IconProps extends SVGAttributes<SVGSVGElement> {
     size?: string | number

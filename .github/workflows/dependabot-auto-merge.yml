@@ -9,23 +9,23 @@ jobs:
     name: Auto-merge Dependabot PRs
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    
+
     steps:
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+
       - name: Wait for CI to complete
         uses: fountainhead/action-wait-for-check@v1.2.0
         id: wait-for-ci
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: "🚀 Deploy"
+          checkName: '🚀 Deploy'
           ref: ${{ github.event.pull_request.head.sha }}
           timeoutSeconds: 1800 # 30 minutes
-          
+
       - name: Auto-merge patch and minor updates
         if: |
           steps.wait-for-ci.outputs.conclusion == 'success' && (

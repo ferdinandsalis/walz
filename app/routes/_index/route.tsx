@@ -1,4 +1,3 @@
-import { getImageDimensions } from '@sanity/asset-utils'
 import {
   ArrowRight,
   Asterisk,
@@ -7,6 +6,7 @@ import {
   Question,
   Quotes,
 } from '@phosphor-icons/react'
+import { getImageDimensions } from '@sanity/asset-utils'
 import React from 'react'
 import { Link, useLoaderData } from 'react-router'
 import { LogoSymbol } from '#app/components/brand.tsx'
@@ -488,7 +488,7 @@ export default function Home() {
                   Klicke hier um die Walz bei einem virtuellen Rundgang
                   kennenzulernen.{' '}
                   <LinkIcon
-                    className="relative top-[1px] inline text-primary align-baseline"
+                    className="relative top-[1px] inline align-baseline text-primary"
                     size={16}
                   />
                 </Link>

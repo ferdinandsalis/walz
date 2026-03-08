@@ -1,3 +1,10 @@
+import {
+  ArrowRight,
+  Baby,
+  CaretUp,
+  DownloadSimple,
+  LinkSimple,
+} from '@phosphor-icons/react'
 import { PortableText } from '@portabletext/react'
 import {
   Accordion,
@@ -6,13 +13,6 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { loadQuery } from '@sanity/react-loader'
-import {
-  ArrowRight,
-  Baby,
-  CaretUp,
-  DownloadSimple,
-  LinkSimple,
-} from '@phosphor-icons/react'
 import { groupBy, evolve } from 'ramda'
 import {
   href,
@@ -401,7 +401,10 @@ export function YearCard({
       >
         {photos && photos.length > 0 ? (
           <img
-            src={urlFor(selectFeaturedPhoto(photos, featuredPhoto)).quality(70).width(600).url()}
+            src={urlFor(selectFeaturedPhoto(photos, featuredPhoto))
+              .quality(70)
+              .width(600)
+              .url()}
             alt={`${letter} Foto`}
             className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
           />

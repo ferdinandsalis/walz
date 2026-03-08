@@ -3,12 +3,14 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js**: 22+ (latest LTS)
 - **npm**: 8+ (comes with Node.js)
 - **Git**: Latest version
 - **mise**: For tool management (optional but recommended)
 
 ### Initial Setup
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -29,13 +31,14 @@ The application will be available at `http://localhost:3000`
 ## 📋 Development Commands
 
 ### Core Commands
+
 ```bash
 # Development
 npm run dev              # Start development server with hot reload
 npm run build           # Build production application
 npm start               # Start production server
 
-# Code Quality  
+# Code Quality
 npm run lint            # Run ESLint
 npm run format          # Format code with Prettier
 npm run typecheck       # Run TypeScript checking
@@ -51,6 +54,7 @@ npm run validate        # Run all checks (tests, lint, typecheck, e2e)
 ```
 
 ### Sanity CMS Commands
+
 ```bash
 # Access Sanity Studio
 # Navigate to /studio in your browser when dev server is running
@@ -65,6 +69,7 @@ sanity deploy
 ## 🏗️ Project Structure
 
 ### Key Directories
+
 ```
 app/
 ├── components/          # Reusable UI components
@@ -87,6 +92,7 @@ docs/                 # Project documentation
 ## 🎨 Coding Standards
 
 ### TypeScript Guidelines
+
 ```typescript
 // ✅ Use strict TypeScript
 interface Props {
@@ -107,6 +113,7 @@ const badData: any = response
 ```
 
 ### Component Structure
+
 ```typescript
 // ✅ Recommended component structure
 import { useState } from 'react'
@@ -121,12 +128,12 @@ interface ComponentProps {
 export function Component({ className, ...props }: ComponentProps) {
   // Hooks first
   const [state, setState] = useState(false)
-  
+
   // Event handlers
   const handleClick = () => {
     setState(!state)
   }
-  
+
   // Render
   return (
     <div className={cn('base-styles', className)}>
@@ -137,17 +144,15 @@ export function Component({ className, ...props }: ComponentProps) {
 ```
 
 ### CSS/Tailwind Guidelines
+
 ```typescript
 // ✅ Use cn() utility for conditional classes
 import { cn } from '#app/utils/misc.tsx'
 
-const className = cn(
-  'base-classes',
-  {
-    'conditional-class': condition,
-    'another-class': anotherCondition
-  }
-)
+const className = cn('base-classes', {
+  'conditional-class': condition,
+  'another-class': anotherCondition,
+})
 
 // ✅ Group Tailwind classes logically
 const classes = cn(
@@ -160,18 +165,19 @@ const classes = cn(
   // Colors
   'bg-white text-gray-900',
   // Interactive states
-  'hover:bg-gray-100 focus:ring-2'
+  'hover:bg-gray-100 focus:ring-2',
 )
 ```
 
 ### File Naming Conventions
+
 ```
 // Components
 component-name.tsx       # kebab-case acceptable for complex names
 
-// Routes  
+// Routes
 _index.tsx              # Index routes
-_layout.tsx             # Layout routes  
+_layout.tsx             # Layout routes
 $slug.tsx               # Dynamic routes
 route-name+/            # Route groups (folders end with +)
 
@@ -185,6 +191,7 @@ UPPER_CASE.ts           # For constant files
 ## 🛣️ Routing Conventions
 
 ### Flat Routes Pattern
+
 ```
 routes/
 ├── _index/                    # /
@@ -201,6 +208,7 @@ routes/
 ```
 
 ### Route Component Structure
+
 ```typescript
 // Route with data loading
 import { loadQuery } from '@sanity/react-loader'
@@ -213,7 +221,7 @@ export async function loader() {
   return RouteQuerySchema.parse(data)
 }
 
-// Meta function  
+// Meta function
 export function meta() {
   return [
     { title: 'Page Title | Walz' },
@@ -224,7 +232,7 @@ export function meta() {
 // Component
 export default function Route() {
   const data = useLoaderData<typeof loader>()
-  
+
   return (
     <div>
       {/* Route content */}
@@ -236,6 +244,7 @@ export default function Route() {
 ## 📊 Sanity CMS Development
 
 ### Schema Development
+
 ```typescript
 // app/sanity/schema/example.ts
 import { defineField, defineType } from 'sanity'
@@ -247,27 +256,28 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title', 
+      title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required().min(10).max(80)
+      validation: Rule => Rule.required().min(10).max(80),
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
-      of: [{ type: 'block' }]
-    })
+      of: [{ type: 'block' }],
+    }),
   ],
   preview: {
     select: {
       title: 'title',
-      subtitle: 'publishedAt'
-    }
-  }
+      subtitle: 'publishedAt',
+    },
+  },
 })
 ```
 
 ### GROQ Query Development
+
 ```typescript
 // app/routes/example/example.query.ts
 import { groq } from 'groq'
@@ -283,15 +293,17 @@ export const exampleQuery = groq`
   } | order(publishedAt desc)
 `
 
-export const ExampleQuerySchema = z.array(z.object({
-  _id: z.string(),
-  title: z.string(),
-  slug: z.object({
-    current: z.string()
+export const ExampleQuerySchema = z.array(
+  z.object({
+    _id: z.string(),
+    title: z.string(),
+    slug: z.object({
+      current: z.string(),
+    }),
+    publishedAt: z.string(),
+    imageUrl: z.string().optional(),
   }),
-  publishedAt: z.string(),
-  imageUrl: z.string().optional()
-}))
+)
 
 export type ExampleQuery = z.infer<typeof ExampleQuerySchema>
 ```
@@ -299,6 +311,7 @@ export type ExampleQuery = z.infer<typeof ExampleQuerySchema>
 ## 🧪 Testing Guidelines
 
 ### Unit Testing with Vitest
+
 ```typescript
 // app/utils/example.test.ts
 import { describe, it, expect } from 'vitest'
@@ -308,7 +321,7 @@ describe('formatDate', () => {
   it('formats German dates correctly', () => {
     expect(formatDate('2023-12-25')).toBe('25. Dezember 2023')
   })
-  
+
   it('handles invalid dates', () => {
     expect(formatDate('invalid')).toBe('')
   })
@@ -316,6 +329,7 @@ describe('formatDate', () => {
 ```
 
 ### E2E Testing with Playwright
+
 ```typescript
 // tests/example.spec.ts
 import { test, expect } from '@playwright/test'
@@ -323,13 +337,15 @@ import { test, expect } from '@playwright/test'
 test.describe('Navigation', () => {
   test('user can navigate to admission page', async ({ page }) => {
     await page.goto('/')
-    
+
     await page.click('nav a[href="/aufnahme"]')
     await expect(page).toHaveURL('/aufnahme')
-    
-    await expect(page.getByRole('heading', { 
-      name: 'Aufnahme' 
-    })).toBeVisible()
+
+    await expect(
+      page.getByRole('heading', {
+        name: 'Aufnahme',
+      }),
+    ).toBeVisible()
   })
 })
 ```
@@ -337,6 +353,7 @@ test.describe('Navigation', () => {
 ## 🎯 Performance Guidelines
 
 ### Code Splitting
+
 ```typescript
 // Lazy load heavy components
 import { lazy, Suspense } from 'react'
@@ -353,6 +370,7 @@ export function Route() {
 ```
 
 ### Image Optimization
+
 ```typescript
 // Use Sanity image optimization
 import imageUrlBuilder from '@sanity/image-url'
@@ -372,16 +390,17 @@ const optimizedUrl = urlFor(image)
 ## 🔒 Security Guidelines
 
 ### Form Handling
+
 ```typescript
 // Always use honeypot protection
 import { honeypot } from '#app/utils/honeypot.server.ts'
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
-  
+
   // Validate honeypot
   honeypot.check(formData)
-  
+
   // Process form data
   const email = formData.get('email')
   // ... validation and processing
@@ -389,6 +408,7 @@ export async function action({ request }: ActionFunctionArgs) {
 ```
 
 ### Environment Variables
+
 ```typescript
 // Use proper env validation
 import { z } from 'zod'
@@ -396,7 +416,7 @@ import { z } from 'zod'
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']),
   DATABASE_URL: z.string().url(),
-  SECRET_KEY: z.string().min(32)
+  SECRET_KEY: z.string().min(32),
 })
 
 export const env = EnvSchema.parse(process.env)
@@ -405,6 +425,7 @@ export const env = EnvSchema.parse(process.env)
 ## 🚫 Common Pitfalls to Avoid
 
 ### ❌ Don't
+
 - Use `any` type in TypeScript
 - Commit sensitive data or API keys
 - Skip TypeScript checking (`// @ts-ignore`)
@@ -412,7 +433,8 @@ export const env = EnvSchema.parse(process.env)
 - Forget to add loading states for async operations
 - Ignore accessibility considerations
 
-### ✅ Do  
+### ✅ Do
+
 - Use strict TypeScript throughout
 - Validate all external data with Zod schemas
 - Test critical user paths with E2E tests
@@ -423,14 +445,16 @@ export const env = EnvSchema.parse(process.env)
 ## 🔄 Git Workflow
 
 ### Branch Naming
+
 ```bash
 feature/add-newsletter-signup
-fix/mobile-navigation-bug  
+fix/mobile-navigation-bug
 chore/update-dependencies
 docs/add-api-documentation
 ```
 
 ### Commit Messages
+
 ```bash
 # Good commit messages
 feat: add newsletter subscription form
@@ -443,6 +467,7 @@ chore: update dependencies to latest versions
 ```
 
 ### Pull Request Process
+
 1. Create feature branch from `main`
 2. Make changes and test locally
 3. Run `npm run validate` before committing

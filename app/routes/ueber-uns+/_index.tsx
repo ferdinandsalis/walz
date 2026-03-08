@@ -1,7 +1,7 @@
+import { ArrowSquareOut, Smiley } from '@phosphor-icons/react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { type SanityImageSource } from '@sanity/image-url'
 import { loadQuery } from '@sanity/react-loader'
-import { ArrowSquareOut, Smiley } from '@phosphor-icons/react'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'

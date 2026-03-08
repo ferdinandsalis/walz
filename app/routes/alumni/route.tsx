@@ -1,5 +1,5 @@
-import { loadQuery } from '@sanity/react-loader'
 import { Handshake } from '@phosphor-icons/react'
+import { loadQuery } from '@sanity/react-loader'
 import { useLoaderData } from 'react-router'
 import { z } from 'zod'
 import { Toc } from '#app/components/toc.tsx'

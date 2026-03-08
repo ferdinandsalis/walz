@@ -1,5 +1,5 @@
-import { Link, Outlet } from 'react-router'
 import { ArrowLeft } from '@phosphor-icons/react'
+import { Link, Outlet } from 'react-router'
 
 export default function PostLayout() {
   return (

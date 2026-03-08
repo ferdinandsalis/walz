@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { type Photo } from '#app/sanity/schema/year.tsx'
 import { selectFeaturedPhoto } from './featured-photo.ts'
-import type { Photo } from '#app/sanity/schema/year.tsx'
 
 describe('selectFeaturedPhoto', () => {
   const mockPhotos: Photo[] = [
@@ -49,6 +49,8 @@ describe('selectFeaturedPhoto', () => {
   })
 
   it('throws error when photos array is empty', () => {
-    expect(() => selectFeaturedPhoto([])).toThrow('Cannot select featured photo from empty photos array')
+    expect(() => selectFeaturedPhoto([])).toThrow(
+      'Cannot select featured photo from empty photos array',
+    )
   })
 })

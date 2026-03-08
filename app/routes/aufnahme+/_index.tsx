@@ -1,4 +1,3 @@
-import { loadQuery } from '@sanity/react-loader'
 import {
   DownloadSimple,
   ArrowSquareOut,
@@ -11,6 +10,7 @@ import {
   Phone,
   Users,
 } from '@phosphor-icons/react'
+import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
@@ -74,8 +74,8 @@ export default function Aufnahme() {
               Bei dem persönlichen Aufnahmegespräch mit der Schulleiterin und
               dem/der Mentor:in werden die gegenseitigen Erwartungen abgeklärt
               und bei kleinen Aufgaben bekommst du einen ersten Einblick in die
-              Arbeitsweise der Walz. Wir bitten deine Eltern, zum
-              Aufnahmetermin mitzukommen.
+              Arbeitsweise der Walz. Wir bitten deine Eltern, zum Aufnahmetermin
+              mitzukommen.
             </p>
             <p>
               Ab Jänner erhalten du und deine Eltern eine Zu- oder Absage. Wenn
