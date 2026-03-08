@@ -46,11 +46,13 @@ export default function Alumni() {
           <h1 className="font-condensed text-h2 font-bold text-primary">
             Ehrensache Walz
           </h1>
-          <p className="font-condensed text-h4 text-secondary">
-            Stipendien für Walzist:innen
-          </p>
 
           <div className="max-w-2xl space-y-4 text-base md:text-xl">
+            <p>
+              Die Walz hat vielen Jugendlichen geholfen, ihre Persönlichkeit zu
+              entfalten. Aus Dankbarkeit ermöglichen Eltern und Ehemalige mit
+              Stipendien diese Chance auch für andere.
+            </p>
             <p>
               „Ehrensache Walz" wurde vom Vater eines Ex-Walzisten ins Leben
               gerufen. Ziel der Initiative ist es, Jugendlichen den Besuch der
