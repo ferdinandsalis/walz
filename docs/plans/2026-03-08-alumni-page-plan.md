@@ -1,23 +1,31 @@
 # Alumni Page Implementation Plan
 
-> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to
+> implement this plan task-by-task.
 
-**Goal:** Add a new `/alumni` page with Ehrensache Walz donation content and alumni year listings (moved from `/jahrgaenge`), plus an "Alumni" nav item.
+**Goal:** Add a new `/alumni` page with Ehrensache Walz donation content and
+alumni year listings (moved from `/jahrgaenge`), plus an "Alumni" nav item.
 
-**Architecture:** Standalone route at `app/routes/alumni/route.tsx` with a colocated GROQ query file. Reuses `YearCard` from `aktuelles/route.tsx` and `Toc` component. Ehrensache content is hardcoded. Alumni years removed from `/jahrgaenge` and its query simplified.
+**Architecture:** Standalone route at `app/routes/alumni/route.tsx` with a
+colocated GROQ query file. Reuses `YearCard` from `aktuelles/route.tsx` and
+`Toc` component. Ehrensache content is hardcoded. Alumni years removed from
+`/jahrgaenge` and its query simplified.
 
-**Tech Stack:** React Router v7, Sanity CMS (GROQ queries), Tailwind CSS, Zod validation
+**Tech Stack:** React Router v7, Sanity CMS (GROQ queries), Tailwind CSS, Zod
+validation
 
 ---
 
 ### Task 1: Add "Alumni" to navigation
 
 **Files:**
+
 - Modify: `app/components/shell.tsx`
 
 **Step 1: Add nav item to `navigation.main` array**
 
-In `app/components/shell.tsx`, add Alumni after Aufnahme in the `navigation.main` array:
+In `app/components/shell.tsx`, add Alumni after Aufnahme in the
+`navigation.main` array:
 
 ```typescript
 const navigation = {
@@ -33,10 +41,11 @@ const navigation = {
 
 **Step 2: Verify dev server shows the new nav item**
 
-Note: The footer already renders `navigation.main` via `.map()`, so adding to the array covers both nav and footer automatically.
+Note: The footer already renders `navigation.main` via `.map()`, so adding to
+the array covers both nav and footer automatically.
 
-Run: `npm run dev` (if not running)
-Check: Navigate to localhost — "Alumni" should appear in nav after "Aufnahme" at all breakpoints.
+Run: `npm run dev` (if not running) Check: Navigate to localhost — "Alumni"
+should appear in nav after "Aufnahme" at all breakpoints.
 
 **Step 3: Commit**
 
@@ -50,11 +59,13 @@ git commit -m "Add Alumni nav item"
 ### Task 2: Create Alumni page query
 
 **Files:**
+
 - Create: `app/routes/alumni/query.ts`
 
 **Step 1: Create the query file**
 
-Create `app/routes/alumni/query.ts`. This is a subset of the existing jahrgaenge query — only alumni years:
+Create `app/routes/alumni/query.ts`. This is a subset of the existing jahrgaenge
+query — only alumni years:
 
 ```typescript
 import { defineQuery } from 'groq'
@@ -125,6 +136,7 @@ git commit -m "Add Alumni page GROQ query"
 ### Task 3: Create Alumni page route
 
 **Files:**
+
 - Create: `app/routes/alumni/route.tsx`
 
 **Step 1: Create the route file**
@@ -241,7 +253,8 @@ export default function Alumni() {
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Im Schuljahr 24/25 konnten durch diese Unterstützung vier
-                Teilstipendien vergeben werden. Der Bedarf ist jedoch viel höher.
+                Teilstipendien vergeben werden. Der Bedarf ist jedoch viel
+                höher.
               </p>
             </div>
           </article>
@@ -255,7 +268,7 @@ export default function Alumni() {
           </div>
 
           <div className="max-w-2xl rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20 md:p-8">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="mb-4 flex items-center gap-2">
               <HeartHandshakeIcon size={28} className="stroke-secondary" />
               <h3 className="font-condensed text-h4 font-bold text-primary">
                 Spendenkonto
@@ -334,8 +347,8 @@ export default function Alumni() {
 
 **Step 2: Verify the page renders**
 
-Run: `npm run dev` (if not running)
-Check: Navigate to `/alumni` — page should render with Ehrensache Walz content and alumni year cards.
+Run: `npm run dev` (if not running) Check: Navigate to `/alumni` — page should
+render with Ehrensache Walz content and alumni year cards.
 
 **Step 3: Commit**
 
@@ -352,9 +365,12 @@ git commit -m "Add Alumni page with Ehrensache Walz and alumni year listings"
 
 **Step 1: Review the Alumni page in-browser**
 
-Run the dev server (`npm run dev` if not running). Open `/alumni` in the browser using browser-tools. Take a screenshot and evaluate against the project's design system:
+Run the dev server (`npm run dev` if not running). Open `/alumni` in the browser
+using browser-tools. Take a screenshot and evaluate against the project's design
+system:
 
-- Does the page match the visual style of existing pages (`/ueber-uns`, `/unterstuetzende`)?
+- Does the page match the visual style of existing pages (`/ueber-uns`,
+  `/unterstuetzende`)?
 - Is the donation card prominent and inviting, not generic?
 - Does typography, spacing, and color use match the site's existing tokens?
 - Is there clear visual hierarchy: story → impact → CTA?
@@ -363,13 +379,15 @@ Run the dev server (`npm run dev` if not running). Open `/alumni` in the browser
 **Step 2: Refine styling if needed**
 
 Fix any visual issues found. Common things to check:
+
 - Donation card should feel warm/inviting (it's a charity ask, not a form)
 - Spacing between sections should match other pages
 - The IBAN should be easy to copy/read
 
 **Step 3: Check navigation at all breakpoints**
 
-Verify "Alumni" fits in the horizontal nav at md breakpoint without wrapping or overflow. If it wraps, adjust font size or padding.
+Verify "Alumni" fits in the horizontal nav at md breakpoint without wrapping or
+overflow. If it wraps, adjust font size or padding.
 
 **Step 4: Commit any refinements**
 
@@ -383,12 +401,16 @@ git commit -m "Refine Alumni page styling"
 ### Task 5: Simplify Jahrgänge page (remove alumni section)
 
 **Files:**
+
 - Modify: `app/routes/jahrgaenge+/_index.tsx`
 - Modify: `app/routes/jahrgaenge+/_index.query.ts`
 
 **Step 1: Remove alumniYears from the GROQ query**
 
-In `app/routes/jahrgaenge+/_index.query.ts`, remove the entire `"alumniYears"` block from the query string (lines 31-55), remove `alumniYears` from `QueryResult` type (line 76). The query should only return `currentYears`. Update the type:
+In `app/routes/jahrgaenge+/_index.query.ts`, remove the entire `"alumniYears"`
+block from the query string (lines 31-55), remove `alumniYears` from
+`QueryResult` type (line 76). The query should only return `currentYears`.
+Update the type:
 
 ```typescript
 export type QueryResult = {
@@ -478,7 +500,8 @@ export default function Jahrgaenge() {
 
 **Step 3: Verify both pages work**
 
-Check: `/jahrgaenge` shows only current years with link to alumni. `/alumni` shows all alumni years.
+Check: `/jahrgaenge` shows only current years with link to alumni. `/alumni`
+shows all alumni years.
 
 **Step 4: Commit**
 
@@ -492,6 +515,7 @@ git commit -m "Remove alumni section from Jahrgänge, link to Alumni page"
 ### Task 6: Add E2E test for Alumni page
 
 **Files:**
+
 - Modify: `tests/pages.spec.ts`
 
 **Step 1: Add Alumni page test**
@@ -514,8 +538,8 @@ test('has alumni page', async ({ page }) => {
 
 **Step 2: Run E2E tests**
 
-Run: `npm run test:e2e:run`
-Expected: All tests pass including the new alumni test.
+Run: `npm run test:e2e:run` Expected: All tests pass including the new alumni
+test.
 
 **Step 3: Commit**
 
@@ -530,13 +554,11 @@ git commit -m "Add E2E test for Alumni page"
 
 **Step 1: Run typecheck**
 
-Run: `npm run typecheck`
-Expected: No type errors.
+Run: `npm run typecheck` Expected: No type errors.
 
 **Step 2: Run lint**
 
-Run: `npm run lint`
-Expected: No lint errors.
+Run: `npm run lint` Expected: No lint errors.
 
 **Step 3: Run format**
 

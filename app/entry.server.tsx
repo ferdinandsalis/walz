@@ -1,7 +1,7 @@
 import { PassThrough } from 'stream'
 
 import { createReadableStreamFromReadable } from '@react-router/node'
-import * as Sentry from '@sentry/remix'
+import * as Sentry from '@sentry/react-router'
 import chalk from 'chalk'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
@@ -82,7 +82,7 @@ export function handleError(
   }
   if (error instanceof Error) {
     console.error(chalk.red(error.stack))
-    void Sentry.captureRemixServerException(error, 'remix.server', request)
+    void Sentry.captureException(error)
   } else {
     console.error(chalk.red(error))
     Sentry.captureException(error)

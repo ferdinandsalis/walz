@@ -1,4 +1,4 @@
-import { Calendar1Icon } from 'lucide-react'
+import { Calendar } from '@phosphor-icons/react'
 import { defineField, defineType, type ObjectInputProps } from 'sanity'
 import { z } from 'zod'
 
@@ -79,7 +79,7 @@ export default defineType({
   name: 'event',
   title: 'Ereignis',
   type: 'document',
-  icon: Calendar1Icon,
+  icon: Calendar,
   fields: [
     defineField({
       name: 'title',

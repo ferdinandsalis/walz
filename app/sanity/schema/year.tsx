@@ -1,72 +1,79 @@
-import { GraduationCapIcon } from 'lucide-react'
+import { GraduationCap } from '@phosphor-icons/react'
 import React from 'react'
-import { defineArrayMember, defineField, defineType, set, useFormValue } from 'sanity'
-import type { StringInputProps } from 'sanity'
+import {
+  defineArrayMember,
+  defineField,
+  defineType,
+  set,
+  useFormValue,
+  type StringInputProps,
+} from 'sanity'
 import { z } from 'zod'
 import { PersonSchema } from '#app/routes/ueber-uns+/_index.query.ts'
 
 // Custom dropdown component to select featured photo from the photos array
 function FeaturedPhotoSelector(props: StringInputProps) {
-	// Get all photos from the current document
-	const photos = useFormValue(['photos']) as Array<{
-		_key: string
-		takenAt: string
-		motto?: string
-		asset?: { _ref: string }
-	}> | undefined
+  // Get all photos from the current document
+  const photos = useFormValue(['photos']) as
+    | Array<{
+        _key: string
+        takenAt: string
+        motto?: string
+        asset?: { _ref: string }
+      }>
+    | undefined
 
-	// Sort photos by date (newest first) for consistent ordering
-	const sortedPhotos = photos
-		? [...photos].sort((a, b) =>
-				new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime()
-			)
-		: []
+  // Sort photos by date (newest first) for consistent ordering
+  const sortedPhotos = photos
+    ? [...photos].sort(
+        (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
+      )
+    : []
 
-	return (
-		<div>
-			<select
-				id={props.id}
-				value={props.value || ''}
-				onChange={(event) => {
-					const newValue = event.target.value || undefined
-					props.onChange(newValue ? set(newValue) : set(undefined))
-				}}
-				style={{
-					width: '100%',
-					padding: '8px 12px',
-					fontSize: '14px',
-					border: '1px solid #d1d5db',
-					borderRadius: '4px',
-					backgroundColor: 'white',
-					cursor: 'pointer',
-				}}
-			>
-				<option value="">Neuestes Foto (Standard)</option>
-				{sortedPhotos.map((photo) => {
-					const date = new Date(photo.takenAt)
-					const year = date.getFullYear()
-					const label = photo.motto
-						? `${year} - ${photo.motto}`
-						: `${year}`
+  return (
+    <div>
+      <select
+        id={props.id}
+        value={props.value || ''}
+        onChange={event => {
+          const newValue = event.target.value || undefined
+          props.onChange(newValue ? set(newValue) : set(undefined))
+        }}
+        style={{
+          width: '100%',
+          padding: '8px 12px',
+          fontSize: '14px',
+          border: '1px solid #d1d5db',
+          borderRadius: '4px',
+          backgroundColor: 'white',
+          cursor: 'pointer',
+        }}
+      >
+        <option value="">Neuestes Foto (Standard)</option>
+        {sortedPhotos.map(photo => {
+          const date = new Date(photo.takenAt)
+          const year = date.getFullYear()
+          const label = photo.motto ? `${year} - ${photo.motto}` : `${year}`
 
-					return (
-						<option key={photo._key} value={photo._key}>
-							{label}
-						</option>
-					)
-				})}
-			</select>
-			<p
-				style={{
-					marginTop: '8px',
-					fontSize: '12px',
-					color: '#6b7280',
-				}}
-			>
-				Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden soll.
-			</p>
-		</div>
-	)
+          return (
+            <option key={photo._key} value={photo._key}>
+              {label}
+            </option>
+          )
+        })}
+      </select>
+      <p
+        style={{
+          marginTop: '8px',
+          fontSize: '12px',
+          color: '#6b7280',
+        }}
+      >
+        Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden
+        soll.
+      </p>
+    </div>
+  )
 }
 
 // Define the Photo schema
@@ -193,7 +200,7 @@ export default defineType({
   name: 'year',
   title: 'Jahrgang',
   type: 'document',
-  icon: GraduationCapIcon,
+  icon: GraduationCap,
   fields: [
     defineField({
       name: 'photos',
@@ -204,7 +211,8 @@ export default defineType({
       name: 'featuredPhoto',
       title: 'Hauptfoto',
       type: 'string',
-      description: 'Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden soll. Falls leer, wird das neueste Foto (nach Datum) verwendet.',
+      description:
+        'Wähle ein Foto aus, das anstelle des neuesten Fotos angezeigt werden soll. Falls leer, wird das neueste Foto (nach Datum) verwendet.',
       components: {
         input: FeaturedPhotoSelector,
       },

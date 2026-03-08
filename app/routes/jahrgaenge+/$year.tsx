@@ -1,6 +1,10 @@
+import {
+  Baby,
+  DownloadSimple,
+  MagnifyingGlassPlus,
+} from '@phosphor-icons/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
-import { BabyIcon, DownloadIcon, ZoomInIcon } from 'lucide-react'
 import { useState } from 'react'
 import {
   type LoaderFunctionArgs,
@@ -80,11 +84,15 @@ export default function Year() {
       </header>
 
       {year.photos && year.photos.length > 0 ? (
-        <YearPhotos photos={year.photos} letter={year.letter} featuredPhoto={year.featuredPhoto} />
+        <YearPhotos
+          photos={year.photos}
+          letter={year.letter}
+          featuredPhoto={year.featuredPhoto}
+        />
       ) : (
         <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
           <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/20 to-transparent">
-            <BabyIcon size={96} className="w-12 stroke-secondary/40 md:w-24" />
+            <Baby size={96} className="w-12 text-secondary/40 md:w-24" />
           </div>
         </div>
       )}
@@ -98,7 +106,7 @@ export default function Year() {
           >
             Jahresplan herunterladen
           </a>
-          <DownloadIcon className="stroke-primary" size={18} />
+          <DownloadSimple className="text-primary" size={18} />
         </div>
       )}
     </article>
@@ -115,8 +123,12 @@ function YearPhotos({
   featuredPhoto?: Year['featuredPhoto']
 }) {
   const featured = selectFeaturedPhoto(photos, featuredPhoto)
-  const initialIndex = photos.findIndex(p => p.asset._ref === featured.asset._ref)
-  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(initialIndex >= 0 ? initialIndex : 0)
+  const initialIndex = photos.findIndex(
+    p => p.asset._ref === featured.asset._ref,
+  )
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(
+    initialIndex >= 0 ? initialIndex : 0,
+  )
   const selectedPhoto = photos[selectedPhotoIndex]
   const { width, height } = getImageDimensions(selectedPhoto.asset)
 
@@ -139,7 +151,7 @@ function YearPhotos({
                     }}
                   />
                   <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                    <ZoomInIcon className="h-5 w-5 text-white" />
+                    <MagnifyingGlassPlus className="h-5 w-5 text-white" />
                   </div>
                 </button>
               </DialogTrigger>

@@ -1,4 +1,4 @@
-import { DownloadIcon } from 'lucide-react'
+import { DownloadSimple } from '@phosphor-icons/react'
 
 export default function Magazin() {
   return (
@@ -23,7 +23,7 @@ export default function Magazin() {
                 className="inline-flex items-center gap-1 underline underline-offset-2"
               >
                 Magazin herunterladen
-                <DownloadIcon size={18} className="stroke-primary" />
+                <DownloadSimple size={18} className="text-primary" />
               </a>
             </div>
             <div>
@@ -47,7 +47,7 @@ export default function Magazin() {
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
               Jahrbuch herunterladen
-              <DownloadIcon size={18} className="stroke-primary" />
+              <DownloadSimple size={18} className="text-primary" />
             </a>{' '}
           </article>
           <article id="boty_22-23" className="rounded bg-card/50 p-6">
@@ -58,7 +58,7 @@ export default function Magazin() {
               className="inline-flex items-center gap-1 underline underline-offset-2"
             >
               Jahrbuch herunterladen
-              <DownloadIcon size={18} className="stroke-primary" />
+              <DownloadSimple size={18} className="text-primary" />
             </a>{' '}
           </article>
         </section>

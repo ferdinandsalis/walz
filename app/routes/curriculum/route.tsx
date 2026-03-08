@@ -97,7 +97,9 @@ function ProjectsList({
         Projekte
       </h2>
       <ul className="list-inside list-disc" aria-label="Projekte">
-        {projects?.map(project => <li key={project.name}>{project.name}</li>)}
+        {projects?.map(project => (
+          <li key={project.name}>{project.name}</li>
+        ))}
       </ul>
     </div>
   )

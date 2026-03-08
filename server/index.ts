@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import { createRequestHandler } from '@react-router/express'
-import { type ServerBuild } from 'react-router'
 import { ip as ipAddress } from 'address'
 import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
@@ -9,6 +8,7 @@ import express from 'express'
 import rateLimit from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
 import morgan from 'morgan'
+import { type ServerBuild } from 'react-router'
 
 const MODE = process.env.NODE_ENV ?? 'development'
 const IS_PROD = MODE === 'production'
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 })
 
 // Redirect old php routes
-app.get(['/index.php', '/index.php/*'], (req, res) => {
+app.get(['/index.php', '/index.php/*path'], (req, res) => {
   res.redirect('/')
 })
 
@@ -93,7 +93,7 @@ if (viteDevServer) {
   app.use(express.static('build/client', { maxAge: '1h' }))
 }
 
-app.get(['/img/*', '/favicons/*'], (_req, res) => {
+app.get(['/img/*path', '/favicons/*path'], (_req, res) => {
   // if we made it past the express.static for these, then we're missing something.
   // So we'll just send a 404 and won't bother calling other middleware.
   return res.status(404).send('Not found')
@@ -168,7 +168,7 @@ if (!ALLOW_INDEXING) {
 }
 
 app.all(
-  '*',
+  '{*path}',
   createRequestHandler({
     getLoadContext: (_: any, res: any) => ({
       cspNonce: res.locals.cspNonce,

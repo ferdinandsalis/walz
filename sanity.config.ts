@@ -1,5 +1,5 @@
+import { BookBookmark } from '@phosphor-icons/react'
 import { visionTool } from '@sanity/vision'
-import { BookCheckIcon } from 'lucide-react'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { projectDetails } from './app/sanity/project-details.ts'
@@ -33,7 +33,7 @@ export default defineConfig({
             S.divider(),
             S.listItem()
               .title('Curriculum')
-              .icon(BookCheckIcon)
+              .icon(BookBookmark)
               .id('curriculum')
               .child(
                 S.document().schemaType('curriculum').documentId('curriculum'),

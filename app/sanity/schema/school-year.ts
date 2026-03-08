@@ -1,13 +1,13 @@
 // Defines sanity types for a school year
 
-import { CalendarIcon } from 'lucide-react'
+import { Calendar } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'schoolYear',
   title: 'Schuljahr',
   type: 'document',
-  icon: CalendarIcon,
+  icon: Calendar,
   fields: [
     defineField({
       name: 'start',

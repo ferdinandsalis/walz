@@ -2,7 +2,8 @@
 
 ## 🏗️ System Overview
 
-The Walz website is built as a modern full-stack React application using React Router v7 (formerly Remix) with a headless CMS architecture.
+The Walz website is built as a modern full-stack React application using React
+Router v7 (formerly Remix) with a headless CMS architecture.
 
 ```mermaid
 graph TD
@@ -12,7 +13,7 @@ graph TD
     C --> E[Content Database]
     B --> F[Fly.io Server]
     F --> G[Express Server]
-    
+
     H[Developer] --> I[Sanity Studio]
     I --> C
 ```
@@ -20,6 +21,7 @@ graph TD
 ## 🧩 Core Architecture Components
 
 ### Frontend Application
+
 - **Framework**: React Router v7 (SSR + Client-side routing)
 - **Language**: TypeScript with strict mode
 - **Styling**: Tailwind CSS with custom design system
@@ -27,12 +29,14 @@ graph TD
 - **UI Components**: Radix UI primitives + custom components
 
 ### Content Management
+
 - **CMS**: Sanity headless CMS
 - **Studio**: Embedded Sanity Studio at `/studio`
 - **Data Fetching**: GROQ queries with React Router loaders
 - **Type Safety**: Auto-generated TypeScript types
 
 ### Infrastructure
+
 - **Hosting**: Fly.io with Docker containers
 - **CDN**: Sanity image optimization
 - **Monitoring**: Sentry error tracking + Plausible analytics
@@ -67,6 +71,7 @@ walz/
 ## 🛣️ Routing Architecture
 
 ### Flat Routes Convention
+
 The project uses React Router's flat routes with the following patterns:
 
 ```
@@ -83,12 +88,14 @@ routes/
 ```
 
 ### Route Patterns
+
 - `+` suffix: Layout routes (shared UI)
 - `_` prefix: Index routes
 - `$` prefix: Dynamic parameters
 - `.` separator: URL segments
 
 ### Data Loading Strategy
+
 ```typescript
 // Route-level data loading
 export async function loader() {
@@ -106,6 +113,7 @@ export default function RouteComponent() {
 ## 🎨 Design System Architecture
 
 ### Tailwind Configuration
+
 ```typescript
 // tailwind.config.ts
 export default {
@@ -113,39 +121,38 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Museo Sans', 'fallback'],
-        condensed: ['Museo Sans Condensed', 'fallback']
+        condensed: ['Museo Sans Condensed', 'fallback'],
       },
       colors: {
         primary: 'hsl(var(--primary))',
         secondary: 'hsl(var(--secondary))',
         // ... CSS custom properties
-      }
-    }
-  }
+      },
+    },
+  },
 }
 ```
 
 ### Component Variants
+
 ```typescript
 // Using class-variance-authority for consistent variants
-const buttonVariants = cva(
-  'base-styles',
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary-foreground',
-        outline: 'border border-input bg-background'
-      },
-      size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 px-3'
-      }
-    }
-  }
-)
+const buttonVariants = cva('base-styles', {
+  variants: {
+    variant: {
+      default: 'bg-primary text-primary-foreground',
+      outline: 'border border-input bg-background',
+    },
+    size: {
+      default: 'h-10 px-4 py-2',
+      sm: 'h-9 px-3',
+    },
+  },
+})
 ```
 
 ### Typography Scale
+
 - **Display**: mega (80px), h1-h6 (56px-16px)
 - **Body**: 2xl-2xs (32px-12px)
 - **Utilities**: caption, button text
@@ -157,7 +164,7 @@ const buttonVariants = cva(
 ```typescript
 // Content Types
 - post: Blog articles and news
-- event: School events and activities  
+- event: School events and activities
 - person: Staff and teacher profiles
 - year: Academic year/class information
 - schoolYear: Administrative year data
@@ -168,6 +175,7 @@ const buttonVariants = cva(
 ```
 
 ### GROQ Queries
+
 ```groq
 // Example: Fetch posts with author info
 *[_type == "post" && published == true] {
@@ -181,6 +189,7 @@ const buttonVariants = cva(
 ```
 
 ### Type Generation
+
 ```bash
 # Automatic type generation from Sanity schema
 sanity typegen generate
@@ -190,6 +199,7 @@ sanity typegen generate
 ## 🔒 Security Architecture
 
 ### Form Protection
+
 ```typescript
 // Honeypot anti-spam
 import { honeypot } from '#app/utils/honeypot.server.ts'
@@ -202,24 +212,27 @@ export async function action({ request }) {
 ```
 
 ### Rate Limiting
+
 ```typescript
 // Express middleware
 import rateLimit from 'express-rate-limit'
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
 })
 ```
 
 ### Content Security Policy
-- Strict CSP headers for XSS prevention  
+
+- Strict CSP headers for XSS prevention
 - Trusted sources for scripts and styles
 - Inline script protection with nonces
 
 ## ⚡ Performance Architecture
 
 ### Code Splitting
+
 ```typescript
 // Automatic route-based splitting
 const LazyRoute = lazy(() => import('./heavy-component'))
@@ -229,11 +242,12 @@ const AdminPanel = lazy(() => import('./admin/AdminPanel'))
 ```
 
 ### Image Optimization
+
 ```typescript
 // Sanity CDN with automatic optimization
 import imageUrlBuilder from '@sanity/image-url'
 
-const urlFor = (source) =>
+const urlFor = source =>
   imageUrlBuilder(sanityConfig)
     .image(source)
     .auto('format') // WebP/AVIF when supported
@@ -242,6 +256,7 @@ const urlFor = (source) =>
 ```
 
 ### Caching Strategy
+
 - **Static assets**: Long-term browser caching
 - **API responses**: Sanity CDN caching
 - **Build artifacts**: Aggressive caching with cache busting
@@ -249,13 +264,14 @@ const urlFor = (source) =>
 ## 🚀 Build Architecture
 
 ### Vite Build System
+
 ```typescript
 // vite.config.ts
 export default defineConfig({
   plugins: [
     react(),
     tsconfigPaths(), // Path alias support
-    sentryVitePlugin() // Error tracking
+    sentryVitePlugin(), // Error tracking
   ],
   build: {
     target: 'es2022',
@@ -263,15 +279,16 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          sanity: ['@sanity/client', '@sanity/image-url']
-        }
-      }
-    }
-  }
+          sanity: ['@sanity/client', '@sanity/image-url'],
+        },
+      },
+    },
+  },
 })
 ```
 
 ### Docker Deployment
+
 ```dockerfile
 # Multi-stage build for optimization
 FROM node:22-alpine AS builder
@@ -279,7 +296,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
-FROM node:22-alpine AS runtime  
+FROM node:22-alpine AS runtime
 COPY --from=builder /app/node_modules ./node_modules
 COPY . .
 EXPOSE 8080
@@ -289,12 +306,14 @@ CMD ["npm", "start"]
 ## 🔄 Development Workflow
 
 ### Type Safety Pipeline
+
 1. **Sanity schema** → Auto-generate types
-2. **GROQ queries** → Zod validation schemas  
+2. **GROQ queries** → Zod validation schemas
 3. **Route loaders** → Type-safe data consumption
 4. **Components** → Strict TypeScript checking
 
 ### Testing Architecture
+
 ```typescript
 // E2E with Playwright
 test('navigation works', async ({ page }) => {
@@ -312,35 +331,39 @@ test('utility functions', () => {
 ## 📈 Monitoring & Observability
 
 ### Error Tracking
+
 ```typescript
 // Sentry integration
 import { withSentry } from '@sentry/remix'
 
 export default withSentry(App, {
   wrapWithErrorBoundary: true,
-  captureUnhandledRejections: true
+  captureUnhandledRejections: true,
 })
 ```
 
 ### Analytics
+
 ```html
 <!-- Privacy-focused analytics -->
-<script 
-  defer 
-  data-domain="walz.at" 
+<script
+  defer
+  data-domain="walz.at"
   src="https://plausible.io/js/script.js"
 ></script>
 ```
 
 ### Health Checks
+
 ```typescript
 // Built-in health monitoring
 export async function loader() {
   // Database connectivity check
-  // External service checks  
+  // External service checks
   // Resource usage monitoring
   return { status: 'healthy', timestamp: new Date() }
 }
 ```
 
-This architecture provides a solid foundation for a modern, scalable web application with excellent developer experience and production reliability.
+This architecture provides a solid foundation for a modern, scalable web
+application with excellent developer experience and production reliability.

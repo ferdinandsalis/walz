@@ -1,5 +1,5 @@
+import { CircleNotch } from '@phosphor-icons/react'
 import { isbot } from 'isbot'
-import { LoaderIcon } from 'lucide-react'
 import {
   type ActionFunctionArgs,
   Form,
@@ -57,7 +57,7 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   // Check honeypot for spam
-  checkHoneypot(formData)
+  await checkHoneypot(formData)
 
   // Validate form data
   const parseResult = aufnahmeFormSchema.safeParse(
@@ -347,7 +347,7 @@ export default function AufnahmeFormular() {
                 Absenden
               </Button>
               {showSpinner && (
-                <LoaderIcon className="animate-spin stroke-secondary" />
+                <CircleNotch className="animate-spin text-secondary" />
               )}
             </div>
           </div>

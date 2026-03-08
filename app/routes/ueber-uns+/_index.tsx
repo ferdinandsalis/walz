@@ -1,7 +1,7 @@
+import { ArrowSquareOut, Smiley } from '@phosphor-icons/react'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
-import { type SanityImageSource } from '@sanity/image-url/lib/types/types.js'
+import { type SanityImageSource } from '@sanity/image-url'
 import { loadQuery } from '@sanity/react-loader'
-import { ExternalLinkIcon, SmileIcon } from 'lucide-react'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
@@ -371,7 +371,7 @@ function StaffCard({
           </div>
         ) : (
           <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary ring-4 ring-secondary">
-            <SmileIcon size={96} className="w-10 stroke-white/20 md:w-16" />
+            <Smiley size={96} className="w-10 text-white/20 md:w-16" />
           </div>
         )}
         <div
@@ -407,7 +407,7 @@ function StaffCard({
                 href={person.website}
                 className="inline-flex items-center gap-1 truncate text-body-xs text-secondary"
               >
-                Webseite <ExternalLinkIcon size={16} />
+                Webseite <ArrowSquareOut size={16} />
               </a>
             </div>
           )}

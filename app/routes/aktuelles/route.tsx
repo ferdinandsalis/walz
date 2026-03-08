@@ -1,3 +1,10 @@
+import {
+  ArrowRight,
+  Baby,
+  CaretUp,
+  DownloadSimple,
+  LinkSimple,
+} from '@phosphor-icons/react'
 import { PortableText } from '@portabletext/react'
 import {
   Accordion,
@@ -6,13 +13,6 @@ import {
   AccordionTrigger,
 } from '@radix-ui/react-accordion'
 import { loadQuery } from '@sanity/react-loader'
-import {
-  ArrowRight,
-  BabyIcon,
-  ChevronUp,
-  DownloadIcon,
-  Link2Icon,
-} from 'lucide-react'
 import { groupBy, evolve } from 'ramda'
 import {
   href,
@@ -158,7 +158,7 @@ export default function Aktuelles() {
                                         {tType(event.type)}
                                       </span>
                                     )}
-                                    <ChevronUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 stroke-primary transition-transform duration-300" />
+                                    <CaretUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 text-primary transition-transform duration-300" />
                                   </div>
                                 </div>
                               </AccordionTrigger>
@@ -389,7 +389,7 @@ export function YearCard({
             >
               Jahresplan
             </a>
-            <DownloadIcon className="stroke-primary" size={18} />
+            <DownloadSimple className="text-primary" size={18} />
           </div>
         )}
       </div>
@@ -401,21 +401,24 @@ export function YearCard({
       >
         {photos && photos.length > 0 ? (
           <img
-            src={urlFor(selectFeaturedPhoto(photos, featuredPhoto)).quality(70).width(600).url()}
+            src={urlFor(selectFeaturedPhoto(photos, featuredPhoto))
+              .quality(70)
+              .width(600)
+              .url()}
             alt={`${letter} Foto`}
             className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-gradient-to-t from-secondary/40 to-transparent sm:rounded-b-none sm:rounded-r-md">
-            <BabyIcon size={96} className="w-12 stroke-secondary/20 md:w-24" />
+            <Baby size={96} className="w-12 text-secondary/20 md:w-24" />
           </div>
         )}
         <div
           role="presentation"
           className="absolute inset-0 rounded-b-md ring-2 ring-inset ring-card/30 transition-all group-hover:ring-secondary sm:rounded-b-none sm:rounded-r-md"
         >
-          <Link2Icon
-            className="absolute bottom-2 right-2 stroke-card group-hover:stroke-primary"
+          <LinkSimple
+            className="absolute bottom-2 right-2 text-card group-hover:text-primary"
             size={16}
           />
         </div>
@@ -470,8 +473,8 @@ export function PostItem({
             Weiterlesen
           </span>
           <ArrowRight
-            size="20"
-            className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
+            size={20}
+            className="ml-auto text-primary transition-transform group-hover/more:translate-x-1"
           />
         </Link>
       </footer>

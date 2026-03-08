@@ -1,11 +1,14 @@
 # Walz Website Documentation
 
-This folder contains comprehensive documentation for the Walz school website project.
+This folder contains comprehensive documentation for the Walz school website
+project.
 
 ## 📁 Documentation Structure
 
-- **[project-review.md](./project-review.md)** - Complete technical review and assessment
-- **[architecture.md](./architecture.md)** - System architecture and design decisions
+- **[project-review.md](./project-review.md)** - Complete technical review and
+  assessment
+- **[architecture.md](./architecture.md)** - System architecture and design
+  decisions
 - **[development.md](./development.md)** - Development workflow and guidelines
 - **[deployment.md](./deployment.md)** - Deployment processes and infrastructure
 - **[api/](./api/)** - API documentation and schemas

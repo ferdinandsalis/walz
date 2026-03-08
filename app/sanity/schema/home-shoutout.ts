@@ -1,22 +1,22 @@
-import { MessageCircleHeartIcon } from 'lucide-react'
+import { ChatCircleText } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'home-shoutout',
   title: 'Home Shoutout Box',
   type: 'document',
-  icon: MessageCircleHeartIcon,
+  icon: ChatCircleText,
   orderings: [
     {
       title: 'Reihenfolge (Neueste zuerst)',
       name: 'createdAtDesc',
-      by: [{ field: '_createdAt', direction: 'desc' }]
+      by: [{ field: '_createdAt', direction: 'desc' }],
     },
     {
-      title: 'Reihenfolge (Älteste zuerst)', 
+      title: 'Reihenfolge (Älteste zuerst)',
       name: 'createdAtAsc',
-      by: [{ field: '_createdAt', direction: 'asc' }]
-    }
+      by: [{ field: '_createdAt', direction: 'asc' }],
+    },
   ],
   fields: [
     defineField({
@@ -46,15 +46,17 @@ export default defineType({
       name: 'buttonText',
       title: 'Button Text',
       type: 'string',
-      description: 'Optional: Text für den Button. Wenn leer, wird kein Button angezeigt.',
+      description:
+        'Optional: Text für den Button. Wenn leer, wird kein Button angezeigt.',
       validation: Rule => Rule.max(50),
     }),
     defineField({
       name: 'buttonLink',
       title: 'Button Link',
       type: 'string',
-      description: 'Link für den Button. Erforderlich wenn Button Text gesetzt ist.',
-      validation: Rule => 
+      description:
+        'Link für den Button. Erforderlich wenn Button Text gesetzt ist.',
+      validation: Rule =>
         Rule.custom((buttonLink, context) => {
           const buttonText = (context.parent as any)?.buttonText
           if (buttonText && !buttonLink) {
@@ -68,17 +70,19 @@ export default defineType({
     select: {
       title: 'title',
       emoji: 'emoji',
-      createdAt: '_createdAt'
+      createdAt: '_createdAt',
     },
     prepare(selection) {
       const { title, emoji, createdAt } = selection
       const displayEmoji = emoji ? `${emoji} ` : ''
-      const createdDate = createdAt ? new Date(createdAt).toLocaleDateString('de-DE') : ''
-      
-      return { 
+      const createdDate = createdAt
+        ? new Date(createdAt).toLocaleDateString('de-DE')
+        : ''
+
+      return {
         title: `${displayEmoji}${title || 'Ohne Titel'}`,
         subtitle: createdDate,
-        media: () => '📋'
+        media: () => '📋',
       }
     },
   },
