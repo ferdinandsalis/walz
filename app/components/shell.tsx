@@ -15,6 +15,7 @@ const navigation = {
     { name: 'Über Uns', to: '/ueber-uns' },
     { name: 'Curriculum', to: '/curriculum' },
     { name: 'Aufnahme', to: '/aufnahme' },
+    { name: 'Alumni', to: '/alumni' },
   ],
   secondary: [
     { name: 'Impressum', to: '/impressum' },
