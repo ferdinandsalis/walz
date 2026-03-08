@@ -1,4 +1,4 @@
-import { captureRemixErrorBoundaryError } from '@sentry/remix'
+import { captureException } from '@sentry/react-router'
 import {
   type ErrorResponse,
   isRouteErrorResponse,
@@ -26,7 +26,7 @@ export function GeneralErrorBoundary({
   unexpectedErrorHandler?: (error: unknown) => JSX.Element | null
 }) {
   const error = useRouteError()
-  captureRemixErrorBoundaryError(error)
+  captureException(error)
   const params = useParams()
 
   if (typeof document !== 'undefined') {

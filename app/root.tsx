@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/remix'
 import { List } from '@phosphor-icons/react'
 import {
   Link,
@@ -171,7 +170,7 @@ function AppWithProviders() {
   )
 }
 
-export default withSentry(AppWithProviders)
+export default AppWithProviders
 
 export function ErrorBoundary() {
   // NOTE: you cannot use useLoaderData in an ErrorBoundary because the loader
