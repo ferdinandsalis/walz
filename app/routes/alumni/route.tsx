@@ -43,9 +43,9 @@ export default function Alumni() {
 
       <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
         <section id="ehrensache" className="space-y-8">
-          <h2 className="font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 font-bold text-primary">
             Ehrensache Walz
-          </h2>
+          </h1>
           <p className="font-condensed text-h4 text-secondary">
             Stipendien für Walzist:innen
           </p>
@@ -60,9 +60,9 @@ export default function Alumni() {
           </div>
 
           <article className="space-y-4">
-            <h3 className="font-condensed text-h3 font-bold text-secondary">
+            <h2 className="font-condensed text-2xl font-bold text-secondary">
               Der Gedanke
-            </h3>
+            </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Vielen Eltern und ehemaligen Jugendlichen ist bewusst, dass der
@@ -84,9 +84,9 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h3 className="font-condensed text-h3 font-bold text-secondary">
+            <h2 className="font-condensed text-2xl font-bold text-secondary">
               Ziel
-            </h3>
+            </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Die Initiative möchte möglichst vielen Jugendlichen, unabhängig
@@ -97,9 +97,9 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h3 className="font-condensed text-h3 font-bold text-secondary">
+            <h2 className="font-condensed text-2xl font-bold text-secondary">
               Erfolg
-            </h3>
+            </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Im Schuljahr 24/25 konnten durch diese Unterstützung vier
@@ -119,9 +119,9 @@ export default function Alumni() {
           <div className="max-w-2xl rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20 md:p-8">
             <div className="flex items-center gap-2 mb-4">
               <HeartHandshakeIcon size={28} className="stroke-secondary" />
-              <h3 className="font-condensed text-h4 font-bold text-primary">
+              <h2 className="font-condensed text-h4 font-bold text-primary">
                 Spendenkonto
-              </h3>
+              </h2>
             </div>
 
             <dl className="space-y-2 text-base md:text-body-md">
@@ -171,9 +171,9 @@ export default function Alumni() {
         <Divider />
 
         <section id="jahrgaenge" className="space-y-8">
-          <h2 className="font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 font-bold text-primary">
             Ehemalige Jahrgänge
-          </h2>
+          </h1>
           <div
             className="grid gap-4"
             style={{
