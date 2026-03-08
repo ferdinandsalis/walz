@@ -60,12 +60,12 @@ export default function Home() {
   } | null
 
   return (
-    <div className="col-span-1 col-start-1 grid grid-cols-subgrid items-start gap-y-4 sm:gap-y-8 md:gap-y-12 lg:col-span-4 lg:gap-y-16 xl:col-span-2">
+    <div className="col-span-1 col-start-1 grid grid-cols-subgrid items-start lg:col-span-4 xl:col-span-2">
+      <div className="col-span-full grid grid-cols-12 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-8 md:gap-y-12 lg:gap-x-8 lg:gap-y-16">
       <div
         id="intro-box"
         className={cn(
-          'col-span-4 grid grid-cols-1 grid-rows-1 place-self-center',
-          'xl:col-span-2',
+          'col-span-12 grid grid-cols-1 grid-rows-1 place-self-center',
           '-mx-4 sm:mx-0',
           'relative sm:rounded-md sm:shadow-md',
         )}
@@ -137,8 +137,8 @@ export default function Home() {
           </article>
         )}
       </div>
-      <div className="grid grid-cols-subgrid gap-8 lg:col-span-2">
-        <section className="col-span-1 space-y-4">
+      <section className="col-span-12 grid grid-cols-subgrid gap-y-8">
+        <div className="col-span-12 space-y-4 md:col-span-8">
           <div>
             <h1 className="sr-only">Was ist die Walz?</h1>
             <p className="max-w-2xl text-pretty text-body-md xl:text-body-lg">
@@ -164,10 +164,10 @@ export default function Home() {
               </Link>
             </p>
           </div>
-        </section>
+        </div>
 
         {shoutout && (
-          <section className="">
+          <div className="col-span-12 md:col-span-4">
             <h1 className="sr-only">Shoutout</h1>
             <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
               <p className="mb-4 text-pretty text-body-md">
@@ -201,10 +201,10 @@ export default function Home() {
                 </Button>
               )}
             </div>
-          </section>
+          </div>
         )}
         {!shoutout && closestOrientation && (
-          <section className="">
+          <div className="col-span-12 md:col-span-4">
             <h1 className="sr-only">Walz kennenlernen</h1>
             <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
               <p className="mb-4 text-pretty text-body-md">
@@ -235,15 +235,15 @@ export default function Home() {
                 <Link to="/die-walz-kennenlernen">Mehr erfahren</Link>
               </Button>
             </div>
-          </section>
+          </div>
         )}
-      </div>
-      <section className="grid gap-4 lg:col-span-2">
-        <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+      </section>
+      <section className="col-span-12 grid grid-cols-subgrid gap-y-4">
+        <h1 className="col-span-12 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
           Unser Blog
         </h1>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-8">
-          <article className="relative col-span-4 grid rounded-lg bg-white shadow-md shadow-gray-200 lg:grid-cols-2">
+        <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
+          <article className="relative col-span-12 grid rounded-lg bg-white shadow-md shadow-gray-200 md:col-span-8 lg:grid-cols-2">
             {latestPost.cover && (
               <Link
                 to={`/aktuelles/beitraege/${latestPost.slug?.current}`}
@@ -306,7 +306,7 @@ export default function Home() {
               </Link>
             </footer>
           </article>
-          <div className="col-span-2 grid auto-rows-min grid-cols-1 gap-4 sm:gap-8">
+          <div className="col-span-12 grid auto-rows-min gap-y-8 md:col-span-4">
             {restPosts.map((post, idx) => {
               return (
                 <React.Fragment key={idx}>
@@ -338,41 +338,45 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="grid gap-8 lg:col-span-2">
-        <header className="py-4 md:py-8 lg:py-12">
+      <section className="col-span-12 grid grid-cols-subgrid gap-y-8">
+        <header className="col-span-12 py-4 md:py-8 lg:py-12">
           <SectionHeading id="philosophie">Unsere Philosophie</SectionHeading>
         </header>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
           {pillars.map((entry, idx) => {
             return (
-              <LinkPhotoCard
+              <div
                 key={idx}
-                title={entry.title}
-                abstract={entry.abstract}
-                image={entry.image}
-                link={entry.link}
-              />
+                className="col-span-12 md:col-span-6 lg:col-span-4"
+              >
+                <LinkPhotoCard
+                  title={entry.title}
+                  abstract={entry.abstract}
+                  image={entry.image}
+                  link={entry.link}
+                />
+              </div>
             )
           })}
         </div>
       </section>
-      <section className="grid gap-8 lg:col-span-2">
+      <section className="col-span-12 space-y-8">
         <header className="py-4 md:py-8">
           <SectionHeading id="testimonials">
             Stimmen aus der Walz
           </SectionHeading>
         </header>
         <Carousel
-          className="space-y-8 rounded-md bg-muted/30 py-8 shadow-inner"
+          className="-mx-4 space-y-8 overflow-hidden bg-muted/30 py-8 shadow-inner sm:mx-0 sm:rounded-md"
           opts={{ loop: true }}
         >
-          <CarouselContent className="-ml-8 px-8 py-2 lg:-ml-20">
+          <CarouselContent className="-ml-4 px-4 py-2 sm:-ml-8 sm:px-8 lg:-ml-20">
             {testimonials.map((testimonial, idx) => {
               return (
                 <CarouselItem
                   key={idx}
-                  className="flex items-start justify-center pl-8 md:items-center lg:pl-20"
+                  className="flex items-start justify-center pl-4 sm:pl-8 md:items-center lg:pl-20"
                 >
                   <TestimonialCard idx={idx} {...testimonial} />
                 </CarouselItem>
@@ -385,11 +389,11 @@ export default function Home() {
           </div>
         </Carousel>
       </section>
-      <section className="grid gap-8 lg:col-span-2">
+      <section className="col-span-12 space-y-8">
         <header className="py-4 md:py-8">
           <SectionHeading id="faq">Häufige Fragen</SectionHeading>
         </header>
-        <div className="flex flex-row flex-wrap gap-3 md:flex-row">
+        <div className="flex flex-row flex-wrap gap-3">
           <Link
             to="/haeufige-fragen#was-heisst-eigentlich-walz"
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
@@ -447,14 +451,14 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <section className="grid gap-8 lg:col-span-2">
-        <header className="py-4 md:py-8">
+      <section className="col-span-12 grid grid-cols-subgrid gap-y-8">
+        <header className="col-span-12 py-4 md:py-8">
           <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
         </header>
-        <div className="grid gap-8 md:grid-cols-6">
+        <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
           <Link
             to="https://goo.gl/maps/sb3LQfsePwU3zMPg8"
-            className="relative h-72 overflow-hidden rounded bg-muted/10 md:col-span-4 md:col-start-1 lg:h-96"
+            className="relative col-span-12 h-72 overflow-hidden rounded bg-muted/10 md:col-span-8 lg:h-96"
           >
             <img
               src={`https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=${ENV.GOOGLE_MAPS_API_KEY}&scale=2&map_id=8811b5d90ece1ea5`}
@@ -463,7 +467,7 @@ export default function Home() {
             />
             <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
           </Link>
-          <div className="md:col-span-2 md:col-start-5">
+          <div className="col-span-12 md:col-span-4">
             <h2 className="mb-4 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
               Kontakt
             </h2>
@@ -497,6 +501,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+    </div>
     </div>
   )
 }
