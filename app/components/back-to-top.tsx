@@ -1,4 +1,4 @@
-import { ChevronUpIcon } from 'lucide-react'
+import { CaretUp } from '@phosphor-icons/react'
 import { Link } from 'react-router'
 
 export function BackToTop({ className }: { className?: string }) {
@@ -11,9 +11,9 @@ export function BackToTop({ className }: { className?: string }) {
         <span className="text-muted-foreground underline-offset-2 group-hover:underline">
           Nach oben
         </span>
-        <ChevronUpIcon
+        <CaretUp
           size={18}
-          className="stroke-primary transition-transform group-hover:-translate-y-1"
+          className="text-primary transition-transform group-hover:-translate-y-1"
         />
       </Link>
     </div>

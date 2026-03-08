@@ -1,11 +1,11 @@
-import { MessageCircleHeartIcon } from 'lucide-react'
+import { ChatCircleText } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'home-shoutout',
   title: 'Home Shoutout Box',
   type: 'document',
-  icon: MessageCircleHeartIcon,
+  icon: ChatCircleText,
   orderings: [
     {
       title: 'Reihenfolge (Neueste zuerst)',

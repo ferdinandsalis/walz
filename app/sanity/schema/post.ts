@@ -1,4 +1,4 @@
-import { NewspaperIcon } from 'lucide-react'
+import { Newspaper } from '@phosphor-icons/react'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
 // Beitrag
@@ -7,7 +7,7 @@ export default defineType({
   name: 'post',
   title: 'Post',
   type: 'document',
-  icon: NewspaperIcon,
+  icon: Newspaper,
   fields: [
     defineField({
       name: 'title',

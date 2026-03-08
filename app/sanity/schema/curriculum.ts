@@ -1,4 +1,4 @@
-import { CameraIcon, ClipboardIcon } from 'lucide-react'
+import { Camera, Clipboard } from '@phosphor-icons/react'
 import { defineField, defineArrayMember, defineType } from 'sanity'
 
 export const curriculum = defineType({
@@ -68,7 +68,7 @@ export const photo = defineField({
   name: 'photo',
   title: 'Foto',
   type: 'image',
-  icon: CameraIcon,
+  icon: Camera,
   options: {
     hotspot: true,
     metadata: ['blurhash', 'lqip', 'palette', 'image', 'exif', 'location'],
@@ -86,7 +86,7 @@ export const project = defineType({
   name: 'project',
   title: 'Projekt',
   type: 'document',
-  icon: ClipboardIcon,
+  icon: Clipboard,
   fields: [
     defineField({
       name: 'name',

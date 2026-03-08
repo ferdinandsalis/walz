@@ -1,9 +1,9 @@
 import {
-  ExternalLinkIcon,
-  Home,
-  InstagramIcon,
-  YoutubeIcon,
-} from 'lucide-react'
+  ArrowSquareOut,
+  House,
+  InstagramLogo,
+  YoutubeLogo,
+} from '@phosphor-icons/react'
 import { Link, NavLink } from 'react-router'
 import { cn } from '#app/utils/misc.tsx'
 import { LogoType } from './brand.tsx'
@@ -46,9 +46,9 @@ export function Navigation() {
           )
         }
       >
-        <Home
+        <House
           size={24}
-          className="order-1 hidden stroke-secondary md:block md:group-hover:scale-105 xl:hidden"
+          className="order-1 hidden text-secondary md:block md:group-hover:scale-105 xl:hidden"
         />
         <span className="md:sr-only xl:not-sr-only">Startseite</span>
       </NavLink>
@@ -132,26 +132,26 @@ export function FooterNavigation() {
               to="https://instagram.com/walz_wien"
               className="inline-flex items-center gap-2 rounded bg-white/50 px-3 py-1"
             >
-              <InstagramIcon size={20} className="stroke-primary" />
+              <InstagramLogo size={20} className="text-primary" />
               <span className="text-muted-foreground hover:text-primary">
                 Instagram
               </span>
-              <ExternalLinkIcon
+              <ArrowSquareOut
                 size={18}
-                className="stroke-muted-foreground/50"
+                className="text-muted-foreground/50"
               />
             </Link>
             <Link
               to="https://www.youtube.com/channel/UCV9s0X21PcGR5th-tl02BPg"
               className="inline-flex items-center gap-2 rounded bg-white/50 px-3 py-1"
             >
-              <YoutubeIcon size={20} className="stroke-primary" />
+              <YoutubeLogo size={20} className="text-primary" />
               <span className="text-muted-foreground hover:text-primary">
                 Youtube
               </span>
-              <ExternalLinkIcon
+              <ArrowSquareOut
                 size={18}
-                className="stroke-muted-foreground/50"
+                className="text-muted-foreground/50"
               />
             </Link>
           </div>

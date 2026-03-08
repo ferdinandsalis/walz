@@ -1,4 +1,4 @@
-import { MicVocalIcon } from 'lucide-react'
+import { Microphone } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
 import { alphabetMap } from './year.tsx'
@@ -20,7 +20,7 @@ export default defineType({
   name: 'testimonial',
   title: 'Erfahrungsberichte',
   type: 'document',
-  icon: MicVocalIcon,
+  icon: Microphone,
   fields: [
     defineField({
       name: 'name',

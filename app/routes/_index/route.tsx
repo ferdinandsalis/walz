@@ -1,12 +1,12 @@
 import { getImageDimensions } from '@sanity/asset-utils'
 import {
   ArrowRight,
-  AsteriskIcon,
-  CalendarClockIcon,
-  LinkIcon,
-  MessageCircleQuestionIcon,
-  QuoteIcon,
-} from 'lucide-react'
+  Asterisk,
+  CalendarDots,
+  Link as LinkIcon,
+  Question,
+  Quotes,
+} from '@phosphor-icons/react'
 import React from 'react'
 import { Link, useLoaderData } from 'react-router'
 import { LogoSymbol } from '#app/components/brand.tsx'
@@ -99,7 +99,7 @@ export default function Home() {
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
               <div className="flex items-center gap-2">
                 <h1 className="flex items-center gap-1">
-                  <CalendarClockIcon
+                  <CalendarDots
                     size={24}
                     className="inline-block text-secondary"
                   />
@@ -129,8 +129,8 @@ export default function Home() {
                   Alle Termine
                 </span>
                 <ArrowRight
-                  size="16"
-                  className="stroke-primary transition-transform group-hover/more:translate-x-1"
+                  size={16}
+                  className="text-primary transition-transform group-hover/more:translate-x-1"
                 />
               </Link>
             </div>
@@ -153,10 +153,9 @@ export default function Home() {
                 to={'/aktuelles/beitraege/walz-unterschiede'}
                 className="group text-body-md text-muted-foreground"
               >
-                <MessageCircleQuestionIcon
+                <Question
                   size={28}
-                  absoluteStrokeWidth
-                  className="relative -top-1 inline-flex stroke-primary"
+                  className="relative -top-1 inline-flex text-primary"
                 />{' '}
                 <span className="underline-offset-2 group-hover:underline">
                   Was unterscheidet die Walz von einer
@@ -301,8 +300,8 @@ export default function Home() {
                   Weiterlesen
                 </span>
                 <ArrowRight
-                  size="20"
-                  className="ml-auto stroke-primary transition-transform group-hover/more:translate-x-1"
+                  size={20}
+                  className="ml-auto text-primary transition-transform group-hover/more:translate-x-1"
                 />
               </Link>
             </footer>
@@ -396,7 +395,7 @@ export default function Home() {
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+              <Asterisk className="relative top-[1px] md:top-[4px]" />
             </span>
             <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Was heißt eigentlich Walz?
@@ -407,7 +406,7 @@ export default function Home() {
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+              <Asterisk className="relative top-[1px] md:top-[4px]" />
             </span>
             <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Wie kann ich die Walz kennenlernen?
@@ -418,7 +417,7 @@ export default function Home() {
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+              <Asterisk className="relative top-[1px] md:top-[4px]" />
             </span>
             <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Wieso gibt es Externistenprüfungen?
@@ -429,7 +428,7 @@ export default function Home() {
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+              <Asterisk className="relative top-[1px] md:top-[4px]" />
             </span>
             <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Warum ist die Walz Smartphone-freie Zone?
@@ -440,7 +439,7 @@ export default function Home() {
             className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
           >
             <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-              <AsteriskIcon className="relative top-[1px] md:top-[4px]" />
+              <Asterisk className="relative top-[1px] md:top-[4px]" />
             </span>
             <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
               Was kostet die Walz?
@@ -489,7 +488,7 @@ export default function Home() {
                   Klicke hier um die Walz bei einem virtuellen Rundgang
                   kennenzulernen.{' '}
                   <LinkIcon
-                    className="relative top-[1px] inline stroke-primary align-baseline"
+                    className="relative top-[1px] inline text-primary align-baseline"
                     size={16}
                   />
                 </Link>
@@ -513,9 +512,10 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
       <div className="relative h-full bg-card p-6 md:col-span-7 md:col-start-1 md:p-8">
         <p className="text-balance text-muted-foreground md:min-h-32 md:text-body-md">
           {entry.quote}
-          <QuoteIcon
+          <Quotes
             role="presentation"
-            className="float-right h-12 w-12 fill-secondary stroke-none md:h-16 md:w-16"
+            weight="fill"
+            className="float-right h-12 w-12 text-secondary md:h-16 md:w-16"
           />
         </p>
       </div>
@@ -627,8 +627,8 @@ export function LinkPhotoCard({
             Mehr erfahren
           </span>
           <ArrowRight
-            size="20"
-            className="stroke-primary transition-transform group-hover/more:translate-x-1"
+            size={20}
+            className="text-primary transition-transform group-hover/more:translate-x-1"
           />
         </div>
       </div>

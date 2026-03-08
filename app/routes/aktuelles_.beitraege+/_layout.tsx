@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from '@phosphor-icons/react'
 
 export default function PostLayout() {
   return (
@@ -13,7 +13,7 @@ export default function PostLayout() {
         </span>
         <ArrowLeft
           size="18"
-          className="stroke-primary transition-transform group-hover/more:translate-x-1"
+          className="text-primary transition-transform group-hover/more:translate-x-1"
         />
       </Link>
 

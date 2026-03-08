@@ -1,5 +1,5 @@
 import { withSentry } from '@sentry/remix'
-import { MenuIcon } from 'lucide-react'
+import { List } from '@phosphor-icons/react'
 import {
   Link,
   Links,
@@ -137,7 +137,7 @@ function Layout({ children }: any) {
               <LogoType className="w-20 fill-foreground/80" />
             </Link>
             <CollapsibleTrigger className="rounded-md bg-card/70 p-2 hover:bg-card md:hidden">
-              <MenuIcon className="stroke-primary" />
+              <List className="text-primary" />
             </CollapsibleTrigger>
           </div>
           <CollapsibleContent className="md:hidden">

@@ -1,4 +1,4 @@
-import { GraduationCapIcon } from 'lucide-react'
+import { GraduationCap } from '@phosphor-icons/react'
 import React from 'react'
 import { defineArrayMember, defineField, defineType, set, useFormValue } from 'sanity'
 import type { StringInputProps } from 'sanity'
@@ -193,7 +193,7 @@ export default defineType({
   name: 'year',
   title: 'Jahrgang',
   type: 'document',
-  icon: GraduationCapIcon,
+  icon: GraduationCap,
   fields: [
     defineField({
       name: 'photos',

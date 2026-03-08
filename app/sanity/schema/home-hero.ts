@@ -1,11 +1,11 @@
-import { TrophyIcon } from 'lucide-react'
+import { Trophy } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'home-hero',
   title: 'Home Hero',
   type: 'document',
-  icon: TrophyIcon,
+  icon: Trophy,
   fields: [
     defineField({
       name: 'image',

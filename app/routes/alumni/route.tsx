@@ -1,5 +1,5 @@
 import { loadQuery } from '@sanity/react-loader'
-import { HeartHandshakeIcon } from 'lucide-react'
+import { Handshake } from '@phosphor-icons/react'
 import { useLoaderData } from 'react-router'
 import { z } from 'zod'
 import { Toc } from '#app/components/toc.tsx'
@@ -110,7 +110,7 @@ export default function Alumni() {
 
           <div className="max-w-2xl rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20 md:p-8">
             <div className="mb-4 flex items-center gap-2">
-              <HeartHandshakeIcon size={28} className="stroke-secondary" />
+              <Handshake size={28} className="text-secondary" />
               <h2 className="font-condensed text-h4 font-bold text-primary">
                 Spendenkonto
               </h2>

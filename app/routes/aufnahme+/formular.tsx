@@ -1,5 +1,5 @@
 import { isbot } from 'isbot'
-import { LoaderIcon } from 'lucide-react'
+import { CircleNotch } from '@phosphor-icons/react'
 import {
   type ActionFunctionArgs,
   Form,
@@ -347,7 +347,7 @@ export default function AufnahmeFormular() {
                 Absenden
               </Button>
               {showSpinner && (
-                <LoaderIcon className="animate-spin stroke-secondary" />
+                <CircleNotch className="animate-spin text-secondary" />
               )}
             </div>
           </div>

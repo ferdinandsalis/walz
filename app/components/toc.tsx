@@ -1,4 +1,4 @@
-import { BookOpen } from 'lucide-react'
+import { BookOpen } from '@phosphor-icons/react'
 import { Link } from 'react-router'
 import { cn } from '#app/utils/misc.js'
 
@@ -14,7 +14,7 @@ export function Toc({
   return (
     <nav className={cn('grid gap-3', className)}>
       <h2 className="flex items-center gap-2 text-body-sm font-bold uppercase tracking-widest text-muted-foreground">
-        <BookOpen size={18} className="inline-block stroke-primary" />
+        <BookOpen size={18} className="inline-block text-primary" />
         {title}
       </h2>
       <ol className="list-inside list-disc space-y-0.5">

@@ -1,4 +1,4 @@
-import { ChevronUpIcon } from 'lucide-react'
+import { CaretUp } from '@phosphor-icons/react'
 import { Link } from 'react-router'
 import { cn } from '#app/utils/misc.js'
 
@@ -24,9 +24,9 @@ export function Divider({
             className="group inline-flex items-center gap-1 rounded-full bg-muted p-2 px-2 font-condensed text-lg ring ring-muted transition-colors ease-in-out hover:bg-card"
             title="Nach oben"
           >
-            <ChevronUpIcon
+            <CaretUp
               size={18}
-              className="stroke-primary transition-transform group-hover:-translate-y-0.5"
+              className="text-primary transition-transform group-hover:-translate-y-0.5"
             />
           </Link>
         </div>

@@ -1,16 +1,16 @@
 import { loadQuery } from '@sanity/react-loader'
 import {
-  DownloadIcon,
-  ExternalLinkIcon,
-  FileCheck,
+  DownloadSimple,
+  ArrowSquareOut,
+  CheckSquare,
   GraduationCap,
   Handshake,
-  InfoIcon,
-  Mail,
-  MessageSquare,
+  Info,
+  Envelope,
+  ChatText,
   Phone,
   Users,
-} from 'lucide-react'
+} from '@phosphor-icons/react'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
@@ -110,7 +110,7 @@ export default function Aufnahme() {
                 className="inline-flex max-w-sm items-center gap-1 text-muted-foreground underline underline-offset-2"
               >
                 Hier herunterladen
-                <DownloadIcon size={16} className="flex-none stroke-primary" />
+                <DownloadSimple size={16} className="flex-none text-primary" />
               </a>
             </p>
           </div>
@@ -240,7 +240,7 @@ export default function Aufnahme() {
 function AdmissionTimeline() {
   const steps = [
     {
-      icon: Mail,
+      icon: Envelope,
       title: 'Onlineformular ausfüllen',
       date: '',
     },
@@ -250,7 +250,7 @@ function AdmissionTimeline() {
       date: 'ab 15. November 2025',
     },
     {
-      icon: MessageSquare,
+      icon: ChatText,
       title: 'Aufnahmegespräch',
       date: '',
     },
@@ -260,13 +260,13 @@ function AdmissionTimeline() {
       date: 'bis Jänner 2026',
     },
     {
-      icon: FileCheck,
+      icon: CheckSquare,
       title: 'Unterschriebene Unterlagen & Überweisung Aufnahmebetrag',
       subtitle: '→ Platz fix',
       date: 'Bis spätestens 1 Woche nach den Semesterferien',
     },
     {
-      icon: FileCheck,
+      icon: CheckSquare,
       title: 'Positives Abschlusszeugnis 8. Schulstufe',
       date: 'Juni 2025',
     },
@@ -320,7 +320,7 @@ function AdmissionDay() {
   return (
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
-        <InfoIcon size={18} className="stroke-secondary" />
+        <Info size={18} className="text-secondary" />
         <span className="font-condensed text-body-md">Aufnahmetermin</span>
       </div>
       <div className="space-y-4 text-body-sm/normal">
@@ -341,7 +341,7 @@ function LateralEntryBox() {
   return (
     <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
       <div className="mb-2 flex items-center gap-1 text-secondary">
-        <InfoIcon size={18} className="stroke-secondary" />
+        <Info size={18} className="text-secondary" />
         <span className="font-condensed text-body-md">Plätze frei</span>
       </div>
       <div className="space-y-4 text-body-sm/normal">
@@ -354,7 +354,7 @@ function LateralEntryBox() {
             className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
           >
             agnes.chorherr@walz.at
-            <ExternalLinkIcon size={16} className="stroke-primary" />
+            <ArrowSquareOut size={16} className="text-primary" />
           </a>
         </p>
       </div>

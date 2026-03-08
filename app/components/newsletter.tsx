@@ -1,4 +1,4 @@
-import { LoaderIcon } from 'lucide-react'
+import { CircleNotch } from '@phosphor-icons/react'
 import { useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
@@ -48,7 +48,7 @@ export function NewsletterForm() {
           Abonnieren
         </Button>
         {showSpinner && (
-          <LoaderIcon className="animate-spin stroke-secondary" />
+          <CircleNotch className="animate-spin text-secondary" />
         )}
         {done && <p className="text-green-500">Aktion Erfolgreich</p>}
       </div>

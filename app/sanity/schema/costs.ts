@@ -1,4 +1,4 @@
-import { BadgeEuro, EuroIcon } from 'lucide-react'
+import { CurrencyEur } from '@phosphor-icons/react'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { z } from 'zod'
 
@@ -17,7 +17,7 @@ export const CostSchema = z.object({
 export const cost = defineType({
   name: 'cost',
   title: 'Kostenpunkt',
-  icon: EuroIcon,
+  icon: CurrencyEur,
   type: 'object',
   fields: [
     defineField({
@@ -80,7 +80,7 @@ export default defineType({
   name: 'costs',
   title: 'Kosten',
   type: 'document',
-  icon: BadgeEuro,
+  icon: CurrencyEur,
   fields: [
     defineField({
       name: 'definedAt',

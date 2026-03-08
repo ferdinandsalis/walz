@@ -1,4 +1,4 @@
-import { UserIcon } from 'lucide-react'
+import { User } from '@phosphor-icons/react'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
 
@@ -21,7 +21,7 @@ export default defineType({
   name: 'person',
   title: 'Person',
   type: 'document',
-  icon: UserIcon,
+  icon: User,
   fields: [
     defineField({
       name: 'portrait',
