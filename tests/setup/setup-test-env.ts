@@ -7,7 +7,7 @@ import { afterEach, beforeEach, vi, type MockInstance } from 'vitest'
 
 afterEach(() => cleanup())
 
-export let consoleError: MockInstance<Parameters<(typeof console)['error']>>
+export let consoleError: MockInstance
 
 beforeEach(() => {
   const originalConsoleError = console.error
