@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { PhotoSchema } from '#app/sanity/schema/year.tsx'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
-export const jahrgaengeQuery = defineQuery(`{
-  "currentYears": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {
+export const alumniQuery = defineQuery(`{
+  "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {
     _id,
     _type,
     startedAt,
@@ -49,6 +49,6 @@ export const YearSchema = z.object({
 
 export type Year = z.infer<typeof YearSchema>
 
-export type QueryResult = {
-  currentYears: Year[]
+export type AlumniQueryResult = {
+  alumniYears: Year[]
 }

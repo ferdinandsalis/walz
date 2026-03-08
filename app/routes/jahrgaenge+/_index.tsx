@@ -1,8 +1,6 @@
 import { loadQuery } from '@sanity/react-loader'
-import { GraduationCapIcon } from 'lucide-react'
-import { useLoaderData } from 'react-router'
+import { Link, useLoaderData } from 'react-router'
 import { z } from 'zod'
-import { Divider } from '#app/components/ui/divider.tsx'
 import {
   type QueryResult,
   YearSchema,
@@ -21,14 +19,13 @@ export async function loader() {
     query: jahrgaengeQuery,
     data: {
       currentYears: z.array(YearSchema).parse(queryResult.data.currentYears),
-      alumniYears: z.array(YearSchema).parse(queryResult.data.alumniYears),
     },
   }
 }
 
 export default function Jahrgaenge() {
   const loaderData = useLoaderData<typeof loader>()
-  const { currentYears, alumniYears } = loaderData.data
+  const { currentYears } = loaderData.data
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
@@ -41,25 +38,28 @@ export default function Jahrgaenge() {
           <h2 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Aktuelle
           </h2>
-          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
+          <div
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns:
+                'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+            }}
+          >
             {currentYears.map(year => (
               <YearCard key={year._id} {...year} />
             ))}
           </div>
         </section>
 
-        <Divider />
-
-        <section id="alumni" className="space-y-8">
-          <h2 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
-            Alumni
-          </h2>
-          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))' }}>
-            {alumniYears.map(year => (
-              <YearCard key={year._id} {...year} />
-            ))}
-          </div>
-        </section>
+        <p className="text-body-md text-muted-foreground">
+          <Link
+            to="/alumni#jahrgaenge"
+            prefetch="intent"
+            className="underline underline-offset-2 hover:text-foreground"
+          >
+            Ehemalige Jahrgänge →
+          </Link>
+        </p>
       </div>
     </div>
   )
