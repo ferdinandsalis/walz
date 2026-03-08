@@ -42,16 +42,12 @@ export default function Alumni() {
       </div>
 
       <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
-        <div className="max-w-2xl space-y-4 text-base md:text-xl">
-          <p>Ehemalige Jahrgänge und Ehrensache Walz.</p>
-        </div>
-
         <section id="ehrensache" className="space-y-8">
           <h2 className="font-condensed text-h2 font-bold text-primary">
             Ehrensache Walz
           </h2>
           <p className="font-condensed text-h4 text-secondary">
-            Stipendien für Walzist*innen
+            Stipendien für Walzist:innen
           </p>
 
           <div className="max-w-2xl space-y-4 text-base md:text-xl">
@@ -74,14 +70,14 @@ export default function Alumni() {
                 turbulenten Lebensalter und oft nach Jahren der Unlust hat die
                 Walz vielen geholfen, wieder arbeitsfähig zu werden und die
                 eigene Persönlichkeit zu entfalten. Die Betreuung vieler
-                Jugendlicher durch die Projektleiter*innen und Mentor*innen geht
+                Jugendlicher durch die Projektleiter:innen und Mentor:innen geht
                 sehr oft weit über den in der Walz ohnehin sehr hohen Level
                 hinaus.
               </p>
               <p>
                 Aus Dankbarkeit und Verbundenheit mit der Walz entstand die
                 Initiative „Ehrensache Walz". Heute wird sie von Eltern
-                (ehemaliger) Walzist*innen sowie von ehemaligen Walzist*innen
+                (ehemaliger) Walzist:innen sowie von ehemaligen Walzist:innen
                 selbst weitergetragen.
               </p>
             </div>
