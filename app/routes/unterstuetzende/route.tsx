@@ -4,9 +4,9 @@ export default function Unterstuetzer() {
       <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Unterstützer:innen
       </h1>
-      <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
-        <div className="max-w-2xl space-y-12 text-base md:text-xl">
-          <p className="text-body-md">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 hyphens-auto text-balance">
+        <div className="col-span-12 grid grid-cols-subgrid gap-y-12 text-base md:text-xl">
+          <p className="col-span-12 max-w-2xl text-body-md">
             Die Walz ist ein gemeinnütziger Verein und finanziert sich
             überwiegend über Schulgeld. Ein besonderer Dank gilt Ehrensache
             Walz: Durch das Engagement von Eltern und Ehemaligen können wir
@@ -15,8 +15,8 @@ export default function Unterstuetzer() {
             besuchen. Zusätzlich danken wir unseren Förderern für ihre
             Unterstützung.
           </p>
-          <ul className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            <li>
+          <ul className="col-span-12 grid grid-cols-subgrid gap-y-8">
+            <li className="col-span-12 md:col-span-6">
               <figure className="flex aspect-video flex-col justify-between gap-4 bg-card p-4">
                 <div>
                   <img
@@ -30,7 +30,7 @@ export default function Unterstuetzer() {
                 </figcaption>
               </figure>
             </li>
-            <li>
+            <li className="col-span-12 md:col-span-6">
               <figure className="flex aspect-video flex-col justify-between gap-4 bg-card p-4">
                 <div>
                   <img
@@ -44,7 +44,7 @@ export default function Unterstuetzer() {
                 </figcaption>
               </figure>
             </li>
-            <li>
+            <li className="col-span-12 md:col-span-6">
               <figure className="flex aspect-video flex-col justify-between gap-4 bg-card p-4">
                 <div>
                   <img

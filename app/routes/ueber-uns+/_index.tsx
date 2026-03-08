@@ -46,8 +46,8 @@ export default function UeberUns() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-1 gap-16 hyphens-auto text-balance">
-        <div className="max-w-2xl space-y-4 text-base md:text-xl">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 hyphens-auto text-balance">
+        <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
             verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben
@@ -66,7 +66,7 @@ export default function UeberUns() {
           </p>
         </div>
 
-        <section id="menschen">
+        <section id="menschen" className="col-span-12">
           <h1 className="mb-8 font-condensed text-h2 font-bold text-primary">
             Menschen
           </h1>
@@ -186,28 +186,32 @@ export default function UeberUns() {
           </article>
         </section>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <section id="philosophie" className="space-y-8">
-          <h1 className="font-condensed text-h2 font-bold text-primary">
+        <section id="philosophie" className="col-span-12 grid grid-cols-subgrid gap-y-8">
+          <h1 className="col-span-12 font-condensed text-h2 font-bold text-primary">
             Philosophie
           </h1>
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
             {pillars.map(pillar => (
-              <LinkPhotoCard
+              <div
                 key={pillar.title}
-                title={pillar.title}
-                abstract={pillar.abstract}
-                image={pillar.image}
-                link={pillar.link}
-              />
+                className="col-span-12 md:col-span-6 xl:col-span-4"
+              >
+                <LinkPhotoCard
+                  title={pillar.title}
+                  abstract={pillar.abstract}
+                  image={pillar.image}
+                  link={pillar.link}
+                />
+              </div>
             ))}
           </div>
         </section>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <section id="leitbild" className="space-y-8">
+        <section id="leitbild" className="col-span-12 space-y-8">
           <h1 className="font-condensed text-4xl font-bold text-primary">
             Leitbild
           </h1>
@@ -288,9 +292,9 @@ export default function UeberUns() {
           </article>
         </section>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <section id="geschichte" className="space-y-8">
+        <section id="geschichte" className="col-span-12 space-y-8">
           <h1 className="font-condensed text-4xl font-bold text-primary">
             Geschichte
           </h1>
@@ -324,7 +328,7 @@ export default function UeberUns() {
             </p>
           </div>
         </section>
-        <Divider className="bg-transparent" />
+        <Divider className="col-span-12 bg-transparent" />
       </div>
     </div>
   )

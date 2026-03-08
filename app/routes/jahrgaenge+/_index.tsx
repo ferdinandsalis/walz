@@ -33,8 +33,8 @@ export default function Jahrgaenge() {
         Jahrgänge
       </h1>
 
-      <div className="col-start-1 grid grid-cols-1 gap-16">
-        <section id="current" className="space-y-8">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
+        <section id="current" className="col-span-12 space-y-8">
           <h2 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Aktuelle
           </h2>
@@ -51,7 +51,7 @@ export default function Jahrgaenge() {
           </div>
         </section>
 
-        <p className="text-body-md text-muted-foreground">
+        <p className="col-span-12 text-body-md text-muted-foreground">
           <Link
             to="/alumni#jahrgaenge"
             prefetch="intent"

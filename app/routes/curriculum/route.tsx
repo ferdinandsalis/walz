@@ -30,14 +30,14 @@ export default function Curriculum() {
         Curriculum
       </h1>
 
-      <div className="col-start-1 grid grid-cols-1 gap-16 text-balance md:text-body-md">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 text-balance md:text-body-md">
         {data.years.map((year, index) => (
           <React.Fragment key={year._id}>
             <YearSection year={year} yearNumber={index + 1} />
-            {index < data.years.length - 1 && <Divider />}
+            {index < data.years.length - 1 && <Divider className="col-span-12" />}
           </React.Fragment>
         ))}
-        <Divider className="bg-transparent" />
+        <Divider className="col-span-12 bg-transparent" />
       </div>
     </div>
   )
@@ -65,8 +65,8 @@ function YearSection({
   }, [year.projects])
 
   return (
-    <article className="space-y-8 pt-4">
-      <hgroup>
+    <article className="col-span-12 grid grid-cols-subgrid gap-y-8 pt-4">
+      <hgroup className="col-span-12">
         <h1 className="text-h4 font-bold text-muted-foreground">
           {yearNumber}. Jahr
         </h1>
@@ -74,14 +74,14 @@ function YearSection({
           {year.title}
         </p>
       </hgroup>
-      <div className="mb-8 max-w-prose space-y-4">
+      <div className="col-span-12 mb-8 max-w-prose space-y-4">
         <p>{year.description}</p>
       </div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
         <ProjectsList projects={year.projects} />
         <ExternalExamsList exams={year.externalExams} />
       </div>
-      <div>{year.projects.length > 0 && <YearCarousel photos={photos} />}</div>
+      <div className="col-span-12">{year.projects.length > 0 && <YearCarousel photos={photos} />}</div>
     </article>
   )
 }
@@ -92,7 +92,7 @@ function ProjectsList({
   projects: { _id: string; name: string }[]
 }) {
   return (
-    <div className="space-y-2">
+    <div className="col-span-12 space-y-2 md:col-span-6">
       <h2 className="font-condensed text-h4 font-bold text-secondary">
         Projekte
       </h2>
@@ -107,7 +107,7 @@ function ProjectsList({
 
 function ExternalExamsList({ exams }: { exams: string[] }) {
   return (
-    <div className="space-y-2">
+    <div className="col-span-12 space-y-2 md:col-span-6">
       <h2 className="font-condensed text-h4 font-bold text-secondary">
         Externe Prüfungen
       </h2>
