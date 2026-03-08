@@ -41,7 +41,7 @@ export default function Alumni() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 hyphens-auto text-balance">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 hyphens-auto text-balance sm:gap-x-6 lg:gap-x-8">
         <section id="ehrensache" className="col-span-12 space-y-8">
           <h1 className="font-condensed text-h2 font-bold text-primary">
             Ehrensache Walz
@@ -100,7 +100,8 @@ export default function Alumni() {
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Im Schuljahr 24/25 konnten durch diese Unterstützung vier
-                Teilstipendien vergeben werden. Der Bedarf ist jedoch viel höher.
+                Teilstipendien vergeben werden. Der Bedarf ist jedoch viel
+                höher.
               </p>
             </div>
           </article>

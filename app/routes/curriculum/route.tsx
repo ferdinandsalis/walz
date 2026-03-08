@@ -30,11 +30,13 @@ export default function Curriculum() {
         Curriculum
       </h1>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 text-balance md:text-body-md">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance sm:gap-x-6 md:text-body-md lg:gap-x-8">
         {data.years.map((year, index) => (
           <React.Fragment key={year._id}>
             <YearSection year={year} yearNumber={index + 1} />
-            {index < data.years.length - 1 && <Divider className="col-span-12" />}
+            {index < data.years.length - 1 && (
+              <Divider className="col-span-12" />
+            )}
           </React.Fragment>
         ))}
         <Divider className="col-span-12 bg-transparent" />
@@ -81,7 +83,9 @@ function YearSection({
         <ProjectsList projects={year.projects} />
         <ExternalExamsList exams={year.externalExams} />
       </div>
-      <div className="col-span-12">{year.projects.length > 0 && <YearCarousel photos={photos} />}</div>
+      <div className="col-span-12">
+        {year.projects.length > 0 && <YearCarousel photos={photos} />}
+      </div>
     </article>
   )
 }

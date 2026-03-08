@@ -4,7 +4,7 @@ export default function Unterstuetzer() {
       <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
         Unterstützer:innen
       </h1>
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 hyphens-auto text-balance">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 hyphens-auto text-balance sm:gap-x-6 lg:gap-x-8">
         <div className="col-span-12 grid grid-cols-subgrid gap-y-12 text-base md:text-xl">
           <p className="col-span-12 max-w-2xl text-body-md">
             Die Walz ist ein gemeinnütziger Verein und finanziert sich

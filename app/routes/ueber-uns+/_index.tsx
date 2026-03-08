@@ -46,7 +46,7 @@ export default function UeberUns() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8 hyphens-auto text-balance">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 hyphens-auto text-balance sm:gap-x-6 lg:gap-x-8">
         <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
@@ -188,7 +188,10 @@ export default function UeberUns() {
 
         <Divider className="col-span-12" />
 
-        <section id="philosophie" className="col-span-12 grid grid-cols-subgrid gap-y-8">
+        <section
+          id="philosophie"
+          className="col-span-12 grid grid-cols-subgrid gap-y-8"
+        >
           <h1 className="col-span-12 font-condensed text-h2 font-bold text-primary">
             Philosophie
           </h1>

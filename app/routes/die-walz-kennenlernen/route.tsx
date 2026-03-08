@@ -64,7 +64,10 @@ export default function GetToKnowRoute() {
         </section>
 
         {otherUpcomingEvents.length > 0 && (
-          <section id="vergangene-termine" className="col-span-12 grid grid-cols-subgrid gap-y-4">
+          <section
+            id="vergangene-termine"
+            className="col-span-12 grid grid-cols-subgrid gap-y-4"
+          >
             <h2 className="col-span-12 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
               Weitere Termine
             </h2>
