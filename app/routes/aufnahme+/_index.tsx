@@ -224,10 +224,27 @@ export default function Aufnahme() {
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
-              Durch private Sponsoren steht der Walz ein gewisser Betrag für
-              Stipendien zur Verfügung. Dieser Betrag wird auf mehrere
-              Jugendliche aufgeteilt. Im Bedarfsfall kann ein Antrag (inkl.
-              Einkommensnachweise und Begründung) gestellt werden.
+              Durch private Sponsoren und der Initiative{' '}
+              <Link
+                to="/alumni#ehrensache"
+                className="text-primary underline underline-offset-4 hover:text-primary/80"
+              >
+                „Ehrensache Walz"
+              </Link>{' '}
+              steht der Walz ein gewisser Betrag für Stipendien zur Verfügung.
+              Dieser Betrag wird auf mehrere Jugendliche aufgeteilt. Im
+              Bedarfsfall kann ein Antrag (inkl. Einkommensnachweise und
+              Begründung) gestellt werden.
+            </p>
+            <p>
+              Hierfür melde dich mit deiner Anfrage bitte an{' '}
+              <a
+                href="mailto:office@walz.at"
+                className="text-primary underline underline-offset-4 hover:text-primary/80"
+              >
+                office@walz.at
+              </a>
+              .
             </p>
           </div>
         </article>

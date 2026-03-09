@@ -158,8 +158,13 @@ export default function Alumni() {
               </p>
               <p>
                 Für Fragen zu der Initiative, Spenden und der steuerlichen
-                Absetzbarkeit steht{' '}
-                <strong className="text-primary">Mateja Ostrogonac</strong>{' '}
+                Absetzbarkeit stehen wir unter{' '}
+                <a
+                  href="mailto:office@walz.at"
+                  className="text-primary underline underline-offset-4 hover:text-primary/80"
+                >
+                  office@walz.at
+                </a>{' '}
                 gerne zur Verfügung.
               </p>
             </div>
