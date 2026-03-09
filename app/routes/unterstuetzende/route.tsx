@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 export default function Unterstuetzer() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
@@ -8,8 +10,14 @@ export default function Unterstuetzer() {
         <div className="col-span-12 grid grid-cols-subgrid gap-y-12 text-base md:text-xl">
           <p className="col-span-12 max-w-2xl text-body-md">
             Die Walz ist ein gemeinnütziger Verein und finanziert sich
-            überwiegend über Schulgeld. Ein besonderer Dank gilt Ehrensache
-            Walz: Durch das Engagement von Eltern und Ehemaligen können wir
+            überwiegend über Schulgeld. Ein besonderer Dank gilt{' '}
+            <Link
+              to="/alumni#ehrensache"
+              className="text-primary underline underline-offset-4 hover:text-primary/80"
+            >
+              Ehrensache Walz
+            </Link>
+            : Durch das Engagement von Eltern und Ehemaligen können wir
             Teil- und Vollstipendien anbieten, die es Jugendlichen unabhängig
             der finanziellen Situation ihrer Eltern ermöglichen, die Walz zu
             besuchen. Zusätzlich danken wir unseren Förderern für ihre
