@@ -44,15 +44,15 @@ export default function GetToKnowRoute() {
           Kennenlernen
         </h1>
       </div>
-      <div className="col-span-1 col-start-1 grid grid-cols-1 gap-16">
-        <div className="max-w-2xl space-y-4 text-base md:text-body-md lg:text-body-lg">
+      <div className="col-span-1 col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
+        <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-body-md lg:text-body-lg">
           <p>
             Du willst mehr über die Walz erfahren? Dann komm vorbei und erfahre
             alles über die Schule, die Projekte und die Möglichkeiten, die dir
             die Walz bietet.
           </p>
         </div>
-        <section id="termine" className="grid gap-y-4">
+        <section id="termine" className="col-span-12 grid gap-y-4">
           <h2 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
             Nächster Termin
           </h2>
@@ -64,11 +64,14 @@ export default function GetToKnowRoute() {
         </section>
 
         {otherUpcomingEvents.length > 0 && (
-          <section id="vergangene-termine" className="grid gap-y-4">
-            <h2 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+          <section
+            id="vergangene-termine"
+            className="col-span-12 grid grid-cols-subgrid gap-y-4"
+          >
+            <h2 className="col-span-12 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
               Weitere Termine
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="col-span-12 grid grid-cols-subgrid gap-y-4">
               {otherUpcomingEvents.map((event, index) => (
                 <CompactEventCard key={index} event={event} />
               ))}
@@ -191,7 +194,7 @@ function EventCard({ event }: { event: Event }) {
 
 function CompactEventCard({ event }: { event: Event }) {
   return (
-    <div className="grid content-start gap-4 rounded-lg bg-card p-6 shadow-sm">
+    <div className="col-span-12 grid content-start gap-4 rounded-lg bg-card p-6 shadow-sm sm:col-span-6">
       <header>
         <h3 className="font-condensed text-h5 font-bold text-secondary">
           {event.title}

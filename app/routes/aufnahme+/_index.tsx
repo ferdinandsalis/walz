@@ -52,8 +52,8 @@ export default function Aufnahme() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-1 gap-16">
-        <article id="vorgehensweise" className="space-y-8">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
+        <article id="vorgehensweise" className="col-span-12 space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Vorgehensweise
           </h1>
@@ -88,9 +88,9 @@ export default function Aufnahme() {
           <AdmissionDay />
         </article>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <article id="voraussetzungen" className="space-y-8">
+        <article id="voraussetzungen" className="col-span-12 space-y-8">
           <h1 className="font-condensed text-4xl font-bold text-primary">
             Voraussetzungen
           </h1>
@@ -133,9 +133,9 @@ export default function Aufnahme() {
           <LateralEntryBox />
         </article>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <article id="kosten" className="space-y-8">
+        <article id="kosten" className="col-span-12 space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Kosten und Finanzierung
           </h1>
@@ -216,9 +216,9 @@ export default function Aufnahme() {
           </div>
         </article>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <article id="stipendien" className="space-y-8">
+        <article id="stipendien" className="col-span-12 space-y-8">
           <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
             Stipendien
           </h1>
@@ -231,7 +231,7 @@ export default function Aufnahme() {
             </p>
           </div>
         </article>
-        <Divider className="bg-transparent" />
+        <Divider className="col-span-12 bg-transparent" />
       </div>
     </div>
   )

@@ -88,8 +88,8 @@ export default function Aktuelles() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-1 gap-16">
-        <section id="schuljahr" className="space-y-8">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
+        <section id="schuljahr" className="col-span-12 space-y-8">
           <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
             Schuljahr
           </h1>
@@ -254,9 +254,9 @@ export default function Aktuelles() {
           </Accordion>
         </section>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <section id="jahrgaenge" className="space-y-8">
+        <section id="jahrgaenge" className="col-span-12 space-y-8">
           <header className="flex items-center justify-between">
             <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
               Jahrgänge
@@ -285,10 +285,10 @@ export default function Aktuelles() {
           </footer>
         </section>
 
-        <Divider />
+        <Divider className="col-span-12" />
 
-        <section id="blog" className="grid grid-cols-1 gap-4">
-          <header className="flex flex-col items-end md:flex-row">
+        <section id="blog" className="col-span-12 grid grid-cols-subgrid gap-4">
+          <header className="col-span-12 flex flex-col items-end md:flex-row">
             <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
               Blog
             </h1>
@@ -301,7 +301,7 @@ export default function Aktuelles() {
               </Link>
             </div>
           </header>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="col-span-12 grid grid-cols-subgrid gap-y-6">
             {posts &&
               posts.map(post => (
                 <PostItem
@@ -313,7 +313,7 @@ export default function Aktuelles() {
               ))}
           </div>
         </section>
-        <Divider className="bg-transparent" />
+        <Divider className="col-span-12 bg-transparent" />
       </div>
     </div>
   )
@@ -441,7 +441,7 @@ export function PostItem({
   return (
     <article
       key={title}
-      className="grid content-between gap-4 overflow-hidden rounded-md bg-card shadow"
+      className="col-span-12 grid content-between gap-4 overflow-hidden rounded-md bg-card shadow md:col-span-6"
     >
       <div className="grid grid-cols-1 gap-2 p-6">
         <Link prefetch="intent" to={linkTo}>
