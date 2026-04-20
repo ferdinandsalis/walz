@@ -26,8 +26,11 @@ export function GeneralErrorBoundary({
   unexpectedErrorHandler?: (error: unknown) => JSX.Element | null
 }) {
   const error = useRouteError()
-  captureException(error)
   const params = useParams()
+
+  if (!isRouteErrorResponse(error)) {
+    captureException(error)
+  }
 
   if (typeof document !== 'undefined') {
     console.error(error)
