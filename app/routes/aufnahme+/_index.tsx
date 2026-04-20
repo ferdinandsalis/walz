@@ -27,7 +27,9 @@ export function meta() {
 }
 
 export async function loader() {
-  const queryResult = await loadQuery<AufnahmeQuery>(aufnahmeQuery)
+  // en-CA locale produces YYYY-MM-DD format needed for Sanity date comparison
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Vienna' })
+  const queryResult = await loadQuery<AufnahmeQuery>(aufnahmeQuery, { today })
   return AufnahmeQuerySchema.parse(queryResult.data)
 }
 

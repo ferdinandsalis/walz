@@ -29,7 +29,7 @@ export type AufnahmeQuery = z.infer<typeof AufnahmeQuerySchema>
 
 // current school year
 export const aufnahmeQuery = defineQuery(`{
-    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {
+    "currentSchoolYear": *[_type == "schoolYear" && end >= $today] | order(start asc) {
         _id,
         _type,
         start,

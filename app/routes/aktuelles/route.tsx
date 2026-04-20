@@ -38,6 +38,7 @@ import {
   type Year,
   YearSchema,
   aktuellesQuery,
+  currentSchoolYearQuery,
 } from './query.ts'
 
 export function meta() {
@@ -47,10 +48,27 @@ export function meta() {
 type Event = z.infer<typeof EventSchema>
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const schoolYear = determineCurrentSchoolYear()
+  // en-CA locale produces YYYY-MM-DD format needed for Sanity date comparison
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Vienna' })
+  const schoolYearResult = await loadQuery<{ start: string; end: string } | null>(
+    currentSchoolYearQuery,
+    { today },
+  )
+
+  let fromDate: string
+  let toDate: string
+  if (schoolYearResult.data) {
+    fromDate = schoolYearResult.data.start
+    toDate = schoolYearResult.data.end
+  } else {
+    const fallback = determineCurrentSchoolYear()
+    fromDate = fallback.from.toISOString()
+    toDate = fallback.to.toISOString()
+  }
+
   const queryResult = await loadQuery<QueryResult>(aktuellesQuery, {
-    fromDate: schoolYear.from.toISOString(),
-    toDate: schoolYear.to.toISOString(),
+    fromDate,
+    toDate,
   })
 
   return {

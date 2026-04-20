@@ -4,6 +4,10 @@ import { type EventSchema } from '#app/sanity/schema/event.tsx'
 import { PhotoSchema } from '#app/sanity/schema/year.tsx'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
+export const currentSchoolYearQuery = defineQuery(
+  `*[_type == "schoolYear" && end >= $today] | order(start asc)[0] { start, end }`,
+)
+
 export const aktuellesQuery = defineQuery(`{
   "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {
     _id,
