@@ -115,7 +115,7 @@ jobs:
           file: 'fly.toml'
           field: 'app'
       - name: 🎈 Setup Fly
-        uses: superfly/flyctl-actions/setup-flyctl@1.5
+        uses: superfly/flyctl-actions/setup-flyctl@1.6
       - name: 🚀 Deploy
         if: ${{ github.ref == 'refs/heads/main' }}
         run:
