@@ -37,7 +37,7 @@ export async function sendAufnahmeConfirmationEmail(
 
 vielen Dank für die Zusendung des Aufnahmeformulars!
 
-Nach unserem Tag der offenen Tür am 15.11. wird sich Frauke Rätz telefonisch bei Ihnen, liebe Eltern, melden, um einen Termin für das persönliche Aufnahmegespräch zu vereinbaren.
+Nach unserem Tag der offenen Tür am 14.11.2026 wird sich Frauke Rätz telefonisch bei Ihnen, liebe Eltern, melden, um einen Termin für das persönliche Aufnahmegespräch zu vereinbaren.
 
 Für dich, liebe:r Bewerber:in, bis zum Gespräch:
 • Schicke bitte eine kurze E-Mail an agnes.chorherr@walz.at mit drei Gründen, warum du in die Walz gehen möchtest.
