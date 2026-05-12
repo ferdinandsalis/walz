@@ -344,9 +344,9 @@ function AdmissionDay() {
       </div>
       <div className="space-y-4 text-body-sm/normal">
         <p>
-          Für einen Aufnahmetermin für den Jahrgang Epsilon (9. Schulstufe,
-          Schulbeginn September 2026) fülle das Aufnahmeformular aus. Weitere
-          Infos folgen per Mail.
+          Der Jahrgang Epsilon (9. Schulstufe, Schulbeginn September 2026) ist
+          voll. Für die Aufnahme in den Jahrgang Zeta (Schulbeginn September
+          2027) fülle das Aufnahmeformular aus. Weitere Infos folgen per Mail.
         </p>
         <Button asChild>
           <Link to="/aufnahme/formular">Zum Anmeldeformular</Link>
