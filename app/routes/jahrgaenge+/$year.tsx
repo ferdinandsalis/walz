@@ -12,11 +12,7 @@ import {
   type MetaArgs,
   useLoaderData,
 } from 'react-router'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '#app/components/ui/dialog.tsx'
+import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type Photo, type Year } from '#app/sanity/schema/year.tsx'
 import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
@@ -131,61 +127,52 @@ function YearPhotos({
   )
   const selectedPhoto = photos[selectedPhotoIndex]
   const { width, height } = getImageDimensions(selectedPhoto.asset)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
 
   return (
     <div className="max-w-5xl">
       <div className="flex flex-col gap-4 lg:flex-row">
-        <Dialog>
-          <figure className="group flex-1">
-            <div className="relative flex">
-              <DialogTrigger asChild>
-                <button className="relative w-full cursor-zoom-in">
-                  <img
-                    src={urlFor(selectedPhoto).quality(80).width(1000).url()}
-                    width={width}
-                    height={height}
-                    alt={`${letter} Foto`}
-                    className="w-full rounded-sm object-cover object-center shadow-md"
-                    style={{
-                      aspectRatio: width / height,
-                    }}
-                  />
-                  <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
-                    <MagnifyingGlassPlus className="h-5 w-5 text-white" />
-                  </div>
-                </button>
-              </DialogTrigger>
-              {selectedPhoto.motto && (
-                <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
-                  <p className="font-condensed text-body-sm text-white">
-                    Motto: "{selectedPhoto.motto}"
-                  </p>
-                </figcaption>
-              )}
-            </div>
-          </figure>
-          <DialogContent className="max-h-[95vh] w-[95vw] max-w-7xl overflow-hidden p-0">
-            <div className="relative flex items-center justify-center bg-black">
+        <figure className="group flex-1">
+          <div className="relative flex">
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              className="relative w-full cursor-zoom-in"
+            >
               <img
-                src={urlFor(selectedPhoto).quality(90).width(2400).url()}
+                src={urlFor(selectedPhoto).quality(80).width(1000).url()}
                 width={width}
                 height={height}
-                alt={`${letter} Foto (vergrößert)`}
-                className="max-h-[95vh] w-auto object-contain"
+                alt={`${letter} Foto`}
+                className="w-full rounded-sm object-cover object-center shadow-md"
                 style={{
                   aspectRatio: width / height,
                 }}
               />
-              {selectedPhoto.motto && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
-                  <p className="font-condensed text-lg text-white">
-                    Motto: "{selectedPhoto.motto}"
-                  </p>
-                </div>
-              )}
-            </div>
-          </DialogContent>
-        </Dialog>
+              <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+                <MagnifyingGlassPlus className="h-5 w-5 text-white" />
+              </div>
+            </button>
+            {selectedPhoto.motto && (
+              <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+                <p className="font-condensed text-body-sm text-white">
+                  Motto: "{selectedPhoto.motto}"
+                </p>
+              </figcaption>
+            )}
+          </div>
+        </figure>
+
+        <PhotoLightbox
+          photos={photos.map(photo => ({
+            image: photo,
+            alt: `${letter} Foto`,
+            caption: photo.motto ? `Motto: "${photo.motto}"` : undefined,
+          }))}
+          open={lightboxOpen}
+          startIndex={selectedPhotoIndex}
+          onOpenChange={setLightboxOpen}
+        />
 
         {photos.length > 1 && (
           <div className="flex flex-row gap-4 overflow-x-auto lg:flex-col lg:overflow-x-visible">
