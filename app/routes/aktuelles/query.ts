@@ -23,6 +23,7 @@ export const aktuellesQuery = defineQuery(`{
     _id,
     _type,
     title,
+    "slug": slug.current,
     location,
     description,
     start,
