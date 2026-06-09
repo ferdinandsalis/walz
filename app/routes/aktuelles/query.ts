@@ -9,7 +9,7 @@ export const currentSchoolYearQuery = defineQuery(
 )
 
 export const aktuellesQuery = defineQuery(`{
-  "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {
+  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {
     _id,
     _type,
     title,

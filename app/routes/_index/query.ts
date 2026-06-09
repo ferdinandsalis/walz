@@ -58,5 +58,5 @@ export const homeQuery = defineQuery(`{
     slug,
     cover,
     publishedAt
-  }[0...3]
+  }[0...4]
 }`)
