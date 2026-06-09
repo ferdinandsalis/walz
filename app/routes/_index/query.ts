@@ -37,7 +37,7 @@ export const homeQuery = defineQuery(`{
     end,
     type
   },
-  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {
+  "testimonials": *[_type == "testimonial"] | order(orderRank) {
     _id,
     _type,
     name,

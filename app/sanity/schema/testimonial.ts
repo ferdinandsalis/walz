@@ -1,4 +1,8 @@
 import { Microphone } from '@phosphor-icons/react'
+import {
+  orderRankField,
+  orderRankOrdering,
+} from '@sanity/orderable-document-list'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
 import { alphabetMap } from './year.tsx'
@@ -21,7 +25,9 @@ export default defineType({
   title: 'Erfahrungsberichte',
   type: 'document',
   icon: Microphone,
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'testimonial' }),
     defineField({
       name: 'name',
       type: 'string',
