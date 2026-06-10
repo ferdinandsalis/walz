@@ -86,6 +86,7 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
       - name: 📥 Install Playwright Browsers
+        timeout-minutes: 10
         run: npm run test:e2e:install
       - name: 🏗 Build
         run: npm run build
