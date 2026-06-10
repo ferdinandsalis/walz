@@ -22,6 +22,7 @@ import {
   type LoaderFunctionArgs,
 } from 'react-router'
 import { z } from 'zod'
+import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
@@ -49,11 +50,13 @@ type Event = z.infer<typeof EventSchema>
 
 export async function loader({ params }: LoaderFunctionArgs) {
   // en-CA locale produces YYYY-MM-DD format needed for Sanity date comparison
-  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Vienna' })
-  const schoolYearResult = await loadQuery<{ start: string; end: string } | null>(
-    currentSchoolYearQuery,
-    { today },
-  )
+  const today = new Date().toLocaleDateString('en-CA', {
+    timeZone: 'Europe/Vienna',
+  })
+  const schoolYearResult = await loadQuery<{
+    start: string
+    end: string
+  } | null>(currentSchoolYearQuery, { today })
 
   let fromDate: string
   let toDate: string
@@ -181,35 +184,44 @@ export default function Aktuelles() {
                                 </div>
                               </AccordionTrigger>
                             </div>
-                            {event.description && (
-                              <AccordionContent asChild>
-                                <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                                  <h1 className="mb-4 text-h5 font-bold">
+                            <AccordionContent asChild>
+                              <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                                <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                                  <h1 className="text-h5 font-bold">
                                     {event.title}
                                   </h1>
-                                  <dl className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                      {event.start.time && (
-                                        <div>
-                                          <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                            Beginn
-                                          </dt>
-                                          <dd className="">
-                                            {event.start.time} Uhr
-                                          </dd>
-                                        </div>
-                                      )}
-                                      {event.end?.time && (
-                                        <div>
-                                          <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                                            Ende
-                                          </dt>
-                                          <dd className="">
-                                            {event.end.time} Uhr
-                                          </dd>
-                                        </div>
-                                      )}
-                                    </div>
+                                  <CopyLinkButton
+                                    path={
+                                      event.slug
+                                        ? `/termine/${event.slug}`
+                                        : `/aktuelles#${event._id}`
+                                    }
+                                  />
+                                </div>
+                                <dl className="space-y-4">
+                                  <div className="grid grid-cols-2 gap-4">
+                                    {event.start.time && (
+                                      <div>
+                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                          Beginn
+                                        </dt>
+                                        <dd className="">
+                                          {event.start.time} Uhr
+                                        </dd>
+                                      </div>
+                                    )}
+                                    {event.end?.time && (
+                                      <div>
+                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                          Ende
+                                        </dt>
+                                        <dd className="">
+                                          {event.end.time} Uhr
+                                        </dd>
+                                      </div>
+                                    )}
+                                  </div>
+                                  {event.description && (
                                     <div>
                                       <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                         Info
@@ -257,10 +269,10 @@ export default function Aktuelles() {
                                         />
                                       </dd>
                                     </div>
-                                  </dl>
-                                </div>
-                              </AccordionContent>
-                            )}
+                                  )}
+                                </dl>
+                              </div>
+                            </AccordionContent>
                           </AccordionItem>
                         </>
                       )

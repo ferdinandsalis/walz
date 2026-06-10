@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLoaderData } from 'react-router'
+import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import {
   Carousel,
   CarouselItem,
@@ -127,23 +128,36 @@ function ExternalExamsList({ exams }: { exams: string[] }) {
 }
 
 function YearCarousel({ photos }: { photos: any[] }) {
+  const validPhotos = React.useMemo(
+    () => photos?.filter(photo => photo?.asset) ?? [],
+    [photos],
+  )
+  const [lightboxIndex, setLightboxIndex] = React.useState<number | null>(null)
+
+  const caption = (photo: any) =>
+    `${photo.projectName}${photo.caption ? `, ${photo.caption}` : ''}`
+
   return (
-    <Carousel
-      opts={{
-        loop: true,
-        align: 'start',
-        duration: 20,
-      }}
-    >
-      <div className="rounded bg-muted/30 px-4 py-4 md:-mx-4">
-        <CarouselContent className="-ml-2">
-          {photos?.map(photo =>
-            photo?.asset ? (
+    <>
+      <Carousel
+        opts={{
+          loop: true,
+          align: 'start',
+          duration: 20,
+        }}
+      >
+        <div className="rounded bg-muted/30 px-4 py-4 md:-mx-4">
+          <CarouselContent className="-ml-2">
+            {validPhotos.map((photo, index) => (
               <CarouselItem
-                key={photo._id}
+                key={photo._key ?? index}
                 className="pl-2 sm:basis-1/2 md:basis-1/3"
               >
-                <div className="group relative overflow-hidden rounded">
+                <button
+                  type="button"
+                  onClick={() => setLightboxIndex(index)}
+                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded"
+                >
                   <img
                     src={urlFor(photo)
                       .height(512)
@@ -154,20 +168,32 @@ function YearCarousel({ photos }: { photos: any[] }) {
                   />
                   <div className="absolute bottom-0 left-0 right-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3 font-condensed">
                     <span className="text-xs text-card drop-shadow">
-                      {photo.projectName}
-                      {photo.caption ? `, ${photo.caption}` : ''}
+                      {caption(photo)}
                     </span>
                   </div>
-                </div>
+                </button>
               </CarouselItem>
-            ) : null,
-          )}
-        </CarouselContent>
-      </div>
-      <div className="mt-4 flex justify-center gap-2 px-8">
-        <CarouselPrevious variant="ghost" />
-        <CarouselNext variant="ghost" />
-      </div>
-    </Carousel>
+            ))}
+          </CarouselContent>
+        </div>
+        <div className="mt-4 flex justify-center gap-2 px-8">
+          <CarouselPrevious variant="ghost" />
+          <CarouselNext variant="ghost" />
+        </div>
+      </Carousel>
+
+      <PhotoLightbox
+        photos={validPhotos.map(photo => ({
+          image: photo,
+          alt: caption(photo),
+          caption: caption(photo),
+        }))}
+        open={lightboxIndex !== null}
+        startIndex={lightboxIndex ?? 0}
+        onOpenChange={open => {
+          if (!open) setLightboxIndex(null)
+        }}
+      />
+    </>
   )
 }

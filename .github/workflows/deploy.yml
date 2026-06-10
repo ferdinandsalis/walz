@@ -23,7 +23,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
       - name: 🔬 Lint
@@ -38,7 +38,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
       - name: 🔎 Type check
@@ -53,7 +53,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
       - name: 🏄 Copy test env vars
@@ -82,7 +82,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
       - name: 📥 Install Playwright Browsers

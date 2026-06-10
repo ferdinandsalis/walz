@@ -245,9 +245,23 @@ export default function Home() {
           )}
         </section>
         <section className="col-span-12 grid grid-cols-subgrid gap-y-4">
-          <h1 className="col-span-12 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
-            Unser Blog
-          </h1>
+          <header className="col-span-12 flex items-baseline justify-between gap-4">
+            <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+              Unser Blog
+            </h1>
+            <Link
+              to="/aktuelles/beitraege/"
+              className="group/blog flex items-center gap-1 font-condensed text-primary"
+            >
+              <span className="underline-offset-2 group-hover/blog:underline">
+                Alle Beiträge
+              </span>
+              <ArrowRight
+                size={16}
+                className="text-primary transition-transform group-hover/blog:translate-x-1"
+              />
+            </Link>
+          </header>
           <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
             <article className="relative col-span-12 grid rounded-lg bg-white shadow-md shadow-gray-200 md:col-span-8 lg:grid-cols-2">
               {latestPost.cover && (

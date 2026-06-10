@@ -1,4 +1,5 @@
 import { BookBookmark } from '@phosphor-icons/react'
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
@@ -15,7 +16,7 @@ export default defineConfig({
   basePath: `/studio`,
   plugins: [
     structureTool({
-      structure: S =>
+      structure: (S, context) =>
         S.list()
           .title('Content')
           .items([
@@ -26,7 +27,12 @@ export default defineConfig({
             S.documentTypeListItem('person').title('Personen'),
             S.documentTypeListItem('year').title('Jahrgang'),
             S.documentTypeListItem('schoolYear').title('Schuljahr'),
-            S.documentTypeListItem('testimonial').title('Erfahrungsberichte'),
+            orderableDocumentListDeskItem({
+              type: 'testimonial',
+              title: 'Erfahrungsberichte',
+              S,
+              context,
+            }),
             S.divider(),
             S.documentTypeListItem('home-hero').title('Home Hero'),
             S.documentTypeListItem('home-shoutout').title('Home Shoutout'),

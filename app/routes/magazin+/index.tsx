@@ -1,4 +1,5 @@
 import { DownloadSimple } from '@phosphor-icons/react'
+import { PdfViewer } from '#app/components/pdf-viewer.tsx'
 
 export default function Magazin() {
   return (
@@ -7,7 +8,7 @@ export default function Magazin() {
         Magazin
       </h1>
       <div className="grid gap-16">
-        <section>
+        <section className="space-y-4">
           <h2 className="font-condensed text-h2 font-bold text-primary">
             Aktuell
           </h2>
@@ -17,14 +18,21 @@ export default function Magazin() {
           >
             <div className="flex-1 p-6">
               <h2 className="font-condensed text-h3">24/25</h2>
-              <a
-                download="Magazin Walz Zeit 24/25.pdf"
-                href="/downloads/magazin_24-25.pdf"
-                className="inline-flex items-center gap-1 underline underline-offset-2"
-              >
-                Magazin herunterladen
-                <DownloadSimple size={18} className="text-primary" />
-              </a>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+                <PdfViewer
+                  src="/downloads/magazin_24-25.pdf"
+                  title="Walz Magazin 24/25"
+                  downloadName="Magazin Walz Zeit 24/25.pdf"
+                />
+                <a
+                  download="Magazin Walz Zeit 24/25.pdf"
+                  href="/downloads/magazin_24-25.pdf"
+                  className="inline-flex items-center gap-1 underline underline-offset-2"
+                >
+                  Magazin herunterladen
+                  <DownloadSimple size={18} className="text-primary" />
+                </a>
+              </div>
             </div>
             <div>
               <img

@@ -59,7 +59,7 @@ export default function Post() {
   )
 }
 
-const ImageComponent = ({ value, isInline }: any) => {
+export const ImageComponent = ({ value, isInline }: any) => {
   const { width, height } = getImageDimensions(value)
   return (
     <figure className="rounded bg-muted/30 p-3">
@@ -79,9 +79,12 @@ const ImageComponent = ({ value, isInline }: any) => {
           aspectRatio: width / height,
         }}
       />
-      {value.attribution && (
-        <figcaption className="mt-2 text-right text-body-xs text-muted-foreground">
-          {value.attribution}
+      {(value.caption || value.attribution) && (
+        <figcaption className="mt-2 text-body-xs text-muted-foreground">
+          {value.caption}
+          {value.attribution && (
+            <span className="block text-right">{value.attribution}</span>
+          )}
         </figcaption>
       )}
     </figure>

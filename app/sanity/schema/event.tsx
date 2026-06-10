@@ -4,17 +4,18 @@ import { z } from 'zod'
 
 export const AttachmentSchema = z.object({
   _type: z.literal('file'),
-  asset: z.object({
-    _type: z.literal('reference'),
-    _ref: z.string(),
-    url: z.string(),
-  }),
+  asset: z
+    .object({
+      url: z.string(),
+    })
+    .nullable(),
 })
 
 export const EventSchema = z.object({
   _id: z.string(),
   _type: z.literal('event'),
   title: z.string(),
+  slug: z.string().nullable().optional(),
   location: z.string().nullable(),
   cover: z
     .object({
@@ -86,6 +87,22 @@ export default defineType({
       type: 'string',
       title: 'Titel',
       validation: Rule => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      title: 'Slug',
+      description:
+        'Eindeutiger Pfad für den direkten Link zu diesem Termin (/termine/…).',
+      options: {
+        source: doc => {
+          const title = (doc.title as string | undefined) ?? ''
+          const date =
+            (doc.start as { date?: string } | undefined)?.date ?? ''
+          return `${title} ${date}`.trim()
+        },
+        maxLength: 96,
+      },
     }),
     defineField({
       name: 'description',
