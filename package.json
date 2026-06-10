@@ -127,5 +127,16 @@
   },
   "engines": {
     "node": "24"
+  },
+  "overrides": {
+    "@vercel/frameworks": {
+      "js-yaml": "^3.14.2"
+    },
+    "@sanity/uuid": {
+      "uuid": "^11.1.1"
+    },
+    "typeid-js": {
+      "uuid": "^11.1.1"
+    }
   }
 }
