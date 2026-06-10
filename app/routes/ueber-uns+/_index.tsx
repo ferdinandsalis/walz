@@ -385,7 +385,7 @@ function StaffCard({
         )}
         <div
           role="presentation"
-          className="to-secondary-30 order-secondary col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b bg-secondary/30 bg-gradient-to-t from-secondary/70"
+          className="to-secondary-30 order-secondary col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b bg-secondary/30 bg-linear-to-t from-secondary/70"
         />
       </div>
       <figcaption className="flex flex-1 flex-col">
@@ -437,7 +437,7 @@ function StaffRoll({ children }: { children: React.ReactNode }) {
         orientation="horizontal"
         className="-mx-4 flex h-[12px] items-center rounded-b-md bg-muted/20 px-[3px] shadow-inner hover:bg-muted-foreground/10"
       >
-        <ScrollArea.Thumb className="relative !h-[8px] cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
+        <ScrollArea.Thumb className="relative h-[8px]! cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   )

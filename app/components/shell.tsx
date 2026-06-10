@@ -36,7 +36,7 @@ export function Navigation() {
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-none transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
+            'group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
             'hover:text-primary',
             {
               'text-stone-900 ring-0': isActive,
@@ -59,7 +59,7 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-none ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
+              'px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-hidden ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
               'hover:text-primary',
               {
                 'text-stone-900 ring-0': isActive,

@@ -185,7 +185,7 @@ export default function Aufnahme() {
                     key={cost.title}
                   >
                     <div className="grid grid-cols-2 py-2">
-                      <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
+                      <div className="inset-s-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">
                           <dt className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                             {cost.title}
@@ -308,7 +308,7 @@ function AdmissionTimeline() {
         return (
           <div key={index} className="relative flex gap-3">
             <div className="flex flex-col items-center">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded bg-secondary shadow-md">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded bg-secondary shadow-md">
                 <Icon className="h-6 w-6 text-white" />
               </div>
               {index < steps.length - 1 && (

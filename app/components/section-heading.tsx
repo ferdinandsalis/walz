@@ -10,7 +10,7 @@ export function SectionHeading({
   return (
     <Link
       to={`.#${id}`}
-      className="grid grid-cols-12 items-center outline-none"
+      className="grid grid-cols-12 items-center outline-hidden"
       tabIndex={-1}
     >
       <h1

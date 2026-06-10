@@ -129,7 +129,7 @@ function Layout({ children }: any) {
           <div className="flex flex-1 items-center justify-between">
             <Link
               to="/"
-              className="group relative -top-1 flex items-center gap-2 py-1 outline-none"
+              className="group relative -top-1 flex items-center gap-2 py-1 outline-hidden"
               tabIndex={-1}
             >
               <LogoSymbol className="relative top-1 w-10 text-primary" />

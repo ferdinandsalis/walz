@@ -40,7 +40,7 @@ export default function Post() {
           components={{
             block: {
               normal: ({ children }) => (
-                <p className="[&:not(:last-child)]:mb-2">{children}</p>
+                <p className="not-last:mb-2">{children}</p>
               ),
               h4: ({ children }) => (
                 <h4 className="font-bold text-primary">{children}</h4>
