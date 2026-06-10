@@ -1,4 +1,9 @@
-import { type PropsWithChildren, useEffect, useState } from 'react'
+import {
+  type JSX,
+  type PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react'
 
 let isHydrating = true
 

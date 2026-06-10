@@ -1,4 +1,4 @@
-export function Logo(props: JSX.IntrinsicElements['svg']) {
+export function Logo(props: React.JSX.IntrinsicElements['svg']) {
   return (
     <svg
       viewBox="0 0 182 175"
