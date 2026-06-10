@@ -164,16 +164,18 @@ export default function UeberUns() {
                 >
                   <a href="#therapist">Therapeut:innen</a>
                 </h2>
-                <div className="max-w-prose hyphens-auto">
+                <div className="max-w-prose space-y-2 hyphens-auto">
                   <p>
-                    Jede Woche stehen eine erfahrene Psychologin und eine
-                    Psychotherapeutin für Gespräche mit den Jugendlichen zur
-                    Verfügung. Zusätzlich runden wir das Angebot mit
-                    Stressbewältigungstechniken, Drogenpräventionsprogrammen,
-                    „Systemische und Integrative Bewegungslehre“ und
-                    „Therapeutic Touch“ ab. Wir bieten Aufklärungsseminare und
-                    Elternabende an, um das Wohlbefinden und die persönliche
-                    Entwicklung aller Beteiligten zu fördern.
+                    Jede Woche stehen eine Psychotherapeutin und eine
+                    Körpertherapeutin für Gespräche und Begleitung der
+                    Jugendlichen zur Verfügung. Die Körperarbeit nach der
+                    Systemischen und Integrativen Bewegungslehre eröffnet dabei
+                    einen Zugang, der über Worte hinausgeht.
+                  </p>
+                  <p>
+                    Ergänzend bieten wir Programme zur Suchtprävention,
+                    Stressbewältigungstechniken sowie Elternabende zu aktuellen
+                    Themen des Jugendalters an.
                   </p>
                 </div>
                 <StaffRoll>
