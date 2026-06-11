@@ -9,7 +9,7 @@ import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
   aufnahmeQuery,
-} from './ _index.query.ts'
+} from './_index.query.ts'
 
 export function meta() {
   return [{ title: 'Aufnahme | Walz' }]
