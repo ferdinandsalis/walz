@@ -16,11 +16,11 @@ export function NewsletterForm() {
       name="newsletter"
       method="POST"
       action="/resources/newsletter"
-      className="grid max-w-xl rounded-md bg-card p-6 shadow-md xl:p-8"
+      className="bg-card grid max-w-xl rounded-md p-6 shadow-md xl:p-8"
       key={JSON.stringify(fetcher.data)}
     >
       <HoneypotInputs />
-      <p className="mb-4 max-w-[28ch] text-balance text-lg md:text-body-md">
+      <p className="md:text-body-md mb-4 max-w-[28ch] text-lg text-balance">
         <span className="font-bold">
           Möchtest du auf dem Laufenden bleiben?
         </span>{' '}
@@ -35,19 +35,19 @@ export function NewsletterForm() {
           placeholder="Deine E-Mail"
           disabled={done}
           defaultValue={done ? '' : undefined}
-          className="rounded-lg bg-white p-6 shadow-md md:text-body-md"
+          className="md:text-body-md rounded-lg bg-white p-6 shadow-md"
         />
       </div>
       <div className="flex items-center gap-4">
         <Button
           type="submit"
           size="lg"
-          className="rounded-lg bg-primary p-6 shadow-md md:text-body-md"
+          className="bg-primary md:text-body-md rounded-lg p-6 shadow-md"
           disabled={fetcher.state === 'submitting'}
         >
           Abonnieren
         </Button>
-        {showSpinner && <CircleNotch className="animate-spin text-secondary" />}
+        {showSpinner && <CircleNotch className="text-secondary animate-spin" />}
         {done && <p className="text-green-500">Aktion Erfolgreich</p>}
       </div>
     </fetcher.Form>

@@ -40,12 +40,12 @@ export default function GetToKnowRoute() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
       <div>
-        <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+        <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
           Kennenlernen
         </h1>
       </div>
       <div className="col-span-1 col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
-        <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-body-md lg:text-body-lg">
+        <div className="md:text-body-md lg:text-body-lg col-span-12 max-w-2xl space-y-4 text-base">
           <p>
             Du willst mehr über die Walz erfahren? Dann komm vorbei und erfahre
             alles über die Schule, die Projekte und die Möglichkeiten, die dir
@@ -53,7 +53,7 @@ export default function GetToKnowRoute() {
           </p>
         </div>
         <section id="termine" className="col-span-12 grid gap-y-4">
-          <h2 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+          <h2 className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
             Nächster Termin
           </h2>
           {nextEvent ? (
@@ -68,7 +68,7 @@ export default function GetToKnowRoute() {
             id="vergangene-termine"
             className="col-span-12 grid grid-cols-subgrid gap-y-4"
           >
-            <h2 className="col-span-12 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+            <h2 className="text-body-xs text-muted-foreground col-span-12 font-bold tracking-widest uppercase">
               Weitere Termine
             </h2>
             <div className="col-span-12 grid grid-cols-subgrid gap-y-4">
@@ -87,7 +87,7 @@ type Event = z.infer<typeof EventSchema>
 
 function EventCard({ event }: { event: Event }) {
   return (
-    <div className="grid-rows-auto grid grid-cols-1 overflow-hidden text-pretty rounded-lg bg-card shadow-md">
+    <div className="grid-rows-auto bg-card grid grid-cols-1 overflow-hidden rounded-lg text-pretty shadow-md">
       {event.cover && (
         <figure className="relative col-start-1 row-start-1">
           <img
@@ -106,7 +106,7 @@ function EventCard({ event }: { event: Event }) {
         </figure>
       )}
       <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-end bg-black/10 p-6 sm:rounded-t-md">
-        <h2 className="font-condensed text-h2 font-bold leading-none text-secondary shadow-lg">
+        <h2 className="font-condensed text-h2 text-secondary leading-none font-bold shadow-lg">
           {event.title}
         </h2>
       </div>
@@ -115,7 +115,7 @@ function EventCard({ event }: { event: Event }) {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {event.location && (
               <div className="grid gap-2">
-                <h3 className="text-body-xs font-bold uppercase tracking-widest text-primary">
+                <h3 className="text-body-xs text-primary font-bold tracking-widest uppercase">
                   Wo?
                 </h3>
                 <div
@@ -126,7 +126,7 @@ function EventCard({ event }: { event: Event }) {
               </div>
             )}
             <div className="grid content-start gap-2">
-              <h3 className="text-body-xs font-bold uppercase tracking-widest text-primary">
+              <h3 className="text-body-xs text-primary font-bold tracking-widest uppercase">
                 Wann?
               </h3>
               <div>
@@ -157,7 +157,7 @@ function EventCard({ event }: { event: Event }) {
                     return (
                       <Link
                         to={value.href}
-                        className="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+                        className="text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
                       >
                         {children}
                       </Link>
@@ -166,7 +166,7 @@ function EventCard({ event }: { event: Event }) {
                 },
                 list: {
                   bullet: ({ children }) => (
-                    <ul className="my-3 me-3 ms-3 list-inside list-disc">
+                    <ul className="my-3 ms-3 me-3 list-inside list-disc">
                       {children}
                     </ul>
                   ),
@@ -180,7 +180,7 @@ function EventCard({ event }: { event: Event }) {
                   ),
 
                   h4: ({ children }) => (
-                    <h4 className="font-bold text-primary">{children}</h4>
+                    <h4 className="text-primary font-bold">{children}</h4>
                   ),
                 },
               }}
@@ -194,12 +194,12 @@ function EventCard({ event }: { event: Event }) {
 
 function CompactEventCard({ event }: { event: Event }) {
   return (
-    <div className="col-span-12 grid content-start gap-4 rounded-lg bg-card p-6 shadow-xs sm:col-span-6">
+    <div className="bg-card col-span-12 grid content-start gap-4 rounded-lg p-6 shadow-xs sm:col-span-6">
       <header>
-        <h3 className="font-condensed text-h5 font-bold text-secondary">
+        <h3 className="font-condensed text-h5 text-secondary font-bold">
           {event.title}
         </h3>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-muted-foreground text-sm">
           <div>
             {event.start.date.toLocaleDateString('de-AT', {
               year: 'numeric',
@@ -224,7 +224,7 @@ export function ReminderForm() {
 
   return (
     <>
-      <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+      <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
         Erinnerungsservice
       </h1>
       <p className="max-w-prose">

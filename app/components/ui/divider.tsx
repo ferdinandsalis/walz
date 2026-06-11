@@ -13,15 +13,15 @@ export function Divider({
     <div
       role="presentation"
       className={cn(
-        'group relative h-[3px] rounded border-none bg-muted',
+        'group bg-muted relative h-[3px] rounded border-none',
         className,
       )}
     >
       {withBackToTop && (
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 transform">
           <Link
             to="#"
-            className="group inline-flex items-center gap-1 rounded-full bg-muted p-2 px-2 font-condensed text-lg ring-3 ring-muted transition-colors ease-in-out hover:bg-card"
+            className="group bg-muted font-condensed ring-muted hover:bg-card inline-flex items-center gap-1 rounded-full p-2 px-2 text-lg ring-3 transition-colors ease-in-out"
             title="Nach oben"
           >
             <CaretUp

@@ -13,8 +13,8 @@ export function Toc({
 }) {
   return (
     <nav className={cn('grid gap-3', className)}>
-      <h2 className="flex items-center gap-2 text-body-sm font-bold uppercase tracking-widest text-muted-foreground">
-        <BookOpen size={18} className="inline-block text-primary" />
+      <h2 className="text-body-sm text-muted-foreground flex items-center gap-2 font-bold tracking-widest uppercase">
+        <BookOpen size={18} className="text-primary inline-block" />
         {title}
       </h2>
       <ol className="list-inside list-disc space-y-0.5">

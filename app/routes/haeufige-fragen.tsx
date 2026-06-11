@@ -5,13 +5,13 @@ import { Divider } from '#app/components/ui/divider.js'
 export default function Faq() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 text-balance lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Häufige Fragen
       </h1>
-      <div className="col-start-1 grid grid-cols-1 gap-16 text-balance md:text-body-md">
+      <div className="md:text-body-md col-start-1 grid grid-cols-1 gap-16 text-balance">
         <article id="was-heisst-eigentlich-walz" className="grid gap-8">
           <Link to=".#was-heisst-eigentlich-walz">
-            <h2 className="font-condensed text-h2 font-bold text-primary">
+            <h2 className="font-condensed text-h2 text-primary font-bold">
               Was heißt eigentlich Walz?
             </h2>
           </Link>
@@ -34,7 +34,7 @@ export default function Faq() {
           className="grid gap-8"
         >
           <Link to=".#wieso-gibt-es-externistenpruefungen">
-            <h2 className="font-condensed text-h2 font-bold text-primary">
+            <h2 className="font-condensed text-h2 text-primary font-bold">
               Wieso gibt es Externistenprüfungen?
             </h2>
           </Link>
@@ -73,7 +73,7 @@ export default function Faq() {
           className="grid gap-8"
         >
           <Link to=".#warum-ist-die-walz-smartphone-freie-zone">
-            <h2 className="font-condensed text-h2 font-bold text-primary">
+            <h2 className="font-condensed text-h2 text-primary font-bold">
               Warum ist die Walz Smartphone-freie Zone?
             </h2>
           </Link>
@@ -110,7 +110,7 @@ export default function Faq() {
 
         <article id="wie-kann-ich-die-walz-kennenlernen" className="grid gap-8">
           <Link to=".#wie-kann-ich-die-walz-kennenlernen">
-            <h2 className="font-condensed text-h2 font-bold text-primary">
+            <h2 className="font-condensed text-h2 text-primary font-bold">
               Wie kann ich die Walz kennenlernen?
             </h2>
           </Link>
@@ -148,7 +148,7 @@ export default function Faq() {
 
         <article id="was-kostet-die-walz" className="grid gap-8">
           <Link to=".#was-kostet-die-walz">
-            <h2 className="font-condensed text-h2 font-bold text-primary">
+            <h2 className="font-condensed text-h2 text-primary font-bold">
               Was kostet die Walz?
             </h2>
           </Link>

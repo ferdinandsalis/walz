@@ -4,17 +4,17 @@ import { PdfViewer } from '#app/components/pdf-viewer.tsx'
 export default function Magazin() {
   return (
     <div className="relative grid items-start gap-8 text-balance lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Magazin
       </h1>
       <div className="grid gap-16">
         <section className="space-y-4">
-          <h2 className="font-condensed text-h2 font-bold text-primary">
+          <h2 className="font-condensed text-h2 text-primary font-bold">
             Aktuell
           </h2>
           <article
             id="magazin_24-25"
-            className="flex flex-col items-center overflow-hidden rounded bg-card/50 md:flex-row"
+            className="bg-card/50 flex flex-col items-center overflow-hidden rounded md:flex-row"
           >
             <div className="flex-1 p-6">
               <h2 className="font-condensed text-h3">24/25</h2>
@@ -44,10 +44,10 @@ export default function Magazin() {
           </article>
         </section>
         <section className="">
-          <h2 className="font-condensed text-h2 font-bold text-primary">
+          <h2 className="font-condensed text-h2 text-primary font-bold">
             Archiv
           </h2>
-          <article id="boty_23-24" className="rounded bg-card/50 p-6">
+          <article id="boty_23-24" className="bg-card/50 rounded p-6">
             <h2 className="font-condensed text-h3">23/24</h2>
             <a
               download="Book of the year 23/24.pdf"
@@ -58,7 +58,7 @@ export default function Magazin() {
               <DownloadSimple size={18} className="text-primary" />
             </a>{' '}
           </article>
-          <article id="boty_22-23" className="rounded bg-card/50 p-6">
+          <article id="boty_22-23" className="bg-card/50 rounded p-6">
             <h2 className="font-condensed text-h3">22/23</h2>
             <a
               download="Book of the year 22/23.pdf"

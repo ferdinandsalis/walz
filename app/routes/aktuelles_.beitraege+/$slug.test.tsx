@@ -11,7 +11,9 @@ const imageValue = (extra: Record<string, unknown>) => ({
 describe('ImageComponent', () => {
   it('renders the caption below the image', () => {
     const markup = renderToStaticMarkup(
-      <ImageComponent value={imageValue({ caption: 'Schülerinnen im Garten' })} />,
+      <ImageComponent
+        value={imageValue({ caption: 'Schülerinnen im Garten' })}
+      />,
     )
 
     expect(markup).toContain('Schülerinnen im Garten')

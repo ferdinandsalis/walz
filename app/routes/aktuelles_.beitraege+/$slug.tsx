@@ -30,7 +30,7 @@ export default function Post() {
   const post = loaderData.data
 
   return (
-    <article className="post hyphens-auto text-pretty">
+    <article className="post text-pretty hyphens-auto">
       <header>
         <h1>{post.title}</h1>
       </header>
@@ -43,7 +43,7 @@ export default function Post() {
                 <p className="not-last:mb-2">{children}</p>
               ),
               h4: ({ children }) => (
-                <h4 className="font-bold text-primary">{children}</h4>
+                <h4 className="text-primary font-bold">{children}</h4>
               ),
             },
             types: {
@@ -62,7 +62,7 @@ export default function Post() {
 export const ImageComponent = ({ value, isInline }: any) => {
   const { width, height } = getImageDimensions(value)
   return (
-    <figure className="rounded bg-muted/30 p-3">
+    <figure className="bg-muted/30 rounded p-3">
       <img
         src={urlFor(value)
           .width(isInline ? 100 : 800)
@@ -80,7 +80,7 @@ export const ImageComponent = ({ value, isInline }: any) => {
         }}
       />
       {(value.caption || value.attribution) && (
-        <figcaption className="mt-2 text-body-xs text-muted-foreground">
+        <figcaption className="text-body-xs text-muted-foreground mt-2">
           {value.caption}
           {value.attribution && (
             <span className="block text-right">{value.attribution}</span>

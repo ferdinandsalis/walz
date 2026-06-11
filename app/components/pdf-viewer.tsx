@@ -38,9 +38,9 @@ export function PdfViewer({
           data={`${src}#view=FitH`}
           type="application/pdf"
           aria-label={title}
-          className="mt-4 h-[80vh] w-full rounded border border-muted"
+          className="border-muted mt-4 h-[80vh] w-full rounded border"
         >
-          <p className="p-4 text-body-sm text-muted-foreground">
+          <p className="text-body-sm text-muted-foreground p-4">
             Dein Browser kann das PDF nicht direkt anzeigen.{' '}
             <a
               href={src}

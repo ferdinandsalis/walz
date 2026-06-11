@@ -12,8 +12,8 @@ export function meta() {
 
 export default function Persoenlichkeit() {
   return (
-    <div className="space-y-8 hyphens-auto text-pretty">
-      <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+    <div className="space-y-8 text-pretty hyphens-auto">
+      <h1 className="font-condensed text-secondary mb-8 text-4xl font-bold">
         Persönlichkeit
       </h1>
       <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -47,10 +47,10 @@ export default function Persoenlichkeit() {
         </p>
       </div>
       <blockquote>
-        <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
+        <p className="font-condensed mb-2 max-w-[30ch] text-2xl leading-tight font-bold text-stone-700">
           Who is it who can tell me who I am?
         </p>
-        <p className="font-bold text-primary">William Shakespeare</p>
+        <p className="text-primary font-bold">William Shakespeare</p>
       </blockquote>
     </div>
   )

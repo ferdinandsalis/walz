@@ -95,11 +95,11 @@ export default function Aktuelles() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Aktuelles
       </h1>
 
-      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
+      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Schuljahr', to: '#schuljahr' },
@@ -111,7 +111,7 @@ export default function Aktuelles() {
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <section id="schuljahr" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+          <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
             Schuljahr
           </h1>
           <Accordion
@@ -123,7 +123,7 @@ export default function Aktuelles() {
             {Object.entries(events).map(([year, yearEvents]) => {
               return (
                 <section key={year}>
-                  <h2 className="mb-2 text-right font-condensed text-body-lg font-bold text-muted-foreground/70">
+                  <h2 className="font-condensed text-body-lg text-muted-foreground/70 mb-2 text-right font-bold">
                     {year}
                   </h2>
 
@@ -140,7 +140,7 @@ export default function Aktuelles() {
                         <>
                           {isNextEvent && (
                             <div className="relative text-center">
-                              <hr className="rounded-full border-2 border-secondary" />
+                              <hr className="border-secondary rounded-full border-2" />
                             </div>
                           )}
                           <AccordionItem key={event._id} value={event._id}>
@@ -153,7 +153,7 @@ export default function Aktuelles() {
                               <AccordionTrigger asChild>
                                 <div
                                   className={cn(
-                                    'user-select-none group grid w-full cursor-pointer grid-cols-3 items-center gap-4 px-4 py-1 transition-all data-[state=open]:bg-secondary/10',
+                                    'user-select-none group data-[state=open]:bg-secondary/10 grid w-full cursor-pointer grid-cols-3 items-center gap-4 px-4 py-1 transition-all',
                                   )}
                                 >
                                   <time
@@ -175,17 +175,17 @@ export default function Aktuelles() {
                                   </div>
                                   <div className="flex items-center gap-1 justify-self-end">
                                     {event.type && (
-                                      <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-body-2xs text-primary/80">
+                                      <span className="bg-primary/10 text-body-2xs text-primary/80 rounded-md px-1.5 py-0.5">
                                         {tType(event.type)}
                                       </span>
                                     )}
-                                    <CaretUp className="group-data-[state=open]:transform-rotate-180 h-4 w-4 text-primary transition-transform duration-300" />
+                                    <CaretUp className="group-data-[state=open]:transform-rotate-180 text-primary h-4 w-4 transition-transform duration-300" />
                                   </div>
                                 </div>
                               </AccordionTrigger>
                             </div>
                             <AccordionContent asChild>
-                              <div className="transform-gpu overflow-hidden bg-card p-4 py-6 transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                              <div className="bg-card data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down transform-gpu overflow-hidden p-4 py-6 transition-all">
                                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
                                   <h1 className="text-h5 font-bold">
                                     {event.title}
@@ -202,7 +202,7 @@ export default function Aktuelles() {
                                   <div className="grid grid-cols-2 gap-4">
                                     {event.start.time && (
                                       <div>
-                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                        <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
                                           Beginn
                                         </dt>
                                         <dd className="">
@@ -212,7 +212,7 @@ export default function Aktuelles() {
                                     )}
                                     {event.end?.time && (
                                       <div>
-                                        <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                        <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
                                           Ende
                                         </dt>
                                         <dd className="">
@@ -223,7 +223,7 @@ export default function Aktuelles() {
                                   </div>
                                   {event.description && (
                                     <div>
-                                      <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                                      <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
                                         Info
                                       </dt>
                                       <dd>
@@ -260,7 +260,7 @@ export default function Aktuelles() {
                                                 </h4>
                                               ),
                                               normal: ({ children }) => (
-                                                <div className="mb-2 text-body-sm leading-normal">
+                                                <div className="text-body-sm mb-2 leading-normal">
                                                   {children}
                                                 </div>
                                               ),
@@ -288,7 +288,7 @@ export default function Aktuelles() {
 
         <section id="jahrgaenge" className="col-span-12 space-y-8">
           <header className="flex items-center justify-between">
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+            <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
               Jahrgänge
             </h1>
           </header>
@@ -319,7 +319,7 @@ export default function Aktuelles() {
 
         <section id="blog" className="col-span-12 grid grid-cols-subgrid gap-4">
           <header className="col-span-12 flex flex-col items-end md:flex-row">
-            <h1 className="font-condensed text-2xl font-bold text-primary md:text-4xl">
+            <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
               Blog
             </h1>
             <div className="md:ml-auto">
@@ -364,10 +364,10 @@ export function YearCard({
   return (
     <article
       key={letter}
-      className="grid h-full grid-cols-1 rounded-md bg-card shadow-md sm:grid-cols-[1fr_auto]"
+      className="bg-card grid h-full grid-cols-1 rounded-md shadow-md sm:grid-cols-[1fr_auto]"
     >
       <div className="relative flex flex-col overflow-hidden p-6">
-        <div className="pointer-events-none absolute right-4 top-4 font-greek text-6xl font-black lowercase text-primary opacity-10 md:right-8 md:top-8 md:text-7xl lg:text-8xl">
+        <div className="font-greek text-primary pointer-events-none absolute top-4 right-4 text-6xl font-black lowercase opacity-10 md:top-8 md:right-8 md:text-7xl lg:text-8xl">
           {alphabetMap[letter]}
         </div>
 
@@ -380,11 +380,11 @@ export function YearCard({
             >
               <span>{letter}</span>
               {graduatedAt ? (
-                <span className="align-super text-lg font-bold text-primary">
+                <span className="text-primary align-super text-lg font-bold">
                   {new Date(graduatedAt).getFullYear()}
                 </span>
               ) : (
-                <span className="align-super text-lg font-bold text-primary">
+                <span className="text-primary align-super text-lg font-bold">
                   {calculateCurrentYear(startedAt)}
                 </span>
               )}
@@ -393,7 +393,7 @@ export function YearCard({
           {mentor && (
             <div className="">
               <Link
-                className="font-bold text-secondary hover:underline hover:underline-offset-2"
+                className="text-secondary font-bold hover:underline hover:underline-offset-2"
                 to={{
                   hash: mentor?.slug.current,
                   pathname: href('/ueber-uns'),
@@ -436,19 +436,19 @@ export function YearCard({
               .width(600)
               .url()}
             alt={`${letter} Foto`}
-            className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
+            className="h-full w-full rounded-b-md object-cover object-center sm:rounded-r-md sm:rounded-b-none"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-linear-to-t from-secondary/40 to-transparent sm:rounded-b-none sm:rounded-r-md">
-            <Baby size={96} className="w-12 text-secondary/20 md:w-24" />
+          <div className="from-secondary/40 flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-linear-to-t to-transparent sm:rounded-r-md sm:rounded-b-none">
+            <Baby size={96} className="text-secondary/20 w-12 md:w-24" />
           </div>
         )}
         <div
           role="presentation"
-          className="absolute inset-0 rounded-b-md ring-2 ring-inset ring-card/30 transition-all group-hover:ring-secondary sm:rounded-b-none sm:rounded-r-md"
+          className="ring-card/30 group-hover:ring-secondary absolute inset-0 rounded-b-md ring-2 transition-all ring-inset sm:rounded-r-md sm:rounded-b-none"
         >
           <LinkSimple
-            className="absolute bottom-2 right-2 text-card group-hover:text-primary"
+            className="text-card group-hover:text-primary absolute right-2 bottom-2"
             size={16}
           />
         </div>
@@ -471,11 +471,11 @@ export function PostItem({
   return (
     <article
       key={title}
-      className="col-span-12 grid content-between gap-4 overflow-hidden rounded-md bg-card shadow-sm md:col-span-6"
+      className="bg-card col-span-12 grid content-between gap-4 overflow-hidden rounded-md shadow-sm md:col-span-6"
     >
       <div className="grid grid-cols-1 gap-2 p-6">
         <Link prefetch="intent" to={linkTo}>
-          <h1 className="font-condensed text-xl font-bold leading-tight! text-secondary md:text-2xl">
+          <h1 className="font-condensed text-secondary text-xl leading-tight! font-bold md:text-2xl">
             {title}
           </h1>
         </Link>
@@ -489,22 +489,22 @@ export function PostItem({
             </time>
           </p>
         )}
-        <p className="hyphens-auto text-pretty leading-snug">
+        <p className="leading-snug text-pretty hyphens-auto">
           {previewText} <span>…</span>
         </p>
       </div>
-      <footer className="mt-2 bg-primary/5 px-6 py-2">
+      <footer className="bg-primary/5 mt-2 px-6 py-2">
         <Link
           to={linkTo}
           prefetch="intent"
-          className="group/more flex items-center font-condensed text-lg text-primary"
+          className="group/more font-condensed text-primary flex items-center text-lg"
         >
           <span className="underline-offset-2 group-hover/more:underline">
             Weiterlesen
           </span>
           <ArrowRight
             size={20}
-            className="ml-auto text-primary transition-transform group-hover/more:translate-x-1"
+            className="text-primary ml-auto transition-transform group-hover/more:translate-x-1"
           />
         </Link>
       </footer>

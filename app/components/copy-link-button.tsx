@@ -31,7 +31,7 @@ export function CopyLinkButton({
         }
       }}
       className={cn(
-        'inline-flex items-center gap-1 text-body-xs text-muted-foreground underline-offset-2 hover:text-primary hover:underline',
+        'text-body-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1 underline-offset-2 hover:underline',
         className,
       )}
     >

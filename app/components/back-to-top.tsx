@@ -6,7 +6,7 @@ export function BackToTop({ className }: { className?: string }) {
     <div className={className}>
       <Link
         to="#"
-        className="group inline-flex items-center gap-1 rounded-md bg-card/50 p-2 px-6 font-condensed text-lg transition-colors ease-in-out hover:bg-card"
+        className="group bg-card/50 font-condensed hover:bg-card inline-flex items-center gap-1 rounded-md p-2 px-6 text-lg transition-colors ease-in-out"
       >
         <span className="text-muted-foreground underline-offset-2 group-hover:underline">
           Nach oben

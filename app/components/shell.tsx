@@ -29,18 +29,18 @@ export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg bg-card shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0"
+      className="bg-card flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0"
     >
       <NavLink
         to="/"
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'group flex-none items-center px-3 py-2 font-condensed text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset focus:ring-primary/20 md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
+            'group font-condensed focus:ring-primary/20 flex-none items-center px-3 py-2 text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
             'hover:text-primary',
             {
               'text-stone-900 ring-0': isActive,
-              'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""] xl:after:content-none':
+              'after:bg-primary relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:content-none md:after:content-[""] xl:after:content-none':
                 isActive,
             },
           )
@@ -48,7 +48,7 @@ export function Navigation() {
       >
         <House
           size={24}
-          className="order-1 hidden text-secondary md:block md:group-hover:scale-105 xl:hidden"
+          className="text-secondary order-1 hidden md:block md:group-hover:scale-105 xl:hidden"
         />
         <span className="md:sr-only xl:not-sr-only">Startseite</span>
       </NavLink>
@@ -59,11 +59,11 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'px-3 py-2 font-condensed text-lg font-bold text-stone-800 outline-hidden ring-inset ring-card transition-colors focus:ring-2 focus:ring-primary/20 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
+              'font-condensed ring-card focus:ring-primary/20 px-3 py-2 text-lg font-bold text-stone-800 outline-hidden transition-colors ring-inset focus:ring-2 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
               'hover:text-primary',
               {
                 'text-stone-900 ring-0': isActive,
-                'relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:bg-primary after:content-none md:after:content-[""] xl:after:content-none':
+                'after:bg-primary relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:content-none md:after:content-[""] xl:after:content-none':
                   isActive,
               },
             )
@@ -92,7 +92,7 @@ export function FooterNavigation() {
               key={item.name}
               to={item.to}
               prefetch="intent"
-              className="font-condensed font-bold hover:text-primary md:text-body-md"
+              className="font-condensed hover:text-primary md:text-body-md font-bold"
             >
               {item.name}
             </Link>
@@ -104,21 +104,21 @@ export function FooterNavigation() {
             <Link
               to="/unterstuetzende"
               prefetch="intent"
-              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
+              className="font-condensed text-muted-foreground hover:text-foreground md:text-body-md underline underline-offset-2"
             >
               Unterstützende
             </Link>
             <Link
               to="/impressum"
               prefetch="intent"
-              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
+              className="font-condensed text-muted-foreground hover:text-foreground md:text-body-md underline underline-offset-2"
             >
               Impressum
             </Link>
             <Link
               to="/datenschutz"
               prefetch="intent"
-              className="font-condensed text-muted-foreground underline underline-offset-2 hover:text-foreground md:text-body-md"
+              className="font-condensed text-muted-foreground hover:text-foreground md:text-body-md underline underline-offset-2"
             >
               Datenschutz
             </Link>
@@ -154,11 +154,11 @@ export function FooterNavigation() {
 
       <div className="col-span-2 justify-self-center">
         <Link to="." className="group mb-4 flex flex-col items-center">
-          <LogoType className="w-24 fill-foreground opacity-20" />
+          <LogoType className="fill-foreground w-24 opacity-20" />
         </Link>
 
         <p className="text-center">
-          <span className="font-bold text-primary">
+          <span className="text-primary font-bold">
             {new Date().getFullYear()} &copy; Walz Wiener Lernzentrum
           </span>
           <br />

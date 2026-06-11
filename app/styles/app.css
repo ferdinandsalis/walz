@@ -143,7 +143,7 @@
 
 @layer base {
   a {
-    @apply outline-offset-2 outline-secondary/20;
+    @apply outline-secondary/20 outline-offset-2;
   }
 
   :root {
@@ -177,26 +177,26 @@
 
 .post {
   header > h1 {
-    @apply mb-4 mt-8 font-condensed text-3xl font-bold text-primary;
+    @apply font-condensed text-primary mt-8 mb-4 text-3xl font-bold;
   }
 }
 
 .prose {
   @apply max-w-prose;
   h1 {
-    @apply mb-6 mt-8 font-condensed text-2xl font-bold text-secondary;
+    @apply font-condensed text-secondary mt-8 mb-6 text-2xl font-bold;
   }
 
   h2 {
-    @apply mb-4 mt-6 font-condensed text-xl font-bold;
+    @apply font-condensed mt-6 mb-4 text-xl font-bold;
   }
 
   h3 {
-    @apply mb-2 mt-3 text-lg font-bold text-secondary;
+    @apply text-secondary mt-3 mb-2 text-lg font-bold;
   }
 
   blockquote {
-    @apply border-l-4 border-l-primary pl-4 italic;
+    @apply border-l-primary border-l-4 pl-4 italic;
   }
 
   blockquote em {
@@ -226,7 +226,7 @@
 
   td:not(:last-child),
   th:not(:last-child) {
-    @apply border-r border-r-border;
+    @apply border-r-border border-r;
   }
 
   td,
@@ -236,14 +236,14 @@
 
   thead {
     th {
-      @apply border-b-2 border-b-secondary text-lg font-bold text-muted-foreground;
+      @apply border-b-secondary text-muted-foreground border-b-2 text-lg font-bold;
     }
   }
 
   tbody {
     tr:not(:last-child) td,
     tr:not(:last-child) th {
-      @apply border-b border-b-border;
+      @apply border-b-border border-b;
     }
   }
 

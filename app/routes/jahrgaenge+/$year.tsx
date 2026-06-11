@@ -46,15 +46,15 @@ export default function Year() {
   const year = loaderData.data
 
   return (
-    <article className="post space-y-8 hyphens-auto text-pretty">
+    <article className="post space-y-8 text-pretty hyphens-auto">
       <header className="space-y-4">
         <hgroup>
-          <p className="mb-1 font-condensed text-lg font-bold text-primary">
+          <p className="font-condensed text-primary mb-1 text-lg font-bold">
             Jahrgang
           </p>
           <h1 className="inline-flex gap-1 text-3xl font-bold lg:text-5xl">
             <span>{year.letter}</span>
-            <span className="text-lg font-bold text-primary">
+            <span className="text-primary text-lg font-bold">
               {calculateCurrentYear(year.startedAt)}
             </span>
           </h1>
@@ -64,7 +64,7 @@ export default function Year() {
           <p>
             Mentor:in{' '}
             <Link
-              className="font-bold text-secondary hover:underline hover:underline-offset-2"
+              className="text-secondary font-bold hover:underline hover:underline-offset-2"
               to={`/ueber-uns/#${year.mentor?.name}`}
             >
               {year.mentor?.name}
@@ -86,9 +86,9 @@ export default function Year() {
           featuredPhoto={year.featuredPhoto}
         />
       ) : (
-        <div className="max-w-3xl rounded-sm bg-card p-2 shadow-sm">
-          <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-linear-to-t from-secondary/20 to-transparent">
-            <Baby size={96} className="w-12 text-secondary/40 md:w-24" />
+        <div className="bg-card max-w-3xl rounded-sm p-2 shadow-sm">
+          <div className="from-secondary/20 flex aspect-video flex-1 items-center justify-center rounded-r-md bg-linear-to-t to-transparent">
+            <Baby size={96} className="text-secondary/40 w-12 md:w-24" />
           </div>
         </div>
       )}
@@ -149,12 +149,12 @@ function YearPhotos({
                   aspectRatio: width / height,
                 }}
               />
-              <div className="absolute right-2 top-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="absolute top-2 right-2 rounded-full bg-black/50 p-2 opacity-0 transition-opacity group-hover:opacity-100">
                 <MagnifyingGlassPlus className="h-5 w-5 text-white" />
               </div>
             </button>
             {selectedPhoto.motto && (
-              <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+              <figcaption className="pointer-events-none absolute right-0 bottom-0 left-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
                 <p className="font-condensed text-body-sm text-white">
                   Motto: "{selectedPhoto.motto}"
                 </p>
@@ -197,9 +197,9 @@ function YearPhotos({
                       .fit('crop')
                       .url()}
                     alt={`${letter} Foto ${year}`}
-                    className="w-30 h-20 object-cover"
+                    className="h-20 w-30 object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/60 to-transparent p-1">
+                  <div className="absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/60 to-transparent p-1">
                     <span className="text-xs font-medium text-white">
                       {year}
                     </span>

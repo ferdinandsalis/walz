@@ -28,11 +28,11 @@ export default function Alumni() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Alumni
       </h1>
 
-      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
+      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Ehrensache Walz', to: '#ehrensache' },
@@ -41,9 +41,9 @@ export default function Alumni() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 hyphens-auto text-balance sm:gap-x-6 lg:gap-x-8">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <section id="ehrensache" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 text-primary font-bold">
             Ehrensache Walz
           </h1>
 
@@ -57,7 +57,7 @@ export default function Alumni() {
           </div>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-2xl font-bold text-secondary">
+            <h2 className="font-condensed text-secondary text-2xl font-bold">
               Der Gedanke
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
@@ -81,7 +81,7 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-2xl font-bold text-secondary">
+            <h2 className="font-condensed text-secondary text-2xl font-bold">
               Ziel
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
@@ -94,7 +94,7 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-2xl font-bold text-secondary">
+            <h2 className="font-condensed text-secondary text-2xl font-bold">
               Erfolg
             </h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
@@ -114,44 +114,44 @@ export default function Alumni() {
             </p>
           </div>
 
-          <div className="max-w-2xl rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20 md:p-8">
+          <div className="border-secondary/30 bg-secondary/20 ring-muted/20 max-w-2xl rounded-lg border p-6 ring-8 md:p-8">
             <div className="mb-4 flex items-center gap-2">
               <Handshake size={28} className="text-secondary" />
-              <h2 className="font-condensed text-h4 font-bold text-primary">
+              <h2 className="font-condensed text-h4 text-primary font-bold">
                 Spendenkonto
               </h2>
             </div>
 
-            <dl className="space-y-2 text-base md:text-body-md">
+            <dl className="md:text-body-md space-y-2 text-base">
               <div>
-                <dt className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <dt className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
                   Bankverbindung
                 </dt>
                 <dd>UniCredit Bank Austria</dd>
               </div>
               <div>
-                <dt className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <dt className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
                   Name
                 </dt>
                 <dd>W@lz Wiener Lernzentrum</dd>
               </div>
               <div>
-                <dt className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <dt className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
                   IBAN
                 </dt>
-                <dd className="font-bold text-primary">
+                <dd className="text-primary font-bold">
                   AT47 1200 0094 3508 9999
                 </dd>
               </div>
               <div>
-                <dt className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <dt className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
                   Verwendungszweck
                 </dt>
                 <dd>Ehrensache Walz</dd>
               </div>
             </dl>
 
-            <div className="mt-6 space-y-3 border-t border-secondary/20 pt-4 text-body-sm">
+            <div className="border-secondary/20 text-body-sm mt-6 space-y-3 border-t pt-4">
               <p>
                 Die Walz ist spendenbegünstigt. Für die steuerliche Begünstigung
                 benötigen wir Name und Geburtsdatum.
@@ -161,7 +161,7 @@ export default function Alumni() {
                 Absetzbarkeit stehen wir unter{' '}
                 <a
                   href="mailto:office@walz.at"
-                  className="text-primary underline underline-offset-4 hover:text-primary/80"
+                  className="text-primary hover:text-primary/80 underline underline-offset-4"
                 >
                   office@walz.at
                 </a>{' '}
@@ -174,7 +174,7 @@ export default function Alumni() {
         <Divider className="col-span-12" />
 
         <section id="jahrgaenge" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 text-primary font-bold">
             Ehemalige Jahrgänge
           </h1>
           <div

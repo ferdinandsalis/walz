@@ -53,7 +53,7 @@ export function PhotoLightbox({
                     className="max-h-[90vh] w-auto rounded-sm object-contain"
                   />
                   {photo.caption && (
-                    <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+                    <figcaption className="pointer-events-none absolute right-0 bottom-0 left-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
                       <div className="font-condensed text-body-sm text-white">
                         {photo.caption}
                       </div>
