@@ -21,7 +21,7 @@ export function Divider({
         <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 transform">
           <Link
             to="#"
-            className="group inline-flex items-center gap-1 rounded-full bg-muted p-2 px-2 font-condensed text-lg ring ring-muted transition-colors ease-in-out hover:bg-card"
+            className="group inline-flex items-center gap-1 rounded-full bg-muted p-2 px-2 font-condensed text-lg ring-3 ring-muted transition-colors ease-in-out hover:bg-card"
             title="Nach oben"
           >
             <CaretUp

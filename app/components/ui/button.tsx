@@ -4,16 +4,16 @@ import * as React from 'react'
 import { cn } from '#app/utils/misc.tsx'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md font-medium font-condensed ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-md font-medium font-condensed ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
         default:
-          'bg-primary shadow-sm text-primary-foreground hover:bg-primary/90 ring-2 ring-inset ring-card/20',
+          'bg-primary shadow-xs text-primary-foreground hover:bg-primary/90 ring-2 ring-inset ring-card/20',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline:
-          'border border-primary ring ring-primary/15 text-primary hover:bg-primary/5',
+          'border border-primary ring-3 ring-primary/15 text-primary hover:bg-primary/5',
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',

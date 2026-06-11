@@ -97,11 +97,11 @@ function EventCard({ event }: { event: Event }) {
               .height(800)
               .url()}
             alt={event.title}
-            className="object-cover grayscale md:aspect-video lg:aspect-[21/8]"
+            className="object-cover grayscale md:aspect-video lg:aspect-21/8"
           />
           <div
             aria-role="presenatation"
-            className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60"
+            className="absolute inset-0 bg-linear-to-b from-transparent to-black/60"
           />
         </figure>
       )}
@@ -176,7 +176,7 @@ function EventCard({ event }: { event: Event }) {
                 },
                 block: {
                   normal: ({ children }) => (
-                    <p className="[&:not(:last-child)]:mb-3">{children}</p>
+                    <p className="not-last:mb-3">{children}</p>
                   ),
 
                   h4: ({ children }) => (
@@ -194,7 +194,7 @@ function EventCard({ event }: { event: Event }) {
 
 function CompactEventCard({ event }: { event: Event }) {
   return (
-    <div className="col-span-12 grid content-start gap-4 rounded-lg bg-card p-6 shadow-sm sm:col-span-6">
+    <div className="col-span-12 grid content-start gap-4 rounded-lg bg-card p-6 shadow-xs sm:col-span-6">
       <header>
         <h3 className="font-condensed text-h5 font-bold text-secondary">
           {event.title}

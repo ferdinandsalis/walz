@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 const {
   captureException,
@@ -18,9 +18,7 @@ vi.mock('@sentry/react-router', () => ({
 }))
 
 vi.mock('react-router', async () => {
-  const actual = await vi.importActual<typeof import('react-router')>(
-    'react-router',
-  )
+  const actual = await vi.importActual('react-router')
 
   return {
     ...actual,
@@ -33,12 +31,8 @@ vi.mock('react-router', async () => {
 import { GeneralErrorBoundary } from './error-boundary.tsx'
 
 describe('GeneralErrorBoundary', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockUseParams.mockReturnValue({})
-  })
-
   it('does not capture route error responses', () => {
+    mockUseParams.mockReturnValue({})
     mockUseRouteError.mockReturnValue({
       data: 'Not found',
       status: 404,
@@ -62,6 +56,7 @@ describe('GeneralErrorBoundary', () => {
 
   it('captures unexpected errors', () => {
     const error = new Error('boom')
+    mockUseParams.mockReturnValue({})
     mockUseRouteError.mockReturnValue(error)
     mockIsRouteErrorResponse.mockReturnValue(false)
 

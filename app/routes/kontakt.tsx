@@ -63,7 +63,7 @@ export default function Kontakt() {
                 Klicke hier um die Walz bei einem virtuellen Rundgang
                 kennenzulernen.{' '}
                 <LinkIcon
-                  className="relative top-[1px] inline align-baseline text-primary"
+                  className="relative top-px inline align-baseline text-primary"
                   size={16}
                 />
               </Link>

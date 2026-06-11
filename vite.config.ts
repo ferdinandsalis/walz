@@ -1,5 +1,6 @@
 import { reactRouter } from '@react-router/dev/vite'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
+import tailwindcss from '@tailwindcss/vite'
 import { glob } from 'glob'
 import { defineConfig } from 'vite'
 
@@ -8,7 +9,7 @@ const MODE = process.env.NODE_ENV
 export default defineConfig({
   build: {
     cssMinify: MODE === 'production',
-    rollupOptions: {
+    rolldownOptions: {
       external: [/node:.*/, 'stream', 'crypto', 'fsevents'],
     },
     sourcemap: false,
@@ -19,6 +20,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     reactRouter(),
     process.env.SENTRY_AUTH_TOKEN
       ? sentryVitePlugin({

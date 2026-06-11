@@ -35,8 +35,8 @@ function formatColors() {
 const customTwMerge = extendTailwindMerge<string, string>({
   extend: {
     theme: {
-      colors: formatColors(),
-      borderRadius: Object.keys(extendedTheme.borderRadius),
+      color: formatColors(),
+      radius: Object.keys(extendedTheme.borderRadius),
     },
     classGroups: {
       'font-size': [

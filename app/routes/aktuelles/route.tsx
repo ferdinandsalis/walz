@@ -364,7 +364,7 @@ export function YearCard({
   return (
     <article
       key={letter}
-      className="grid h-full grid-cols-1 rounded-md bg-card shadow-md sm:grid-cols-[1fr,auto]"
+      className="grid h-full grid-cols-1 rounded-md bg-card shadow-md sm:grid-cols-[1fr_auto]"
     >
       <div className="relative flex flex-col overflow-hidden p-6">
         <div className="pointer-events-none absolute right-4 top-4 font-greek text-6xl font-black lowercase text-primary opacity-10 md:right-8 md:top-8 md:text-7xl lg:text-8xl">
@@ -439,7 +439,7 @@ export function YearCard({
             className="h-full w-full rounded-b-md object-cover object-center sm:rounded-b-none sm:rounded-r-md"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-gradient-to-t from-secondary/40 to-transparent sm:rounded-b-none sm:rounded-r-md">
+          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-b-md bg-linear-to-t from-secondary/40 to-transparent sm:rounded-b-none sm:rounded-r-md">
             <Baby size={96} className="w-12 text-secondary/20 md:w-24" />
           </div>
         )}
@@ -471,11 +471,11 @@ export function PostItem({
   return (
     <article
       key={title}
-      className="col-span-12 grid content-between gap-4 overflow-hidden rounded-md bg-card shadow md:col-span-6"
+      className="col-span-12 grid content-between gap-4 overflow-hidden rounded-md bg-card shadow-sm md:col-span-6"
     >
       <div className="grid grid-cols-1 gap-2 p-6">
         <Link prefetch="intent" to={linkTo}>
-          <h1 className="font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl">
+          <h1 className="font-condensed text-xl font-bold leading-tight! text-secondary md:text-2xl">
             {title}
           </h1>
         </Link>

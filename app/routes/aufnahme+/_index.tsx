@@ -1,14 +1,7 @@
 import {
   DownloadSimple,
   ArrowSquareOut,
-  CheckSquare,
-  GraduationCap,
-  Handshake,
   Info,
-  Envelope,
-  ChatText,
-  Phone,
-  Users,
 } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
@@ -185,7 +178,7 @@ export default function Aufnahme() {
                     key={cost.title}
                   >
                     <div className="grid grid-cols-2 py-2">
-                      <div className="start-0 col-span-1 grid grid-cols-1 gap-2">
+                      <div className="inset-s-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">
                           <dt className="font-condensed text-xl font-bold text-secondary md:text-2xl">
                             {cost.title}
@@ -252,85 +245,6 @@ export default function Aufnahme() {
         </article>
         <Divider className="col-span-12 bg-transparent" />
       </div>
-    </div>
-  )
-}
-
-function AdmissionTimeline() {
-  const steps = [
-    {
-      icon: Envelope,
-      title: 'Onlineformular ausfüllen',
-      date: '',
-    },
-    {
-      icon: Phone,
-      title: 'Telefonische Terminvergabe nach dem Tag der offenen Tür',
-      date: 'ab 15. November 2025',
-    },
-    {
-      icon: ChatText,
-      title: 'Aufnahmegespräch',
-      date: '',
-    },
-    {
-      icon: Handshake,
-      title: 'Feedback',
-      date: 'bis Jänner 2026',
-    },
-    {
-      icon: CheckSquare,
-      title: 'Unterschriebene Unterlagen & Überweisung Aufnahmebetrag',
-      subtitle: '→ Platz fix',
-      date: 'Bis spätestens 1 Woche nach den Semesterferien',
-    },
-    {
-      icon: CheckSquare,
-      title: 'Positives Abschlusszeugnis 8. Schulstufe',
-      date: 'Juni 2025',
-    },
-    {
-      icon: Users,
-      title: 'Jahrgangstreffen & erster Elternabend',
-      date: 'Juni 2026',
-    },
-    {
-      icon: GraduationCap,
-      title: 'Schulbeginn',
-      date: 'September 2026',
-    },
-  ]
-
-  return (
-    <div className="relative max-w-2xl">
-      {steps.map((step, index) => {
-        const Icon = step.icon
-        return (
-          <div key={index} className="relative flex gap-3">
-            <div className="flex flex-col items-center">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded bg-secondary shadow-md">
-                <Icon className="h-6 w-6 text-white" />
-              </div>
-              {index < steps.length - 1 && (
-                <div className="my-2 h-16 w-0.5 bg-secondary/30" />
-              )}
-            </div>
-            <div className="flex-1 pb-2">
-              <h3 className="font-condensed text-lg font-bold leading-tight">
-                {step.title}
-              </h3>
-              {step.subtitle && (
-                <p className="mt-1 text-sm font-bold text-secondary">
-                  {step.subtitle}
-                </p>
-              )}
-              {step.date && (
-                <p className="mt-1 text-sm text-primary">{step.date}</p>
-              )}
-            </div>
-          </div>
-        )
-      })}
     </div>
   )
 }

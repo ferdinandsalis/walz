@@ -164,10 +164,10 @@ function YearCarousel({ photos }: { photos: any[] }) {
                       .width(512)
                       .format('webp')
                       .url()}
-                    className="rounded object-cover shadow"
+                    className="rounded object-cover shadow-sm"
                   />
                   <div className="absolute bottom-0 left-0 right-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3 font-condensed">
-                    <span className="text-xs text-card drop-shadow">
+                    <span className="text-xs text-card drop-shadow-sm">
                       {caption(photo)}
                     </span>
                   </div>

@@ -86,7 +86,7 @@ export default function Home() {
 
           <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/10 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
             <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-24 sm:right-8 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
-            <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl md:text-5xl lg:text-6xl">
+            <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl md:text-5xl lg:text-6xl">
               Die <strong className="font-bold text-secondary">Walz</strong>{' '}
               soll darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
               mitzuge­stalten.
@@ -198,7 +198,7 @@ export default function Home() {
                     asChild
                     size="lg"
                     variant="secondary"
-                    className="mr-auto shadow"
+                    className="mr-auto shadow-sm"
                   >
                     <Link to={shoutout.buttonLink}>{shoutout.buttonText}</Link>
                   </Button>
@@ -236,7 +236,7 @@ export default function Home() {
                   asChild
                   size="lg"
                   variant="secondary"
-                  className="mr-auto shadow"
+                  className="mr-auto shadow-sm"
                 >
                   <Link to="/die-walz-kennenlernen">Mehr erfahren</Link>
                 </Button>
@@ -291,7 +291,7 @@ export default function Home() {
                 </Link>
               )}
               <div className="p-6">
-                <h1 className="mb-2 max-w-xs text-balance font-condensed text-xl font-bold !leading-tight text-secondary md:text-2xl lg:text-2xl xl:text-3xl">
+                <h1 className="mb-2 max-w-xs text-balance font-condensed text-xl font-bold leading-tight! text-secondary md:text-2xl lg:text-2xl xl:text-3xl">
                   <Link to={`/aktuelles/beitraege/${latestPost.slug?.current}`}>
                     {latestPost.title}
                   </Link>
@@ -331,7 +331,7 @@ export default function Home() {
                 return (
                   <React.Fragment key={idx}>
                     <article key={idx} className="relative max-w-prose">
-                      <h1 className="max-w-xs text-balance font-condensed font-bold !leading-tight md:text-lg">
+                      <h1 className="max-w-xs text-balance font-condensed font-bold leading-tight! md:text-lg">
                         <Link to={`/aktuelles/beitraege/${post.slug?.current}`}>
                           {post.title}
                         </Link>
@@ -416,10 +416,10 @@ export default function Home() {
           <div className="flex flex-row flex-wrap gap-3">
             <Link
               to="/haeufige-fragen#was-heisst-eigentlich-walz"
-              className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
             >
               <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-                <Asterisk className="relative top-[1px] md:top-[4px]" />
+                <Asterisk className="relative top-px md:top-[4px]" />
               </span>
               <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
                 Was heißt eigentlich Walz?
@@ -427,10 +427,10 @@ export default function Home() {
             </Link>
             <Link
               to="/haeufige-fragen/#wie-kann-ich-die-walz-kennenlernen"
-              className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
             >
               <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-                <Asterisk className="relative top-[1px] md:top-[4px]" />
+                <Asterisk className="relative top-px md:top-[4px]" />
               </span>
               <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
                 Wie kann ich die Walz kennenlernen?
@@ -438,10 +438,10 @@ export default function Home() {
             </Link>
             <Link
               to="/haeufige-fragen/#wieso-gibt-es-externistenpruefungen"
-              className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
             >
               <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
-                <Asterisk className="relative top-[1px] md:top-[4px]" />
+                <Asterisk className="relative top-px md:top-[4px]" />
               </span>
               <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
                 Wieso gibt es Externistenprüfungen?
@@ -449,10 +449,10 @@ export default function Home() {
             </Link>
             <Link
               to="/haeufige-fragen/#warum-ist-die-walz-smartphone-freie-zone"
-              className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
             >
               <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-                <Asterisk className="relative top-[1px] md:top-[4px]" />
+                <Asterisk className="relative top-px md:top-[4px]" />
               </span>
               <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
                 Warum ist die Walz Smartphone-freie Zone?
@@ -460,10 +460,10 @@ export default function Home() {
             </Link>
             <Link
               to="/haeufige-fragen/#was-kostet-die-walz"
-              className="group flex overflow-hidden rounded bg-card text-body-md !leading-snug text-primary shadow"
+              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
             >
               <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
-                <Asterisk className="relative top-[1px] md:top-[4px]" />
+                <Asterisk className="relative top-px md:top-[4px]" />
               </span>
               <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
                 Was kostet die Walz?
@@ -512,7 +512,7 @@ export default function Home() {
                     Klicke hier um die Walz bei einem virtuellen Rundgang
                     kennenzulernen.{' '}
                     <LinkIcon
-                      className="relative top-[1px] inline align-baseline text-primary"
+                      className="relative top-px inline align-baseline text-primary"
                       size={16}
                     />
                   </Link>
@@ -601,7 +601,7 @@ function HeroImage({ image, caption }: { image: any; caption: string | null }) {
         width={width}
         height={height}
         alt={caption || ''}
-        className="aspect-square w-full object-cover sm:aspect-auto sm:h-auto sm:rounded-t-md md:aspect-[21_/_12]"
+        className="aspect-square w-full object-cover sm:aspect-auto sm:h-auto sm:rounded-t-md md:aspect-21/12"
       />
     </picture>
   )

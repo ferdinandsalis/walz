@@ -86,8 +86,8 @@ export default function Year() {
           featuredPhoto={year.featuredPhoto}
         />
       ) : (
-        <div className="max-w-3xl rounded-sm bg-card p-2 shadow">
-          <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-gradient-to-t from-secondary/20 to-transparent">
+        <div className="max-w-3xl rounded-sm bg-card p-2 shadow-sm">
+          <div className="flex aspect-video flex-1 items-center justify-center rounded-r-md bg-linear-to-t from-secondary/20 to-transparent">
             <Baby size={96} className="w-12 text-secondary/40 md:w-24" />
           </div>
         </div>
@@ -154,7 +154,7 @@ function YearPhotos({
               </div>
             </button>
             {selectedPhoto.motto && (
-              <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-gradient-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
+              <figcaption className="pointer-events-none absolute bottom-0 left-0 right-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
                 <p className="font-condensed text-body-sm text-white">
                   Motto: "{selectedPhoto.motto}"
                 </p>
@@ -199,7 +199,7 @@ function YearPhotos({
                     alt={`${letter} Foto ${year}`}
                     className="w-30 h-20 object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-1">
+                  <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/60 to-transparent p-1">
                     <span className="text-xs font-medium text-white">
                       {year}
                     </span>
