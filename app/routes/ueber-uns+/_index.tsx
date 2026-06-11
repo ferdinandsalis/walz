@@ -31,11 +31,11 @@ export default function UeberUns() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Über uns
       </h1>
 
-      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
+      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Menschen', to: '#menschen' },
@@ -46,7 +46,7 @@ export default function UeberUns() {
         />
       </div>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 hyphens-auto text-balance sm:gap-x-6 lg:gap-x-8">
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
@@ -67,12 +67,12 @@ export default function UeberUns() {
         </div>
 
         <section id="menschen" className="col-span-12">
-          <h1 className="mb-8 font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 text-primary mb-8 font-bold">
             Menschen
           </h1>
 
           <article className="mb-12">
-            <h1 className="mb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+            <h1 className="text-muted-foreground mb-4 text-sm font-bold tracking-widest uppercase">
               Leitung
             </h1>
             <StaffRoll>
@@ -83,7 +83,7 @@ export default function UeberUns() {
           </article>
 
           <article className="mb-12">
-            <h1 className="mb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+            <h1 className="text-muted-foreground mb-4 text-sm font-bold tracking-widest uppercase">
               Mitarbeitende
             </h1>
 
@@ -91,7 +91,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="mentor"
-                  className="font-condensed text-h3 font-bold text-secondary"
+                  className="font-condensed text-h3 text-secondary font-bold"
                 >
                   <a href="#mentor">Mentor:innen</a>
                 </h2>
@@ -111,7 +111,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="project_lead"
-                  className="font-condensed text-h3 font-bold text-secondary"
+                  className="font-condensed text-h3 text-secondary font-bold"
                 >
                   <a href="#project_lead">Projektleiter:innen</a>
                 </h2>
@@ -136,7 +136,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="administrator"
-                  className="font-condensed text-h3 font-bold text-secondary"
+                  className="font-condensed text-h3 text-secondary font-bold"
                 >
                   <a href="#administrator">Administrator:innen</a>
                 </h2>
@@ -160,7 +160,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="therapist"
-                  className="font-condensed text-h3 font-bold text-secondary"
+                  className="font-condensed text-h3 text-secondary font-bold"
                 >
                   <a href="#therapist">Therapeut:innen</a>
                 </h2>
@@ -194,7 +194,7 @@ export default function UeberUns() {
           id="philosophie"
           className="col-span-12 grid grid-cols-subgrid gap-y-8"
         >
-          <h1 className="col-span-12 font-condensed text-h2 font-bold text-primary">
+          <h1 className="font-condensed text-h2 text-primary col-span-12 font-bold">
             Philosophie
           </h1>
           <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
@@ -217,7 +217,7 @@ export default function UeberUns() {
         <Divider className="col-span-12" />
 
         <section id="leitbild" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary text-4xl font-bold">
             Leitbild
           </h1>
 
@@ -235,7 +235,7 @@ export default function UeberUns() {
           </div>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-2xl font-bold text-secondary">
+            <h2 className="font-condensed text-secondary text-2xl font-bold">
               Fundamentaler Wandel
             </h2>
 
@@ -281,7 +281,7 @@ export default function UeberUns() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-2xl font-bold text-secondary">
+            <h2 className="font-condensed text-secondary text-2xl font-bold">
               Lernen ist zweifach Programm
             </h2>
 
@@ -300,10 +300,10 @@ export default function UeberUns() {
         <Divider className="col-span-12" />
 
         <section id="geschichte" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary text-4xl font-bold">
             Geschichte
           </h1>
-          <div className="max-w-prose space-y-4 hyphens-auto text-base md:text-xl">
+          <div className="max-w-prose space-y-4 text-base hyphens-auto md:text-xl">
             <p>
               Die Walz wurde im Jahr 2000 von Renate Chorherr gegründet und
               startete zunächst mit einem Jahrgang, den „Alphas“, auf dem
@@ -356,11 +356,11 @@ function StaffCard({
     <figure
       id={person.slug?.current}
       key={person.name}
-      className="flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md bg-card p-6 shadow-md"
+      className="bg-card flex w-60 flex-none flex-col space-y-4 overflow-hidden rounded-md p-6 shadow-md"
     >
       <div className="grid grid-cols-1 grid-rows-6">
         {person.portrait ? (
-          <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary">
+          <div className="bg-secondary relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full">
             <img
               src={
                 urlFor(person.portrait)
@@ -376,26 +376,26 @@ function StaffCard({
               loading="lazy"
               className="absolute inset-0 h-full w-full rounded-full object-cover"
             />
-            <div className="absolute inset-0 rounded-full ring-4 ring-inset ring-foreground/10" />
+            <div className="ring-foreground/10 absolute inset-0 rounded-full ring-4 ring-inset" />
           </div>
         ) : (
-          <div className="relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full bg-secondary ring-4 ring-secondary">
+          <div className="bg-secondary ring-secondary relative col-start-1 row-span-6 row-start-1 flex aspect-square w-32 items-center justify-center rounded-full ring-4">
             <Smiley size={96} className="w-10 text-white/20 md:w-16" />
           </div>
         )}
         <div
           role="presentation"
-          className="to-secondary-30 order-secondary col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b bg-secondary/30 bg-linear-to-t from-secondary/70"
+          className="to-secondary-30 order-secondary bg-secondary/30 from-secondary/70 col-start-1 row-start-1 row-end-5 -mx-6 -mt-6 border-b bg-linear-to-t"
         />
       </div>
       <figcaption className="flex flex-1 flex-col">
         <hgroup className="mb-2 flex-1">
           <Link to={`/ueber-uns#${person.slug?.current}`} className="block">
-            <h1 className="mb-1 text-lg font-bold leading-tight text-primary">
+            <h1 className="text-primary mb-1 text-lg leading-tight font-bold">
               {person.name}
             </h1>
           </Link>
-          <h2 className="max-w-[18ch] font-condensed text-sm leading-tight text-muted-foreground">
+          <h2 className="font-condensed text-muted-foreground max-w-[18ch] text-sm leading-tight">
             {person.description}
           </h2>
         </hgroup>
@@ -404,7 +404,7 @@ function StaffCard({
             <div>
               <a
                 href={`mailto:${person.email}`}
-                className="truncate text-body-xs text-secondary"
+                className="text-body-xs text-secondary truncate"
               >
                 {person.email}
               </a>
@@ -414,7 +414,7 @@ function StaffCard({
             <div>
               <a
                 href={person.website}
-                className="inline-flex items-center gap-1 truncate text-body-xs text-secondary"
+                className="text-body-xs text-secondary inline-flex items-center gap-1 truncate"
               >
                 Webseite <ArrowSquareOut size={16} />
               </a>
@@ -430,14 +430,14 @@ function StaffCard({
 function StaffRoll({ children }: { children: React.ReactNode }) {
   return (
     <ScrollArea.Root type="always">
-      <ScrollArea.Viewport className="-mx-4 bg-muted/30 md:rounded-md">
-        <div className="flex gap-4 px-4 pb-8 pt-4">{children}</div>
+      <ScrollArea.Viewport className="bg-muted/30 -mx-4 md:rounded-md">
+        <div className="flex gap-4 px-4 pt-4 pb-8">{children}</div>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="horizontal"
-        className="-mx-4 flex h-[12px] items-center rounded-b-md bg-muted/20 px-[3px] shadow-inner hover:bg-muted-foreground/10"
+        className="bg-muted/20 hover:bg-muted-foreground/10 -mx-4 flex h-[12px] items-center rounded-b-md px-[3px] shadow-inner"
       >
-        <ScrollArea.Thumb className="relative h-[8px]! cursor-grab rounded-full bg-primary/50 hover:bg-primary" />
+        <ScrollArea.Thumb className="bg-primary/50 hover:bg-primary relative h-[8px]! cursor-grab rounded-full" />
       </ScrollArea.Scrollbar>
     </ScrollArea.Root>
   )

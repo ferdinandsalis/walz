@@ -11,8 +11,8 @@ export function meta() {
 
 export default function Bildung() {
   return (
-    <div className="space-y-8 hyphens-auto text-pretty">
-      <h1 className="mb-8 font-condensed text-4xl font-bold text-secondary">
+    <div className="space-y-8 text-pretty hyphens-auto">
+      <h1 className="font-condensed text-secondary mb-8 text-4xl font-bold">
         Bildung
       </h1>
 
@@ -37,11 +37,11 @@ export default function Bildung() {
       </div>
 
       <blockquote>
-        <p className="mb-2 max-w-[30ch] font-condensed text-2xl font-bold leading-tight text-stone-700">
+        <p className="font-condensed mb-2 max-w-[30ch] text-2xl leading-tight font-bold text-stone-700">
           Bildung ist die mächtigste Waffe, die du verwenden kannst, um die Welt
           zu verändern.
         </p>
-        <p className="font-bold text-primary">Nelson Mandela</p>
+        <p className="text-primary font-bold">Nelson Mandela</p>
       </blockquote>
     </div>
   )

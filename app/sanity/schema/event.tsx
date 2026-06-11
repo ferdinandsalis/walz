@@ -97,8 +97,7 @@ export default defineType({
       options: {
         source: doc => {
           const title = (doc.title as string | undefined) ?? ''
-          const date =
-            (doc.start as { date?: string } | undefined)?.date ?? ''
+          const date = (doc.start as { date?: string } | undefined)?.date ?? ''
           return `${title} ${date}`.trim()
         },
         maxLength: 96,

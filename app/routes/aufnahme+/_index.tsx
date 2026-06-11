@@ -1,8 +1,4 @@
-import {
-  DownloadSimple,
-  ArrowSquareOut,
-  Info,
-} from '@phosphor-icons/react'
+import { DownloadSimple, ArrowSquareOut, Info } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
@@ -13,7 +9,7 @@ import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
   aufnahmeQuery,
-} from './ _index.query.ts'
+} from './_index.query.ts'
 
 export function meta() {
   return [{ title: 'Aufnahme | Walz' }]
@@ -21,7 +17,9 @@ export function meta() {
 
 export async function loader() {
   // en-CA locale produces YYYY-MM-DD format needed for Sanity date comparison
-  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Vienna' })
+  const today = new Date().toLocaleDateString('en-CA', {
+    timeZone: 'Europe/Vienna',
+  })
   const queryResult = await loadQuery<AufnahmeQuery>(aufnahmeQuery, { today })
   return AufnahmeQuerySchema.parse(queryResult.data)
 }
@@ -32,11 +30,11 @@ export default function Aufnahme() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Aufnahme
       </h1>
 
-      <div className="row-start-1 rounded-md bg-muted/30 p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
+      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
         <Toc
           links={[
             { name: 'Vorgehensweise', to: '#vorgehensweise' },
@@ -49,7 +47,7 @@ export default function Aufnahme() {
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <article id="vorgehensweise" className="col-span-12 space-y-8">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
             Vorgehensweise
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -86,7 +84,7 @@ export default function Aufnahme() {
         <Divider className="col-span-12" />
 
         <article id="voraussetzungen" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary text-4xl font-bold">
             Voraussetzungen
           </h1>
           <div className="max-w-prose space-y-4 text-base md:text-xl">
@@ -102,16 +100,16 @@ export default function Aufnahme() {
               <a
                 download="Schulvertrag September 2026.pdf"
                 href="/downloads/schulvertrag_september_2026.pdf"
-                className="inline-flex max-w-sm items-center gap-1 text-muted-foreground underline underline-offset-2"
+                className="text-muted-foreground inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
               >
                 Hier herunterladen
-                <DownloadSimple size={16} className="flex-none text-primary" />
+                <DownloadSimple size={16} className="text-primary flex-none" />
               </a>
             </p>
           </div>
 
           <section>
-            <h2 className="mb-4 font-condensed text-h5 font-bold md:text-h4">
+            <h2 className="font-condensed text-h5 md:text-h4 mb-4 font-bold">
               Quereinstieg
             </h2>
             <div className="max-w-prose space-y-4 text-base md:text-xl">
@@ -131,7 +129,7 @@ export default function Aufnahme() {
         <Divider className="col-span-12" />
 
         <article id="kosten" className="col-span-12 space-y-8">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
             Kosten und Finanzierung
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -161,7 +159,7 @@ export default function Aufnahme() {
               2019).
             </p>
           </div>
-          <h2 className="font-condensed text-h5 font-bold md:text-h4">
+          <h2 className="font-condensed text-h5 md:text-h4 font-bold">
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
@@ -180,7 +178,7 @@ export default function Aufnahme() {
                     <div className="grid grid-cols-2 py-2">
                       <div className="inset-s-0 col-span-1 grid grid-cols-1 gap-2">
                         <div className="">
-                          <dt className="font-condensed text-xl font-bold text-secondary md:text-2xl">
+                          <dt className="font-condensed text-secondary text-xl font-bold md:text-2xl">
                             {cost.title}
                           </dt>
                         </div>
@@ -214,7 +212,7 @@ export default function Aufnahme() {
         <Divider className="col-span-12" />
 
         <article id="stipendien" className="col-span-12 space-y-8">
-          <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
             Stipendien
           </h1>
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
@@ -222,7 +220,7 @@ export default function Aufnahme() {
               Durch private Sponsoren und der Initiative{' '}
               <Link
                 to="/alumni#ehrensache"
-                className="text-primary underline underline-offset-4 hover:text-primary/80"
+                className="text-primary hover:text-primary/80 underline underline-offset-4"
               >
                 „Ehrensache Walz"
               </Link>{' '}
@@ -235,7 +233,7 @@ export default function Aufnahme() {
               Hierfür melde dich mit deiner Anfrage bitte an{' '}
               <a
                 href="mailto:office@walz.at"
-                className="text-primary underline underline-offset-4 hover:text-primary/80"
+                className="text-primary hover:text-primary/80 underline underline-offset-4"
               >
                 office@walz.at
               </a>
@@ -251,12 +249,12 @@ export default function Aufnahme() {
 
 function AdmissionDay() {
   return (
-    <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-      <div className="mb-2 flex items-center gap-1 text-secondary">
+    <div className="border-muted bg-card ring-muted/40 relative max-w-lg rounded-md border p-4 ring-8">
+      <div className="text-secondary mb-2 flex items-center gap-1">
         <Info size={18} className="text-secondary" />
         <span className="font-condensed text-body-md">Aufnahmetermin</span>
       </div>
-      <div className="space-y-4 text-body-sm/normal">
+      <div className="text-body-sm/normal space-y-4">
         <p>
           Der Jahrgang Epsilon (9. Schulstufe, Schulbeginn September 2026) ist
           voll. Für die Aufnahme in den Jahrgang Zeta (Schulbeginn September
@@ -272,19 +270,19 @@ function AdmissionDay() {
 
 function LateralEntryBox() {
   return (
-    <div className="relative max-w-lg rounded-md border border-muted bg-card p-4 ring-8 ring-muted/40">
-      <div className="mb-2 flex items-center gap-1 text-secondary">
+    <div className="border-muted bg-card ring-muted/40 relative max-w-lg rounded-md border p-4 ring-8">
+      <div className="text-secondary mb-2 flex items-center gap-1">
         <Info size={18} className="text-secondary" />
         <span className="font-condensed text-body-md">Plätze frei</span>
       </div>
-      <div className="space-y-4 text-body-sm/normal">
+      <div className="text-body-sm/normal space-y-4">
         <p>
           Im Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und
           Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos &
           Vorstellungstermin bei Agnes Chorherr:{' '}
           <a
             href="mailto:agnes.chorherr@walz.at"
-            className="inline-flex items-center gap-1 text-muted-foreground underline underline-offset-2"
+            className="text-muted-foreground inline-flex items-center gap-1 underline underline-offset-2"
           >
             agnes.chorherr@walz.at
             <ArrowSquareOut size={16} className="text-primary" />

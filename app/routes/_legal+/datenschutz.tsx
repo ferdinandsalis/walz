@@ -1,7 +1,7 @@
 export default function Datenschutz() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Datenschutzerklärung
       </h1>
       <div className="prose col-start-1">

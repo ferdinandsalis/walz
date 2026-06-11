@@ -132,10 +132,10 @@ function Layout({ children }: any) {
               className="group relative -top-1 flex items-center gap-2 py-1 outline-hidden"
               tabIndex={-1}
             >
-              <LogoSymbol className="relative top-1 w-10 text-primary" />
-              <LogoType className="w-20 fill-foreground/80" />
+              <LogoSymbol className="text-primary relative top-1 w-10" />
+              <LogoType className="fill-foreground/80 w-20" />
             </Link>
-            <CollapsibleTrigger className="rounded-md bg-card/70 p-2 hover:bg-card md:hidden">
+            <CollapsibleTrigger className="bg-card/70 hover:bg-card rounded-md p-2 md:hidden">
               <List className="text-primary" />
             </CollapsibleTrigger>
           </div>
@@ -152,7 +152,7 @@ function Layout({ children }: any) {
         {children}
       </div>
 
-      <div className="col-span-3 row-start-3 mt-12 grid grid-cols-subgrid bg-muted/30 lg:col-span-4 lg:col-start-1 xl:col-span-5">
+      <div className="bg-muted/30 col-span-3 row-start-3 mt-12 grid grid-cols-subgrid lg:col-span-4 lg:col-start-1 xl:col-span-5">
         <div className="col-span-1 col-start-2 grid lg:col-span-2 lg:col-start-2 xl:col-span-3 xl:col-start-3">
           <FooterNavigation />
         </div>

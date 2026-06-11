@@ -33,10 +33,10 @@ export default function Termin() {
   const { event, slug } = useLoaderData<typeof loader>()
 
   return (
-    <article className="post space-y-8 hyphens-auto text-pretty">
+    <article className="post space-y-8 text-pretty hyphens-auto">
       <Link
         to="/aktuelles#schuljahr"
-        className="group inline-flex items-center gap-1 text-body-sm text-muted-foreground hover:text-primary"
+        className="group text-body-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1"
       >
         <ArrowLeft
           size={16}
@@ -50,7 +50,7 @@ export default function Termin() {
       <header className="space-y-4">
         <hgroup className="space-y-1">
           {event.type && (
-            <p className="font-condensed text-lg font-bold text-primary">
+            <p className="font-condensed text-primary text-lg font-bold">
               {tType(event.type)}
             </p>
           )}
@@ -59,7 +59,7 @@ export default function Termin() {
 
         <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
               Datum
             </dt>
             <dd>
@@ -75,7 +75,7 @@ export default function Termin() {
           </div>
           {event.start.time && (
             <div>
-              <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
                 Uhrzeit
               </dt>
               <dd>
@@ -86,7 +86,7 @@ export default function Termin() {
           )}
           {event.location && (
             <div>
-              <dt className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <dt className="text-muted-foreground mb-1 text-xs font-bold tracking-widest uppercase">
                 Ort
               </dt>
               <dd>{event.location}</dd>

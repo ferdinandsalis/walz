@@ -20,7 +20,7 @@ export function ErrorBoundary() {
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3">
               <h1>Leider konnten wir diese Seite nicht finden:</h1>
-              <pre className="whitespace-pre-wrap break-all bg-card p-2">
+              <pre className="bg-card p-2 break-all whitespace-pre-wrap">
                 {location.pathname}
               </pre>
             </div>

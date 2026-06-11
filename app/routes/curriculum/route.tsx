@@ -27,11 +27,11 @@ export default function Curriculum() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 text-balance lg:col-span-2">
-      <h1 className="font-condensed text-h1 font-bold text-muted-foreground opacity-20">
+      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
         Curriculum
       </h1>
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance sm:gap-x-6 md:text-body-md lg:gap-x-8">
+      <div className="md:text-body-md col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance sm:gap-x-6 lg:gap-x-8">
         {data.years.map((year, index) => (
           <React.Fragment key={year._id}>
             <YearSection year={year} yearNumber={index + 1} />
@@ -70,10 +70,10 @@ function YearSection({
   return (
     <article className="col-span-12 grid grid-cols-subgrid gap-y-8 pt-4">
       <hgroup className="col-span-12">
-        <h1 className="text-h4 font-bold text-muted-foreground">
+        <h1 className="text-h4 text-muted-foreground font-bold">
           {yearNumber}. Jahr
         </h1>
-        <p className="font-condensed text-h2 font-bold text-primary">
+        <p className="font-condensed text-h2 text-primary font-bold">
           {year.title}
         </p>
       </hgroup>
@@ -98,7 +98,7 @@ function ProjectsList({
 }) {
   return (
     <div className="col-span-12 space-y-2 md:col-span-6">
-      <h2 className="font-condensed text-h4 font-bold text-secondary">
+      <h2 className="font-condensed text-h4 text-secondary font-bold">
         Projekte
       </h2>
       <ul className="list-inside list-disc" aria-label="Projekte">
@@ -113,7 +113,7 @@ function ProjectsList({
 function ExternalExamsList({ exams }: { exams: string[] }) {
   return (
     <div className="col-span-12 space-y-2 md:col-span-6">
-      <h2 className="font-condensed text-h4 font-bold text-secondary">
+      <h2 className="font-condensed text-h4 text-secondary font-bold">
         Externe Prüfungen
       </h2>
       <ul className="list-inside list-disc">
@@ -146,7 +146,7 @@ function YearCarousel({ photos }: { photos: any[] }) {
           duration: 20,
         }}
       >
-        <div className="rounded bg-muted/30 px-4 py-4 md:-mx-4">
+        <div className="bg-muted/30 rounded px-4 py-4 md:-mx-4">
           <CarouselContent className="-ml-2">
             {validPhotos.map((photo, index) => (
               <CarouselItem
@@ -166,8 +166,8 @@ function YearCarousel({ photos }: { photos: any[] }) {
                       .url()}
                     className="rounded object-cover shadow-sm"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3 font-condensed">
-                    <span className="text-xs text-card drop-shadow-sm">
+                  <div className="font-condensed absolute right-0 bottom-0 left-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3">
+                    <span className="text-card text-xs drop-shadow-sm">
                       {caption(photo)}
                     </span>
                   </div>

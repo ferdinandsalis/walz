@@ -6,7 +6,7 @@ export default function PostLayout() {
     <div className="md:mt-8">
       <Link
         to="/aktuelles"
-        className="group/more mb-4 mt-4 flex items-center gap-1 font-condensed text-lg"
+        className="group/more font-condensed mt-4 mb-4 flex items-center gap-1 text-lg"
       >
         <span className="underline-offset-2 group-hover/more:underline">
           Zurück zur Übersicht
@@ -17,7 +17,7 @@ export default function PostLayout() {
         />
       </Link>
 
-      <div className="hyphens-auto text-pretty">
+      <div className="text-pretty hyphens-auto">
         <Outlet />
       </div>
     </div>

@@ -17,13 +17,13 @@ export default function Philosophie() {
 
   return (
     <div className="md:mt-12 lg:col-span-2">
-      <h1 className="absolute left-0 origin-top-left rotate-90 scale-[4] font-condensed text-xl font-bold text-stone-500 opacity-10">
+      <h1 className="font-condensed absolute left-0 origin-top-left scale-[4] rotate-90 text-xl font-bold text-stone-500 opacity-10">
         Über uns
       </h1>
 
       <div className="space-y-12">
         <div>
-          <h1 className="mb-2 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+          <h1 className="text-muted-foreground mb-2 text-sm font-bold tracking-widest uppercase">
             Philosophie
           </h1>
           <Outlet />

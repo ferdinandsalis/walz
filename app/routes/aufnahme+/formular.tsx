@@ -113,7 +113,7 @@ export default function AufnahmeFormular() {
 
   return (
     <div className="px-4 py-8">
-      <h1 className="mb-8 font-condensed text-4xl font-bold text-primary">
+      <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
         Aufnahmeformular
       </h1>
 
@@ -133,8 +133,8 @@ export default function AufnahmeFormular() {
 
           <div className="space-y-8">
             {/* Student Information */}
-            <fieldset className="border-t border-muted p-0">
-              <legend className="pl-0 pr-2 font-condensed text-h5 font-bold">
+            <fieldset className="border-muted border-t p-0">
+              <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
                 Informationen Jugendliche:r
               </legend>
               <div className="mt-4 space-y-4">
@@ -215,8 +215,8 @@ export default function AufnahmeFormular() {
             </fieldset>
 
             {/* Parent 1 Information */}
-            <fieldset className="border-t border-muted p-0">
-              <legend className="pl-0 pr-2 font-condensed text-h5 font-bold">
+            <fieldset className="border-muted border-t p-0">
+              <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
                 Informationen Elternteil 1
               </legend>
               <div className="mt-4 space-y-4">
@@ -273,10 +273,10 @@ export default function AufnahmeFormular() {
             </fieldset>
 
             {/* Parent 2 Information */}
-            <fieldset className="m-0 border-t border-muted p-0">
-              <legend className="pl-0 pr-2 font-condensed text-h5 font-bold">
+            <fieldset className="border-muted m-0 border-t p-0">
+              <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
                 Informationen Elternteil 2
-                <span className="ml-2 text-sm font-normal text-muted-foreground">
+                <span className="text-muted-foreground ml-2 text-sm font-normal">
                   (optional)
                 </span>
               </legend>
@@ -318,8 +318,8 @@ export default function AufnahmeFormular() {
             </fieldset>
 
             {/* Additional Information */}
-            <fieldset className="border-t border-muted p-0">
-              <legend className="pl-0 pr-2 font-condensed text-h5 font-bold">
+            <fieldset className="border-muted border-t p-0">
+              <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
                 Zusätzliche Informationen
               </legend>
               <div className="mt-4">
@@ -347,7 +347,7 @@ export default function AufnahmeFormular() {
                 Absenden
               </Button>
               {showSpinner && (
-                <CircleNotch className="animate-spin text-secondary" />
+                <CircleNotch className="text-secondary animate-spin" />
               )}
             </div>
           </div>

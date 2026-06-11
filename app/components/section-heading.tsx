@@ -15,13 +15,13 @@ export function SectionHeading({
     >
       <h1
         id={id}
-        className="col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center font-condensed text-base font-bold uppercase tracking-[0.15em] text-muted-foreground/40"
+        className="font-condensed text-muted-foreground/40 col-span-1 col-start-1 col-end-13 row-start-1 row-end-1 text-center text-base font-bold tracking-[0.15em] uppercase"
       >
-        <span className="rounded bg-background px-8 py-2">{children}</span>
+        <span className="bg-background rounded px-8 py-2">{children}</span>
       </h1>
       <div
         role="presentation"
-        className="-order-1 col-start-1 col-end-13 row-start-1 h-[3px] rounded border-none bg-muted"
+        className="bg-muted -order-1 col-start-1 col-end-13 row-start-1 h-[3px] rounded border-none"
       />
     </Link>
   )

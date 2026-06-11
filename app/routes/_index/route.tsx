@@ -76,8 +76,8 @@ export default function Home() {
               <HeroImage image={hero.image} caption={hero.caption} />
             )}
             {hero?.image?.attribution && (
-              <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
-                <p className="text-right text-body-xs text-card/70">
+              <figcaption className="bg-foreground/20 absolute right-0 bottom-0 left-0 z-20 px-4 py-1 sm:px-8 md:px-12">
+                <p className="text-body-xs text-card/70 text-right">
                   {hero.image.attribution}
                 </p>
               </figcaption>
@@ -85,9 +85,9 @@ export default function Home() {
           </figure>
 
           <div className="relative col-start-1 row-start-1 flex flex-col items-start justify-between bg-black/10 p-8 sm:rounded-t-md sm:p-16 md:p-20 lg:py-24">
-            <LogoSymbol className="absolute bottom-12 right-12 w-60 text-primary opacity-50 sm:-bottom-24 sm:right-8 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
-            <p className="relative max-w-xl text-pretty font-sans text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl md:text-5xl lg:text-6xl">
-              Die <strong className="font-bold text-secondary">Walz</strong>{' '}
+            <LogoSymbol className="text-primary absolute right-12 bottom-12 w-60 opacity-50 sm:right-8 sm:-bottom-24 sm:w-64 md:w-72 md:opacity-60 lg:right-10 lg:w-80" />
+            <p className="relative max-w-xl font-sans text-3xl font-bold tracking-tight text-pretty text-white drop-shadow-sm sm:text-4xl md:text-5xl lg:text-6xl">
+              Die <strong className="text-secondary font-bold">Walz</strong>{' '}
               soll darauf vor­bereiten, mit Liebe die Welt und die Gesell­schaft
               mitzuge­stalten.
             </p>
@@ -95,13 +95,13 @@ export default function Home() {
           </div>
 
           {closestEvent && (
-            <article className="col-start-1 row-start-2 flex items-center gap-2 bg-muted/60 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
+            <article className="bg-muted/60 col-start-1 row-start-2 flex items-center gap-2 p-3 px-4 shadow-inner sm:rounded-b-md sm:px-8 md:px-12">
               <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
                 <div className="flex items-center gap-2">
                   <h1 className="flex items-center gap-1">
                     <CalendarDots
                       size={24}
-                      className="inline-block text-secondary"
+                      className="text-secondary inline-block"
                     />
                   </h1>
                   <Link
@@ -123,7 +123,7 @@ export default function Home() {
                 </div>{' '}
                 <Link
                   to="./aktuelles#schuljahr"
-                  className="group/more flex items-center font-condensed text-muted-foreground"
+                  className="group/more font-condensed text-muted-foreground flex items-center"
                 >
                   <span className="underline-offset-2 group-hover/more:underline">
                     Alle Termine
@@ -141,7 +141,7 @@ export default function Home() {
           <div className="col-span-12 space-y-4 md:col-span-8">
             <div>
               <h1 className="sr-only">Was ist die Walz?</h1>
-              <p className="max-w-2xl text-pretty text-body-md xl:text-body-lg">
+              <p className="text-body-md xl:text-body-lg max-w-2xl text-pretty">
                 In der Walz können Jugendliche zwischen 14 und 19 Jahren in
                 einem geschützten Rahmen ihre Potenziale entfalten, ihre
                 Möglichkeiten ausloten und werden auf die Matura vorbereitet.
@@ -155,7 +155,7 @@ export default function Home() {
                 >
                   <Question
                     size={28}
-                    className="relative -top-1 inline-flex text-primary"
+                    className="text-primary relative -top-1 inline-flex"
                   />{' '}
                   <span className="underline-offset-2 group-hover:underline">
                     Was unterscheidet die Walz von einer
@@ -169,8 +169,8 @@ export default function Home() {
           {shoutout && (
             <div className="col-span-12 md:col-span-4">
               <h1 className="sr-only">Shoutout</h1>
-              <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
-                <p className="mb-4 text-pretty text-body-md">
+              <div className="border-secondary/30 bg-secondary/20 ring-muted/20 rounded-lg border p-6 ring-8">
+                <p className="text-body-md mb-4 text-pretty">
                   {shoutout.emoji && (
                     <span
                       className="relative mb-1"
@@ -209,8 +209,8 @@ export default function Home() {
           {!shoutout && closestOrientation && (
             <div className="col-span-12 md:col-span-4">
               <h1 className="sr-only">Walz kennenlernen</h1>
-              <div className="rounded-lg border border-secondary/30 bg-secondary/20 p-6 ring-8 ring-muted/20">
-                <p className="mb-4 text-pretty text-body-md">
+              <div className="border-secondary/30 bg-secondary/20 ring-muted/20 rounded-lg border p-6 ring-8">
+                <p className="text-body-md mb-4 text-pretty">
                   <span className="relative mb-1" aria-roledescription="emoji">
                     👋
                   </span>{' '}
@@ -246,12 +246,12 @@ export default function Home() {
         </section>
         <section className="col-span-12 grid grid-cols-subgrid gap-y-4">
           <header className="col-span-12 flex items-baseline justify-between gap-4">
-            <h1 className="text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+            <h1 className="text-body-xs text-muted-foreground font-bold tracking-widest uppercase">
               Unser Blog
             </h1>
             <Link
               to="/aktuelles/beitraege/"
-              className="group/blog flex items-center gap-1 font-condensed text-primary"
+              className="group/blog font-condensed text-primary flex items-center gap-1"
             >
               <span className="underline-offset-2 group-hover/blog:underline">
                 Alle Beiträge
@@ -277,12 +277,12 @@ export default function Home() {
                           .width(800)
                           .url()}
                         alt={latestPost.cover.caption}
-                        className="aspect-square w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-bl-md lg:rounded-tr-none"
+                        className="aspect-square w-full rounded-t-md object-cover sm:h-auto lg:h-full lg:rounded-tr-none lg:rounded-bl-md"
                       />
                     </picture>
                     {latestPost.cover.attribution && (
-                      <figcaption className="absolute bottom-0 left-0 right-0 z-20 bg-foreground/20 px-4 py-1 sm:px-8 md:px-12">
-                        <p className="text-right text-body-xs text-card/70">
+                      <figcaption className="bg-foreground/20 absolute right-0 bottom-0 left-0 z-20 px-4 py-1 sm:px-8 md:px-12">
+                        <p className="text-body-xs text-card/70 text-right">
                           {latestPost.cover.attribution}
                         </p>
                       </figcaption>
@@ -291,7 +291,7 @@ export default function Home() {
                 </Link>
               )}
               <div className="p-6">
-                <h1 className="mb-2 max-w-xs text-balance font-condensed text-xl font-bold leading-tight! text-secondary md:text-2xl lg:text-2xl xl:text-3xl">
+                <h1 className="font-condensed text-secondary mb-2 max-w-xs text-xl leading-tight! font-bold text-balance md:text-2xl lg:text-2xl xl:text-3xl">
                   <Link to={`/aktuelles/beitraege/${latestPost.slug?.current}`}>
                     {latestPost.title}
                   </Link>
@@ -307,21 +307,21 @@ export default function Home() {
                     )}
                   </time>
                 </p>
-                <p className="mt-4 max-w-md text-balance text-body-sm leading-snug lg:text-body-md">
+                <p className="text-body-sm lg:text-body-md mt-4 max-w-md leading-snug text-balance">
                   {latestPost.previewText} <span>…</span>
                 </p>
               </div>
-              <footer className="self-end bg-primary/5 px-6 py-2 lg:col-start-2">
+              <footer className="bg-primary/5 self-end px-6 py-2 lg:col-start-2">
                 <Link
                   to={`/aktuelles/beitraege/${latestPost.slug?.current}`}
-                  className="group/more flex items-center font-condensed text-lg text-primary"
+                  className="group/more font-condensed text-primary flex items-center text-lg"
                 >
                   <span className="underline-offset-2 group-hover/more:underline">
                     Weiterlesen
                   </span>
                   <ArrowRight
                     size={20}
-                    className="ml-auto text-primary transition-transform group-hover/more:translate-x-1"
+                    className="text-primary ml-auto transition-transform group-hover/more:translate-x-1"
                   />
                 </Link>
               </footer>
@@ -331,12 +331,12 @@ export default function Home() {
                 return (
                   <React.Fragment key={idx}>
                     <article key={idx} className="relative max-w-prose">
-                      <h1 className="max-w-xs text-balance font-condensed font-bold leading-tight! md:text-lg">
+                      <h1 className="font-condensed max-w-xs leading-tight! font-bold text-balance md:text-lg">
                         <Link to={`/aktuelles/beitraege/${post.slug?.current}`}>
                           {post.title}
                         </Link>
                       </h1>
-                      <p className="mt-2 max-w-md text-balance text-body-sm leading-snug text-muted-foreground">
+                      <p className="text-body-sm text-muted-foreground mt-2 max-w-md leading-snug text-balance">
                         {post.previewText?.replace(/^(.{90}[^\s]*).*/, '$1')}{' '}
                         <span>…</span>
                       </p>
@@ -388,7 +388,7 @@ export default function Home() {
             </SectionHeading>
           </header>
           <Carousel
-            className="-mx-4 space-y-8 overflow-hidden bg-muted/30 py-8 shadow-inner sm:mx-0 sm:rounded-md"
+            className="bg-muted/30 -mx-4 space-y-8 overflow-hidden py-8 shadow-inner sm:mx-0 sm:rounded-md"
             opts={{ loop: true }}
           >
             <CarouselContent className="-ml-4 px-4 py-2 sm:-ml-8 sm:px-8 lg:-ml-20">
@@ -416,56 +416,56 @@ export default function Home() {
           <div className="flex flex-row flex-wrap gap-3">
             <Link
               to="/haeufige-fragen#was-heisst-eigentlich-walz"
-              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
+              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
             >
-              <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
                 <Asterisk className="relative top-px md:top-[4px]" />
               </span>
-              <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
                 Was heißt eigentlich Walz?
               </span>
             </Link>
             <Link
               to="/haeufige-fragen/#wie-kann-ich-die-walz-kennenlernen"
-              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
+              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
             >
-              <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
                 <Asterisk className="relative top-px md:top-[4px]" />
               </span>
-              <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
                 Wie kann ich die Walz kennenlernen?
               </span>
             </Link>
             <Link
               to="/haeufige-fragen/#wieso-gibt-es-externistenpruefungen"
-              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
+              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
             >
-              <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary transition-colors group-hover:bg-secondary group-hover:text-card">
+              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2 transition-colors">
                 <Asterisk className="relative top-px md:top-[4px]" />
               </span>
-              <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
                 Wieso gibt es Externistenprüfungen?
               </span>
             </Link>
             <Link
               to="/haeufige-fragen/#warum-ist-die-walz-smartphone-freie-zone"
-              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
+              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
             >
-              <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
                 <Asterisk className="relative top-px md:top-[4px]" />
               </span>
-              <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
                 Warum ist die Walz Smartphone-freie Zone?
               </span>
             </Link>
             <Link
               to="/haeufige-fragen/#was-kostet-die-walz"
-              className="group flex overflow-hidden rounded bg-card text-body-md leading-snug! text-primary shadow-sm"
+              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
             >
-              <span className="min-w-10 flex-none bg-card px-2 py-2 text-secondary group-hover:bg-secondary group-hover:text-card">
+              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
                 <Asterisk className="relative top-px md:top-[4px]" />
               </span>
-              <span className="bg-primary/5 px-3 py-2 transition-colors ease-in-out group-hover:bg-primary/10">
+              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
                 Was kostet die Walz?
               </span>
             </Link>
@@ -478,17 +478,17 @@ export default function Home() {
           <div className="col-span-12 grid grid-cols-subgrid gap-y-8">
             <Link
               to="https://goo.gl/maps/sb3LQfsePwU3zMPg8"
-              className="relative col-span-12 h-72 overflow-hidden rounded bg-muted/10 md:col-span-8 lg:h-96"
+              className="bg-muted/10 relative col-span-12 h-72 overflow-hidden rounded md:col-span-8 lg:h-96"
             >
               <img
                 src={`https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=${ENV.GOOGLE_MAPS_API_KEY}&scale=2&map_id=8811b5d90ece1ea5`}
                 alt="Karte"
                 className="h-full w-full object-cover"
               />
-              <div className="absolute left-0 top-0 h-full w-full overflow-hidden border shadow-inner shadow-muted/80"></div>
+              <div className="shadow-muted/80 absolute top-0 left-0 h-full w-full overflow-hidden border shadow-inner"></div>
             </Link>
             <div className="col-span-12 md:col-span-4">
-              <h2 className="mb-4 text-body-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <h2 className="text-body-xs text-muted-foreground mb-4 font-bold tracking-widest uppercase">
                 Kontakt
               </h2>
               <div className="lg:text-body-md">
@@ -512,7 +512,7 @@ export default function Home() {
                     Klicke hier um die Walz bei einem virtuellen Rundgang
                     kennenzulernen.{' '}
                     <LinkIcon
-                      className="relative top-px inline align-baseline text-primary"
+                      className="text-primary relative top-px inline align-baseline"
                       size={16}
                     />
                   </Link>
@@ -532,19 +532,19 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
   return (
     <blockquote
       key={idx}
-      className="relative grid min-h-72 max-w-3xl grid-cols-1 items-start overflow-hidden rounded-lg bg-card shadow-md md:grid-cols-12"
+      className="bg-card relative grid min-h-72 max-w-3xl grid-cols-1 items-start overflow-hidden rounded-lg shadow-md md:grid-cols-12"
     >
-      <div className="relative h-full bg-card p-6 md:col-span-7 md:col-start-1 md:p-8">
-        <p className="text-balance text-muted-foreground md:min-h-32 md:text-body-md">
+      <div className="bg-card relative h-full p-6 md:col-span-7 md:col-start-1 md:p-8">
+        <p className="text-muted-foreground md:text-body-md text-balance md:min-h-32">
           {entry.quote}
           <Quotes
             role="presentation"
             weight="fill"
-            className="float-right h-12 w-12 text-secondary md:h-16 md:w-16"
+            className="text-secondary float-right h-12 w-12 md:h-16 md:w-16"
           />
         </p>
       </div>
-      <footer className="flex h-full flex-col justify-between gap-4 bg-secondary/10 p-6 md:col-span-5 md:col-start-8 md:p-8">
+      <footer className="bg-secondary/10 flex h-full flex-col justify-between gap-4 p-6 md:col-span-5 md:col-start-8 md:p-8">
         <figure
           className="relative flex w-24 items-center justify-center rounded-full lg:w-36"
           aria-hidden="true"
@@ -561,19 +561,19 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
           />
           <div
             role="presentation"
-            className="absolute inset-0 rounded-full ring-2 ring-inset ring-foreground/10"
+            className="ring-foreground/10 absolute inset-0 rounded-full ring-2 ring-inset"
           />
         </figure>
         <div className="">
-          <p className="font-bold text-primary md:text-body-md">
+          <p className="text-primary md:text-body-md font-bold">
             {entry.name}
             {'  '}
-            <span className="align-super font-greek font-bold text-secondary">
+            <span className="font-greek text-secondary align-super font-bold">
               {alphabetMap[entry.year?.letter ?? '']}
             </span>{' '}
           </p>
           <p className="mb-2 leading-none">
-            <span className="text-body-2xs uppercase tracking-widest text-muted-foreground">
+            <span className="text-body-2xs text-muted-foreground tracking-widest uppercase">
               Maturajahr{' '}
               <span>
                 {entry.year?.graduatedAt &&
@@ -624,30 +624,30 @@ export function LinkPhotoCard({
     <Link
       to={link}
       prefetch="render"
-      className="group flex flex-col rounded-lg focus:outline-primary"
+      className="group focus:outline-primary flex flex-col rounded-lg"
     >
       <div className="relative">
-        <div className="relative translate-y-4 overflow-hidden rounded-lg shadow-xl shadow-muted/50 transition-all group-hover:translate-y-2">
+        <div className="shadow-muted/50 relative translate-y-4 overflow-hidden rounded-lg shadow-xl transition-all group-hover:translate-y-2">
           <img
             src={image}
             alt={imageAlt}
-            className="ascpet-square h-48 w-full bg-muted object-cover grayscale group-hover:grayscale-0"
+            className="ascpet-square bg-muted h-48 w-full object-cover grayscale group-hover:grayscale-0"
           />
           <div
             role="presentation"
-            className="absolute inset-0 rounded-lg ring-1 ring-inset ring-foreground/20"
+            className="ring-foreground/20 absolute inset-0 rounded-lg ring-1 ring-inset"
           />
         </div>
       </div>
 
-      <div className="relative rounded-b-lg border-t-4 border-t-primary bg-card p-6 pt-6 shadow-md">
+      <div className="border-t-primary bg-card relative rounded-b-lg border-t-4 p-6 pt-6 shadow-md">
         <hgroup className="flex-1">
-          <h1 className="mb-1 font-condensed text-h4 font-bold text-secondary md:text-h3">
+          <h1 className="font-condensed text-h4 text-secondary md:text-h3 mb-1 font-bold">
             {title}
           </h1>
-          <p className="text-lg font-bold leading-none">{abstract}</p>
+          <p className="text-lg leading-none font-bold">{abstract}</p>
         </hgroup>
-        <div className="group/more mt-4 flex items-center gap-1 font-condensed text-lg text-muted-foreground">
+        <div className="group/more font-condensed text-muted-foreground mt-4 flex items-center gap-1 text-lg">
           <span className="underline-offset-2 group-hover/more:underline">
             Mehr erfahren
           </span>
