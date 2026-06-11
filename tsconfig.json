@@ -1,6 +1,6 @@
 {
   "include": [
-    "@epic-web/config/reset.d.ts",
+    "types/reset.d.ts",
     ".react-router/types/**/*",
     "**/*.ts",
     "**/*.tsx",
