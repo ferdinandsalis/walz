@@ -85,8 +85,8 @@ export const faqs: Faq[] = [
             Anmeldeformular
           </Link>
           . Für den neuen Jahrgang vereinbaren wir ab Mitte November telefonisch
-          mit deinen Eltern einen Termin für das persönliche Aufnahmegespräch –
-          wir bitten sie, mitzukommen. Ab Jänner folgt die Zu- oder Absage.
+          mit deinen Eltern einen Termin für das persönliche Aufnahmegespräch.
+          Wir bitten sie, mitzukommen. Ab Jänner folgt die Zu- oder Absage.
         </p>
         <p>
           Die einzelnen Schritte und den aktuellen Stand findest du unter{' '}
@@ -111,8 +111,9 @@ export const faqs: Faq[] = [
       <>
         <p>
           Die Walz beginnt mit der 9. Schulstufe. Bewerben kannst du dich also,
-          während du die 8. Schulstufe besuchst – vorausgesetzt, du schließt sie
-          im selben Jahr positiv ab (keine Aufstiegsklausel). Später ist ein{' '}
+          während du die 8. Schulstufe besuchst. Voraussetzung ist, dass du sie
+          im selben Jahr positiv abschließt (keine Aufstiegsklausel). Später ist
+          ein{' '}
           <Link
             to="/haeufige-fragen#ist-ein-quereinstieg-moeglich"
             className="underline underline-offset-2"
@@ -142,7 +143,7 @@ export const faqs: Faq[] = [
     answer: (
       <>
         <p>
-          Grundsätzlich ja – in den ersten drei Walzjahren, also in der 9., 10.
+          Grundsätzlich ja, in den ersten drei Walzjahren, also in der 9., 10.
           und 11. Schulstufe. Fülle dafür das{' '}
           <Link
             to="/aufnahme/formular"
@@ -213,7 +214,7 @@ export const faqs: Faq[] = [
           </Link>{' '}
           steht ein gewisser Betrag bereit, der auf mehrere Jugendliche
           aufgeteilt wird. Im Bedarfsfall kannst du einen Antrag samt
-          Einkommensnachweisen und Begründung stellen – melde dich dafür bei{' '}
+          Einkommensnachweisen und Begründung stellen. Melde dich dafür bei{' '}
           <a
             href="mailto:office@walz.at"
             className="underline underline-offset-2"
@@ -269,7 +270,7 @@ export const faqs: Faq[] = [
     slug: 'wieso-gibt-es-externistenpruefungen',
     question: 'Wieso gibt es Externistenprüfungen?',
     teaser:
-      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen – wie im Sport, wo Trainer:in und Schiedsrichter:in getrennt sind. Das macht die Beurteilung objektiv und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
+      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen, so wie im Sport Trainer:in und Schiedsrichter:in getrennt sind. Das macht die Beurteilung objektiv und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
     answer: (
       <>
         <p>
@@ -305,8 +306,8 @@ export const faqs: Faq[] = [
       'Rund 30 Jugendliche, und die Walz hat fünf Jahrgänge dieser Größe. Für jeden sind Mentor:innen verantwortlich.',
     answer: (
       <p>
-        Rund 30 – die Walz hat fünf Jahrgänge dieser Größe. Für jeden Jahrgang
-        sind{' '}
+        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Für jeden
+        Jahrgang sind{' '}
         <Link to="/ueber-uns#mentor" className="underline underline-offset-2">
           Mentor:innen
         </Link>{' '}

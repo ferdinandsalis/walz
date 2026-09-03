@@ -602,7 +602,7 @@ export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-3">
           <p className="text-body-md max-w-prose text-pretty">
-            Frage nicht dabei? Schreib uns – wir antworten dir persönlich.
+            Frage nicht dabei? Schreib uns, wir antworten dir persönlich.
             {nextOrientation ? (
               <>
                 {' '}
