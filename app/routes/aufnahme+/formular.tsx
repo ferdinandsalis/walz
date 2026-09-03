@@ -16,7 +16,7 @@ import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
-import { goals, trackEvent } from '#app/utils/analytics.ts'
+import { trackEvent } from '#app/utils/analytics.ts'
 import {
   sendAufnahmeConfirmationEmail,
   sendAufnahmeNotificationEmail,
@@ -130,13 +130,13 @@ export default function AufnahmeFormular() {
   function handleFirstInput() {
     if (started.current) return
     started.current = true
-    trackEvent(goals.aufnahmeFormStarted)
+    trackEvent('Aufnahme Form Start')
   }
 
   // A failed submission is invisible otherwise: the page neither navigates nor
   // changes its URL, and the mail failure below is reported the same way.
   useEffect(() => {
-    if (actionData?.error) trackEvent(goals.aufnahmeFormError)
+    if (actionData?.error) trackEvent('Aufnahme Form Error')
   }, [actionData])
 
   return (

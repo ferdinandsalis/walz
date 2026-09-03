@@ -4,7 +4,7 @@ import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { goals, trackEvent } from '#app/utils/analytics.ts'
+import { trackEvent } from '#app/utils/analytics.ts'
 import { cn } from '#app/utils/misc.tsx'
 import {
   type AufnahmeQuery,
@@ -265,7 +265,7 @@ function AdmissionDay() {
           <Link
             to="/aufnahme/formular"
             onClick={() =>
-              trackEvent(goals.aufnahmeCta, { position: 'aufnahme-box' })
+              trackEvent('Aufnahme CTA', { position: 'aufnahme-box' })
             }
           >
             Zum Anmeldeformular

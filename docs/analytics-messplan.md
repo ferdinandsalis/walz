@@ -33,21 +33,23 @@ What that gives us right now:
 - ✅ Sources / referrers, entry pages, devices, countries.
 - ✅ **Scroll depth** — measured automatically for every page, 1–100%, no setup.
   It just isn't being _looked at_ yet.
-- ❌ No goals configured at all, so there are no conversions in the dashboard.
+- ✅ A `trackEvent` helper and Plausible's queue stub (both added with the FAQ
+  rework), plus the `FAQ Open` and `FAQ Read More` events.
+- ❌ No goals configured in the dashboard, so no conversions show up — events
+  are recorded either way, but an unconfigured goal is not counted.
 - ❌ No outbound-link, file-download or form-submission tracking (these are
   opt-in and the legacy snippet has them off).
-- ❌ No custom events.
 
-### The one thing that is silently broken
+### The one thing that was silently broken
 
-The admissions form redirects to `/aufnahme/formular?success=true` on success
-(`app/routes/aufnahme+/formular.tsx`). **Plausible strips query parameters by
-default** (everything except `ref`, `source` and the `utm_*` params), so that
-success page is recorded as `/aufnahme/formular` — indistinguishable from
-someone who merely opened the empty form.
+The admissions form used to redirect to `/aufnahme/formular?success=true`.
+**Plausible strips query parameters by default** (everything except `ref`,
+`source` and the `utm_*` params), so that success page was recorded as
+`/aufnahme/formular` — indistinguishable from someone who merely opened the
+empty form. We could not tell how many people applied.
 
-> Today we cannot tell how many people actually applied. That is the first thing
-> to fix.
+> Fixed: the confirmation now has its own route, `/aufnahme/formular/danke`
+> (§2). It still needs a pageview goal in the dashboard before it counts.
 
 ---
 
@@ -58,18 +60,19 @@ should be measured against it.
 
 ### The steps
 
-| #   | Step                         | URL / trigger               | Measurable today?         |
-| --- | ---------------------------- | --------------------------- | ------------------------- |
-| 1   | Arrives on the site          | any entry page              | ✅                        |
-| 2   | Reads the admissions page    | `/aufnahme`                 | ✅ pageview goal          |
-| 3   | Reaches costs / requirements | scroll depth on `/aufnahme` | ✅ automatic              |
-| 4   | Clicks "Zum Anmeldeformular" | `AdmissionDay` CTA          | ❌ needs event            |
-| 5   | Opens the form               | `/aufnahme/formular`        | ✅ pageview goal          |
-| 6   | Starts filling it in         | first field interaction     | ❌ needs event            |
-| 7   | **Submits successfully**     | success state               | ❌ **blocked, see above** |
+| #   | Step                         | URL / trigger               | Measurable today?        |
+| --- | ---------------------------- | --------------------------- | ------------------------ |
+| 1   | Arrives on the site          | any entry page              | ✅                       |
+| 2   | Reads the admissions page    | `/aufnahme`                 | ✅ pageview goal         |
+| 3   | Reaches costs / requirements | scroll depth on `/aufnahme` | ✅ automatic             |
+| 4   | Clicks "Zum Anmeldeformular" | `AdmissionDay` CTA          | ✅ `Aufnahme CTA`        |
+| 5   | Opens the form               | `/aufnahme/formular`        | ✅ pageview goal         |
+| 6   | Starts filling it in         | first input in the form     | ✅ `Aufnahme Form Start` |
+| 7   | **Submits successfully**     | `/aufnahme/formular/danke`  | ✅ pageview goal         |
 
 Steps 2, 3 and 5 are free — they need nothing but a goal in the Plausible
-settings. Steps 4, 6 and 7 need code.
+settings. Steps 4, 6 and 7 needed code, which has shipped; they still need their
+goals created in the dashboard.
 
 ### Fix step 7 first: give the success state its own URL
 
@@ -99,10 +102,10 @@ most useful number after "how many applied" is "how many started and gave up".
 
 Two events, fired from `app/routes/aufnahme+/formular.tsx`:
 
-| Goal                           | Trigger                                                      |
-| ------------------------------ | ------------------------------------------------------------ |
-| `Aufnahme: Formular gestartet` | first `input` on any field, once per page view               |
-| `Aufnahme: Formular Fehler`    | when `actionData?.error` is set (validation or mail failure) |
+| Goal                  | Trigger                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| `Aufnahme Form Start` | first `input` on any field, once per page view               |
+| `Aufnahme Form Error` | when `actionData?.error` is set (validation or mail failure) |
 
 _Implemented_ in `app/routes/aufnahme+/formular.tsx`.
 
@@ -113,9 +116,9 @@ confirmation mail fails, and that failure is currently invisible.
 
 ### And the CTA into the form
 
-| Goal                     | Where                                                 | Property                                                  |
-| ------------------------ | ----------------------------------------------------- | --------------------------------------------------------- |
-| `Aufnahme: CTA geklickt` | `AdmissionDay` box, homepage shoutout, any future CTA | `position` = `aufnahme-box` \| `startseite-shoutout` \| … |
+| Goal           | Where                                                 | Property                                                  |
+| -------------- | ----------------------------------------------------- | --------------------------------------------------------- |
+| `Aufnahme CTA` | `AdmissionDay` box, homepage shoutout, any future CTA | `position` = `aufnahme-box` \| `startseite-shoutout` \| … |
 
 _Implemented._ The homepage shoutout is editorial and can link anywhere, so it
 only counts when its button actually points into `/aufnahme`.
@@ -125,11 +128,11 @@ redesigning the homepage.
 
 ### Supporting signals around the funnel
 
-| Goal                                     | Trigger                                              | Why                                                                 |
-| ---------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------- |
-| `Aufnahme: Schulvertrag heruntergeladen` | `/downloads/schulvertrag_september_2026.pdf`         | high-intent: people who read the contract are seriously considering |
-| `Aufnahme: Quereinstieg Kontakt`         | `mailto:agnes.chorherr@walz.at` in `LateralEntryBox` | lateral entry is a separate funnel with a separate contact route    |
-| `Aufnahme: Stipendien Anfrage`           | `mailto:office@walz.at` in the Stipendien section    | tells us whether cost is a blocker                                  |
+| Goal                           | Trigger                                              | Why                                                                 |
+| ------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| `Aufnahme Contract Download`   | `/downloads/schulvertrag_september_2026.pdf`         | high-intent: people who read the contract are seriously considering |
+| `Aufnahme Lateral Contact`     | `mailto:agnes.chorherr@walz.at` in `LateralEntryBox` | lateral entry is a separate funnel with a separate contact route    |
+| `Aufnahme Scholarship Contact` | `mailto:office@walz.at` in the Stipendien section    | tells us whether cost is a blocker                                  |
 
 **Note:** Plausible's outbound-link tracking ignores `mailto:` and `tel:` links
 (it requires the link to have a host). Every email and phone link on the site
@@ -153,19 +156,9 @@ Site settings → Installation gives a snippet like
   variant — the legacy script needs `script.tagged-events.js` for those.
 - `plausible.init({ … })` for custom properties and manual pageviews later.
 
-One caveat: the legacy script is deferred, so `window.plausible` may not exist
-when a React effect fires. Whichever script we end up on, add the queue stub
-before it so no event is lost:
-
-```html
-<script>
-  window.plausible =
-    window.plausible ||
-    function () {
-      ;(window.plausible.q = window.plausible.q || []).push(arguments)
-    }
-</script>
-```
+The queue stub this needs is already in `root.tsx`: the script is deferred, so
+`window.plausible` may not exist when a React effect fires, and the stub buffers
+those calls until the script loads. It works with either script version.
 
 ### 3.2 Turn on the automatic measurements
 
@@ -223,11 +216,11 @@ small `useEffect`.
 
 ### Contact intent (high value — `mailto:`/`tel:` are invisible otherwise)
 
-| Goal                        | Location                                                     | Property     |
-| --------------------------- | ------------------------------------------------------------ | ------------ |
-| `Kontakt: E-Mail geklickt`  | `/kontakt`, `/impressum`, `/alumni`, `/ueber-uns` staff list | `empfaenger` |
-| `Kontakt: Telefon geklickt` | `/kontakt`, `/impressum`                                     | —            |
-| `Kontakt: Karte geklickt`   | Google Maps links on `/kontakt` and the homepage             | —            |
+| Goal            | Location                                                     | Property    |
+| --------------- | ------------------------------------------------------------ | ----------- |
+| `Contact Email` | `/kontakt`, `/impressum`, `/alumni`, `/ueber-uns` staff list | `recipient` |
+| `Contact Phone` | `/kontakt`, `/impressum`                                     | —           |
+| `Contact Map`   | Google Maps links on `/kontakt` and the homepage             | —           |
 
 Phone clicks are worth splitting by device — a tap on mobile is a call, a click
 on desktop is not.
@@ -237,9 +230,9 @@ on desktop is not.
 `NewsletterForm` and `ReminderForm` submit through a `useFetcher`, so **no
 navigation happens and nothing is currently recorded**.
 
-| Goal                    | Trigger                     | Property                                |
-| ----------------------- | --------------------------- | --------------------------------------- |
-| `Newsletter: Anmeldung` | `fetcher.data?.ok === true` | `formular` = `footer` \| `kennenlernen` |
+| Goal                | Trigger                     | Property                                 |
+| ------------------- | --------------------------- | ---------------------------------------- |
+| `Newsletter Signup` | `fetcher.data?.ok === true` | `placement` = `footer` \| `kennenlernen` |
 
 The property matters because the same component is in the footer of every page
 and (intended to be) on the _Kennenlernen_ page — without it we cannot tell
@@ -252,13 +245,13 @@ which placement works.
 
 ### Content engagement
 
-| Goal                         | Location                          | Property                    |
-| ---------------------------- | --------------------------------- | --------------------------- |
-| `Magazin: Online gelesen`    | `PdfViewer` "Online lesen" toggle | `ausgabe`                   |
-| `Galerie: Bild geöffnet`     | `PhotoLightbox` open              | `seite`                     |
-| `Beitrag: Link kopiert`      | `CopyLinkButton`                  | —                           |
-| `Inhaltsverzeichnis: Sprung` | `Toc` links                       | `abschnitt` (e.g. `kosten`) |
-| `FAQ: Frage geöffnet`        | FAQ anchors on the homepage       | `frage`                     |
+| Goal                  | Location                          | Property                                                   |
+| --------------------- | --------------------------------- | ---------------------------------------------------------- |
+| `Magazin Read Online` | `PdfViewer` "Online lesen" toggle | `issue`                                                    |
+| `Gallery Open`        | `PhotoLightbox` open              | `page`                                                     |
+| `Post Copy Link`      | `CopyLinkButton`                  | —                                                          |
+| `Toc Jump`            | `Toc` links                       | `section` (e.g. `kosten`)                                  |
+| ~~`FAQ Open`~~        | homepage FAQ                      | shipped with the FAQ rework, together with `FAQ Read More` |
 
 The `Toc` and FAQ events are the cheapest way to learn _which topics_ drive
 interest — the ToC on `/aufnahme` in particular is a direct read on whether
@@ -272,22 +265,18 @@ people come for the procedure, the requirements or the cost.
 
 ### Implementation sketch
 
-Tagging is enough for plain links and buttons (new script only):
-
-```tsx
-<Button asChild className="plausible-event-name=Aufnahme+CTA+geklickt">
-  <Link to="/aufnahme/formular">Zum Anmeldeformular</Link>
-</Button>
-```
-
-Anything with state or properties goes through the function:
+Everything goes through the existing helper, which already guards the `window`
+access and the missing-script case:
 
 ```ts
-window.plausible?.('Newsletter: Anmeldung', { props: { formular: 'footer' } })
+import { trackEvent } from '#app/utils/analytics.ts'
+
+trackEvent('Newsletter Signup', { placement: 'footer' })
 ```
 
-Worth wrapping in a tiny `app/utils/analytics.ts` helper so the `window` guard
-and the naming convention live in one place.
+Class tagging (`class="plausible-event-name=..."`) is an alternative for plain
+links, but it needs the new script and cannot carry properties, so the helper is
+the better default.
 
 ---
 
@@ -297,7 +286,7 @@ Plausible's **funnel analysis is a Business-plan feature** (2–8 steps). If the
 plan allows it, one funnel is worth having:
 
 ```
-Landing → /aufnahme → /aufnahme/formular → Aufnahme: Formular gestartet → /aufnahme/formular/danke
+Landing → /aufnahme → /aufnahme/formular → Aufnahme Form Start → /aufnahme/formular/danke
 ```
 
 That single view shows where applicants are lost — and given the admissions
@@ -307,12 +296,12 @@ over year.
 
 ### Custom properties worth attaching
 
-| Property     | On                               | Notes                                                                                                 |
-| ------------ | -------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `schulstufe` | `Aufnahme: Formular abgeschickt` | 9th grade (regular) vs 10th/11th (Quereinstieg) — two different funnels that currently share one form |
-| `position`   | `Aufnahme: CTA geklickt`         | which CTA feeds the form                                                                              |
-| `formular`   | `Newsletter: Anmeldung`          | which placement converts                                                                              |
-| `abschnitt`  | `Inhaltsverzeichnis: Sprung`     | what people came to read                                                                              |
+| Property   | On                    | Notes                                                                                                 |
+| ---------- | --------------------- | ----------------------------------------------------------------------------------------------------- |
+| `grade`    | `Aufnahme Form Start` | 9th grade (regular) vs 10th/11th (Quereinstieg) — two different funnels that currently share one form |
+| `position` | `Aufnahme CTA`        | which CTA feeds the form                                                                              |
+| `formular` | `Newsletter Signup`   | which placement converts                                                                              |
+| `section`  | `Toc Jump`            | what people came to read                                                                              |
 
 **Do not send the free-text "Wie sind Sie auf uns aufmerksam geworden?" field as
 a property.** It is free-form and can contain names, and Plausible properties
@@ -324,12 +313,13 @@ free-text answers we already collect by mail.
 
 ## 6. Conventions
 
-- **Naming:** `Bereich: Aktion` in German (`Aufnahme: Formular abgeschickt`).
-  Staff read this dashboard; the site is German-only. The prefix groups related
-  goals in the goal list.
-- Goal names must match the event name **character for character**, including
-  umlauts. Set the goal up in Plausible before or with the deploy, otherwise
-  events are recorded but not shown.
+- **Naming:** `<Area> <Action>` in short, Title Case ASCII, following the
+  `FAQ Open` / `FAQ Read More` events already in the codebase. Goal names are
+  typed into the Plausible dashboard by hand, so no umlauts. The area prefix
+  groups related goals in the goal list.
+- Goal names must match the event name **character for character**. Set the goal
+  up in Plausible before or with the deploy, otherwise events are recorded but
+  not shown.
 - Prefer a **pageview goal over a custom event** whenever a distinct URL is
   possible — no JS, more robust, easier to reason about.
 - Keep the goal list short. A dashboard with 30 goals gets ignored; the six
@@ -356,8 +346,9 @@ this plan.
 2. Read the scroll depth we already have for `/aufnahme` and `/curriculum`.
 3. Move the form success state to `/aufnahme/formular/danke` and add the goal.
    _(the important one)_
-4. Migrate to the current Plausible script, add the queue stub.
-5. Add the Aufnahme events: form started, form error, CTA clicked.
+4. ~~Add the Aufnahme events: form started, form error, CTA clicked.~~ Done.
+5. Migrate to the current Plausible script, so downloads and outbound links can
+   be toggled on.
 6. Add contact and newsletter events.
 7. Everything in §4 "Content engagement", if and when there is appetite.
 8. Build the funnel, if the plan supports it.
