@@ -14,6 +14,52 @@ in the settings is not counted.
 
 ---
 
+## 0. Dashboard setup checklist
+
+Site settings → **Goals** → _+ Add goal_, then pick a trigger type. Everything
+here is dashboard work; none of it needs a deploy.
+
+### Custom event goals
+
+Trigger type **Custom event**, then type the name exactly as shown — character
+for character. These are already firing from the code:
+
+| Event name            | Fires on                                        | Properties |
+| --------------------- | ----------------------------------------------- | ---------- |
+| `Aufnahme Form Start` | first input in the admissions form              | —          |
+| `Aufnahme CTA`        | a button leading into the form                  | `position` |
+| `Aufnahme Form Error` | the form comes back with an error               | —          |
+| `FAQ Open`            | a question is expanded on the homepage          | `faq`      |
+| `FAQ Read More`       | the link from a homepage FAQ to the full answer | `faq`      |
+
+The properties are worth using: `position` splits `Aufnahme CTA` by which button
+fed the form, and `faq` shows which questions actually get opened.
+
+### Pageview goals
+
+Trigger type **Pageview**, then the path. No code involved — these work for any
+page on the site, so add the ones you will actually look at.
+
+| Path                       | Why                                               |
+| -------------------------- | ------------------------------------------------- |
+| `/aufnahme/formular/danke` | **applications** — the conversion, add this first |
+| `/aufnahme/formular`       | intent to apply                                   |
+| `/aufnahme`                | interest in applying                              |
+| `/die-walz-kennenlernen`   | interest in open days                             |
+| `/kontakt`                 | contact intent                                    |
+| `/rundgang`                | virtual tour                                      |
+
+Those six are the funnel. Add from §3.3 later if a specific question comes up —
+a dashboard with thirty goals gets ignored.
+
+### Not goals — toggles
+
+`File Download` and `Outbound Link: Click` appear on their own once the matching
+switches are turned on under _Tracking_; do not add them by hand. Scroll depth
+is not a goal at all and needs nothing — it is in the expanded _Top Pages_ tab.
+
+---
+
 ## 1. Where we stand today
 
 The site loads the **legacy** Plausible snippet in `app/root.tsx`:
