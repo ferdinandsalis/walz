@@ -86,7 +86,10 @@ export default function Year() {
           featuredPhoto={year.featuredPhoto}
         />
       ) : (
-        <div className="bg-card max-w-3xl rounded-sm p-2 shadow-sm">
+        <div
+          data-testid="year-photos-empty"
+          className="bg-card max-w-3xl rounded-sm p-2 shadow-sm"
+        >
           <div className="from-secondary/20 flex aspect-video flex-1 items-center justify-center rounded-r-md bg-linear-to-t to-transparent">
             <Baby size={96} className="text-secondary/40 w-12 md:w-24" />
           </div>

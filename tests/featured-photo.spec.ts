@@ -21,6 +21,18 @@ test.describe('Featured Photo Selection', () => {
     await firstYearLink.click()
     // Wait for navigation to complete
     await page.waitForLoadState('networkidle')
-    await expect(page.locator('figure img').first()).toBeVisible()
+
+    // Scoped to the year article: the site footer also carries an h1.
+    // The heading only renders if the loader parsed the year document, so this
+    // catches a crashed page (error boundary) instead of a merely empty one.
+    const article = page.locator('article.post')
+    await expect(article.getByRole('heading', { level: 1 })).toBeVisible()
+
+    // Cards are ordered newest first, so the first link is the current
+    // Jahrgang, which has no photos until someone uploads them. Accept either
+    // valid state of the photo section: the gallery or the empty placeholder.
+    const gallery = article.locator('figure img').first()
+    const placeholder = page.getByTestId('year-photos-empty')
+    await expect(gallery.or(placeholder)).toBeVisible()
   })
 })

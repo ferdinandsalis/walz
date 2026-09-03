@@ -256,9 +256,9 @@ function AdmissionDay() {
       </div>
       <div className="text-body-sm/normal space-y-4">
         <p>
-          Der Jahrgang Epsilon (9. Schulstufe, Schulbeginn September 2026) ist
-          voll. Für die Aufnahme in den Jahrgang Zeta (Schulbeginn September
-          2027) fülle das Aufnahmeformular aus. Weitere Infos folgen per Mail.
+          Für einen Aufnahmetermin für den Jahrgang Zeta (9. Schulstufe,
+          Schulbeginn September 2027) fülle das Aufnahmeformular aus. Weitere
+          Infos folgen per Mail.
         </p>
         <Button asChild>
           <Link to="/aufnahme/formular">Zum Anmeldeformular</Link>
@@ -277,9 +277,9 @@ function LateralEntryBox() {
       </div>
       <div className="text-body-sm/normal space-y-4">
         <p>
-          Im Jahrgang Delta 1 (9. Schulstufe, Schulbeginn September 2025) und
-          Gamma 2 (10. Schulstufe) sind Restplätze verfügbar. Infos &
-          Vorstellungstermin bei Agnes Chorherr:{' '}
+          Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe) sind
+          Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei Agnes
+          Chorherr:{' '}
           <a
             href="mailto:agnes.chorherr@walz.at"
             className="text-muted-foreground inline-flex items-center gap-1 underline underline-offset-2"
