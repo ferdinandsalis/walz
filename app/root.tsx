@@ -76,6 +76,18 @@ function Document({
           data-domain="walz.at"
           src="https://plausible.io/js/script.js"
         ></script>
+        {/*
+          The script above is deferred, so it may not have run yet when someone
+          interacts with the page. This queue stub takes the calls in the
+          meantime; the real script drains them once it loads.
+        */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html:
+              'window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}',
+          }}
+        />
       </head>
       <body className="bg-background text-foreground">
         {children}
