@@ -30,6 +30,7 @@ import { loadQuery } from '#app/sanity/loader.server.ts'
 import { EventSchema } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
+import { trackEvent } from '#app/utils/analytics.ts'
 import { cn } from '#app/utils/misc.js'
 import { faqPath, faqs } from '../__faqs.tsx'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
@@ -416,7 +417,7 @@ export default function Home() {
             </div>
           </Carousel>
         </section>
-        <FaqSection />
+        <FaqSection nextOrientation={closestOrientation} />
         <section className="col-span-12 grid grid-cols-subgrid gap-y-8">
           <header className="col-span-12 py-4 md:py-8">
             <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
@@ -534,12 +535,20 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
   )
 }
 
+type FaqSectionProps = {
+  /** The next event for getting to know the school, when one is scheduled. */
+  nextOrientation?: {
+    title: string
+    start: { date: Date; time?: string }
+  } | null
+}
+
 /**
  * Teasers for the frequently asked questions, with the first answer open so
  * the section shows an answer rather than just a list of links. Full answers
  * live on /haeufige-fragen.
  */
-export function FaqSection() {
+export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
   return (
     <section className="col-span-12 space-y-8">
       <header className="py-4 md:py-8">
@@ -549,6 +558,10 @@ export function FaqSection() {
         type="single"
         collapsible
         defaultValue={faqs[0]?.slug}
+        onValueChange={value => {
+          // Empty when an item is collapsed — only opens are interesting.
+          if (value) trackEvent('FAQ Open', { faq: value })
+        }}
         className="bg-card -mx-4 overflow-hidden shadow-sm sm:mx-0 sm:rounded-md"
       >
         {faqs.map(faq => (
@@ -570,6 +583,7 @@ export function FaqSection() {
               <p className="max-w-prose">{faq.teaser}</p>
               <Link
                 to={faqPath(faq)}
+                onClick={() => trackEvent('FAQ Read More', { faq: faq.slug })}
                 className="group/more font-condensed text-muted-foreground mt-3 flex items-center gap-1 text-lg"
               >
                 <span className="underline-offset-2 group-hover/more:underline">
@@ -584,7 +598,51 @@ export function FaqSection() {
           </AccordionItem>
         ))}
       </Accordion>
-      <div className="flex justify-end">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-3">
+          <p className="text-body-md max-w-prose text-pretty">
+            Frage nicht dabei? Schreib uns – wir antworten dir persönlich.
+            {nextOrientation ? (
+              <>
+                {' '}
+                Oder lerne uns beim{' '}
+                <strong className="font-bold">
+                  {nextOrientation.title}
+                </strong>{' '}
+                am{' '}
+                <time dateTime={nextOrientation.start.date.toISOString()}>
+                  {nextOrientation.start.date.toLocaleDateString('de-AT', {
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                </time>
+                {nextOrientation.start.time
+                  ? ` um ${nextOrientation.start.time} Uhr`
+                  : ''}{' '}
+                kennen.
+              </>
+            ) : null}
+          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button asChild variant="outline">
+              <Link to="/kontakt">Frage stellen</Link>
+            </Button>
+            {nextOrientation ? (
+              <Link
+                to="/die-walz-kennenlernen"
+                className="group/termine font-condensed text-primary flex items-center gap-1"
+              >
+                <span className="underline-offset-2 group-hover/termine:underline">
+                  Termine ansehen
+                </span>
+                <ArrowRight
+                  size={16}
+                  className="text-primary transition-transform group-hover/termine:translate-x-1"
+                />
+              </Link>
+            ) : null}
+          </div>
+        </div>
         <Link
           to="/haeufige-fragen"
           className="group/faqs font-condensed text-primary flex items-center gap-1"

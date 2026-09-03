@@ -4,6 +4,17 @@ import { BackToTop } from '#app/components/back-to-top.tsx'
 import { Divider } from '#app/components/ui/divider.js'
 import { faqAnswerText, faqs } from './__faqs.tsx'
 
+export function meta() {
+  return [
+    { title: 'Häufige Fragen | Walz' },
+    {
+      name: 'description',
+      content:
+        'Antworten auf die häufigsten Fragen zur Walz: Kennenlernen, Aufnahmeverfahren, Voraussetzungen und Quereinstieg, Kosten und Stipendien sowie der Abschluss mit Matura.',
+    },
+  ]
+}
+
 /**
  * schema.org FAQPage, built from the same data the answers below render from,
  * so the structured data can never drift from the visible content.

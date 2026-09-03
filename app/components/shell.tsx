@@ -102,6 +102,13 @@ export function FooterNavigation() {
         <div className="relative z-10">
           <div className="grid grid-cols-1 gap-1">
             <Link
+              to="/haeufige-fragen"
+              prefetch="intent"
+              className="font-condensed text-muted-foreground hover:text-foreground md:text-body-md underline underline-offset-2"
+            >
+              Häufige Fragen
+            </Link>
+            <Link
               to="/unterstuetzende"
               prefetch="intent"
               className="font-condensed text-muted-foreground hover:text-foreground md:text-body-md underline underline-offset-2"
