@@ -11,6 +11,12 @@ import React from 'react'
 import { Link, useLoaderData } from 'react-router'
 import { LogoSymbol } from '#app/components/brand.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '#app/components/ui/accordion.tsx'
 import { Button } from '#app/components/ui/button.js'
 import {
   Carousel,
@@ -25,6 +31,7 @@ import { EventSchema } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
 import { cn } from '#app/utils/misc.js'
+import { faqPath, faqs } from '../__faqs.tsx'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
 
@@ -409,68 +416,7 @@ export default function Home() {
             </div>
           </Carousel>
         </section>
-        <section className="col-span-12 space-y-8">
-          <header className="py-4 md:py-8">
-            <SectionHeading id="faq">Häufige Fragen</SectionHeading>
-          </header>
-          <div className="flex flex-row flex-wrap gap-3">
-            <Link
-              to="/haeufige-fragen#was-heisst-eigentlich-walz"
-              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
-            >
-              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
-                <Asterisk className="relative top-px md:top-[4px]" />
-              </span>
-              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
-                Was heißt eigentlich Walz?
-              </span>
-            </Link>
-            <Link
-              to="/haeufige-fragen/#wie-kann-ich-die-walz-kennenlernen"
-              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
-            >
-              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
-                <Asterisk className="relative top-px md:top-[4px]" />
-              </span>
-              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
-                Wie kann ich die Walz kennenlernen?
-              </span>
-            </Link>
-            <Link
-              to="/haeufige-fragen/#wieso-gibt-es-externistenpruefungen"
-              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
-            >
-              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2 transition-colors">
-                <Asterisk className="relative top-px md:top-[4px]" />
-              </span>
-              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
-                Wieso gibt es Externistenprüfungen?
-              </span>
-            </Link>
-            <Link
-              to="/haeufige-fragen/#warum-ist-die-walz-smartphone-freie-zone"
-              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
-            >
-              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
-                <Asterisk className="relative top-px md:top-[4px]" />
-              </span>
-              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
-                Warum ist die Walz Smartphone-freie Zone?
-              </span>
-            </Link>
-            <Link
-              to="/haeufige-fragen/#was-kostet-die-walz"
-              className="group bg-card text-body-md text-primary flex overflow-hidden rounded leading-snug! shadow-sm"
-            >
-              <span className="bg-card text-secondary group-hover:bg-secondary group-hover:text-card min-w-10 flex-none px-2 py-2">
-                <Asterisk className="relative top-px md:top-[4px]" />
-              </span>
-              <span className="bg-primary/5 group-hover:bg-primary/10 px-3 py-2 transition-colors ease-in-out">
-                Was kostet die Walz?
-              </span>
-            </Link>
-          </div>
-        </section>
+        <FaqSection />
         <section className="col-span-12 grid grid-cols-subgrid gap-y-8">
           <header className="col-span-12 py-4 md:py-8">
             <SectionHeading id="kontakt">Anfahrt & Kontakt</SectionHeading>
@@ -585,6 +531,74 @@ function TestimonialCard({ idx, ...entry }: TestimonialCardProps) {
         </div>
       </footer>
     </blockquote>
+  )
+}
+
+/**
+ * Teasers for the frequently asked questions, with the first answer open so
+ * the section shows an answer rather than just a list of links. Full answers
+ * live on /haeufige-fragen.
+ */
+export function FaqSection() {
+  return (
+    <section className="col-span-12 space-y-8">
+      <header className="py-4 md:py-8">
+        <SectionHeading id="faq">Häufige Fragen</SectionHeading>
+      </header>
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue={faqs[0]?.slug}
+        className="bg-card -mx-4 overflow-hidden shadow-sm sm:mx-0 sm:rounded-md"
+      >
+        {faqs.map(faq => (
+          <AccordionItem
+            key={faq.slug}
+            value={faq.slug}
+            className="border-primary/10 last:border-b-0"
+          >
+            <AccordionTrigger className="font-condensed text-primary text-body-md md:text-body-lg gap-4 px-4 text-left font-bold underline-offset-2 sm:px-6">
+              <span className="flex items-start gap-2">
+                <Asterisk
+                  aria-hidden
+                  className="text-secondary relative top-1 flex-none md:top-[6px]"
+                />
+                {faq.question}
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pl-10 text-base sm:px-6 sm:pl-12 md:text-lg">
+              <p className="max-w-prose">{faq.teaser}</p>
+              <Link
+                to={faqPath(faq)}
+                className="group/more font-condensed text-muted-foreground mt-3 flex items-center gap-1 text-lg"
+              >
+                <span className="underline-offset-2 group-hover/more:underline">
+                  Ganze Antwort lesen
+                </span>
+                <ArrowRight
+                  size={16}
+                  className="text-primary transition-transform group-hover/more:translate-x-1"
+                />
+              </Link>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+      <div className="flex justify-end">
+        <Link
+          to="/haeufige-fragen"
+          className="group/faqs font-condensed text-primary flex items-center gap-1"
+        >
+          <span className="underline-offset-2 group-hover/faqs:underline">
+            Alle Fragen
+          </span>
+          <ArrowRight
+            size={16}
+            className="text-primary transition-transform group-hover/faqs:translate-x-1"
+          />
+        </Link>
+      </div>
+    </section>
   )
 }
 
