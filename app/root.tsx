@@ -71,6 +71,16 @@ function Document({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Links />
+        {/* Plausible's queue stub: the tracker below is deferred, so custom
+            events fired during hydration are buffered here and replayed once
+            the script has loaded. See app/utils/analytics.ts. */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html:
+              'window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}',
+          }}
+        />
         <script
           defer
           data-domain="walz.at"

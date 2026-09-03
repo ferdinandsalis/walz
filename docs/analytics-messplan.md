@@ -1,9 +1,16 @@
 # Analytics Measurement Plan (Plausible)
 
 What we should measure on walz.at, in priority order. The admissions
-(*Aufnahme*) funnel comes first — everything else is secondary.
+(_Aufnahme_) funnel comes first — everything else is secondary.
 
-Status: proposal. Nothing in here is implemented yet.
+Status: partly implemented. §2 (the Aufnahme funnel) is in place — the
+confirmation page, the form-started and form-error events and the CTA events all
+ship. §3 is configuration in the Plausible dashboard and still has to be done
+there; §4 and §5 are still proposals.
+
+**The goals below have to be created in the Plausible dashboard before any of
+them show up.** Events are recorded either way, but a goal that does not exist
+in the settings is not counted.
 
 ---
 
@@ -12,16 +19,20 @@ Status: proposal. Nothing in here is implemented yet.
 The site loads the **legacy** Plausible snippet in `app/root.tsx`:
 
 ```html
-<script defer data-domain="walz.at" src="https://plausible.io/js/script.js"></script>
+<script
+  defer
+  data-domain="walz.at"
+  src="https://plausible.io/js/script.js"
+></script>
 ```
 
 What that gives us right now:
 
-- ✅ Pageviews, incl. client-side React Router navigations (Plausible hooks
-  into the History API, so `pushState` routing is tracked automatically).
+- ✅ Pageviews, incl. client-side React Router navigations (Plausible hooks into
+  the History API, so `pushState` routing is tracked automatically).
 - ✅ Sources / referrers, entry pages, devices, countries.
 - ✅ **Scroll depth** — measured automatically for every page, 1–100%, no setup.
-  It just isn't being *looked at* yet.
+  It just isn't being _looked at_ yet.
 - ❌ No goals configured at all, so there are no conversions in the dashboard.
 - ❌ No outbound-link, file-download or form-submission tracking (these are
   opt-in and the legacy snippet has them off).
@@ -35,8 +46,8 @@ default** (everything except `ref`, `source` and the `utm_*` params), so that
 success page is recorded as `/aufnahme/formular` — indistinguishable from
 someone who merely opened the empty form.
 
-> Today we cannot tell how many people actually applied. That is the first
-> thing to fix.
+> Today we cannot tell how many people actually applied. That is the first thing
+> to fix.
 
 ---
 
@@ -47,41 +58,38 @@ should be measured against it.
 
 ### The steps
 
-| # | Step | URL / trigger | Measurable today? |
-|---|------|---------------|-------------------|
-| 1 | Arrives on the site | any entry page | ✅ |
-| 2 | Reads the admissions page | `/aufnahme` | ✅ pageview goal |
-| 3 | Reaches costs / requirements | scroll depth on `/aufnahme` | ✅ automatic |
-| 4 | Clicks "Zum Anmeldeformular" | `AdmissionDay` CTA | ❌ needs event |
-| 5 | Opens the form | `/aufnahme/formular` | ✅ pageview goal |
-| 6 | Starts filling it in | first field interaction | ❌ needs event |
-| 7 | **Submits successfully** | success state | ❌ **blocked, see above** |
+| #   | Step                         | URL / trigger               | Measurable today?         |
+| --- | ---------------------------- | --------------------------- | ------------------------- |
+| 1   | Arrives on the site          | any entry page              | ✅                        |
+| 2   | Reads the admissions page    | `/aufnahme`                 | ✅ pageview goal          |
+| 3   | Reaches costs / requirements | scroll depth on `/aufnahme` | ✅ automatic              |
+| 4   | Clicks "Zum Anmeldeformular" | `AdmissionDay` CTA          | ❌ needs event            |
+| 5   | Opens the form               | `/aufnahme/formular`        | ✅ pageview goal          |
+| 6   | Starts filling it in         | first field interaction     | ❌ needs event            |
+| 7   | **Submits successfully**     | success state               | ❌ **blocked, see above** |
 
 Steps 2, 3 and 5 are free — they need nothing but a goal in the Plausible
 settings. Steps 4, 6 and 7 need code.
 
 ### Fix step 7 first: give the success state its own URL
 
-Replace the `?success=true` query flag with a real route, e.g.
-`/aufnahme/formular/danke`:
+Replace the `?success=true` query flag with a real route,
+`/aufnahme/formular/danke`, and add it as a **pageview goal** in Plausible.
 
-```ts
-// app/routes/aufnahme+/formular.tsx — in the action
-return redirect('/aufnahme/formular/danke')
-```
-
-Then add `/aufnahme/formular/danke` as a **pageview goal** in Plausible.
+_Implemented:_ `app/routes/aufnahme+/formular_.danke.tsx` is the confirmation
+page, the action redirects there, and a loader on the form keeps the old
+`?success=true` URL working by redirecting it to the same place.
 
 Why a route rather than a custom event:
 
-- No JavaScript involved — it is counted even if a custom event would be
-  missed, and it survives a page refresh or a bookmark.
+- No JavaScript involved — it is counted even if a custom event would be missed,
+  and it survives a page refresh or a bookmark.
 - The back button and browser history behave sensibly.
 - It is also just better UX: the confirmation is a page, not a form state.
 - It makes the funnel definition trivial.
 
-Keep supporting the old `?success=true` URL for a release or two if there is
-any chance of it being linked or bookmarked.
+Keep supporting the old `?success=true` URL for a release or two if there is any
+chance of it being linked or bookmarked.
 
 ### Then measure form abandonment
 
@@ -91,10 +99,12 @@ most useful number after "how many applied" is "how many started and gave up".
 
 Two events, fired from `app/routes/aufnahme+/formular.tsx`:
 
-| Goal | Trigger |
-|------|---------|
-| `Aufnahme: Formular gestartet` | first `focus`/`input` on any field, once per page view |
-| `Aufnahme: Formular Fehler` | when `actionData?.error` is set (validation or mail failure) |
+| Goal                           | Trigger                                                      |
+| ------------------------------ | ------------------------------------------------------------ |
+| `Aufnahme: Formular gestartet` | first `input` on any field, once per page view               |
+| `Aufnahme: Formular Fehler`    | when `actionData?.error` is set (validation or mail failure) |
+
+_Implemented_ in `app/routes/aufnahme+/formular.tsx`.
 
 Together with the `danke` pageview these give a completion rate for the form
 itself, and separate "gave up" from "tried and it broke". The error event
@@ -103,20 +113,23 @@ confirmation mail fails, and that failure is currently invisible.
 
 ### And the CTA into the form
 
-| Goal | Where | Property |
-|------|-------|----------|
-| `Aufnahme: CTA geklickt` | `AdmissionDay` box, homepage shoutout, any future CTA | `position` = `aufnahme-box` \| `startseite` \| … |
+| Goal                     | Where                                                 | Property                                                  |
+| ------------------------ | ----------------------------------------------------- | --------------------------------------------------------- |
+| `Aufnahme: CTA geklickt` | `AdmissionDay` box, homepage shoutout, any future CTA | `position` = `aufnahme-box` \| `startseite-shoutout` \| … |
+
+_Implemented._ The homepage shoutout is editorial and can link anywhere, so it
+only counts when its button actually points into `/aufnahme`.
 
 This tells us which entry point actually feeds the form — worth knowing before
 redesigning the homepage.
 
 ### Supporting signals around the funnel
 
-| Goal | Trigger | Why |
-|------|---------|-----|
-| `Aufnahme: Schulvertrag heruntergeladen` | `/downloads/schulvertrag_september_2026.pdf` | high-intent: people who read the contract are seriously considering |
-| `Aufnahme: Quereinstieg Kontakt` | `mailto:agnes.chorherr@walz.at` in `LateralEntryBox` | lateral entry is a separate funnel with a separate contact route |
-| `Aufnahme: Stipendien Anfrage` | `mailto:office@walz.at` in the Stipendien section | tells us whether cost is a blocker |
+| Goal                                     | Trigger                                              | Why                                                                 |
+| ---------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| `Aufnahme: Schulvertrag heruntergeladen` | `/downloads/schulvertrag_september_2026.pdf`         | high-intent: people who read the contract are seriously considering |
+| `Aufnahme: Quereinstieg Kontakt`         | `mailto:agnes.chorherr@walz.at` in `LateralEntryBox` | lateral entry is a separate funnel with a separate contact route    |
+| `Aufnahme: Stipendien Anfrage`           | `mailto:office@walz.at` in the Stipendien section    | tells us whether cost is a blocker                                  |
 
 **Note:** Plausible's outbound-link tracking ignores `mailto:` and `tel:` links
 (it requires the link to have a host). Every email and phone link on the site
@@ -134,8 +147,8 @@ settings. Do these on day one.
 Site settings → Installation gives a snippet like
 `<script defer src="https://plausible.io/js/pa-….js"></script>`. Migrating buys:
 
-- Outbound links, file downloads and form submissions as **toggles**, no
-  snippet change ever again.
+- Outbound links, file downloads and form submissions as **toggles**, no snippet
+  change ever again.
 - Tagged events (`class="plausible-event-name=…"`) without a special script
   variant — the legacy script needs `script.tagged-events.js` for those.
 - `plausible.init({ … })` for custom properties and manual pageviews later.
@@ -146,58 +159,60 @@ before it so no event is lost:
 
 ```html
 <script>
-  window.plausible = window.plausible || function () {
-    ;(window.plausible.q = window.plausible.q || []).push(arguments)
-  }
+  window.plausible =
+    window.plausible ||
+    function () {
+      ;(window.plausible.q = window.plausible.q || []).push(arguments)
+    }
 </script>
 ```
 
 ### 3.2 Turn on the automatic measurements
 
-| Measurement | Creates goal | Value for us |
-|-------------|--------------|--------------|
-| File downloads | `File Download` | Schulvertrag, Magazin, Jahrbücher, Flyer, Jahrespläne — all `public/downloads/*.pdf` |
-| Outbound links | `Outbound Link: Click` | Instagram, YouTube, Google Maps |
-| Form submissions | `WP Form Completions` | catch-all; we still want the specific events above |
+| Measurement      | Creates goal           | Value for us                                                                         |
+| ---------------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| File downloads   | `File Download`        | Schulvertrag, Magazin, Jahrbücher, Flyer, Jahrespläne — all `public/downloads/*.pdf` |
+| Outbound links   | `Outbound Link: Click` | Instagram, YouTube, Google Maps                                                      |
+| Form submissions | `WP Form Completions`  | catch-all; we still want the specific events above                                   |
 
 ### 3.3 Pageview goals
 
-| Goal path | Question it answers |
-|-----------|--------------------|
-| `/aufnahme` | interest in applying |
-| `/aufnahme/formular` | intent to apply |
-| `/aufnahme/formular/danke` | **applications** (after §2) |
-| `/die-walz-kennenlernen` | interest in open days |
-| `/kontakt` | contact intent |
-| `/rundgang` | virtual tour |
-| `/curriculum` | depth of interest in the pedagogy |
-| `/haeufige-fragen` | unanswered questions |
-| `/magazin` | interest in student work |
-| `/alumni` | alumni + "Ehrensache Walz" |
-| `/unterstuetzende` | supporters / donations |
-| `/jahrgaenge*` | wildcard: class pages as a group |
-| `/aktuelles/beitraege/*` | wildcard: blog posts as a group |
-| `/termine/*` | wildcard: individual events |
+| Goal path                  | Question it answers               |
+| -------------------------- | --------------------------------- |
+| `/aufnahme`                | interest in applying              |
+| `/aufnahme/formular`       | intent to apply                   |
+| `/aufnahme/formular/danke` | **applications** (after §2)       |
+| `/die-walz-kennenlernen`   | interest in open days             |
+| `/kontakt`                 | contact intent                    |
+| `/rundgang`                | virtual tour                      |
+| `/curriculum`              | depth of interest in the pedagogy |
+| `/haeufige-fragen`         | unanswered questions              |
+| `/magazin`                 | interest in student work          |
+| `/alumni`                  | alumni + "Ehrensache Walz"        |
+| `/unterstuetzende`         | supporters / donations            |
+| `/jahrgaenge*`             | wildcard: class pages as a group  |
+| `/aktuelles/beitraege/*`   | wildcard: blog posts as a group   |
+| `/termine/*`               | wildcard: individual events       |
 
 Wildcards work in pageview goals (`*` at either end or in the middle), so the
 last three are one goal each rather than one per post.
 
 ### 3.4 Scroll depth — read the data we already have
 
-Nothing to implement; it is in the expanded *Top Pages* tab and in the top row
+Nothing to implement; it is in the expanded _Top Pages_ tab and in the top row
 when a page filter is applied. The pages worth watching:
 
-| Page | The question |
-|------|--------------|
-| `/aufnahme` | Do people reach **Kosten** (3rd of 4 sections) and **Stipendien** (4th)? If most stop at *Voraussetzungen*, the cost information never lands — and cost is the main objection. |
-| `/curriculum` | Long-form pedagogy page: read or bounced? |
-| `/aktuelles/beitraege/*` | Are posts read to the end, i.e. is the effort worth it? |
-| `/haeufige-fragen` | Five long answers — which ones get read? |
-| `/rundgang` | Nothing to scroll: here **time on page** stands in for engagement with the Matterport iframe (iframe interaction is invisible to us). |
+| Page                     | The question                                                                                                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/aufnahme`              | Do people reach **Kosten** (3rd of 4 sections) and **Stipendien** (4th)? If most stop at _Voraussetzungen_, the cost information never lands — and cost is the main objection. |
+| `/curriculum`            | Long-form pedagogy page: read or bounced?                                                                                                                                      |
+| `/aktuelles/beitraege/*` | Are posts read to the end, i.e. is the effort worth it?                                                                                                                        |
+| `/haeufige-fragen`       | Five long answers — which ones get read?                                                                                                                                       |
+| `/rundgang`              | Nothing to scroll: here **time on page** stands in for engagement with the Matterport iframe (iframe interaction is invisible to us).                                          |
 
-The `/aufnahme` page has a sticky table of contents. Tagging those links
-(§4) plus scroll depth gives a clear picture of what prospective families
-actually want to know.
+The `/aufnahme` page has a sticky table of contents. Tagging those links (§4)
+plus scroll depth gives a clear picture of what prospective families actually
+want to know.
 
 ---
 
@@ -208,11 +223,11 @@ small `useEffect`.
 
 ### Contact intent (high value — `mailto:`/`tel:` are invisible otherwise)
 
-| Goal | Location | Property |
-|------|----------|----------|
-| `Kontakt: E-Mail geklickt` | `/kontakt`, `/impressum`, `/alumni`, `/ueber-uns` staff list | `empfaenger` |
-| `Kontakt: Telefon geklickt` | `/kontakt`, `/impressum` | — |
-| `Kontakt: Karte geklickt` | Google Maps links on `/kontakt` and the homepage | — |
+| Goal                        | Location                                                     | Property     |
+| --------------------------- | ------------------------------------------------------------ | ------------ |
+| `Kontakt: E-Mail geklickt`  | `/kontakt`, `/impressum`, `/alumni`, `/ueber-uns` staff list | `empfaenger` |
+| `Kontakt: Telefon geklickt` | `/kontakt`, `/impressum`                                     | —            |
+| `Kontakt: Karte geklickt`   | Google Maps links on `/kontakt` and the homepage             | —            |
 
 Phone clicks are worth splitting by device — a tap on mobile is a call, a click
 on desktop is not.
@@ -222,12 +237,12 @@ on desktop is not.
 `NewsletterForm` and `ReminderForm` submit through a `useFetcher`, so **no
 navigation happens and nothing is currently recorded**.
 
-| Goal | Trigger | Property |
-|------|---------|----------|
+| Goal                    | Trigger                     | Property                                |
+| ----------------------- | --------------------------- | --------------------------------------- |
 | `Newsletter: Anmeldung` | `fetcher.data?.ok === true` | `formular` = `footer` \| `kennenlernen` |
 
 The property matters because the same component is in the footer of every page
-and (intended to be) on the *Kennenlernen* page — without it we cannot tell
+and (intended to be) on the _Kennenlernen_ page — without it we cannot tell
 which placement works.
 
 > Two bugs spotted while looking at this: `ReminderForm` in
@@ -237,22 +252,22 @@ which placement works.
 
 ### Content engagement
 
-| Goal | Location | Property |
-|------|----------|----------|
-| `Magazin: Online gelesen` | `PdfViewer` "Online lesen" toggle | `ausgabe` |
-| `Galerie: Bild geöffnet` | `PhotoLightbox` open | `seite` |
-| `Beitrag: Link kopiert` | `CopyLinkButton` | — |
-| `Inhaltsverzeichnis: Sprung` | `Toc` links | `abschnitt` (e.g. `kosten`) |
-| `FAQ: Frage geöffnet` | FAQ anchors on the homepage | `frage` |
+| Goal                         | Location                          | Property                    |
+| ---------------------------- | --------------------------------- | --------------------------- |
+| `Magazin: Online gelesen`    | `PdfViewer` "Online lesen" toggle | `ausgabe`                   |
+| `Galerie: Bild geöffnet`     | `PhotoLightbox` open              | `seite`                     |
+| `Beitrag: Link kopiert`      | `CopyLinkButton`                  | —                           |
+| `Inhaltsverzeichnis: Sprung` | `Toc` links                       | `abschnitt` (e.g. `kosten`) |
+| `FAQ: Frage geöffnet`        | FAQ anchors on the homepage       | `frage`                     |
 
-The `Toc` and FAQ events are the cheapest way to learn *which topics* drive
+The `Toc` and FAQ events are the cheapest way to learn _which topics_ drive
 interest — the ToC on `/aufnahme` in particular is a direct read on whether
 people come for the procedure, the requirements or the cost.
 
 ### Housekeeping
 
-| Goal | Trigger | Why |
-|------|---------|-----|
+| Goal  | Trigger                                              | Why                                                                                                                                                                                                                                 |
+| ----- | ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `404` | `GeneralErrorBoundary` 404 handler, with prop `path` | broken inbound links, dead PDFs. 404s are **not** tracked automatically by Plausible — it needs an explicit event. Fire it from a `useEffect`, not `DOMContentLoaded` as the docs suggest, because our 404 renders client-side too. |
 
 ### Implementation sketch
@@ -271,8 +286,8 @@ Anything with state or properties goes through the function:
 window.plausible?.('Newsletter: Anmeldung', { props: { formular: 'footer' } })
 ```
 
-Worth wrapping in a tiny `app/utils/analytics.ts` helper so the `window`
-guard and the naming convention live in one place.
+Worth wrapping in a tiny `app/utils/analytics.ts` helper so the `window` guard
+and the naming convention live in one place.
 
 ---
 
@@ -287,23 +302,23 @@ Landing → /aufnahme → /aufnahme/formular → Aufnahme: Formular gestartet �
 
 That single view shows where applicants are lost — and given the admissions
 calendar (open day mid-November, interviews from November, decisions from
-January) the drop-off shape will differ per season and is worth comparing
-year over year.
+January) the drop-off shape will differ per season and is worth comparing year
+over year.
 
 ### Custom properties worth attaching
 
-| Property | On | Notes |
-|----------|-----|------|
+| Property     | On                               | Notes                                                                                                 |
+| ------------ | -------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | `schulstufe` | `Aufnahme: Formular abgeschickt` | 9th grade (regular) vs 10th/11th (Quereinstieg) — two different funnels that currently share one form |
-| `position` | `Aufnahme: CTA geklickt` | which CTA feeds the form |
-| `formular` | `Newsletter: Anmeldung` | which placement converts |
-| `abschnitt` | `Inhaltsverzeichnis: Sprung` | what people came to read |
+| `position`   | `Aufnahme: CTA geklickt`         | which CTA feeds the form                                                                              |
+| `formular`   | `Newsletter: Anmeldung`          | which placement converts                                                                              |
+| `abschnitt`  | `Inhaltsverzeichnis: Sprung`     | what people came to read                                                                              |
 
-**Do not send the free-text "Wie sind Sie auf uns aufmerksam geworden?" field
-as a property.** It is free-form and can contain names, and Plausible
-properties are not the place for it. The referrer/source breakdown on the
-conversion goal answers the same question automatically — and can be compared
-against the free-text answers we already collect by mail.
+**Do not send the free-text "Wie sind Sie auf uns aufmerksam geworden?" field as
+a property.** It is free-form and can contain names, and Plausible properties
+are not the place for it. The referrer/source breakdown on the conversion goal
+answers the same question automatically — and can be compared against the
+free-text answers we already collect by mail.
 
 ---
 
@@ -328,27 +343,27 @@ as we keep personal data out of event properties (see §5).
 
 One gap: **`/datenschutz` does not mention Plausible or web analytics at all**
 right now. Even for a cookieless, GDPR-friendly tool, Art. 13 DSGVO expects the
-processing to be disclosed. Worth adding a short paragraph naming Plausible,
-the purpose, and that no personal data or cookies are involved — independently
-of this plan.
+processing to be disclosed. Worth adding a short paragraph naming Plausible, the
+purpose, and that no personal data or cookies are involved — independently of
+this plan.
 
 ---
 
 ## 8. Suggested order of work
 
 1. Configure the pageview goals and enable file downloads + outbound links in
-   Plausible. *(no code, ~15 minutes, immediately useful)*
+   Plausible. _(no code, ~15 minutes, immediately useful)_
 2. Read the scroll depth we already have for `/aufnahme` and `/curriculum`.
 3. Move the form success state to `/aufnahme/formular/danke` and add the goal.
-   *(the important one)*
+   _(the important one)_
 4. Migrate to the current Plausible script, add the queue stub.
 5. Add the Aufnahme events: form started, form error, CTA clicked.
 6. Add contact and newsletter events.
 7. Everything in §4 "Content engagement", if and when there is appetite.
 8. Build the funnel, if the plan supports it.
 
-Steps 1–3 answer "how many people apply, and where do we lose them". The rest
-is refinement.
+Steps 1–3 answer "how many people apply, and where do we lose them". The rest is
+refinement.
 
 ## References
 

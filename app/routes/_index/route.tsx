@@ -24,6 +24,7 @@ import { loadQuery } from '#app/sanity/loader.server.ts'
 import { EventSchema } from '#app/sanity/schema/event.tsx'
 import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
+import { goals, trackEvent } from '#app/utils/analytics.ts'
 import { cn } from '#app/utils/misc.js'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
@@ -200,7 +201,20 @@ export default function Home() {
                     variant="secondary"
                     className="mr-auto shadow-sm"
                   >
-                    <Link to={shoutout.buttonLink}>{shoutout.buttonText}</Link>
+                    <Link
+                      to={shoutout.buttonLink}
+                      onClick={() => {
+                        // The shoutout is editorial, so it only counts as an
+                        // admissions CTA when it actually points at the form.
+                        if (shoutout.buttonLink?.startsWith('/aufnahme')) {
+                          trackEvent(goals.aufnahmeCta, {
+                            position: 'startseite-shoutout',
+                          })
+                        }
+                      }}
+                    >
+                      {shoutout.buttonText}
+                    </Link>
                   </Button>
                 )}
               </div>
