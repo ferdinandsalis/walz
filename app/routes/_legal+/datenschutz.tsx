@@ -46,6 +46,35 @@ export default function Datenschutz() {
           beim nächsten Besuch wiederzuerkennen. Über Ihren Browser können Sie
           individuelle Einstellungen dazu vornehmen.
         </p>
+        <h2>Webanalyse</h2>
+        <p>
+          Um unser Angebot zu verbessern, werten wir die Nutzung dieser Webseite
+          statistisch aus. Dafür verwenden wir Plausible Analytics, einen
+          Webanalysedienst der Plausible Insights OÜ, Tartu, Estland.
+        </p>
+        <p>
+          Plausible verwendet keine Cookies, greift nicht auf den Speicher Ihres
+          Geräts zu und erstellt keine geräte- oder seitenübergreifenden
+          Profile. Erfasst werden ausschließlich anonyme, aggregierte Kennzahlen
+          wie aufgerufene Seiten, verweisende Webseite, ungefähre Herkunft
+          (Land), Gerätetyp und Browser. IP-Adressen werden nicht gespeichert.
+          Ein Rückschluss auf einzelne Personen ist uns dadurch nicht möglich.
+        </p>
+        <p>
+          Sämtliche Daten werden auf Servern in Deutschland verarbeitet und
+          gespeichert und verlassen die Europäische Union nicht. Rechtsgrundlage
+          ist unser berechtigtes Interesse (Art. 6 Abs. 1 lit. f DSGVO), unser
+          Angebot bedarfsgerecht zu gestalten. Nähere Informationen finden Sie
+          in der{' '}
+          <a
+            href="https://plausible.io/data-policy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Datenrichtlinie von Plausible
+          </a>
+          .
+        </p>
         <h2>Auskunft, Löschung, Sperrung</h2>
         <p>
           Sie haben jederzeit das Recht auf unentgeltliche Auskunft (Art.15
@@ -84,7 +113,7 @@ export default function Datenschutz() {
           kommerziellen Zwecken nutzen oder die Daten an Dritte weitergeben.
         </p>
         <p>
-          <em>Stand: Mai 2018</em>
+          <em>Stand: September 2026</em>
         </p>
       </div>
     </div>

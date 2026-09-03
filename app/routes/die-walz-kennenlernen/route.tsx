@@ -1,16 +1,8 @@
 import { PortableText } from '@portabletext/react'
 import { loadQuery } from '@sanity/react-loader'
 import { evolve, map } from 'ramda'
-import {
-  Link,
-  type LoaderFunctionArgs,
-  useFetcher,
-  useLoaderData,
-} from 'react-router'
-import { HoneypotInputs } from 'remix-utils/honeypot/react'
+import { Link, type LoaderFunctionArgs, useLoaderData } from 'react-router'
 import { type z } from 'zod'
-import { Button } from '#app/components/ui/button.tsx'
-import { Input } from '#app/components/ui/input.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { EventSchema } from '#app/sanity/schema/event.tsx'
 import { type KennenlernenQueryResult } from '#app/sanity/types.ts'
@@ -215,37 +207,5 @@ function CompactEventCard({ event }: { event: Event }) {
         </div>
       </header>
     </div>
-  )
-}
-
-export function ReminderForm() {
-  const fetcher = useFetcher()
-  const done = !!fetcher.data
-
-  return (
-    <>
-      <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
-        Erinnerungsservice
-      </h1>
-      <p className="max-w-prose">
-        Hinterlasse und deine E-Mail und wir informieren dich über die nächste
-        Veranstaltung, wo du die Schule kennenlernen kannst.
-      </p>
-      <fetcher.Form
-        name="newsletter"
-        method="POST"
-        action="/resources/newsletter"
-        className="grid max-w-xl gap-4 rounded-md"
-        key={JSON.stringify(fetcher.data)}
-      >
-        <HoneypotInputs />
-        <Input type="email" placeholder="E-mail" className="bg-card" />
-        <footer>
-          <Button variant="secondary" type="submit">
-            {done ? 'Erfolgreich' : 'Erinnere mich'}
-          </Button>
-        </footer>
-      </fetcher.Form>
-    </>
   )
 }
