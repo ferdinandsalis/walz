@@ -78,6 +78,10 @@ export default function GetToKnowRoute() {
             </div>
           </section>
         )}
+
+        <section id="erinnerungsservice" className="col-span-12 grid gap-4">
+          <ReminderForm />
+        </section>
       </div>
     </div>
   )
@@ -224,11 +228,11 @@ export function ReminderForm() {
 
   return (
     <>
-      <h1 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
+      <h2 className="font-condensed text-primary text-2xl font-bold md:text-4xl">
         Erinnerungsservice
-      </h1>
+      </h2>
       <p className="max-w-prose">
-        Hinterlasse und deine E-Mail und wir informieren dich über die nächste
+        Hinterlasse uns deine E-Mail und wir informieren dich über die nächste
         Veranstaltung, wo du die Schule kennenlernen kannst.
       </p>
       <fetcher.Form
@@ -239,7 +243,15 @@ export function ReminderForm() {
         key={JSON.stringify(fetcher.data)}
       >
         <HoneypotInputs />
-        <Input type="email" placeholder="E-mail" className="bg-card" />
+        <Input
+          type="email"
+          name="email"
+          required
+          aria-label="E-Mail"
+          placeholder="E-mail"
+          className="bg-card"
+          disabled={done}
+        />
         <footer>
           <Button variant="secondary" type="submit">
             {done ? 'Erfolgreich' : 'Erinnere mich'}
