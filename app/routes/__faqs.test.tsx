@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { faqAnswerText, faqPath, faqs } from './__faqs.tsx'
+import { faqAnswerText, faqPath, faqs, featuredFaqs } from './__faqs.tsx'
 
 test('every question has a unique slug', () => {
   const slugs = faqs.map(faq => faq.slug)
@@ -14,7 +14,7 @@ test('slugs are usable as url anchors', () => {
 
 test('the slugs that shipped first still exist', () => {
   // They are live anchor targets — anyone who bookmarked or linked one of
-  // these must keep landing on an answer, whatever the order becomes.
+  // these must keep landing on an answer.
   const slugs = faqs.map(faq => faq.slug)
 
   for (const slug of [
@@ -37,6 +37,14 @@ test('every question has a teaser and an answer', () => {
 
 test('faqPath deep-links into the full answer', () => {
   expect(faqPath(faqs[0])).toBe(`/haeufige-fragen#${faqs[0].slug}`)
+})
+
+test('featuredFaqs is a subset of faqs, in the same order', () => {
+  expect(featuredFaqs).toEqual(faqs.filter(faq => faq.featured))
+  expect(featuredFaqs.length).toBeLessThan(faqs.length)
+  // A landing page that shows nearly everything defeats the point of the flag.
+  expect(featuredFaqs.length).toBeGreaterThanOrEqual(4)
+  expect(featuredFaqs.length).toBeLessThanOrEqual(7)
 })
 
 test('faqAnswerText flattens the answer to plain text', () => {

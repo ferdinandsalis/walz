@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router'
 import { describe, expect, it } from 'vitest'
-import { faqs } from '../__faqs.tsx'
+import { faqs, featuredFaqs } from '../__faqs.tsx'
 import { FaqSection } from './route.tsx'
 
 const markup = (props: Parameters<typeof FaqSection>[0] = {}) =>
@@ -19,19 +19,29 @@ const orientation = {
 }
 
 describe('FaqSection', () => {
-  it('lists every question', () => {
+  it('lists every featured question', () => {
     const html = markup()
 
-    for (const faq of faqs) {
+    for (const faq of featuredFaqs) {
       expect(html).toContain(faq.question)
+    }
+  })
+
+  it('leaves the rest of the questions to /haeufige-fragen', () => {
+    const html = markup()
+    const rest = faqs.filter(faq => !faq.featured)
+
+    expect(rest.length).toBeGreaterThan(0)
+    for (const faq of rest) {
+      expect(html).not.toContain(faq.question)
     }
   })
 
   it('opens the first answer, teaser and deep link included', () => {
     const html = markup()
 
-    expect(html).toContain(faqs[0].teaser)
-    expect(html).toContain(`/haeufige-fragen#${faqs[0].slug}`)
+    expect(html).toContain(featuredFaqs[0].teaser)
+    expect(html).toContain(`/haeufige-fragen#${featuredFaqs[0].slug}`)
   })
 
   it('links on to the full list of questions', () => {

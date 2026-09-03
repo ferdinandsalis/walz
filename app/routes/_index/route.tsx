@@ -32,7 +32,7 @@ import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { cn } from '#app/utils/misc.js'
-import { faqPath, faqs } from '../__faqs.tsx'
+import { faqPath, featuredFaqs } from '../__faqs.tsx'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
 
@@ -544,9 +544,10 @@ type FaqSectionProps = {
 }
 
 /**
- * Teasers for the frequently asked questions, with the first answer open so
- * the section shows an answer rather than just a list of links. Full answers
- * live on /haeufige-fragen.
+ * Teasers for the questions someone weighing up the school asks first, with
+ * the first answer open so the section shows an answer rather than a list of
+ * links. Full answers, and the questions not featured here, live on
+ * /haeufige-fragen.
  */
 export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
   return (
@@ -557,14 +558,14 @@ export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
       <Accordion
         type="single"
         collapsible
-        defaultValue={faqs[0]?.slug}
+        defaultValue={featuredFaqs[0]?.slug}
         onValueChange={value => {
           // Empty when an item is collapsed — only opens are interesting.
           if (value) trackEvent('FAQ Open', { faq: value })
         }}
         className="bg-card -mx-4 overflow-hidden shadow-sm sm:mx-0 sm:rounded-md"
       >
-        {faqs.map(faq => (
+        {featuredFaqs.map(faq => (
           <AccordionItem
             key={faq.slug}
             value={faq.slug}
