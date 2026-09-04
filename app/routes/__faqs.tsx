@@ -27,9 +27,14 @@ export type Faq = {
  * The order below is the order both pages render in, so it leads with the
  * questions someone weighing up the school actually asks first.
  *
- * Answers must not say anything the rest of the site does not already say, and
- * must link to the page that owns a detail rather than repeating it — figures,
- * dates and free places change without this file being touched.
+ * Two rules for an answer. It must be true: check every claim against what the
+ * school actually says, and never infer one. And it must be ours: link to the
+ * page that owns a detail instead of repeating that page's wording, so figures,
+ * dates and free places stay in one place and this file cannot go stale behind
+ * them. A test enforces the second rule; only reading enforces the first.
+ *
+ * A fact the school has confirmed belongs here even when no page carries it
+ * yet. Silence on the website is not evidence that something is untrue.
  */
 export const faqs: Faq[] = [
   {
@@ -303,16 +308,16 @@ export const faqs: Faq[] = [
     slug: 'wie-viele-jugendliche-sind-in-einem-jahrgang',
     question: 'Wie viele Jugendliche sind in einem Jahrgang?',
     teaser:
-      'Rund 30 Jugendliche, und die Walz hat fünf Jahrgänge dieser Größe. Für jeden sind Mentor:innen verantwortlich.',
+      'Rund 30 Jugendliche, und die Walz hat fünf Jahrgänge dieser Größe. Jeder Jahrgang hat eine:n eigene:n Mentor:in über die gesamte Walzzeit.',
     answer: (
       <p>
-        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Für jeden
-        Jahrgang sind{' '}
+        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeder
+        Jahrgang hat eine:n eigene:n{' '}
         <Link to="/ueber-uns#mentor" className="underline underline-offset-2">
-          Mentor:innen
-        </Link>{' '}
-        verantwortlich; sie begleiten die Jugendlichen in ihrer Entwicklung und
-        fördern ihre Stärken.
+          Mentor:in
+        </Link>
+        , der oder die ihn über alle Walzjahre begleitet, die Stärken der
+        Jugendlichen fördert und sie in ihrer Entwicklung unterstützt.
       </p>
     ),
   },
