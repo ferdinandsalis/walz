@@ -44,20 +44,32 @@ describe('FaqSection', () => {
     expect(html).toContain(`/haeufige-fragen#${featuredFaqs[0].slug}`)
   })
 
-  it('links on to the full list of questions', () => {
-    expect(markup()).toContain('href="/haeufige-fragen"')
+  it('links on to the full list of questions, counting them', () => {
+    const html = markup()
+
+    expect(html).toContain('href="/haeufige-fragen"')
+    expect(html).toContain(`Alle ${faqs.length} Fragen ansehen`)
   })
 
   it('always offers a way to ask a question that is not listed', () => {
     const html = markup()
 
-    expect(html).toContain('Frage nicht dabei?')
+    expect(html).toContain('Noch offene Fragen?')
     expect(html).toContain('href="/kontakt"')
+  })
+
+  it('spends no orange on the closing row', () => {
+    // Orange marks the open question and nothing else in this section, so the
+    // eye has one place to land. See the section comment in route.tsx.
+    const closing = markup().split('Noch offene Fragen?')[1]
+
+    expect(closing).not.toContain('text-primary')
   })
 
   it('names the next orientation event when there is one', () => {
     const html = markup({ nextOrientation: orientation })
 
+    expect(html).toContain('Lieber persönlich?')
     expect(html).toContain('Informationsabend')
     expect(html).toContain('12. November')
     expect(html).toContain('18:30 Uhr')
@@ -76,10 +88,11 @@ describe('FaqSection', () => {
     expect(html).not.toContain('Uhr')
   })
 
-  it('drops the orientation line when nothing is scheduled', () => {
+  it('drops the second door when nothing is scheduled', () => {
     const html = markup({ nextOrientation: null })
 
     expect(html).not.toContain('href="/die-walz-kennenlernen"')
+    expect(html).not.toContain('Lieber persönlich?')
     expect(html).toContain('href="/kontakt"')
   })
 })
