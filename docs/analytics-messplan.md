@@ -32,8 +32,25 @@ for character. These are already firing from the code:
 | `FAQ Open`            | a question is expanded on the homepage          | `faq`      |
 | `FAQ Read More`       | the link from a homepage FAQ to the full answer | `faq`      |
 
-The properties are worth using: `position` splits `Aufnahme CTA` by which button
-fed the form, and `faq` shows which questions actually get opened.
+**Leave the goal's property fields empty.** The optional key/value pair in the
+_Add goal_ dialog is a _constraint_, not a declaration: it narrows the goal so
+it only counts events carrying that exact value. Setting
+`faq = was-kostet-die-walz` would make `FAQ Open` count that one question and
+ignore every other — and `faq` carries a different slug per question, so pinning
+it to one value defeats the point. Same for `position` on `Aufnahme CTA`.
+
+Properties need no setup at all. They arrive with the event and show up under
+**Goals → Properties** at the bottom of the dashboard; clicking a custom event
+there breaks it down by its property values, and the filter menu (top right →
+_Property_) filters by one. So the bare goal gives you both the total and the
+split, where a constrained goal would give you only a slice.
+
+Use a constraint only when a slice deserves to be its own headline number — a
+separate "Aufnahme CTA (Startseite)" goal, say. Not needed for anything here.
+
+One caveat: **the Properties report is a Business-plan feature.** On a lower
+plan the goals above still count conversions; the `faq` and `position`
+breakdowns just will not be visible.
 
 ### Pageview goals
 
