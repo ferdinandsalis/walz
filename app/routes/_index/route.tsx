@@ -208,7 +208,20 @@ export default function Home() {
                     variant="secondary"
                     className="mr-auto shadow-sm"
                   >
-                    <Link to={shoutout.buttonLink}>{shoutout.buttonText}</Link>
+                    <Link
+                      to={shoutout.buttonLink}
+                      onClick={() => {
+                        // The shoutout is editorial, so it only counts as an
+                        // admissions CTA when it actually points at the form.
+                        if (shoutout.buttonLink?.startsWith('/aufnahme')) {
+                          trackEvent('Aufnahme CTA', {
+                            position: 'startseite-shoutout',
+                          })
+                        }
+                      }}
+                    >
+                      {shoutout.buttonText}
+                    </Link>
                   </Button>
                 )}
               </div>

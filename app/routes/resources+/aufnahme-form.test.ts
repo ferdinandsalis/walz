@@ -3,7 +3,7 @@ import {
   sendAufnahmeConfirmationEmail,
   sendAufnahmeNotificationEmail,
 } from '#app/utils/email.server.ts'
-import { action } from '../aufnahme+/formular.tsx'
+import { action, loader } from '../aufnahme+/formular.tsx'
 
 // Mock the email functions
 vi.mock('#app/utils/email.server.ts', () => ({
@@ -62,7 +62,7 @@ describe('aufnahme-form action', () => {
     expect(result).toBeInstanceOf(Response)
     expect((result as Response).status).toBe(302)
     expect((result as Response).headers.get('Location')).toBe(
-      '/aufnahme/formular?success=true',
+      '/aufnahme/formular/danke',
     )
     expect(sendAufnahmeConfirmationEmail).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -172,7 +172,7 @@ describe('aufnahme-form action', () => {
     expect(result).toBeInstanceOf(Response)
     expect((result as Response).status).toBe(302)
     expect((result as Response).headers.get('Location')).toBe(
-      '/aufnahme/formular?success=true',
+      '/aufnahme/formular/danke',
     )
     expect(sendAufnahmeConfirmationEmail).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -180,5 +180,27 @@ describe('aufnahme-form action', () => {
         parent2Email: 'peter@example.com',
       }),
     )
+  })
+})
+
+describe('aufnahme-form loader', () => {
+  it('redirects the legacy success URL to the confirmation page', async () => {
+    const request = new Request(
+      'http://localhost/aufnahme/formular?success=true',
+    )
+
+    const result = await loader({ request } as any)
+
+    expect(result).toBeInstanceOf(Response)
+    expect((result as Response).status).toBe(302)
+    expect((result as Response).headers.get('Location')).toBe(
+      '/aufnahme/formular/danke',
+    )
+  })
+
+  it('renders the form normally without the success flag', async () => {
+    const request = new Request('http://localhost/aufnahme/formular')
+
+    expect(await loader({ request } as any)).toBeNull()
   })
 })

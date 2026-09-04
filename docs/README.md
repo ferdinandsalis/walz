@@ -11,6 +11,8 @@ project.
   decisions
 - **[development.md](./development.md)** - Development workflow and guidelines
 - **[deployment.md](./deployment.md)** - Deployment processes and infrastructure
+- **[analytics-messplan.md](./analytics-messplan.md)** - Plausible measurement
+  plan: goals, events and scroll depth (Aufnahme funnel first)
 - **[api/](./api/)** - API documentation and schemas
 - **[components/](./components/)** - Component library documentation
 

@@ -54,7 +54,9 @@ test.describe('Aufnahme Form', () => {
     // Submit form
     await page.getByRole('button', { name: 'Absenden' }).click()
 
-    // Should show success message
+    // Should land on the confirmation page - its own URL, so the submission
+    // is countable as a pageview goal
+    await expect(page).toHaveURL('/aufnahme/formular/danke')
     await expect(
       page.getByText('Vielen Dank für Ihre Anmeldung!'),
     ).toBeVisible()
@@ -125,6 +127,17 @@ test.describe('Aufnahme Form', () => {
     await expect(page.getByText('Vielen Dank für Ihre Anmeldung!')).toBeVisible(
       { timeout: 10000 },
     )
+  })
+
+  test('should redirect the legacy success URL to the confirmation page', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular?success=true')
+
+    await expect(page).toHaveURL('/aufnahme/formular/danke')
+    await expect(
+      page.getByText('Vielen Dank für Ihre Anmeldung!'),
+    ).toBeVisible()
   })
 
   test('should navigate to form from Quereinstieg section', async ({
