@@ -572,7 +572,7 @@ export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
               className="border-muted last:border-b-0"
             >
               {/* Orange marks the open question, so only ever one at a time. */}
-              <AccordionTrigger className="font-condensed text-foreground text-body-md md:text-body-lg data-[state=open]:text-primary gap-4 px-4 text-left font-bold underline-offset-2 sm:px-6">
+              <AccordionTrigger className="font-condensed text-foreground/75 text-body-md md:text-body-lg data-[state=open]:text-primary gap-4 px-4 text-left font-bold underline-offset-2 sm:px-6">
                 <span className="flex items-start gap-2">
                   <Asterisk
                     aria-hidden
