@@ -13,20 +13,20 @@ export default function Magazin() {
             Aktuell
           </h2>
           <article
-            id="magazin_24-25"
+            id="magazin_25-26"
             className="bg-card/50 flex flex-col items-center overflow-hidden rounded md:flex-row"
           >
             <div className="flex-1 p-6">
-              <h2 className="font-condensed text-h3">24/25</h2>
+              <h2 className="font-condensed text-h3">25/26</h2>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
                 <PdfViewer
-                  src="/downloads/magazin_24-25.pdf"
-                  title="Walz Magazin 24/25"
-                  downloadName="Magazin Walz Zeit 24/25.pdf"
+                  src="/downloads/magazin_25-26.pdf"
+                  title="Walz Magazin 25/26"
+                  downloadName="Magazin Walz Zeit 25/26.pdf"
                 />
                 <a
-                  download="Magazin Walz Zeit 24/25.pdf"
-                  href="/downloads/magazin_24-25.pdf"
+                  download="Magazin Walz Zeit 25/26.pdf"
+                  href="/downloads/magazin_25-26.pdf"
                   className="inline-flex items-center gap-1 underline underline-offset-2"
                 >
                   Magazin herunterladen
@@ -36,8 +36,8 @@ export default function Magazin() {
             </div>
             <div>
               <img
-                src="/downloads/magazin_cover_24-25.jpg"
-                alt="Magazin Cover 24/25"
+                src="/downloads/magazin_cover_25-26.jpg"
+                alt="Magazin Cover 25/26"
                 className="mb-4 h-auto w-24"
               />
             </div>
@@ -47,6 +47,17 @@ export default function Magazin() {
           <h2 className="font-condensed text-h2 text-primary font-bold">
             Archiv
           </h2>
+          <article id="magazin_24-25" className="bg-card/50 rounded p-6">
+            <h2 className="font-condensed text-h3">24/25</h2>
+            <a
+              download="Magazin Walz Zeit 24/25.pdf"
+              href="/downloads/magazin_24-25.pdf"
+              className="inline-flex items-center gap-1 underline underline-offset-2"
+            >
+              Magazin herunterladen
+              <DownloadSimple size={18} className="text-primary" />
+            </a>
+          </article>
           <article id="boty_23-24" className="bg-card/50 rounded p-6">
             <h2 className="font-condensed text-h3">23/24</h2>
             <a
