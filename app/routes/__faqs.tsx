@@ -78,7 +78,7 @@ export const faqs: Faq[] = [
     question: 'Wie läuft das Aufnahmeverfahren ab?',
     featured: true,
     teaser:
-      'Anmeldeformular, dann ein persönliches Aufnahmegespräch mit deinen Eltern. Die Zu- oder Absage kommt ab Jänner.',
+      'Am Anfang steht das Anmeldeformular. Ab Mitte November folgt das persönliche Aufnahmegespräch, ab Jänner die Zu- oder Absage.',
     answer: (
       <>
         <p>
@@ -89,9 +89,9 @@ export const faqs: Faq[] = [
           >
             Anmeldeformular
           </Link>
-          . Für den neuen Jahrgang vereinbaren wir ab Mitte November telefonisch
-          mit deinen Eltern einen Termin für das persönliche Aufnahmegespräch.
-          Wir bitten sie, mitzukommen. Ab Jänner folgt die Zu- oder Absage.
+          . Ab Mitte November vereinbaren wir für den neuen Jahrgang telefonisch
+          das persönliche Aufnahmegespräch, zu dem wir auch deine Eltern bitten.
+          Ab Jänner folgt die Zu- oder Absage.
         </p>
         <p>
           Die einzelnen Schritte und den aktuellen Stand findest du unter{' '}
@@ -111,14 +111,13 @@ export const faqs: Faq[] = [
     question: 'Wer kann sich für die Walz bewerben?',
     featured: true,
     teaser:
-      'Die Walz beginnt mit der 9. Schulstufe: Du bewirbst dich, während du die 8. besuchst, und musst sie positiv abschließen. Später ist ein Quereinstieg möglich.',
+      'Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du die 8. besuchst, und schließt sie im selben Jahr positiv ab.',
     answer: (
       <>
         <p>
-          Die Walz beginnt mit der 9. Schulstufe. Bewerben kannst du dich also,
-          während du die 8. Schulstufe besuchst. Voraussetzung ist, dass du sie
-          im selben Jahr positiv abschließt (keine Aufstiegsklausel). Später ist
-          ein{' '}
+          Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du
+          die 8. Schulstufe besuchst, und musst sie im selben Jahr positiv
+          abschließen (keine Aufstiegsklausel). Später ist ein{' '}
           <Link
             to="/haeufige-fragen#ist-ein-quereinstieg-moeglich"
             className="underline underline-offset-2"
@@ -144,20 +143,20 @@ export const faqs: Faq[] = [
     slug: 'ist-ein-quereinstieg-moeglich',
     question: 'Ist ein Quereinstieg möglich?',
     teaser:
-      'Grundsätzlich ja, in den ersten drei Walzjahren. Nach dem Anmeldeformular melden wir uns für einen persönlichen Vorstellungstermin.',
+      'Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11. Schulstufe.',
     answer: (
       <>
         <p>
-          Grundsätzlich ja, in den ersten drei Walzjahren, also in der 9., 10.
-          und 11. Schulstufe. Fülle dafür das{' '}
+          Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11.
+          Schulstufe. Nach dem{' '}
           <Link
             to="/aufnahme/formular"
             className="underline underline-offset-2"
           >
             Anmeldeformular
           </Link>{' '}
-          aus; wir melden uns dann für einen persönlichen Vorstellungstermin, zu
-          dem auch deine Eltern kommen sollen.
+          melden wir uns für einen persönlichen Vorstellungstermin, zu dem auch
+          deine Eltern kommen sollen.
         </p>
         <p>
           Ob gerade Plätze frei sind, steht unter{' '}
@@ -206,19 +205,19 @@ export const faqs: Faq[] = [
     question: 'Gibt es Stipendien?',
     featured: true,
     teaser:
-      'Ja. Private Sponsoren und die Initiative „Ehrensache Walz“ stellen einen gewissen Betrag bereit; im Bedarfsfall kannst du einen Antrag stellen.',
+      'Ja. Dank privater Spenden und der Initiative „Ehrensache Walz“ gibt es ein Kontingent an Teilstipendien.',
     answer: (
       <>
         <p>
-          Ja: Durch private Sponsoren und die Initiative{' '}
+          Ja. Dank privater Spenden und der Initiative{' '}
           <Link
             to="/alumni#ehrensache"
             className="underline underline-offset-2"
           >
             „Ehrensache Walz“
           </Link>{' '}
-          steht ein gewisser Betrag bereit, der auf mehrere Jugendliche
-          aufgeteilt wird. Im Bedarfsfall kannst du einen Antrag samt
+          gibt es ein Kontingent an Teilstipendien, das auf mehrere Jugendliche
+          aufgeteilt wird. Im Bedarfsfall kannst du einen Antrag mit
           Einkommensnachweisen und Begründung stellen. Melde dich dafür bei{' '}
           <a
             href="mailto:office@walz.at"
@@ -257,12 +256,12 @@ export const faqs: Faq[] = [
           >
             Externistenreifeprüfung
           </Link>
-          . Die Walz hat Öffentlichkeitsrecht; unterrichtet wird in Anlehnung an
-          den Lehrplan eines Oberstufenrealgymnasiums mit Bildnerischem
-          Gestalten und Werkerziehung.
+          . Die Walz hat Öffentlichkeitsrecht und orientiert sich am Lehrplan
+          eines Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
+          Werkerziehung.
         </p>
         <p>
-          Welche Prüfungen in welchem Jahr anstehen, steht im{' '}
+          Welche Prüfungen wann anstehen, steht im{' '}
           <Link to="/curriculum" className="underline underline-offset-2">
             Curriculum
           </Link>
@@ -308,16 +307,16 @@ export const faqs: Faq[] = [
     slug: 'wie-viele-jugendliche-sind-in-einem-jahrgang',
     question: 'Wie viele Jugendliche sind in einem Jahrgang?',
     teaser:
-      'Rund 30 Jugendliche, und die Walz hat fünf Jahrgänge dieser Größe. Jeder Jahrgang hat eine:n eigene:n Mentor:in über die gesamte Walzzeit.',
+      'Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe, jeden begleitet ein:e Mentor:in über die gesamte Walzzeit.',
     answer: (
       <p>
-        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeder
-        Jahrgang hat eine:n eigene:n{' '}
+        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeden
+        Jahrgang begleitet ein:e{' '}
         <Link to="/ueber-uns#mentor" className="underline underline-offset-2">
           Mentor:in
-        </Link>
-        , der oder die ihn über alle Walzjahre begleitet, die Stärken der
-        Jugendlichen fördert und sie in ihrer Entwicklung unterstützt.
+        </Link>{' '}
+        über die gesamte Walzzeit, fördert Stärken und unterstützt die
+        Entwicklung der Jugendlichen.
       </p>
     ),
   },
