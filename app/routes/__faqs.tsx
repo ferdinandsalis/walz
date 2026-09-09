@@ -42,7 +42,7 @@ export const faqs: Faq[] = [
     question: 'Wie kann ich die Walz kennenlernen?',
     featured: true,
     teaser:
-      'Beim Tag der offenen Tür, bei den Informationsabenden für Eltern und Jugendliche und bei den öffentlichen Theateraufführungen der Jahrgänge. Alle Termine findest du unter Aktuelles.',
+      'Beim Tag der offenen Tür, bei den Informationsabenden und bei den öffentlichen Theateraufführungen der Jahrgänge. Alle Termine findest du unter Aktuelles. Jährlich erscheint unser Magazin mit Einblicken in unser Schuljahr und was uns pädagogisch bewegt.',
     answer: (
       <>
         <p>
@@ -69,6 +69,13 @@ export const faqs: Faq[] = [
             hier
           </Link>
           .
+        </p>
+        <p>
+          Jährlich erscheint unser{' '}
+          <Link to="/magazin" className="underline underline-offset-2">
+            Magazin
+          </Link>{' '}
+          mit Einblicken in unser Schuljahr und was uns pädagogisch bewegt.
         </p>
       </>
     ),
@@ -176,7 +183,7 @@ export const faqs: Faq[] = [
     question: 'Was kostet die Walz?',
     featured: true,
     teaser:
-      'Die Walz finanziert sich zu einem großen Teil selbst, daher heben wir Schulgeld ein. Im Bedarfsfall kannst du ein Stipendium beantragen.',
+      'Die Walz finanziert sich zu einem großen Teil selbst und hebt daher Schulgeld ein. Dank privater Spenden gibt es ein Kontingent an Teilstipendien.',
     answer: (
       <>
         <p>
@@ -274,7 +281,7 @@ export const faqs: Faq[] = [
     slug: 'wieso-gibt-es-externistenpruefungen',
     question: 'Wieso gibt es Externistenprüfungen?',
     teaser:
-      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen, so wie im Sport Trainer:in und Schiedsrichter:in getrennt sind. Das macht die Beurteilung objektiv und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
+      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen. Wie im Sport: Die Trainer:innen unterstützen, die Schiedsrichter:innen beurteilen unabhängig. Das verändert das Verhältnis zwischen Lehrenden und Lernenden und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
     answer: (
       <>
         <p>
@@ -324,7 +331,7 @@ export const faqs: Faq[] = [
     slug: 'was-heisst-eigentlich-walz',
     question: 'Was heißt eigentlich Walz?',
     teaser:
-      'Walz ist das mittelalterliche Gesellenwandern: einige Jahre in die Fremde reisen, dort arbeiten und dabei die eigenen Kenntnisse und Fähigkeiten erweitern. Dieses Lernen und Arbeiten wollen wir ins 21. Jahrhundert holen.',
+      'Der Begriff Walz hat seinen Ursprung im mittelalterlichen Gesellenwandern. Durch Reisen, Arbeiten und Lernen wurden die eigenen Kenntnisse und Fähigkeiten erweitert. Dieses Prinzip holen wir ins 21. Jahrhundert.',
     answer: (
       <p>
         Walz ist das mittelalterliche Gesellenwandern, die Tradition, einige
@@ -341,7 +348,7 @@ export const faqs: Faq[] = [
     question: 'Warum ist die Walz Smartphone-freie Zone?',
     featured: true,
     teaser:
-      'Seit 2017 ist die Walz eine Smartphone-freie Zone. Das nimmt den Druck von FOMO, verbessert die Aufmerksamkeitsspanne und lässt in der Peer-Group echte Gespräche entstehen.',
+      'Seit 2017 ist die Walz eine Smartphone-freie Zone. Das verbessert die Aufmerksamkeitsspanne, fördert den sozialen Austausch und ermöglicht soziales Lernen, auch in der Peer-Group.',
     answer: (
       <p>
         Jonathan Haidt beschreibt in seinem Buch Generation Angst, dass
