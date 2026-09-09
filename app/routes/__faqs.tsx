@@ -12,6 +12,11 @@ export type Faq = {
   teaser: string
   /** The full answer, as one or more paragraphs. */
   answer: React.ReactNode
+  /**
+   * Shown in the accordion on the landing page. Every question, featured or
+   * not, appears on /haeufige-fragen and in its structured data.
+   */
+  featured?: boolean
 }
 
 /**
@@ -21,13 +26,23 @@ export type Faq = {
  *
  * The order below is the order both pages render in, so it leads with the
  * questions someone weighing up the school actually asks first.
+ *
+ * Two rules for an answer. It must be true: check every claim against what the
+ * school actually says, and never infer one. And it must be ours: link to the
+ * page that owns a detail instead of repeating that page's wording, so figures,
+ * dates and free places stay in one place and this file cannot go stale behind
+ * them. A test enforces the second rule; only reading enforces the first.
+ *
+ * A fact the school has confirmed belongs here even when no page carries it
+ * yet. Silence on the website is not evidence that something is untrue.
  */
 export const faqs: Faq[] = [
   {
     slug: 'wie-kann-ich-die-walz-kennenlernen',
     question: 'Wie kann ich die Walz kennenlernen?',
+    featured: true,
     teaser:
-      'Beim Tag der offenen Tür, bei den Informationsabenden für Eltern und Jugendliche und bei den öffentlichen Theateraufführungen der Jahrgänge. Alle Termine findest du unter Aktuelles.',
+      'Beim Tag der offenen Tür, bei den Informationsabenden und bei den öffentlichen Theateraufführungen der Jahrgänge. Alle Termine findest du unter Aktuelles. Jährlich erscheint unser Magazin mit Einblicken in unser Schuljahr und was uns pädagogisch bewegt.',
     answer: (
       <>
         <p>
@@ -55,33 +70,218 @@ export const faqs: Faq[] = [
           </Link>
           .
         </p>
+        <p>
+          Jährlich erscheint unser{' '}
+          <Link to="/magazin" className="underline underline-offset-2">
+            Magazin
+          </Link>{' '}
+          mit Einblicken in unser Schuljahr und was uns pädagogisch bewegt.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'wie-laeuft-das-aufnahmeverfahren-ab',
+    question: 'Wie läuft das Aufnahmeverfahren ab?',
+    featured: true,
+    teaser:
+      'Am Anfang steht das Anmeldeformular. Ab Mitte November folgt das persönliche Aufnahmegespräch, ab Jänner die Zu- oder Absage.',
+    answer: (
+      <>
+        <p>
+          Am Anfang steht das{' '}
+          <Link
+            to="/aufnahme/formular"
+            className="underline underline-offset-2"
+          >
+            Anmeldeformular
+          </Link>
+          . Ab Mitte November vereinbaren wir für den neuen Jahrgang telefonisch
+          das persönliche Aufnahmegespräch, zu dem wir auch deine Eltern bitten.
+          Ab Jänner folgt die Zu- oder Absage.
+        </p>
+        <p>
+          Die einzelnen Schritte und den aktuellen Stand findest du unter{' '}
+          <Link
+            to="/aufnahme#vorgehensweise"
+            className="underline underline-offset-2"
+          >
+            Aufnahme
+          </Link>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'wer-kann-sich-bewerben',
+    question: 'Wer kann sich für die Walz bewerben?',
+    featured: true,
+    teaser:
+      'Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du die 8. besuchst, und schließt sie im selben Jahr positiv ab.',
+    answer: (
+      <>
+        <p>
+          Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du
+          die 8. Schulstufe besuchst, und musst sie im selben Jahr positiv
+          abschließen (keine Aufstiegsklausel). Später ist ein{' '}
+          <Link
+            to="/haeufige-fragen#ist-ein-quereinstieg-moeglich"
+            className="underline underline-offset-2"
+          >
+            Quereinstieg
+          </Link>{' '}
+          möglich.
+        </p>
+        <p>
+          Den Schulvertrag mit allen Rahmenbedingungen findest du unter{' '}
+          <Link
+            to="/aufnahme#voraussetzungen"
+            className="underline underline-offset-2"
+          >
+            Voraussetzungen
+          </Link>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'ist-ein-quereinstieg-moeglich',
+    question: 'Ist ein Quereinstieg möglich?',
+    teaser:
+      'Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11. Schulstufe.',
+    answer: (
+      <>
+        <p>
+          Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11.
+          Schulstufe. Nach dem{' '}
+          <Link
+            to="/aufnahme/formular"
+            className="underline underline-offset-2"
+          >
+            Anmeldeformular
+          </Link>{' '}
+          melden wir uns für einen persönlichen Vorstellungstermin, zu dem auch
+          deine Eltern kommen sollen.
+        </p>
+        <p>
+          Ob gerade Plätze frei sind, steht unter{' '}
+          <Link
+            to="/aufnahme#voraussetzungen"
+            className="underline underline-offset-2"
+          >
+            Voraussetzungen
+          </Link>
+          .
+        </p>
       </>
     ),
   },
   {
     slug: 'was-kostet-die-walz',
     question: 'Was kostet die Walz?',
+    featured: true,
     teaser:
-      'Die Walz finanziert sich zu einem großen Teil selbst, daher heben wir Schulgeld ein. Für den Bedarfsfall stehen aus privaten Sponsorengeldern Stipendien zur Verfügung.',
+      'Die Walz finanziert sich zu einem großen Teil selbst und hebt daher Schulgeld ein. Dank privater Spenden gibt es ein Kontingent an Teilstipendien.',
     answer: (
-      <p>
-        Die Walz finanziert sich zu einem großen Teil selbst. Daher müssen wir
-        Schulgeld einheben. Eine Aufschlüsselung findest du{' '}
-        <Link to="/aufnahme#kosten" className="underline underline-offset-2">
-          hier
-        </Link>
-        . Durch private Sponsoren steht der Walz ein gewisser Betrag für
-        Stipendien zur Verfügung. Dieser Betrag wird auf mehrere Jugendliche
-        aufgeteilt. Im Bedarfsfall kann ein Antrag (inkl. Einkommensnachweise
-        und Begründung) gestellt werden.
-      </p>
+      <>
+        <p>
+          Die Walz finanziert sich zu einem großen Teil selbst. Daher müssen wir
+          Schulgeld einheben. Eine Aufschlüsselung findest du{' '}
+          <Link to="/aufnahme#kosten" className="underline underline-offset-2">
+            hier
+          </Link>
+          .
+        </p>
+        <p>
+          Im Bedarfsfall stehen{' '}
+          <Link
+            to="/haeufige-fragen#gibt-es-stipendien"
+            className="underline underline-offset-2"
+          >
+            Stipendien
+          </Link>{' '}
+          zur Verfügung.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'gibt-es-stipendien',
+    question: 'Gibt es Stipendien?',
+    featured: true,
+    teaser:
+      'Ja. Dank privater Spenden und der Initiative „Ehrensache Walz“ gibt es ein Kontingent an Teilstipendien.',
+    answer: (
+      <>
+        <p>
+          Ja. Dank privater Spenden und der Initiative{' '}
+          <Link
+            to="/alumni#ehrensache"
+            className="underline underline-offset-2"
+          >
+            „Ehrensache Walz“
+          </Link>{' '}
+          gibt es ein Kontingent an Teilstipendien, das auf mehrere Jugendliche
+          aufgeteilt wird. Im Bedarfsfall kannst du einen Antrag mit
+          Einkommensnachweisen und Begründung stellen. Melde dich dafür bei{' '}
+          <a
+            href="mailto:office@walz.at"
+            className="underline underline-offset-2"
+          >
+            office@walz.at
+          </a>
+          .
+        </p>
+        <p>
+          Mehr dazu unter{' '}
+          <Link
+            to="/aufnahme#stipendien"
+            className="underline underline-offset-2"
+          >
+            Stipendien
+          </Link>
+          .
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'mit-welchem-abschluss-endet-die-walz',
+    question: 'Mit welchem Abschluss endet die Walz?',
+    featured: true,
+    teaser:
+      'Mit der Matura, abgelegt als Externistenreifeprüfung. Die Walz hat Öffentlichkeitsrecht und begleitet Jugendliche von der 9. bis zur 13. Schulstufe.',
+    answer: (
+      <>
+        <p>
+          Mit der Matura, abgelegt als{' '}
+          <Link
+            to="/haeufige-fragen#wieso-gibt-es-externistenpruefungen"
+            className="underline underline-offset-2"
+          >
+            Externistenreifeprüfung
+          </Link>
+          . Die Walz hat Öffentlichkeitsrecht und orientiert sich am Lehrplan
+          eines Oberstufenrealgymnasiums mit Bildnerischem Gestalten und
+          Werkerziehung.
+        </p>
+        <p>
+          Welche Prüfungen wann anstehen, steht im{' '}
+          <Link to="/curriculum" className="underline underline-offset-2">
+            Curriculum
+          </Link>
+          .
+        </p>
+      </>
     ),
   },
   {
     slug: 'wieso-gibt-es-externistenpruefungen',
     question: 'Wieso gibt es Externistenprüfungen?',
     teaser:
-      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen – wie im Sport, wo Trainer:in und Schiedsrichter:in getrennt sind. Das macht die Beurteilung objektiv und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
+      'Bei uns sind Vorbereitende und Prüfende nicht dieselben Personen. Wie im Sport: Die Trainer:innen unterstützen, die Schiedsrichter:innen beurteilen unabhängig. Das verändert das Verhältnis zwischen Lehrenden und Lernenden und bereitet zugleich auf eine mögliche Uni-Karriere vor.',
     answer: (
       <>
         <p>
@@ -111,10 +311,27 @@ export const faqs: Faq[] = [
     ),
   },
   {
+    slug: 'wie-viele-jugendliche-sind-in-einem-jahrgang',
+    question: 'Wie viele Jugendliche sind in einem Jahrgang?',
+    teaser:
+      'Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe, jeden begleitet ein:e Mentor:in über die gesamte Walzzeit.',
+    answer: (
+      <p>
+        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeden
+        Jahrgang begleitet ein:e{' '}
+        <Link to="/ueber-uns#mentor" className="underline underline-offset-2">
+          Mentor:in
+        </Link>{' '}
+        über die gesamte Walzzeit, fördert Stärken und unterstützt die
+        Entwicklung der Jugendlichen.
+      </p>
+    ),
+  },
+  {
     slug: 'was-heisst-eigentlich-walz',
     question: 'Was heißt eigentlich Walz?',
     teaser:
-      'Walz ist das mittelalterliche Gesellenwandern: einige Jahre in die Fremde reisen, dort arbeiten und dabei die eigenen Kenntnisse und Fähigkeiten erweitern. Dieses Lernen und Arbeiten wollen wir ins 21. Jahrhundert holen.',
+      'Der Begriff Walz hat seinen Ursprung im mittelalterlichen Gesellenwandern. Durch Reisen, Arbeiten und Lernen wurden die eigenen Kenntnisse und Fähigkeiten erweitert. Dieses Prinzip holen wir ins 21. Jahrhundert.',
     answer: (
       <p>
         Walz ist das mittelalterliche Gesellenwandern, die Tradition, einige
@@ -129,8 +346,9 @@ export const faqs: Faq[] = [
   {
     slug: 'warum-ist-die-walz-smartphone-freie-zone',
     question: 'Warum ist die Walz Smartphone-freie Zone?',
+    featured: true,
     teaser:
-      'Seit 2017 ist die Walz eine Smartphone-freie Zone. Das nimmt den Druck von FOMO, verbessert die Aufmerksamkeitsspanne und lässt in der Peer-Group echte Gespräche entstehen.',
+      'Seit 2017 ist die Walz eine Smartphone-freie Zone. Das verbessert die Aufmerksamkeitsspanne, fördert den sozialen Austausch und ermöglicht soziales Lernen, auch in der Peer-Group.',
     answer: (
       <p>
         Jonathan Haidt beschreibt in seinem Buch Generation Angst, dass
@@ -159,6 +377,9 @@ export const faqs: Faq[] = [
     ),
   },
 ]
+
+/** The questions the landing page shows, in the same order as the full list. */
+export const featuredFaqs = faqs.filter(faq => faq.featured)
 
 /** Path of the full answer, for deep links from anywhere else on the site. */
 export function faqPath(faq: Faq) {

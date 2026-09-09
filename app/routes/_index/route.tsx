@@ -32,7 +32,7 @@ import { alphabetMap } from '#app/sanity/schema/year.js'
 import { type HomeQueryResult } from '#app/sanity/types.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { cn } from '#app/utils/misc.js'
-import { faqPath, faqs } from '../__faqs.tsx'
+import { faqPath, faqs, featuredFaqs } from '../__faqs.tsx'
 import { pillars } from '../ueber-uns+/philosophie+/_layout.tsx'
 import { homeQuery } from './query.ts'
 
@@ -557,9 +557,10 @@ type FaqSectionProps = {
 }
 
 /**
- * Teasers for the frequently asked questions, with the first answer open so
- * the section shows an answer rather than just a list of links. Full answers
- * live on /haeufige-fragen.
+ * Teasers for the questions someone weighing up the school asks first, with
+ * the first answer open so the section shows an answer rather than a list of
+ * links. Full answers, and the questions not featured here, live on
+ * /haeufige-fragen.
  */
 export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
   return (
@@ -567,107 +568,116 @@ export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
       <header className="py-4 md:py-8">
         <SectionHeading id="faq">Häufige Fragen</SectionHeading>
       </header>
-      <Accordion
-        type="single"
-        collapsible
-        defaultValue={faqs[0]?.slug}
-        onValueChange={value => {
-          // Empty when an item is collapsed — only opens are interesting.
-          if (value) trackEvent('FAQ Open', { faq: value })
-        }}
-        className="bg-card -mx-4 overflow-hidden shadow-sm sm:mx-0 sm:rounded-md"
-      >
-        {faqs.map(faq => (
-          <AccordionItem
-            key={faq.slug}
-            value={faq.slug}
-            className="border-primary/10 last:border-b-0"
-          >
-            <AccordionTrigger className="font-condensed text-primary text-body-md md:text-body-lg gap-4 px-4 text-left font-bold underline-offset-2 sm:px-6">
-              <span className="flex items-start gap-2">
-                <Asterisk
-                  aria-hidden
-                  className="text-secondary relative top-1 flex-none md:top-[6px]"
-                />
-                {faq.question}
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pl-10 text-base sm:px-6 sm:pl-12 md:text-lg">
-              <p className="max-w-prose">{faq.teaser}</p>
-              <Link
-                to={faqPath(faq)}
-                onClick={() => trackEvent('FAQ Read More', { faq: faq.slug })}
-                className="group/more font-condensed text-muted-foreground mt-3 flex items-center gap-1 text-lg"
-              >
-                <span className="underline-offset-2 group-hover/more:underline">
-                  Ganze Antwort lesen
+      <div className="bg-card -mx-4 overflow-hidden shadow-sm sm:mx-0 sm:rounded-md">
+        <Accordion
+          type="single"
+          collapsible
+          defaultValue={featuredFaqs[0]?.slug}
+          onValueChange={value => {
+            // Empty when an item is collapsed — only opens are interesting.
+            if (value) trackEvent('FAQ Open', { faq: value })
+          }}
+        >
+          {featuredFaqs.map(faq => (
+            <AccordionItem
+              key={faq.slug}
+              value={faq.slug}
+              className="border-muted last:border-b-0"
+            >
+              {/* Orange marks the open question, so only ever one at a time. */}
+              <AccordionTrigger className="font-condensed text-foreground/75 text-body-md md:text-body-lg data-[state=open]:text-primary gap-4 px-4 text-left font-bold underline-offset-2 sm:px-6">
+                <span className="flex items-start gap-2">
+                  <Asterisk
+                    aria-hidden
+                    className="text-secondary relative top-1 flex-none md:top-[6px]"
+                  />
+                  {faq.question}
                 </span>
-                <ArrowRight
-                  size={16}
-                  className="text-primary transition-transform group-hover/more:translate-x-1"
-                />
-              </Link>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-3">
-          <p className="text-body-md max-w-prose text-pretty">
-            Frage nicht dabei? Schreib uns – wir antworten dir persönlich.
-            {nextOrientation ? (
-              <>
-                {' '}
-                Oder lerne uns beim{' '}
-                <strong className="font-bold">
-                  {nextOrientation.title}
-                </strong>{' '}
-                am{' '}
-                <time dateTime={nextOrientation.start.date.toISOString()}>
-                  {nextOrientation.start.date.toLocaleDateString('de-AT', {
-                    day: 'numeric',
-                    month: 'long',
-                  })}
-                </time>
-                {nextOrientation.start.time
-                  ? ` um ${nextOrientation.start.time} Uhr`
-                  : ''}{' '}
-                kennen.
-              </>
-            ) : null}
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <Button asChild variant="outline">
-              <Link to="/kontakt">Frage stellen</Link>
-            </Button>
-            {nextOrientation ? (
-              <Link
-                to="/die-walz-kennenlernen"
-                className="group/termine font-condensed text-primary flex items-center gap-1"
-              >
-                <span className="underline-offset-2 group-hover/termine:underline">
-                  Termine ansehen
-                </span>
-                <ArrowRight
-                  size={16}
-                  className="text-primary transition-transform group-hover/termine:translate-x-1"
-                />
-              </Link>
-            ) : null}
-          </div>
-        </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pl-10 text-base sm:px-6 sm:pl-12 md:text-lg">
+                <p className="max-w-prose">{faq.teaser}</p>
+                <Link
+                  to={faqPath(faq)}
+                  onClick={() => trackEvent('FAQ Read More', { faq: faq.slug })}
+                  className="group/more font-condensed text-muted-foreground mt-3 flex items-center gap-1 text-lg"
+                >
+                  <span className="underline-offset-2 group-hover/more:underline">
+                    Ganze Antwort lesen
+                  </span>
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform group-hover/more:translate-x-1"
+                  />
+                </Link>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+        {/* Navigating the list belongs with the list, not with the two actions below. */}
         <Link
           to="/haeufige-fragen"
-          className="group/faqs font-condensed text-primary flex items-center gap-1"
+          className="group/faqs border-muted font-condensed text-muted-foreground flex items-center gap-1 border-t px-4 py-4 sm:px-6"
         >
           <span className="underline-offset-2 group-hover/faqs:underline">
-            Alle Fragen
+            Alle {faqs.length} Fragen ansehen
           </span>
           <ArrowRight
             size={16}
-            className="text-primary transition-transform group-hover/faqs:translate-x-1"
+            className="transition-transform group-hover/faqs:translate-x-1"
           />
         </Link>
+      </div>
+      {/*
+        Two doors, kept apart: whoever is still missing an answer goes left,
+        whoever would rather come and look goes right. One action each.
+      */}
+      <div className="grid gap-6 sm:grid-cols-2 sm:gap-10">
+        <div className="space-y-1">
+          <p className="text-muted-foreground">Noch offene Fragen?</p>
+          <Link
+            to="/kontakt"
+            className="group/kontakt font-condensed text-foreground text-body-md flex items-center gap-1"
+          >
+            <span className="underline-offset-2 group-hover/kontakt:underline">
+              Schreib uns
+            </span>
+            <ArrowRight
+              size={16}
+              className="text-muted-foreground transition-transform group-hover/kontakt:translate-x-1"
+            />
+          </Link>
+        </div>
+        {nextOrientation ? (
+          <div className="border-muted space-y-1 border-t pt-6 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-10">
+            <p className="text-muted-foreground">Lieber persönlich?</p>
+            <p className="text-body-md">
+              <Link
+                to="/die-walz-kennenlernen"
+                className="group/termine font-condensed text-secondary inline-flex items-center gap-1"
+              >
+                <span className="underline-offset-2 group-hover/termine:underline">
+                  {nextOrientation.title} am{' '}
+                  <time dateTime={nextOrientation.start.date.toISOString()}>
+                    {nextOrientation.start.date.toLocaleDateString('de-AT', {
+                      day: 'numeric',
+                      month: 'long',
+                    })}
+                  </time>
+                </span>
+                <ArrowRight
+                  size={16}
+                  className="transition-transform group-hover/termine:translate-x-1"
+                />
+              </Link>
+              {nextOrientation.start.time ? (
+                <span className="text-muted-foreground font-condensed">
+                  {' '}
+                  · {nextOrientation.start.time} Uhr
+                </span>
+              ) : null}
+            </p>
+          </div>
+        ) : null}
       </div>
     </section>
   )
