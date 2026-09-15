@@ -386,6 +386,7 @@ export const faqs: Faq[] = [
   {
     slug: 'wie-ist-das-mit-den-reisen',
     question: 'Wie ist das mit den Reisen?',
+    featured: true,
     teaser:
       'Reisen sind ein zentraler Bestandteil des pädagogischen Konzepts der Walz. Während der Walzzeit finden mehr als 15 Projekte außer Haus, im Inland und im Ausland mit unterschiedlichen Schwerpunkten statt.',
     answer: (

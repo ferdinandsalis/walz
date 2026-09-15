@@ -45,8 +45,10 @@ test('featuredFaqs is a subset of faqs, in the same order', () => {
   expect(featuredFaqs).toEqual(faqs.filter(faq => faq.featured))
   expect(featuredFaqs.length).toBeLessThan(faqs.length)
   // A landing page that shows nearly everything defeats the point of the flag.
+  // The ceiling is a nudge, not a law: raise it deliberately, as when Reisen
+  // was added without dropping anything, rather than to make a red test green.
   expect(featuredFaqs.length).toBeGreaterThanOrEqual(4)
-  expect(featuredFaqs.length).toBeLessThanOrEqual(7)
+  expect(featuredFaqs.length).toBeLessThanOrEqual(8)
 })
 
 test('faqAnswerText flattens the answer to plain text', () => {
