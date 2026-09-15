@@ -49,7 +49,7 @@ export default function UeberUns() {
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-xl">
           <p>
-            Die Walz bietet fünf Jahrgängen von jeweils ca. 30 Jugendlichen
+            Die Walz bietet fünf Jahrgängen von jeweils ca. 25 Jugendlichen
             verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben
             in einer sich verändernden Welt vorbereiten sollen.
           </p>
