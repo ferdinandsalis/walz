@@ -96,9 +96,10 @@ export const faqs: Faq[] = [
           >
             Anmeldeformular
           </Link>
-          . Ab Mitte November vereinbaren wir für den neuen Jahrgang telefonisch
-          das persönliche Aufnahmegespräch, zu dem wir auch deine Eltern bitten.
-          Ab Jänner folgt die Zu- oder Absage.
+          . Ab Mitte November (nach dem Tag der offenen Tür) vereinbaren wir mit
+          den interessierten Jugendlichen für den neuen Jahrgang telefonisch das
+          persönliche Aufnahmegespräch, zu dem wir auch die Eltern bitten. Ab
+          Jänner folgt die Zu- oder Absage.
         </p>
         <p>
           Die einzelnen Schritte und den aktuellen Stand findest du unter{' '}
@@ -114,17 +115,18 @@ export const faqs: Faq[] = [
     ),
   },
   {
-    slug: 'wer-kann-sich-bewerben',
-    question: 'Wer kann sich für die Walz bewerben?',
+    slug: 'wann-kann-ich-in-die-walz-gehen',
+    question: 'Wann kann ich in die Walz gehen?',
     featured: true,
     teaser:
-      'Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du die 8. besuchst, und schließt sie im selben Jahr positiv ab.',
+      'Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du die 8. besuchst, und musst sie im selben Jahr positiv abschließen.',
     answer: (
       <>
         <p>
-          Die Walz beginnt mit der 9. Schulstufe. Du bewirbst dich, während du
-          die 8. Schulstufe besuchst, und musst sie im selben Jahr positiv
-          abschließen (keine Aufstiegsklausel). Später ist ein{' '}
+          Die Walz beginnt mit der 9. Schulstufe (5. Gymnasium). Du bewirbst
+          dich, während du die 8. Schulstufe besuchst, und musst sie im selben
+          Jahr positiv abschließen (keine Aufstiegsklausel). Später ist, sofern
+          Platz im Jahrgang ist, ein{' '}
           <Link
             to="/haeufige-fragen#ist-ein-quereinstieg-moeglich"
             className="underline underline-offset-2"
@@ -150,20 +152,21 @@ export const faqs: Faq[] = [
     slug: 'ist-ein-quereinstieg-moeglich',
     question: 'Ist ein Quereinstieg möglich?',
     teaser:
-      'Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11. Schulstufe.',
+      'Ja, du kannst in den ersten drei Walzjahren (9., 10. und 11. Schulstufe) an die Walz wechseln.',
     answer: (
       <>
         <p>
-          Grundsätzlich ja, in den ersten drei Walzjahren: 9., 10. und 11.
-          Schulstufe. Nach dem{' '}
+          In den ersten drei Walzjahren, also der 9., 10. und 11. Schulstufe,
+          kannst du an die Walz wechseln. Nachdem das{' '}
           <Link
             to="/aufnahme/formular"
             className="underline underline-offset-2"
           >
             Anmeldeformular
           </Link>{' '}
-          melden wir uns für einen persönlichen Vorstellungstermin, zu dem auch
-          deine Eltern kommen sollen.
+          ausgefüllt ist, melden wir uns für ein persönliches Gespräch, um die
+          individuelle Situation abzuklären, und für einen Aufnahmetermin, zu
+          dem auch deine Eltern kommen sollen.
         </p>
         <p>
           Ob gerade Plätze frei sind, steht unter{' '}
@@ -224,8 +227,9 @@ export const faqs: Faq[] = [
             „Ehrensache Walz“
           </Link>{' '}
           gibt es ein Kontingent an Teilstipendien, das auf mehrere Jugendliche
-          aufgeteilt wird. Im Bedarfsfall kannst du einen Antrag mit
-          Einkommensnachweisen und Begründung stellen. Melde dich dafür bei{' '}
+          aufgeteilt wird. Im Bedarfsfall kann ein Antrag mit
+          Einkommensnachweisen und Begründung gestellt werden. Melde dich dafür
+          bei{' '}
           <a
             href="mailto:office@walz.at"
             className="underline underline-offset-2"
@@ -274,6 +278,12 @@ export const faqs: Faq[] = [
           </Link>
           .
         </p>
+        <p>
+          Zusätzlich erhalten unsere Jugendlichen jedes Jahr einen
+          Jahresbericht, in dem alle Praktika, Projekte und Reisen angeführt
+          sind. Dies hat schon vielen Jugendlichen die Tür zu Universitäten mit
+          selektiven Aufnahmeverfahren geöffnet.
+        </p>
       </>
     ),
   },
@@ -311,20 +321,104 @@ export const faqs: Faq[] = [
     ),
   },
   {
+    slug: 'wann-findet-der-unterricht-statt',
+    question: 'Wann findet der Unterricht statt?',
+    teaser:
+      'In der Walz findet der Unterricht zwischen 08:30 und 16:30 in vier 90-Minuten-Einheiten statt.',
+    answer: (
+      <>
+        <p>
+          In der Walz findet der Unterricht zwischen 08:30 und 16:30 in vier
+          90-Minuten-Einheiten statt. Zwischen den Einheiten gibt es ausgedehnte
+          Pausen (mindestens 30 Minuten). Am Mittwoch ist bereits nach der 3.
+          Einheit Schluss, da endet die Walz um 14:30.
+        </p>
+        <p>
+          In der Walz wirst du voll verpflegt. In der ersten Pause, zwischen
+          10:00 und 10:30, gibt es Frühstück, in der Mittagspause zwischen 12:00
+          und 13:00 Mittagessen und am Nachmittag, zwischen 14:30 und 15:00,
+          eine kleine Jause.
+        </p>
+      </>
+    ),
+  },
+  {
+    slug: 'gibt-es-hausaufgaben',
+    question: 'Gibt es in der Walz Hausaufgaben?',
+    teaser:
+      'Nein. Jede Einheit dauert 90 Minuten, in den Einheiten wird nicht nur Wissen vermittelt, sondern es wird auch das Gelernte geübt und vertieft.',
+    answer: (
+      <p>
+        Nein. Jede Einheit dauert 90 Minuten, in den Einheiten wird nicht nur
+        Wissen vermittelt, sondern es wird auch das Gelernte geübt und vertieft.
+        In der Intensivphase vor den Prüfungen ist es jedoch nötig, auch
+        außerhalb der Walzzeiten zu lernen und zu üben. Zusätzlich kannst du in
+        den ausgedehnten Pausen deine Fragen an die jeweiligen
+        Projektleiter:innen richten und dich auch abprüfen lassen, damit du gut
+        gerüstet zu den{' '}
+        <Link
+          to="/haeufige-fragen#wieso-gibt-es-externistenpruefungen"
+          className="underline underline-offset-2"
+        >
+          Externistenprüfungen
+        </Link>{' '}
+        antreten kannst.
+      </p>
+    ),
+  },
+  {
     slug: 'wie-viele-jugendliche-sind-in-einem-jahrgang',
     question: 'Wie viele Jugendliche sind in einem Jahrgang?',
     teaser:
-      'Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe, jeden begleitet ein:e Mentor:in über die gesamte Walzzeit.',
+      'Rund 25 Jugendliche. Die Walz hat fünf Jahrgänge, jeden begleitet ein:e Mentor:in über die gesamte Walzzeit.',
     answer: (
       <p>
-        Rund 30 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeden
-        Jahrgang begleitet ein:e{' '}
+        Rund 25 Jugendliche. Die Walz hat fünf Jahrgänge dieser Größe. Jeder
+        Jahrgang hat über die gesamte Walzzeit ein:e{' '}
         <Link to="/ueber-uns#mentor" className="underline underline-offset-2">
           Mentor:in
-        </Link>{' '}
-        über die gesamte Walzzeit, fördert Stärken und unterstützt die
+        </Link>
+        , diese:r begleitet auf Reisen, fördert Stärken und unterstützt die
         Entwicklung der Jugendlichen.
       </p>
+    ),
+  },
+  {
+    slug: 'wie-ist-das-mit-den-reisen',
+    question: 'Wie ist das mit den Reisen?',
+    teaser:
+      'Reisen sind ein zentraler Bestandteil des pädagogischen Konzepts der Walz. Während der Walzzeit finden mehr als 15 Projekte außer Haus, im Inland und im Ausland mit unterschiedlichen Schwerpunkten statt.',
+    answer: (
+      <>
+        <p>
+          Während der Walzzeit finden mehr als 15 Projekte außer Haus, im Inland
+          und im Ausland statt. Reisen sind ein zentraler Bestandteil des
+          pädagogischen Konzepts der Walz. Wer in anderen Lebenswirklichkeiten
+          und Ländern nicht nur zu Besuch ist, sondern mitarbeitet und mithilft,
+          erlebt die Welt anders. In sozialen und ökologischen Praktika bringen
+          sich die Jugendlichen ein und geben etwas zurück.
+        </p>
+        <p>
+          Auch beim Spracherwerb heißt es: „learning by doing“. Bei den
+          Sprachprojekten im englischsprachigen Raum und im Land der zweiten
+          Fremdsprache (Spanisch oder Französisch) wird schnell klar, wofür man
+          das Gelernte braucht und wofür man eigentlich lernt! Eine Sprache aus
+          dem Lehrbuch zu lernen ist das eine, das andere ist, plötzlich
+          unvorhergesehene Fragen stellen zu müssen oder selbst welche gestellt
+          zu bekommen.
+        </p>
+        <p>
+          Für einen Überblick schau in unser{' '}
+          <Link to="/curriculum" className="underline underline-offset-2">
+            Curriculum
+          </Link>
+          , die genauen Daten sind immer beim jeweiligen{' '}
+          <Link to="/jahrgaenge" className="underline underline-offset-2">
+            Jahrgang
+          </Link>{' '}
+          im Projektplan zu finden.
+        </p>
+      </>
     ),
   },
   {
