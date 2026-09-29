@@ -1,5 +1,4 @@
-import { Link, useLocation } from 'react-router'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 
 export async function loader() {
   throw new Response('Not found', { status: 404 })
@@ -12,24 +11,5 @@ export default function NotFound() {
 }
 
 export function ErrorBoundary() {
-  const location = useLocation()
-  return (
-    <GeneralErrorBoundary
-      statusHandlers={{
-        404: () => (
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <h1>Leider konnten wir diese Seite nicht finden:</h1>
-              <pre className="bg-card p-2 break-all whitespace-pre-wrap">
-                {location.pathname}
-              </pre>
-            </div>
-            <Link to="/" className="underline">
-              Zurück zur Startseite
-            </Link>
-          </div>
-        ),
-      }}
-    />
-  )
+  return <NotFoundErrorBoundary />
 }

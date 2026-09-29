@@ -12,6 +12,7 @@ import {
   type MetaArgs,
   useLoaderData,
 } from 'react-router'
+import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type Photo, type Year } from '#app/sanity/schema/year.tsx'
@@ -21,11 +22,18 @@ import { calculateCurrentYear } from '#app/utils/years.js'
 import { yearQuery, YearSchema } from './$year.query.tsx'
 
 export function meta({ data }: MetaArgs<typeof loader>) {
-  return [{ title: `Jahrgang ${data?.data.letter} | Walz` }]
+  return [
+    { title: data ? `Jahrgang ${data.data.letter} | Walz` : 'Jahrgang | Walz' },
+  ]
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
+  // Year URLs are "<letter>-<year>", e.g. "a-2019"; the query needs both parts.
   const [letter, startedAt] = params?.year?.split('-') ?? []
+  if (!letter || !startedAt) {
+    throw new Response('Jahrgang nicht gefunden', { status: 404 })
+  }
+
   const queryResult = await loadQuery(
     yearQuery,
     { letter, startedAt },
@@ -33,6 +41,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
       perspective: 'published',
     },
   )
+
+  if (!queryResult.data) {
+    throw new Response('Jahrgang nicht gefunden', { status: 404 })
+  }
 
   return {
     query: yearQuery,
@@ -110,6 +122,10 @@ export default function Year() {
       )}
     </article>
   )
+}
+
+export function ErrorBoundary() {
+  return <NotFoundErrorBoundary />
 }
 
 function YearPhotos({

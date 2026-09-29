@@ -3,6 +3,8 @@ import { type JSX } from 'react'
 import {
   type ErrorResponse,
   isRouteErrorResponse,
+  Link,
+  useLocation,
   useParams,
   useRouteError,
 } from 'react-router'
@@ -46,5 +48,33 @@ export function GeneralErrorBoundary({
           })
         : unexpectedErrorHandler(error)}
     </>
+  )
+}
+
+/**
+ * Error boundary for routes whose loader throws a 404 when the requested
+ * content does not exist. Exported as a route's `ErrorBoundary`, it renders
+ * inside the site layout instead of falling through to the bare root boundary.
+ */
+export function NotFoundErrorBoundary() {
+  const location = useLocation()
+  return (
+    <GeneralErrorBoundary
+      statusHandlers={{
+        404: () => (
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3">
+              <h1>Leider konnten wir diese Seite nicht finden:</h1>
+              <pre className="bg-card p-2 break-all whitespace-pre-wrap">
+                {location.pathname}
+              </pre>
+            </div>
+            <Link to="/" className="underline">
+              Zurück zur Startseite
+            </Link>
+          </div>
+        ),
+      }}
+    />
   )
 }
