@@ -29,7 +29,7 @@ export const aktuellesQuery = defineQuery(`{
     start,
     end,
     type,
-    attachments {
+    attachments[] {
       _type,
       asset->{
         url
