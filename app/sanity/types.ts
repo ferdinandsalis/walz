@@ -12,38 +12,85 @@
  * ---------------------------------------------------------------------------------
  */
 
-// Source: schema.json
-export type SanityImagePaletteSwatch = {
-  _type: 'sanity.imagePaletteSwatch'
-  background?: string
-  foreground?: string
-  population?: number
-  title?: string
+export declare const internalGroqTypeReferenceTo: unique symbol
+
+// Source: app/sanity/schema.json
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
-export type SanityImagePalette = {
-  _type: 'sanity.imagePalette'
-  darkMuted?: SanityImagePaletteSwatch
-  lightVibrant?: SanityImagePaletteSwatch
-  darkVibrant?: SanityImagePaletteSwatch
-  vibrant?: SanityImagePaletteSwatch
-  dominant?: SanityImagePaletteSwatch
-  lightMuted?: SanityImagePaletteSwatch
-  muted?: SanityImagePaletteSwatch
+export type Project = {
+  _id: string
+  _type: 'project'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  description?: string
+  photos?: Array<{
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    caption?: string
+    _type: 'photo'
+    _key: string
+  }>
 }
 
-export type SanityImageDimensions = {
-  _type: 'sanity.imageDimensions'
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x?: number
+  y?: number
   height?: number
   width?: number
-  aspectRatio?: number
 }
 
-export type Geopoint = {
-  _type: 'geopoint'
-  lat?: number
-  lng?: number
-  alt?: number
+export type ProjectReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'project'
+}
+
+export type Curriculum = {
+  _id: string
+  _type: 'curriculum'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+  description?: string
+  years?: Array<{
+    yearNumber?: number
+    title?: string
+    description?: string
+    projects?: Array<
+      {
+        _key: string
+      } & ProjectReference
+    >
+    externalExams?: Array<string>
+    _key: string
+  }>
+}
+
+export type PostReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'post'
 }
 
 export type Post = {
@@ -54,12 +101,8 @@ export type Post = {
   _rev: string
   title?: string
   cover?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     caption?: string
@@ -71,12 +114,8 @@ export type Post = {
   previewText?: string
   body?: Array<
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -110,12 +149,7 @@ export type Post = {
               _key: string
             }
           | {
-              reference?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'post'
-              }
+              reference?: PostReference
               _type: 'internalLink'
               _key: string
             }
@@ -128,34 +162,198 @@ export type Post = {
   publishedAt?: string
 }
 
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
+export type CostsReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'costs'
+}
+
+export type SchoolYear = {
+  _id: string
+  _type: 'schoolYear'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  start?: string
+  end?: string
+  costs?: CostsReference
+}
+
+export type Costs = {
+  _id: string
+  _type: 'costs'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  definedAt?: string
+  list?: Array<{
+    title?: string
+    quantity?: number
+    cost?: number
+    interval?: 'MONTHLY' | 'QUARTERLY' | 'ONCE'
+    description?: string
+    _type: 'cost'
+    _key: string
+  }>
+}
+
+export type YearReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'year'
+}
+
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
   _createdAt: string
   _updatedAt: string
   _rev: string
+  orderRank?: string
   name?: string
-  year?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'year'
-  }
+  year?: YearReference
   quote?: string
   achievement?: string
   photo?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     attribution?: string
     alt?: string
     _type: 'image'
   }
+}
+
+export type HomeShoutout = {
+  _id: string
+  _type: 'home-shoutout'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  emoji?: string
+  title?: string
+  subtitle?: string
+  buttonText?: string
+  buttonLink?: string
+}
+
+export type HomeHero = {
+  _id: string
+  _type: 'home-hero'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    caption?: string
+    alt?: string
+    attribution?: string
+    _type: 'image'
+  }
+}
+
+export type SanityFileAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+}
+
+export type Event = {
+  _id: string
+  _type: 'event'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  description?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'normal'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  >
+  cover?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  location?: string
+  type?:
+    | 'general'
+    | 'talk'
+    | 'holiday'
+    | 'theater'
+    | 'exam'
+    | 'project'
+    | 'orientation'
+  year?: YearReference
+  attachments?: Array<{
+    asset?: SanityFileAssetReference
+    media?: unknown
+    _type: 'file'
+    _key: string
+  }>
+  timeZone?: string
+  start?: {
+    date?: string
+    time?: string
+  }
+  end?: {
+    date?: string
+    time?: string
+  }
+}
+
+export type PersonReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'person'
 }
 
 export type Year = {
@@ -165,12 +363,8 @@ export type Year = {
   _updatedAt: string
   _rev: string
   photos?: Array<{
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     takenAt?: string
@@ -181,12 +375,8 @@ export type Year = {
     _type: 'photo'
     _key: string
   }>
-  mentor?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'person'
-  }
+  featuredPhoto?: string
+  mentor?: PersonReference
   letter?:
     | 'alpha'
     | 'beta'
@@ -204,7 +394,7 @@ export type Year = {
     | 'xi'
     | 'omikron'
     | 'pi'
-    | 'hho'
+    | 'rho'
     | 'sigma'
     | 'tau'
     | 'ypsilon'
@@ -215,14 +405,76 @@ export type Year = {
   startedAt?: string
   graduatedAt?: string
   plan?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
-    }
+    asset?: SanityFileAssetReference
+    media?: unknown
     _type: 'file'
   }
+}
+
+export type Person = {
+  _id: string
+  _type: 'person'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  portrait?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    caption?: string
+    alt?: string
+    attribution?: string
+    _type: 'image'
+  }
+  slug?: Slug
+  priority?: number
+  inactive?: boolean
+  givenNames?: string
+  familyName?: string
+  description?: string
+  roles?: Array<string>
+  email?: string
+  phone?: string
+  website?: string
+}
+
+export type SanityImagePaletteSwatch = {
+  _type: 'sanity.imagePaletteSwatch'
+  background?: string
+  foreground?: string
+  population?: number
+  title?: string
+}
+
+export type SanityImagePalette = {
+  _type: 'sanity.imagePalette'
+  darkMuted?: SanityImagePaletteSwatch
+  lightVibrant?: SanityImagePaletteSwatch
+  darkVibrant?: SanityImagePaletteSwatch
+  vibrant?: SanityImagePaletteSwatch
+  dominant?: SanityImagePaletteSwatch
+  lightMuted?: SanityImagePaletteSwatch
+  muted?: SanityImagePaletteSwatch
+}
+
+export type SanityImageDimensions = {
+  _type: 'sanity.imageDimensions'
+  height?: number
+  width?: number
+  aspectRatio?: number
+}
+
+export type SanityImageMetadata = {
+  _type: 'sanity.imageMetadata'
+  location?: Geopoint
+  dimensions?: SanityImageDimensions
+  palette?: SanityImagePalette
+  lqip?: string
+  blurHash?: string
+  thumbHash?: string
+  hasAlpha?: boolean
+  isOpaque?: boolean
 }
 
 export type SanityFileAsset = {
@@ -247,73 +499,11 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData
 }
 
-export type Person = {
-  _id: string
-  _type: 'person'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  portrait?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    caption?: string
-    alt?: string
-    attribution?: string
-    _type: 'image'
-  }
-  priority?: number
-  inactive?: boolean
-  givenNames?: string
-  familyName?: string
-  description?: string
-  roles?: Array<string>
-  email?: string
-  phone?: string
-  website?: string
-}
-
-export type HomeHero = {
-  _id: string
-  _type: 'home-hero'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  image?: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    caption?: string
-    alt?: string
-    attribution?: string
-    _type: 'image'
-  }
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top?: number
-  bottom?: number
-  left?: number
-  right?: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x?: number
-  y?: number
-  height?: number
-  width?: number
+export type SanityAssetSourceData = {
+  _type: 'sanity.assetSourceData'
+  name?: string
+  id?: string
+  url?: string
 }
 
 export type SanityImageAsset = {
@@ -339,72 +529,54 @@ export type SanityImageAsset = {
   source?: SanityAssetSourceData
 }
 
-export type SanityAssetSourceData = {
-  _type: 'sanity.assetSourceData'
-  name?: string
-  id?: string
-  url?: string
-}
-
-export type SanityImageMetadata = {
-  _type: 'sanity.imageMetadata'
-  location?: Geopoint
-  dimensions?: SanityImageDimensions
-  palette?: SanityImagePalette
-  lqip?: string
-  blurHash?: string
-  hasAlpha?: boolean
-  isOpaque?: boolean
-}
-
-export type MediaTag = {
-  _id: string
-  _type: 'media.tag'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name?: Slug
-}
-
-export type Slug = {
-  _type: 'slug'
-  current?: string
-  source?: string
+export type Geopoint = {
+  _type: 'geopoint'
+  lat?: number
+  lng?: number
+  alt?: number
 }
 
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
+  | Project
+  | SanityImageCrop
+  | SanityImageHotspot
+  | ProjectReference
+  | Curriculum
+  | PostReference
+  | Post
+  | Slug
+  | CostsReference
+  | SchoolYear
+  | Costs
+  | YearReference
+  | Testimonial
+  | HomeShoutout
+  | HomeHero
+  | SanityFileAssetReference
+  | Event
+  | PersonReference
+  | Year
+  | Person
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
-  | Geopoint
-  | Post
-  | Testimonial
-  | Year
-  | SanityFileAsset
-  | Person
-  | HomeHero
-  | SanityImageCrop
-  | SanityImageHotspot
-  | SanityImageAsset
-  | SanityAssetSourceData
   | SanityImageMetadata
-  | MediaTag
-  | Slug
-export declare const internalGroqTypeReferenceTo: unique symbol
-// Source: ./app/routes/_index/query.ts
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint
+
+// Source: app/routes/_index/query.ts
 // Variable: homeQuery
-// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },  "shoutout": *[_type == "home-shoutout"][0]{    _id,    _type,    enabled,    emoji,    title,    subtitle,    buttonText,    buttonLink  },  "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {    _id,    _type,    title,    location,    description,    start,    end,    type  },  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {    _id,    _type,    title,    location,    description,    start,    end,    type  },  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {    _id,    _type,    name,    achievement,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  },  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...3]}
+// Query: {  "hero": *[_type == "home-hero"][0]{    _id,    _type,    image,    "caption": image->caption,    "attribution": image->attribution  },  "shoutout": *[_type == "home-shoutout"] | order(_createdAt desc)[0]{    _id,    _type,    emoji,    title,    subtitle,    buttonText,    buttonLink  },  "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {    _id,    _type,    title,    location,    description,    start,    end,    type  },  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {    _id,    _type,    title,    location,    description,    start,    end,    type  },  "testimonials": *[_type == "testimonial"] | order(orderRank) {    _id,    _type,    name,    achievement,    quote,    photo,    year -> {      graduatedAt,      startedAt,      letter    }  },  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    previewText,    slug,    cover,    publishedAt  }[0...4]}
 export type HomeQueryResult = {
   hero: {
     _id: string
     _type: 'home-hero'
     image: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -415,9 +587,133 @@ export type HomeQueryResult = {
     caption: null
     attribution: null
   } | null
-  shoutout: null
-  closestEvent: null
-  closestOrientation: null
+  shoutout: {
+    _id: string
+    _type: 'home-shoutout'
+    emoji: string | null
+    title: string | null
+    subtitle: string | null
+    buttonText: string | null
+    buttonLink: string | null
+  } | null
+  closestEvent: {
+    _id: string
+    _type: 'event'
+    title: string | null
+    location: string | null
+    description: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?:
+            | 'blockquote'
+            | 'h1'
+            | 'h2'
+            | 'h3'
+            | 'h4'
+            | 'h5'
+            | 'h6'
+            | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    > | null
+    start: {
+      date?: string
+      time?: string
+    } | null
+    end: {
+      date?: string
+      time?: string
+    } | null
+    type:
+      | 'exam'
+      | 'general'
+      | 'holiday'
+      | 'orientation'
+      | 'project'
+      | 'talk'
+      | 'theater'
+      | null
+  } | null
+  closestOrientation: {
+    _id: string
+    _type: 'event'
+    title: string | null
+    location: string | null
+    description: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?:
+            | 'blockquote'
+            | 'h1'
+            | 'h2'
+            | 'h3'
+            | 'h4'
+            | 'h5'
+            | 'h6'
+            | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    > | null
+    start: {
+      date?: string
+      time?: string
+    } | null
+    end: {
+      date?: string
+      time?: string
+    } | null
+    type:
+      | 'exam'
+      | 'general'
+      | 'holiday'
+      | 'orientation'
+      | 'project'
+      | 'talk'
+      | 'theater'
+      | null
+  } | null
   testimonials: Array<{
     _id: string
     _type: 'testimonial'
@@ -425,12 +721,8 @@ export type HomeQueryResult = {
     achievement: string | null
     quote: string | null
     photo: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       attribution?: string
@@ -448,7 +740,6 @@ export type HomeQueryResult = {
         | 'epsilon'
         | 'eta'
         | 'gamma'
-        | 'hho'
         | 'iota'
         | 'kappa'
         | 'lambda'
@@ -459,6 +750,7 @@ export type HomeQueryResult = {
         | 'phi'
         | 'pi'
         | 'psi'
+        | 'rho'
         | 'sigma'
         | 'tau'
         | 'theta'
@@ -475,12 +767,8 @@ export type HomeQueryResult = {
     previewText: string | null
     slug: Slug | null
     cover: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -492,21 +780,25 @@ export type HomeQueryResult = {
   }>
 }
 
-// Source: ./app/routes/aktuelles/query.ts
+// Source: app/routes/aktuelles/query.ts
+// Variable: currentSchoolYearQuery
+// Query: *[_type == "schoolYear" && end >= $today] | order(start asc)[0] { start, end }
+export type CurrentSchoolYearQueryResult = {
+  start: string | null
+  end: string | null
+} | null
+
+// Source: app/routes/aktuelles/query.ts
 // Variable: aktuellesQuery
-// Query: {  "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },  // sort by start date from and till a date; exclude holidays  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {    _id,    _type,    title,    location,    description,    start,    end,    type,    attachments {      _type,      asset->{        url      }    }  },  // filter years by those with empty graduatedAt  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos | order(takenAt desc)  }}
+// Query: {  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },  // sort by start date from and till a date; exclude holidays  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {    _id,    _type,    title,    "slug": slug.current,    location,    description,    start,    end,    type,    attachments {      _type,      asset->{        url      }    }  },  // filter years by those with empty graduatedAt  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }}
 export type AktuellesQueryResult = {
   posts: Array<{
     _id: string
     _type: 'post'
     title: string | null
     cover: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -518,12 +810,72 @@ export type AktuellesQueryResult = {
     slug: Slug | null
     publishedAt: string | null
   }>
-  events: Array<never>
+  events: Array<{
+    _id: string
+    _type: 'event'
+    title: string | null
+    slug: string | null
+    location: string | null
+    description: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?:
+            | 'blockquote'
+            | 'h1'
+            | 'h2'
+            | 'h3'
+            | 'h4'
+            | 'h5'
+            | 'h6'
+            | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    > | null
+    start: {
+      date?: string
+      time?: string
+    } | null
+    end: {
+      date?: string
+      time?: string
+    } | null
+    type:
+      | 'exam'
+      | 'general'
+      | 'holiday'
+      | 'orientation'
+      | 'project'
+      | 'talk'
+      | 'theater'
+      | null
+    attachments: null
+  }>
   years: Array<{
     _id: string
     _type: 'year'
     startedAt: string | null
-    graduatedAt: string | null
+    graduatedAt: null
     plan: string | null
     letter:
       | 'alpha'
@@ -533,7 +885,6 @@ export type AktuellesQueryResult = {
       | 'epsilon'
       | 'eta'
       | 'gamma'
-      | 'hho'
       | 'iota'
       | 'kappa'
       | 'lambda'
@@ -544,6 +895,7 @@ export type AktuellesQueryResult = {
       | 'phi'
       | 'pi'
       | 'psi'
+      | 'rho'
       | 'sigma'
       | 'tau'
       | 'theta'
@@ -555,29 +907,22 @@ export type AktuellesQueryResult = {
       familyName: string | null
       givenNames: string | null
       name: string | null
-      slug: null
+      slug: Slug | null
     } | null
     photos: Array<{
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      takenAt?: string
-      motto?: string
-      caption?: string
-      attribution?: string
-      alt?: string
-      _type: 'photo'
       _key: string
+      takenAt: string | null
+      motto: string | null
+      caption: string | null
+      attribution: string | null
+      alt: string | null
+      asset: SanityImageAssetReference | null
     }> | null
+    featuredPhoto: string | null
   }>
 }
 
-// Source: ./app/routes/aktuelles_.beitraege+/$slug.query.ts
+// Source: app/routes/aktuelles_.beitraege+/$slug.query.ts
 // Variable: beitraegeSlugQuery
 // Query: *[_type == "post" && slug.current == $slug][0] {    _id,    _type,    title,    cover,    body,    slug,    publishedAt  }
 export type BeitraegeSlugQueryResult = {
@@ -585,12 +930,8 @@ export type BeitraegeSlugQueryResult = {
   _type: 'post'
   title: string | null
   cover: {
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
+    asset?: SanityImageAssetReference
+    media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     caption?: string
@@ -618,12 +959,7 @@ export type BeitraegeSlugQueryResult = {
         listItem?: 'bullet' | 'number'
         markDefs?: Array<
           | {
-              reference?: {
-                _ref: string
-                _type: 'reference'
-                _weak?: boolean
-                [internalGroqTypeReferenceTo]?: 'post'
-              }
+              reference?: PostReference
               _type: 'internalLink'
               _key: string
             }
@@ -639,12 +975,8 @@ export type BeitraegeSlugQueryResult = {
         _key: string
       }
     | {
-        asset?: {
-          _ref: string
-          _type: 'reference'
-          _weak?: boolean
-          [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-        }
+        asset?: SanityImageAssetReference
+        media?: unknown
         hotspot?: SanityImageHotspot
         crop?: SanityImageCrop
         caption?: string
@@ -658,7 +990,7 @@ export type BeitraegeSlugQueryResult = {
   publishedAt: string | null
 } | null
 
-// Source: ./app/routes/aktuelles_.beitraege+/_index.query.tsx
+// Source: app/routes/aktuelles_.beitraege+/_index.query.tsx
 // Variable: beitraegeIndexQuery
 // Query: {  "posts": *[_type == "post"] | order(publishedAt desc) {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },}
 export type BeitraegeIndexQueryResult = {
@@ -667,12 +999,8 @@ export type BeitraegeIndexQueryResult = {
     _type: 'post'
     title: string | null
     cover: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -686,28 +1014,193 @@ export type BeitraegeIndexQueryResult = {
   }>
 }
 
-// Source: ./app/routes/aufnahme+/ _index.query.ts
-// Variable: aufnahmeQuery
-// Query: {    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {        _id,        _type,        start,        end,        costs->{            definedAt,            list        }    }[0]}
-export type AufnahmeQueryResult = {
-  currentSchoolYear: null
+// Source: app/routes/alumni/query.ts
+// Variable: alumniQuery
+// Query: {  "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }}
+export type AlumniQueryResult = {
+  alumniYears: Array<{
+    _id: string
+    _type: 'year'
+    startedAt: string | null
+    graduatedAt: string
+    plan: string | null
+    letter:
+      | 'alpha'
+      | 'beta'
+      | 'chi'
+      | 'delta'
+      | 'epsilon'
+      | 'eta'
+      | 'gamma'
+      | 'iota'
+      | 'kappa'
+      | 'lambda'
+      | 'my'
+      | 'ny'
+      | 'omega'
+      | 'omikron'
+      | 'phi'
+      | 'pi'
+      | 'psi'
+      | 'rho'
+      | 'sigma'
+      | 'tau'
+      | 'theta'
+      | 'xi'
+      | 'ypsilon'
+      | 'zeta'
+      | null
+    mentor: {
+      familyName: string | null
+      givenNames: string | null
+      name: string | null
+      slug: Slug | null
+    } | null
+    photos: Array<{
+      _key: string
+      takenAt: string | null
+      motto: string | null
+      caption: string | null
+      attribution: string | null
+      alt: string | null
+      asset: SanityImageAssetReference | null
+    }> | null
+    featuredPhoto: string | null
+  }>
 }
 
-// Source: ./app/routes/curriculum/query.ts
+// Source: app/routes/aufnahme+/_index.query.ts
+// Variable: aufnahmeQuery
+// Query: {    "currentSchoolYear": *[_type == "schoolYear" && end >= $today] | order(start asc) {        _id,        _type,        start,        end,        costs->{            definedAt,            list        }    }[0]}
+export type AufnahmeQueryResult = {
+  currentSchoolYear: {
+    _id: string
+    _type: 'schoolYear'
+    start: string | null
+    end: string | null
+    costs: {
+      definedAt: string | null
+      list: Array<{
+        title?: string
+        quantity?: number
+        cost?: number
+        interval?: 'MONTHLY' | 'ONCE' | 'QUARTERLY'
+        description?: string
+        _type: 'cost'
+        _key: string
+      }> | null
+    } | null
+  } | null
+}
+
+// Source: app/routes/curriculum/query.ts
 // Variable: curriculumQuery
 // Query: *[_type == "curriculum"][0]{  name,  description,  years[] {    _id,    _type,    _ref,    yearNumber,    description,    title,    externalExams,    projects[]-> {      _id,      _type,      _ref,      name,      description,      photos    }  }}
-export type CurriculumQueryResult = null
+export type CurriculumQueryResult = {
+  name: string | null
+  description: string | null
+  years: Array<{
+    _id: null
+    _type: null
+    _ref: null
+    yearNumber: number | null
+    description: string | null
+    title: string | null
+    externalExams: Array<string> | null
+    projects: Array<{
+      _id: string
+      _type: 'project'
+      _ref: null
+      name: string | null
+      description: string | null
+      photos: Array<{
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        caption?: string
+        _type: 'photo'
+        _key: string
+      }> | null
+    }> | null
+  }> | null
+} | null
 
-// Source: ./app/routes/die-walz-kennenlernen/query.ts
+// Source: app/routes/die-walz-kennenlernen/query.ts
 // Variable: kennenlernenQuery
 // Query: {  "upcomingEvents": *[_type == "event" && dateTime(start.date  + 'T00:00:00Z') >= dateTime(now()) - 60*60*24 && type == "orientation"] | order(start.date asc)[0...2] {    _id,    _type,    type,    title,    start,    end,    location,    description,    cover  }}
 export type KennenlernenQueryResult = {
-  upcomingEvents: Array<never>
+  upcomingEvents: Array<{
+    _id: string
+    _type: 'event'
+    type:
+      | 'exam'
+      | 'general'
+      | 'holiday'
+      | 'orientation'
+      | 'project'
+      | 'talk'
+      | 'theater'
+      | null
+    title: string | null
+    start: {
+      date?: string
+      time?: string
+    } | null
+    end: {
+      date?: string
+      time?: string
+    } | null
+    location: string | null
+    description: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?:
+            | 'blockquote'
+            | 'h1'
+            | 'h2'
+            | 'h3'
+            | 'h4'
+            | 'h5'
+            | 'h6'
+            | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }
+      | {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+          _key: string
+        }
+    > | null
+    cover: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    } | null
+  }>
 }
 
-// Source: ./app/routes/jahrgaenge+/$year.query.tsx
+// Source: app/routes/jahrgaenge+/$year.query.tsx
 // Variable: yearQuery
-// Query: *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,    },    photos | order(takenAt desc)  }
+// Query: *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }
 export type YearQueryResult = {
   _id: string
   _type: 'year'
@@ -722,7 +1215,6 @@ export type YearQueryResult = {
     | 'epsilon'
     | 'eta'
     | 'gamma'
-    | 'hho'
     | 'iota'
     | 'kappa'
     | 'lambda'
@@ -733,6 +1225,7 @@ export type YearQueryResult = {
     | 'phi'
     | 'pi'
     | 'psi'
+    | 'rho'
     | 'sigma'
     | 'tau'
     | 'theta'
@@ -746,25 +1239,138 @@ export type YearQueryResult = {
     name: string | null
   } | null
   photos: Array<{
-    asset?: {
-      _ref: string
-      _type: 'reference'
-      _weak?: boolean
-      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-    }
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    takenAt?: string
-    motto?: string
-    caption?: string
-    attribution?: string
-    alt?: string
-    _type: 'photo'
     _key: string
+    takenAt: string | null
+    motto: string | null
+    caption: string | null
+    attribution: string | null
+    alt: string | null
+    asset: SanityImageAssetReference | null
   }> | null
+  featuredPhoto: string | null
 } | null
 
-// Source: ./app/routes/ueber-uns+/_index.query.ts
+// Source: app/routes/jahrgaenge+/_index.query.ts
+// Variable: jahrgaengeQuery
+// Query: {  "currentYears": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }}
+export type JahrgaengeQueryResult = {
+  currentYears: Array<{
+    _id: string
+    _type: 'year'
+    startedAt: string | null
+    graduatedAt: null
+    plan: string | null
+    letter:
+      | 'alpha'
+      | 'beta'
+      | 'chi'
+      | 'delta'
+      | 'epsilon'
+      | 'eta'
+      | 'gamma'
+      | 'iota'
+      | 'kappa'
+      | 'lambda'
+      | 'my'
+      | 'ny'
+      | 'omega'
+      | 'omikron'
+      | 'phi'
+      | 'pi'
+      | 'psi'
+      | 'rho'
+      | 'sigma'
+      | 'tau'
+      | 'theta'
+      | 'xi'
+      | 'ypsilon'
+      | 'zeta'
+      | null
+    mentor: {
+      familyName: string | null
+      givenNames: string | null
+      name: string | null
+      slug: Slug | null
+    } | null
+    photos: Array<{
+      _key: string
+      takenAt: string | null
+      motto: string | null
+      caption: string | null
+      attribution: string | null
+      alt: string | null
+      asset: SanityImageAssetReference | null
+    }> | null
+    featuredPhoto: string | null
+  }>
+}
+
+// Source: app/routes/termine+/$slug.query.ts
+// Variable: eventBySlugQuery
+// Query: *[_type == "event" && slug.current == $slug][0]{  _id,  _type,  title,  "slug": slug.current,  location,  description,  start,  end,  type,  attachments {    _type,    asset->{      url    }  }}
+export type EventBySlugQueryResult = {
+  _id: string
+  _type: 'event'
+  title: string | null
+  slug: string | null
+  location: string | null
+  description: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?:
+          | 'blockquote'
+          | 'h1'
+          | 'h2'
+          | 'h3'
+          | 'h4'
+          | 'h5'
+          | 'h6'
+          | 'normal'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+  > | null
+  start: {
+    date?: string
+    time?: string
+  } | null
+  end: {
+    date?: string
+    time?: string
+  } | null
+  type:
+    | 'exam'
+    | 'general'
+    | 'holiday'
+    | 'orientation'
+    | 'project'
+    | 'talk'
+    | 'theater'
+    | null
+  attachments: null
+} | null
+
+// Source: app/routes/ueber-uns+/_index.query.ts
 // Variable: ueberUnsQuery
 // Query: {  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  },  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {      _id,  _type,  priority,  inactive,  slug,  portrait,  givenNames,  familyName,  "name": givenNames + " " + familyName,  description,  email,  phone,  website,  publishedAt  }}
 export type UeberUnsQueryResult = {
@@ -773,14 +1379,10 @@ export type UeberUnsQueryResult = {
     _type: 'person'
     priority: number | null
     inactive: boolean | null
-    slug: null
+    slug: Slug | null
     portrait: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -802,14 +1404,10 @@ export type UeberUnsQueryResult = {
     _type: 'person'
     priority: number | null
     inactive: boolean | null
-    slug: null
+    slug: Slug | null
     portrait: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -831,14 +1429,10 @@ export type UeberUnsQueryResult = {
     _type: 'person'
     priority: number | null
     inactive: boolean | null
-    slug: null
+    slug: Slug | null
     portrait: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -860,14 +1454,10 @@ export type UeberUnsQueryResult = {
     _type: 'person'
     priority: number | null
     inactive: boolean | null
-    slug: null
+    slug: Slug | null
     portrait: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -889,14 +1479,10 @@ export type UeberUnsQueryResult = {
     _type: 'person'
     priority: number | null
     inactive: boolean | null
-    slug: null
+    slug: Slug | null
     portrait: {
-      asset?: {
-        _ref: string
-        _type: 'reference'
-        _weak?: boolean
-        [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-      }
+      asset?: SanityImageAssetReference
+      media?: unknown
       hotspot?: SanityImageHotspot
       crop?: SanityImageCrop
       caption?: string
@@ -916,17 +1502,24 @@ export type UeberUnsQueryResult = {
 }
 
 // Query TypeMap
-import '@sanity/client'
-declare module '@sanity/client' {
+declare global {
   interface SanityQueries {
-    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },\n  "shoutout": *[_type == "home-shoutout"][0]{\n    _id,\n    _type,\n    enabled,\n    emoji,\n    title,\n    subtitle,\n    buttonText,\n    buttonLink\n  },\n  "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "testimonials": *[_type == "testimonial"] | order(_createdAt desc) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  },\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...3]\n}': HomeQueryResult
-    '{\n  "posts": *[_type == "post"] | order(publishedAt desc)[0...3] {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n  // sort by start date from and till a date; exclude holidays\n  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type,\n    attachments {\n      _type,\n      asset->{\n        url\n      }\n    }\n  },\n  // filter years by those with empty graduatedAt\n  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos | order(takenAt desc)\n  }\n}': AktuellesQueryResult
+    '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },\n  "shoutout": *[_type == "home-shoutout"] | order(_createdAt desc)[0]{\n    _id,\n    _type,\n    emoji,\n    title,\n    subtitle,\n    buttonText,\n    buttonLink\n  },\n  "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "testimonials": *[_type == "testimonial"] | order(orderRank) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  },\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...4]\n}': HomeQueryResult
+    '*[_type == "schoolYear" && end >= $today] | order(start asc)[0] { start, end }': CurrentSchoolYearQueryResult
+    '{\n  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n  // sort by start date from and till a date; exclude holidays\n  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    location,\n    description,\n    start,\n    end,\n    type,\n    attachments {\n      _type,\n      asset->{\n        url\n      }\n    }\n  },\n  // filter years by those with empty graduatedAt\n  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': AktuellesQueryResult
     '\n*[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    cover,\n    body,\n    slug,\n    publishedAt\n  }\n': BeitraegeSlugQueryResult
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
-    '{\n    "currentSchoolYear": *[_type == "schoolYear" && end > now()] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
+    '{\n  "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': AlumniQueryResult
+    '{\n    "currentSchoolYear": *[_type == "schoolYear" && end >= $today] | order(start asc) {\n        _id,\n        _type,\n        start,\n        end,\n        costs->{\n            definedAt,\n            list\n        }\n    }[0]\n}': AufnahmeQueryResult
     '*[_type == "curriculum"][0]{\n  name,\n  description,\n  years[] {\n    _id,\n    _type,\n    _ref,\n    yearNumber,\n    description,\n    title,\n    externalExams,\n    projects[]-> {\n      _id,\n      _type,\n      _ref,\n      name,\n      description,\n      photos\n    }\n  }\n}': CurriculumQueryResult
     '{\n  "upcomingEvents": *[_type == "event" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24 && type == "orientation"] | order(start.date asc)[0...2] {\n    _id,\n    _type,\n    type,\n    title,\n    start,\n    end,\n    location,\n    description,\n    cover\n  }\n}': KennenlernenQueryResult
-    '\n  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n    },\n    photos | order(takenAt desc)\n  }\n': YearQueryResult
+    '\n  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n': YearQueryResult
+    '{\n  "currentYears": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': JahrgaengeQueryResult
+    '*[_type == "event" && slug.current == $slug][0]{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  location,\n  description,\n  start,\n  end,\n  type,\n  attachments {\n    _type,\n    asset->{\n      url\n    }\n  }\n}': EventBySlugQueryResult
     '{\n  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }
+}
+// Lets @sanity/client releases that predate the global registry read it too
+declare module '@sanity/client' {
+  interface SanityQueries extends globalThis.SanityQueries {}
 }

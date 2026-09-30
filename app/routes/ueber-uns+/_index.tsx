@@ -346,7 +346,7 @@ function StaffCard({
     name: string | null
     portrait: SanityImageSource | null
     description: string | null
-    slug: { current: string } | null
+    slug: { current?: string } | null
     email: string | null
     website: string | null
     phone: string | null
