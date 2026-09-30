@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { type Photo } from '#app/sanity/schema/year.tsx'
+import { type Photo } from '#app/sanity/models/year.ts'
 import { selectFeaturedPhoto } from './featured-photo.ts'
 
 describe('selectFeaturedPhoto', () => {

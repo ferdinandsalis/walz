@@ -15,7 +15,7 @@ import {
 import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
-import { type Photo, type Year } from '#app/sanity/schema/year.tsx'
+import { type Photo, type Year } from '#app/sanity/models/year.ts'
 import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
 import { calculateCurrentYear } from '#app/utils/years.js'

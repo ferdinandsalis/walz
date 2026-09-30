@@ -9,7 +9,7 @@ import {
 } from 'react-router'
 import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
 import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
-import { EventSchema, tType } from '#app/sanity/schema/event.tsx'
+import { EventSchema, tType } from '#app/sanity/models/event.ts'
 import { eventBySlugQuery } from './$slug.query.ts'
 
 export function meta({ data }: MetaArgs<typeof loader>) {

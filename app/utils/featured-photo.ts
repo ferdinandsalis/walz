@@ -1,4 +1,4 @@
-import { type Photo } from '#app/sanity/schema/year.tsx'
+import { type Photo } from '#app/sanity/models/year.ts'
 
 export function selectFeaturedPhoto(
   photos: Photo[],
