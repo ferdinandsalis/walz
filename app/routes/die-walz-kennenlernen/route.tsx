@@ -2,9 +2,8 @@ import { PortableText } from '@portabletext/react'
 import { loadQuery } from '@sanity/react-loader'
 import { evolve, map } from 'ramda'
 import { Link, type LoaderFunctionArgs, useLoaderData } from 'react-router'
-import { type z } from 'zod'
 import { urlFor } from '#app/sanity/instance.ts'
-import { EventSchema } from '#app/sanity/models/event.ts'
+import { type Event, EventSchema } from '#app/sanity/models/event.ts'
 import { type KennenlernenQueryResult } from '#app/sanity/types.ts'
 import { kennenlernenQuery } from './query.ts'
 
@@ -74,8 +73,6 @@ export default function GetToKnowRoute() {
     </div>
   )
 }
-
-type Event = z.infer<typeof EventSchema>
 
 function EventCard({ event }: { event: Event }) {
   return (

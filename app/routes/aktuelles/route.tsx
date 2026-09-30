@@ -26,7 +26,7 @@ import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
 import { Toc } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
-import { EventSchema, tType } from '#app/sanity/models/event.ts'
+import { type Event, EventSchema, tType } from '#app/sanity/models/event.ts'
 import { alphabetMap } from '#app/sanity/models/year.ts'
 import { selectFeaturedPhoto } from '#app/utils/featured-photo.ts'
 import { cn } from '#app/utils/misc.tsx'
@@ -45,8 +45,6 @@ import {
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
 }
-
-type Event = z.infer<typeof EventSchema>
 
 export async function loader({ params }: LoaderFunctionArgs) {
   // en-CA locale produces YYYY-MM-DD format needed for Sanity date comparison
