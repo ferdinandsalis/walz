@@ -5,7 +5,7 @@ import {
 } from '@sanity/orderable-document-list'
 import { defineField, defineType } from 'sanity'
 import { z } from 'zod'
-import { alphabetMap } from './year.tsx'
+import { alphabetMap } from '#app/sanity/models/year.ts'
 
 export const Testimonial = z.object({
   name: z.string(),
