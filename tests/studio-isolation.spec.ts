@@ -58,3 +58,15 @@ for (const path of publicPaths) {
     expect(await sanityCascadeLayers(page)).toEqual([])
   })
 }
+
+// Positive control: the Studio itself does carry Sanity's CSS layers, so the
+// empty results above mean "not loaded", not "undetectable".
+test('/studio carries Sanity Studio styles', async ({ page }) => {
+  // the Studio bundle is huge; test.slow() stretches the 15s test timeout to
+  // 45s but not the 5s expect timeout, so the poll gets its own
+  test.slow()
+  await page.goto('/studio')
+  await expect
+    .poll(() => sanityCascadeLayers(page), { timeout: 30_000 })
+    .not.toEqual([])
+})
