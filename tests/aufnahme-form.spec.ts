@@ -34,7 +34,7 @@ test.describe('Aufnahme Form', () => {
     await page
       .getByLabel('E-Mail *', { exact: true })
       .first()
-      .fill('max.test@example.com')
+      .fill('delivered+max@resend.dev')
     await page.getByLabel('Wohnadresse *').fill('Teststraße 1, 1010 Wien')
     await page.getByLabel('Geburtsdatum *').fill('2010-05-15')
     await page.getByLabel('Derzeit besuchte Schule *').fill('Test Gymnasium')
@@ -43,7 +43,7 @@ test.describe('Aufnahme Form', () => {
     // Fill parent 1 information
     await page.locator('#parent1Name').fill('Anna Testfrau')
     await page.locator('#parent1Phone').fill('+4366012356789')
-    await page.locator('#parent1Email').fill('anna.test@example.com')
+    await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
     await page.locator('#parent1Address').fill('Teststraße 1, 1010 Wien')
 
     // Fill additional information
@@ -70,7 +70,7 @@ test.describe('Aufnahme Form', () => {
 
     // Fill required fields
     await page.getByLabel('Vor- und Nachname *').fill('Max Testmann')
-    await page.locator('#studentEmail').fill('max.test@example.com')
+    await page.locator('#studentEmail').fill('delivered+max@resend.dev')
     await page.getByLabel('Wohnadresse *').fill('Teststraße 1, 1010 Wien')
     await page.getByLabel('Geburtsdatum *').fill('2010-05-15')
     await page.getByLabel('Derzeit besuchte Schule *').fill('Test Gymnasium')
@@ -78,13 +78,13 @@ test.describe('Aufnahme Form', () => {
 
     await page.locator('#parent1Name').fill('Anna Testmann')
     await page.locator('#parent1Phone').fill('+43 660 1234567')
-    await page.locator('#parent1Email').fill('anna.test@example.com')
+    await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
     await page.locator('#parent1Address').fill('Teststraße 1, 1010 Wien')
 
     // Fill parent 2 optional fields
     await page.locator('#parent2Name').fill('Peter Testmann')
     await page.locator('#parent2Phone').fill('+43 660 7654321')
-    await page.locator('#parent2Email').fill('peter.test@example.com')
+    await page.locator('#parent2Email').fill('delivered+peter@resend.dev')
     await page.locator('#parent2Address').fill('Teststraße 1, 1010 Wien')
 
     await page
@@ -103,7 +103,7 @@ test.describe('Aufnahme Form', () => {
 
     // Fill minimum required fields
     await page.locator('#studentName').fill('Max Testmann')
-    await page.locator('#studentEmail').fill('max.test@example.com')
+    await page.locator('#studentEmail').fill('delivered+max@resend.dev')
     await page.getByLabel('Wohnadresse *').fill('Teststraße 1, 1010 Wien')
     await page.getByLabel('Geburtsdatum *').fill('2010-05-15')
     await page.getByLabel('Derzeit besuchte Schule *').fill('Test Gymnasium')
@@ -111,7 +111,7 @@ test.describe('Aufnahme Form', () => {
 
     await page.locator('#parent1Name').fill('Anna Testmann')
     await page.locator('#parent1Phone').fill('+43 660 1234567')
-    await page.locator('#parent1Email').fill('anna.test@example.com')
+    await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
     await page.locator('#parent1Address').fill('Teststraße 1, 1010 Wien')
 
     await page
