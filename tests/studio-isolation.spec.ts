@@ -53,11 +53,6 @@ for (const path of publicPaths) {
 
     await page.goto(path)
     await page.waitForLoadState('networkidle')
-    // on a cold dev server (always in CI) Vite discovers and pre-bundles
-    // dependencies during the first visit, so that visit can finish before
-    // the page ever requests them; the second load sees the real module graph
-    await page.reload()
-    await page.waitForLoadState('networkidle')
 
     expect(sanityRequests).toEqual([])
     expect(await sanityCascadeLayers(page)).toEqual([])
