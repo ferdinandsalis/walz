@@ -6,17 +6,26 @@ import {
   type MetaArgs,
   useLoaderData,
 } from 'react-router'
+import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
 
 export function meta({ data }: MetaArgs<typeof loader>) {
-  return [{ title: `${data?.data?.title} | Walz` }]
+  return [{ title: `${data?.data.title ?? 'Beitrag'} | Walz` }]
 }
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const queryResult = await loadQuery<QueryResult>(beitraegeSlugQuery, params, {
-    perspective: 'published',
-  })
+  const queryResult = await loadQuery<QueryResult | null>(
+    beitraegeSlugQuery,
+    params,
+    {
+      perspective: 'published',
+    },
+  )
+
+  if (!queryResult.data) {
+    throw new Response('Beitrag nicht gefunden', { status: 404 })
+  }
 
   return {
     query: beitraegeSlugQuery,
@@ -57,6 +66,10 @@ export default function Post() {
       </div>
     </article>
   )
+}
+
+export function ErrorBoundary() {
+  return <NotFoundErrorBoundary />
 }
 
 export const ImageComponent = ({ value, isInline }: any) => {

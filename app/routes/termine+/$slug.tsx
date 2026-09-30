@@ -8,6 +8,7 @@ import {
   useLoaderData,
 } from 'react-router'
 import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
+import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 import { EventSchema, tType } from '#app/sanity/schema/event.tsx'
 import { eventBySlugQuery } from './$slug.query.ts'
 
@@ -153,4 +154,8 @@ export default function Termin() {
       />
     </article>
   )
+}
+
+export function ErrorBoundary() {
+  return <NotFoundErrorBoundary />
 }
