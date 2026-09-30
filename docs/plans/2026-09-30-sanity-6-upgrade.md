@@ -135,6 +135,13 @@ The options as they were put:
 **Prerequisite:** `.env` copied into the worktree. Tasks 1–4 run Playwright, and
 the dev server's env schema won't start without it.
 
+**Local e2e sends real mail:** `walz/mise.toml` exports the production
+`RESEND_API_KEY` into every worktree, and `tests/aufnahme-form.spec.ts` submits
+the Anmeldeformular 3× per run. Until the branch contains the resend.dev fix
+(`claude/anmeldeformular-spam-surge-21eba2`), run Playwright locally only with
+`--grep-invert "Aufnahme Form"` or explicit spec files, and leave the full suite
+to GitHub CI.
+
 ### Task 1: Failing e2e test — public pages must not load the Studio
 
 **Files:**
@@ -148,67 +155,22 @@ finding 3. The test checks the root cause, in dev and in prod alike: no request
 for the pre-bundled `sanity` dependency. It also checks the v6 symptom, no `sui`
 cascade layer. `/studio` is the positive control that shows the detector works.
 
-```ts
-import { test, expect, type Page } from '@playwright/test'
-
-// Public pages import zod read-models; if those ever live next to Studio
-// schema code again, the whole `sanity` package (JS plus, on sanity 6, a
-// global CSS reset in `@layer sui.global`) ships to every visitor.
-const publicPaths = ['/', '/aktuelles', '/jahrgaenge', '/ueber-uns']
-
-const sanityDependency =
-  /\/node_modules\/(\.vite\/deps\/sanity(_[^/?]*)?\.js|sanity\/)/
-
-async function sanityCascadeLayers(page: Page) {
-  return page.evaluate(() => {
-    const names: string[] = []
-    const walk = (rules: CSSRuleList) => {
-      for (const rule of Array.from(rules)) {
-        if (rule instanceof CSSLayerStatementRule) names.push(...rule.nameList)
-        if (rule instanceof CSSLayerBlockRule) names.push(rule.name)
-        if ('cssRules' in rule) walk((rule as CSSGroupingRule).cssRules)
-      }
-    }
-    for (const sheet of Array.from(document.styleSheets)) {
-      try {
-        walk(sheet.cssRules)
-      } catch {
-        // cross-origin sheets (fonts) are not readable and not ours
-      }
-    }
-    return names.filter(name => name === 'sui' || name.startsWith('sui.'))
-  })
-}
-
-for (const path of publicPaths) {
-  test(`${path} loads neither Sanity Studio code nor styles`, async ({
-    page,
-  }) => {
-    const sanityRequests: string[] = []
-    page.on('request', request => {
-      if (sanityDependency.test(request.url()))
-        sanityRequests.push(request.url())
-    })
-    await page.goto(path)
-    await page.waitForLoadState('networkidle')
-    expect(sanityRequests).toEqual([])
-    expect(await sanityCascadeLayers(page)).toEqual([])
-  })
-}
-```
-
-(The `/studio` positive control is added in Task 4, once v6 ships `sui` layers.
-On v5 the request assertion is the part that fails first.)
+Implemented in `tests/studio-isolation.spec.ts`, covering 7 public paths: `/`,
+`/aktuelles`, `/aktuelles/beitraege`, `/jahrgaenge`, `/alumni`, `/ueber-uns` and
+`/ueber-uns/philosophie/bildung`. `/termine/:slug` is left out because it needs
+live data. The `/studio` positive control is added in Task 4, once v6 ships
+`sui` layers. On v5 the request assertion is the part that fails first.
 
 **Step 2: Run it and confirm it fails for the right reason**
 
 Run: `lsof -iTCP:4410 -sTCP:LISTEN` (must be empty), then
 `PORT=4410 mise exec node@24 -- npx playwright test tests/studio-isolation.spec.ts`
-Expected: FAIL. `sanityRequests` contains `…/.vite/deps/sanity.js…` for `/`,
-`/aktuelles`, `/jahrgaenge` and `/ueber-uns`. If a path passes, re-check it
-against finding 3 before continuing. The regex may need adjusting to what the
-dev server actually serves, but only to match `sanity` itself, never
-`@sanity/client` or `@sanity/image-url`, which public pages legitimately use.
+Expected: FAIL. `sanityRequests` contains `…/.vite/deps/sanity.js…` for all 7
+paths (confirmed on 2026-09-30, also from a cold dependency cache). If a path
+passes, re-check it against finding 3 before continuing. The regex may need
+adjusting to what the dev server actually serves, but only to match `sanity`
+itself, never `@sanity/client` or `@sanity/image-url`, which public pages
+legitimately use.
 
 **Step 3:** No commit yet (red).
 
@@ -248,6 +210,22 @@ PASS. **Step 4:** Run the verify gate. Then rerun the route-asset summary
 sanity chunks, and every public route's JS should drop by about 4.5 MB (about
 1.4 MB gzipped). **Step 5:** Commit (unsigned only with Ferdinand's OK):
 `Stop shipping Sanity Studio to public pages` + test file.
+
+### Task 2b (added during execution): Crawl routes for dev dependencies
+
+Done in `1877c64`. Moving the Studio packages behind `/studio` changed when Vite
+discovers them. React Router passes Vite an empty `optimizeDeps.entries`, so the
+dev server re-bundled dependencies mid-run, and `featured-photo` broke (two
+React copies). It needed a retry on every local CI-mode run, while main ran
+clean. That was a pre-existing problem: main's CI reports 2 flaky tests on every
+run. `future.unstable_optimizeDeps: true` in `react-router.config.ts` bundles
+once at startup. Measured results:
+
+- no mid-run re-bundles, 0 flaky tests locally;
+- the production build is unchanged, apart from the serialized flag in the
+  server bundle;
+- the isolation test still fails on all 7 pages if a read-model imports
+  `sanity`.
 
 ### Task 3: Bump the sanity family with in-range companions and overrides
 
