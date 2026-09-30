@@ -49,6 +49,8 @@ export const EventSchema = z.object({
   attachments: z.array(AttachmentSchema).nullable().optional(),
 })
 
+export type Event = z.infer<typeof EventSchema>
+
 export function tType(type: Event['type']) {
   switch (type) {
     case 'general':

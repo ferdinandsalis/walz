@@ -1,6 +1,6 @@
 import { defineQuery } from 'groq'
 import { z } from 'zod'
-import { type EventSchema } from '#app/sanity/models/event.ts'
+import { type Event } from '#app/sanity/models/event.ts'
 import { PhotoSchema } from '#app/sanity/models/year.ts'
 import { PersonSchema } from '../ueber-uns+/_index.query.ts'
 
@@ -62,8 +62,6 @@ export const aktuellesQuery = defineQuery(`{
     featuredPhoto
   }
 }`)
-
-type Event = z.infer<typeof EventSchema>
 
 type Post = {
   title: string
