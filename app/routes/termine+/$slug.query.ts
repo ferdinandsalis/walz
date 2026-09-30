@@ -11,7 +11,7 @@ export const eventBySlugQuery =
   start,
   end,
   type,
-  attachments {
+  attachments[] {
     _type,
     asset->{
       url

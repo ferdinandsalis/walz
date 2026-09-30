@@ -790,7 +790,7 @@ export type CurrentSchoolYearQueryResult = {
 
 // Source: app/routes/aktuelles/query.ts
 // Variable: aktuellesQuery
-// Query: {  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },  // sort by start date from and till a date; exclude holidays  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {    _id,    _type,    title,    "slug": slug.current,    location,    description,    start,    end,    type,    attachments {      _type,      asset->{        url      }    }  },  // filter years by those with empty graduatedAt  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }}
+// Query: {  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {    _id,    _type,    title,    cover,    previewText,    slug,    publishedAt  },  // sort by start date from and till a date; exclude holidays  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {    _id,    _type,    title,    "slug": slug.current,    location,    description,    start,    end,    type,    attachments[] {      _type,      asset->{        url      }    }  },  // filter years by those with empty graduatedAt  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {    _id,    _type,    startedAt,    graduatedAt,    "plan": plan.asset->url,    letter,    mentor->{      familyName,      givenNames,      "name": givenNames + " " + familyName,      slug    },    photos[] {      _key,      takenAt,      motto,      caption,      attribution,      alt,      asset    } | order(takenAt desc),    featuredPhoto  }}
 export type AktuellesQueryResult = {
   posts: Array<{
     _id: string
@@ -869,7 +869,12 @@ export type AktuellesQueryResult = {
       | 'talk'
       | 'theater'
       | null
-    attachments: null
+    attachments: Array<{
+      _type: 'file'
+      asset: {
+        url: string | null
+      } | null
+    }> | null
   }>
   years: Array<{
     _id: string
@@ -1307,7 +1312,7 @@ export type JahrgaengeQueryResult = {
 
 // Source: app/routes/termine+/$slug.query.ts
 // Variable: eventBySlugQuery
-// Query: *[_type == "event" && slug.current == $slug][0]{  _id,  _type,  title,  "slug": slug.current,  location,  description,  start,  end,  type,  attachments {    _type,    asset->{      url    }  }}
+// Query: *[_type == "event" && slug.current == $slug][0]{  _id,  _type,  title,  "slug": slug.current,  location,  description,  start,  end,  type,  attachments[] {    _type,    asset->{      url    }  }}
 export type EventBySlugQueryResult = {
   _id: string
   _type: 'event'
@@ -1367,7 +1372,12 @@ export type EventBySlugQueryResult = {
     | 'talk'
     | 'theater'
     | null
-  attachments: null
+  attachments: Array<{
+    _type: 'file'
+    asset: {
+      url: string | null
+    } | null
+  }> | null
 } | null
 
 // Source: app/routes/ueber-uns+/_index.query.ts
@@ -1506,7 +1516,7 @@ declare global {
   interface SanityQueries {
     '{\n  "hero": *[_type == "home-hero"][0]{\n    _id,\n    _type,\n    image,\n    "caption": image->caption,\n    "attribution": image->attribution\n  },\n  "shoutout": *[_type == "home-shoutout"] | order(_createdAt desc)[0]{\n    _id,\n    _type,\n    emoji,\n    title,\n    subtitle,\n    buttonText,\n    buttonLink\n  },\n  "closestEvent": *[_type == "event" && type != "holiday" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "closestOrientation": *[_type == "event" && type == "orientation" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24] | order(start.date asc)[0] {\n    _id,\n    _type,\n    title,\n    location,\n    description,\n    start,\n    end,\n    type\n  },\n  "testimonials": *[_type == "testimonial"] | order(orderRank) {\n    _id,\n    _type,\n    name,\n    achievement,\n    quote,\n    photo,\n    year -> {\n      graduatedAt,\n      startedAt,\n      letter\n    }\n  },\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    previewText,\n    slug,\n    cover,\n    publishedAt\n  }[0...4]\n}': HomeQueryResult
     '*[_type == "schoolYear" && end >= $today] | order(start asc)[0] { start, end }': CurrentSchoolYearQueryResult
-    '{\n  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n  // sort by start date from and till a date; exclude holidays\n  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    location,\n    description,\n    start,\n    end,\n    type,\n    attachments {\n      _type,\n      asset->{\n        url\n      }\n    }\n  },\n  // filter years by those with empty graduatedAt\n  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': AktuellesQueryResult
+    '{\n  "posts": *[_type == "post"] | order(publishedAt desc)[0...4] {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n  // sort by start date from and till a date; exclude holidays\n  "events": *[_type == "event" && start.date >= $fromDate && start.date <= $toDate && type != "holiday"] | order(start.date asc) {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    location,\n    description,\n    start,\n    end,\n    type,\n    attachments[] {\n      _type,\n      asset->{\n        url\n      }\n    }\n  },\n  // filter years by those with empty graduatedAt\n  "years": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': AktuellesQueryResult
     '\n*[_type == "post" && slug.current == $slug][0] {\n    _id,\n    _type,\n    title,\n    cover,\n    body,\n    slug,\n    publishedAt\n  }\n': BeitraegeSlugQueryResult
     '{\n  "posts": *[_type == "post"] | order(publishedAt desc) {\n    _id,\n    _type,\n    title,\n    cover,\n    previewText,\n    slug,\n    publishedAt\n  },\n}': BeitraegeIndexQueryResult
     '{\n  "alumniYears": *[_type == "year" && defined(graduatedAt)] | order(graduatedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': AlumniQueryResult
@@ -1515,7 +1525,7 @@ declare global {
     '{\n  "upcomingEvents": *[_type == "event" && dateTime(start.date  + \'T00:00:00Z\') >= dateTime(now()) - 60*60*24 && type == "orientation"] | order(start.date asc)[0...2] {\n    _id,\n    _type,\n    type,\n    title,\n    start,\n    end,\n    location,\n    description,\n    cover\n  }\n}': KennenlernenQueryResult
     '\n  *[_type == "year" && letter == $letter && startedAt match $startedAt + "*"][0] {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n': YearQueryResult
     '{\n  "currentYears": *[_type == "year" && !defined(graduatedAt)] | order(startedAt desc) {\n    _id,\n    _type,\n    startedAt,\n    graduatedAt,\n    "plan": plan.asset->url,\n    letter,\n    mentor->{\n      familyName,\n      givenNames,\n      "name": givenNames + " " + familyName,\n      slug\n    },\n    photos[] {\n      _key,\n      takenAt,\n      motto,\n      caption,\n      attribution,\n      alt,\n      asset\n    } | order(takenAt desc),\n    featuredPhoto\n  }\n}': JahrgaengeQueryResult
-    '*[_type == "event" && slug.current == $slug][0]{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  location,\n  description,\n  start,\n  end,\n  type,\n  attachments {\n    _type,\n    asset->{\n      url\n    }\n  }\n}': EventBySlugQueryResult
+    '*[_type == "event" && slug.current == $slug][0]{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  location,\n  description,\n  start,\n  end,\n  type,\n  attachments[] {\n    _type,\n    asset->{\n      url\n    }\n  }\n}': EventBySlugQueryResult
     '{\n  "leadership": *[_type == "person" && "leadership" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "mentor": *[_type == "person" && "mentor" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "project_lead": *[_type == "person" && "project_lead" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "administrator": *[_type == "person" && "administrator" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  },\n  "therapist": *[_type == "person" && "therapist" in roles && (!inactive || inactive == null)] | order(priority desc, familyName asc) {\n    \n  _id,\n  _type,\n  priority,\n  inactive,\n  slug,\n  portrait,\n  givenNames,\n  familyName,\n  "name": givenNames + " " + familyName,\n  description,\n  email,\n  phone,\n  website,\n  publishedAt\n\n  }\n}': UeberUnsQueryResult
   }
 }
