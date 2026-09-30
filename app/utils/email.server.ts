@@ -4,6 +4,14 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Only production mails the office. The dev server, e2e runs and CI send the
+// school's copy to Resend's test inbox, so a test run never reaches the school.
+function schoolInbox() {
+  return process.env.NODE_ENV === 'production'
+    ? 'office@walz.at'
+    : 'delivered@resend.dev'
+}
+
 interface AufnahmeFormData {
   studentName: string
   studentEmail: string
@@ -59,7 +67,7 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
       recipients.push(data.parent2Email)
     }
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Walz <office@walz.at>',
       to: recipients,
       subject: 'Einladung zum Aufnahmegespräch an der Walz',
@@ -71,6 +79,8 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
         },
       ],
     })
+    // Resend reports a rejected send in its result instead of throwing.
+    if (error) throw new Error(error.message)
 
     return { success: true }
   } catch (error) {
@@ -112,12 +122,14 @@ WIE AUF UNS AUFMERKSAM GEWORDEN:
 ${data.source}
 `
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Walz Aufnahme <office@walz.at>',
-      to: 'office@walz.at',
+      to: schoolInbox(),
       subject: 'Neue Aufnahmeanmeldung',
       text: emailBody,
     })
+    // Resend reports a rejected send in its result instead of throwing.
+    if (error) throw new Error(error.message)
 
     return { success: true }
   } catch (error) {
