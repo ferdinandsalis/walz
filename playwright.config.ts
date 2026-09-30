@@ -29,7 +29,11 @@ export default defineConfig({
 
   webServer: {
     command: 'npm run dev',
-    port: Number(PORT),
+    // Wait for a rendered page, not just the open port: the dev server's first
+    // request compiles every route module for SSR, which takes ~20s on CI and
+    // would otherwise land on the first test and exceed its timeout.
+    url: `http://localhost:${PORT}/`,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
     stdout: 'pipe',
     stderr: 'pipe',
