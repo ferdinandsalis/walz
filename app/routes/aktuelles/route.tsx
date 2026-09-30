@@ -14,6 +14,7 @@ import {
 } from '@radix-ui/react-accordion'
 import { loadQuery } from '@sanity/react-loader'
 import { groupBy, evolve } from 'ramda'
+import { Fragment } from 'react'
 import {
   href,
   Link,
@@ -137,7 +138,7 @@ export default function Aktuelles() {
                         new Date(event.start.date) >= new Date()
 
                       return (
-                        <>
+                        <Fragment key={event._id}>
                           {isNextEvent && (
                             <div className="relative text-center">
                               <hr className="border-secondary rounded-full border-2" />
@@ -274,7 +275,7 @@ export default function Aktuelles() {
                               </div>
                             </AccordionContent>
                           </AccordionItem>
-                        </>
+                        </Fragment>
                       )
                     })}
                   </div>
