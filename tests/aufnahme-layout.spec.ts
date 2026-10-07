@@ -123,6 +123,9 @@ test.describe('Aufnahme layout', () => {
     }) => {
       await page.goto('/aufnahme/formular')
       await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+      // Focusing the summary scrolls the page; the boxes below are measured
+      // one by one, so they must all be taken after that scroll
+      await expect(page.locator('#aufnahme-errors')).toBeFocused()
 
       const postalCodeError = page.locator('#parent1PostalCode-error')
       await expect(postalCodeError).toBeVisible()
