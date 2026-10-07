@@ -147,9 +147,10 @@ function Layout({ children }: any) {
               <LogoSymbol className="text-primary relative top-1 w-10" />
               <LogoType className="fill-foreground/80 w-20" />
             </Link>
+            {/* 44px, a thumb-sized target; it fits the logo's row height. */}
             <CollapsibleTrigger
               aria-label="Menü"
-              className="bg-card/70 hover:bg-card rounded-md p-2 md:hidden"
+              className="bg-card/70 hover:bg-card grid size-11 place-items-center rounded-md md:hidden"
             >
               <List aria-hidden className="text-primary" />
             </CollapsibleTrigger>

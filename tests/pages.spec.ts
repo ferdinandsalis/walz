@@ -32,7 +32,9 @@ test('has about page', async ({ page }) => {
   ).toBeDefined()
 })
 
-test('names the phone menu button', async ({ page }) => {
+test('names the phone menu button and gives it a thumb-sized target', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto('/')
   // The toggle only works once React has hydrated the page
@@ -40,6 +42,10 @@ test('names the phone menu button', async ({ page }) => {
 
   const menu = page.getByRole('button', { name: 'Menü' })
   await expect(menu).toBeVisible()
+  // A thumb-sized target
+  const target = await menu.boundingBox()
+  expect(target!.width).toBeGreaterThanOrEqual(44)
+  expect(target!.height).toBeGreaterThanOrEqual(44)
   await expect(menu).toHaveAttribute('aria-expanded', 'false')
   await menu.click()
   await expect(menu).toHaveAttribute('aria-expanded', 'true')
