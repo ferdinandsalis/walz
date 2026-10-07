@@ -8,6 +8,12 @@ describe('cn', () => {
     )
   })
 
+  it('lets a later inset shadow replace the field shadow', () => {
+    expect(cn('inset-shadow-field', 'inset-shadow-none')).toBe(
+      'inset-shadow-none',
+    )
+  })
+
   it('lets a built-in radius replace the choice radius', () => {
     expect(cn('rounded-choice', 'rounded-lg')).toBe('rounded-lg')
   })
