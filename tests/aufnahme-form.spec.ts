@@ -43,6 +43,16 @@ test.describe('Aufnahme Form', () => {
     ).toBeVisible()
   })
 
+  test('introduces the form in one short paragraph', async ({ page }) => {
+    await page.goto('/aufnahme/formular')
+
+    await expect(
+      page.getByText('Schön, dass Sie sich für die Walz interessieren.'),
+    ).toHaveText(
+      'Schön, dass Sie sich für die Walz interessieren. Bitte füllen Sie das Formular als Elternteil oder erziehungsberechtigte Person aus. Es dauert etwa 5 Minuten.',
+    )
+  })
+
   test('should display validation errors for empty form', async ({ page }) => {
     await page.goto('/aufnahme/formular')
 

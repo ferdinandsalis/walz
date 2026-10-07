@@ -203,8 +203,8 @@ export default function AufnahmeFormular() {
 
       <p className="text-body-sm/relaxed">
         Schön, dass Sie sich für die Walz interessieren. Bitte füllen Sie das
-        Formular als Elternteil oder erziehungsberechtigte Person aus, gerne
-        gemeinsam mit Ihrem Kind. Es dauert etwa 5 Minuten.
+        Formular als Elternteil oder erziehungsberechtigte Person aus. Es dauert
+        etwa 5 Minuten.
       </p>
 
       <div className="border-muted bg-card rounded-md border px-4 py-3">
