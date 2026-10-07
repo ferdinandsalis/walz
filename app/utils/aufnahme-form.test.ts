@@ -646,7 +646,7 @@ describe('resolveAddresses', () => {
     country: 'Österreich',
   }
 
-  it('gives the child the parent address when the box is ticked', () => {
+  it('gives the applicant the parent address when the box is ticked', () => {
     const submission = resolveAddresses(parsedWith({}))
 
     expect(submission.student.address).toEqual(lindengasse)
@@ -655,7 +655,7 @@ describe('resolveAddresses', () => {
     expect(submission.parent1.sameAddressAsParent1).toBe(false)
   })
 
-  it('keeps the child own address when the box is unticked', () => {
+  it("keeps the applicant's own address when the box is unticked", () => {
     const { studentSameAddress: _ticked, ...unticked } = validRaw
     const result = parseAufnahmeForm({
       ...unticked,
@@ -722,7 +722,7 @@ describe('resolveAddresses', () => {
     expect(resolveAddresses(parsedWith({})).source).toBeUndefined()
   })
 
-  it('carries the remaining child data over', () => {
+  it('carries the remaining applicant data over', () => {
     expect(resolveAddresses(parsedWith({})).student).toMatchObject({
       name: 'Max Beispiel',
       email: 'max@beispiel.at',
@@ -836,7 +836,7 @@ describe('sectionStatus', () => {
     })
   })
 
-  it('keeps the child section open for an impossible date', () => {
+  it('keeps the applicant section open for an impossible date', () => {
     const values = {
       ...validRaw,
       studentBirthDay: '31',
@@ -846,7 +846,7 @@ describe('sectionStatus', () => {
     expect(sectionStatus('student', values, {})).toBe('open')
   })
 
-  it('keeps the child section open while the school fields are empty', () => {
+  it('keeps the applicant section open while the school fields are empty', () => {
     expect(
       sectionStatus('student', { ...validRaw, currentGrade: '' }, {}),
     ).toBe('open')
@@ -874,7 +874,7 @@ describe('sectionStatus', () => {
     expect(sectionStatus('student', values, {})).toBe('done')
   })
 
-  it('keeps the child section open when the box is cleared and the address is empty', () => {
+  it('keeps the applicant section open when the box is cleared and the address is empty', () => {
     const values = {
       ...validRaw,
       studentSameAddress: '',
