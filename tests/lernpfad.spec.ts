@@ -49,11 +49,14 @@ test('shows the section map beside the form on wide screens', async ({
   await sectionMap(page).getByRole('link', { name: 'Jugendliche:r' }).click()
 
   await expect(page.locator('#abschnitt-2')).toBeInViewport()
-  const top = await page
-    .locator('#abschnitt-2')
-    .evaluate(element => element.getBoundingClientRect().top)
-  expect(top).toBeGreaterThanOrEqual(0)
-  expect(top).toBeLessThan(900)
+  // The section lands 24px below the top edge, so its node is not clipped
+  await expect
+    .poll(() =>
+      page
+        .locator('#abschnitt-2')
+        .evaluate(element => Math.round(element.getBoundingClientRect().top)),
+    )
+    .toBe(24)
 })
 
 test('shows the section map beside the form on a small laptop', async ({

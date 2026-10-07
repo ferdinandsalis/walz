@@ -227,7 +227,8 @@ export function ErrorSummary({
 // A fieldset per section, so a screen reader names the person behind
 // repeated labels such as "Vor- und Nachname". Its node on the path shows the
 // section's status; the node is decoration, as the fields and the error
-// summary say the same.
+// summary say the same. A jump from the section map stops short of the top
+// edge, so the node is not clipped.
 export function FormSection({
   section,
   status,
@@ -241,7 +242,7 @@ export function FormSection({
 }) {
   const { id, number, title } = SECTIONS.find(({ key }) => key === section)!
   return (
-    <fieldset id={id} className="flex min-w-0 flex-col gap-6">
+    <fieldset id={id} className="flex min-w-0 scroll-mt-6 flex-col gap-6">
       <legend className="mb-6 w-full">
         <h2 className="font-condensed text-h5 relative">
           <PathMarker>
