@@ -4,7 +4,6 @@ import { isbot } from 'isbot'
 import {
   type FocusEvent,
   type FormEvent,
-  Fragment,
   type MouseEvent,
   type ReactNode,
   type Ref,
@@ -36,8 +35,10 @@ import {
 } from '#app/components/form-field.tsx'
 import { MailLink } from '#app/components/mail-link.tsx'
 import { Button } from '#app/components/ui/button.tsx'
+import { ChoiceCard, ChoiceList } from '#app/components/ui/choice.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
+import { Notice } from '#app/components/ui/notice.tsx'
 import {
   PathMarker,
   PathNode,
@@ -353,8 +354,9 @@ export default function AufnahmeFormular() {
             {/* The address shows only while the box is cleared; CSS does it, so
               it works before hydration and without JavaScript. */}
             <div className="group/student-address flex flex-col gap-6">
-              <SameAddressCheckbox
+              <ChoiceCard
                 name="studentSameAddress"
+                label="Wohnt an Ihrer Adresse"
                 hint="Entfernen Sie den Haken, wenn Ihr Kind woanders wohnt."
                 defaultChecked={
                   values ? values.studentSameAddress === 'on' : true
@@ -463,8 +465,9 @@ export default function AufnahmeFormular() {
                   )}
                 </Field>
                 <div className="group/parent2-address flex flex-col gap-6">
-                  <SameAddressCheckbox
+                  <ChoiceCard
                     name="parent2SameAddress"
+                    label="Wohnt an Ihrer Adresse"
                     defaultChecked={values?.parent2SameAddress === 'on'}
                   />
                   <div className="flex flex-col gap-6 group-has-[[name=parent2SameAddress]:checked]/parent2-address:hidden">
@@ -486,26 +489,19 @@ export default function AufnahmeFormular() {
               legend="Wie haben Sie von der Walz erfahren? (optional)"
               className="group/source"
             >
-              {/* Each row is 44px high, so a thumb hits it. */}
-              <div className="flex flex-col">
-                {SOURCE_OPTIONS.map(option => (
-                  <Fragment key={option.value}>
-                    <label className="text-body-sm flex min-h-11 cursor-pointer items-center gap-3">
-                      <input
-                        type="radio"
-                        name="source"
-                        value={option.value}
-                        defaultChecked={values?.source === option.value}
-                        className="accent-primary size-5 shrink-0"
-                      />
-                      {option.label}
-                    </label>
-                    {option.value === 'anderes' ? (
+              <ChoiceList
+                name="source"
+                defaultValue={values?.source}
+                options={SOURCE_OPTIONS.map(option => ({
+                  ...option,
+                  after:
+                    option.value === 'anderes' ? (
+                      // Indented under the option's label text.
                       <Field
                         name="sourceOther"
                         label="Woher genau?"
                         error={errors.sourceOther}
-                        className="hidden pt-1 pl-8 group-has-[[value=anderes]:checked]/source:flex"
+                        className="hidden pr-3.5 pb-3 pl-[2.875rem] group-has-[[value=anderes]:checked]/source:flex"
                       >
                         {control => (
                           <Input
@@ -514,30 +510,26 @@ export default function AufnahmeFormular() {
                           />
                         )}
                       </Field>
-                    ) : null}
-                  </Fragment>
-                ))}
-              </div>
+                    ) : undefined,
+                }))}
+              />
             </FieldGroup>
 
-            <p className="text-body-xs text-muted-foreground flex gap-2">
-              <Lock aria-hidden className="mt-0.5 size-4 shrink-0" />
-              <span>
-                Wir verwenden Ihre Angaben nur für das Aufnahmeverfahren der
-                Walz. Kommt kein Schulvertrag zustande, löschen wir sie. Mehr
-                dazu in unserer{' '}
-                <Link
-                  to="/datenschutz"
-                  className={cn(
-                    'text-foreground underline underline-offset-2',
-                    visibleFocusOutline,
-                  )}
-                >
-                  Datenschutzerklärung
-                </Link>
-                .
-              </span>
-            </p>
+            <Notice icon={Lock} className="text-body-xs/relaxed">
+              Wir verwenden Ihre Angaben nur für das Aufnahmeverfahren der Walz.
+              Kommt kein Schulvertrag zustande, löschen wir sie. Mehr dazu in
+              unserer{' '}
+              <Link
+                to="/datenschutz"
+                className={cn(
+                  'text-foreground underline underline-offset-2',
+                  visibleFocusOutline,
+                )}
+              >
+                Datenschutzerklärung
+              </Link>
+              .
+            </Notice>
 
             {/* The path ends in a dot beside the button. */}
             <div className="relative flex">
@@ -919,39 +911,6 @@ function SubHeading({ children }: { children: ReactNode }) {
       <Waypoint />
       {children}
     </h3>
-  )
-}
-
-function SameAddressCheckbox({
-  name,
-  hint,
-  defaultChecked,
-}: {
-  name: string
-  hint?: string
-  defaultChecked: boolean
-}) {
-  const { hintId } = fieldIds(name)
-  return (
-    <div className="flex flex-col">
-      {/* 44px high, so a thumb hits it: the box shows or hides an address. */}
-      <label className="text-body-sm flex min-h-11 cursor-pointer items-center gap-3 font-medium">
-        <input
-          type="checkbox"
-          id={name}
-          name={name}
-          defaultChecked={defaultChecked}
-          aria-describedby={hint ? hintId : undefined}
-          className="accent-primary size-5 shrink-0"
-        />
-        Wohnt an Ihrer Adresse
-      </label>
-      {hint ? (
-        <p id={hintId} className="text-body-xs text-muted-foreground pl-8">
-          {hint}
-        </p>
-      ) : null}
-    </div>
   )
 }
 

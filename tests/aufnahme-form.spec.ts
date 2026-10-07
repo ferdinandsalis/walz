@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect, type Locator, type Page } from '@playwright/test'
 
 // Fills every required field; the child lives at the parent's address, so the
 // child address fields stay hidden and untouched.
@@ -38,6 +38,27 @@ async function expectSectionNodes(
       state,
     )
   }
+}
+
+// The colour a token resolves to, as the browser reports computed colours.
+function resolvedColor(page: Page, token: string) {
+  return page.evaluate(token => {
+    const probe = document.createElement('div')
+    probe.style.backgroundColor = `var(${token})`
+    document.body.append(probe)
+    const color = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return color
+  }, token)
+}
+
+async function expectSolidOutline(locator: Locator) {
+  const outline = await locator.evaluate(element => {
+    const style = getComputedStyle(element)
+    return { style: style.outlineStyle, width: parseFloat(style.outlineWidth) }
+  })
+  expect(outline.style).toBe('solid')
+  expect(outline.width).toBeGreaterThanOrEqual(2)
 }
 
 // The client-side checks and the submit guard need React on the page. React
@@ -668,6 +689,24 @@ test.describe('Aufnahme Form', () => {
     )
   })
 
+  test('shows a visible focus outline on the choice card and the source rows', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    await page.locator('#studentBirthYear').focus()
+    await page.keyboard.press('Tab')
+    const sameAddress = page.locator('#studentSameAddress')
+    await expect(sameAddress).toBeFocused()
+    await expectSolidOutline(sameAddress.locator('xpath=ancestor::div[1]'))
+
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').focus()
+    await page.keyboard.press('Tab')
+    const firstSource = page.getByLabel('Freund:innen oder Familie')
+    await expect(firstSource).toBeFocused()
+    await expectSolidOutline(firstSource.locator('xpath=ancestor::div[1]'))
+  })
+
   test.describe('on a narrow phone', () => {
     test.use({ viewport: { width: 320, height: 640 } })
 
@@ -720,6 +759,22 @@ test.describe('Aufnahme Form', () => {
         'optional',
         'open',
       ])
+    })
+
+    test('tints the same-address card from the checkbox without JavaScript', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+      const sameAddress = page.locator('#studentSameAddress')
+      const card = sameAddress.locator('xpath=ancestor::div[1]')
+      const tint = await resolvedColor(page, '--color-primary-50')
+
+      await expect(sameAddress).toBeChecked()
+      await expect(card).toHaveCSS('background-color', tint)
+
+      await sameAddress.uncheck()
+
+      await expect(card).not.toHaveCSS('background-color', tint)
     })
 
     test('keeps every entry and the unticked box after a failed submit without JavaScript', async ({

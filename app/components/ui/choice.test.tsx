@@ -152,6 +152,24 @@ describe('ChoiceList', () => {
     }
   })
 
+  // The outline matches the card's; it follows only the radio, not a field
+  // in the option's extra content.
+  it('outlines the option of the radio with keyboard focus', () => {
+    const container = renderList()
+    const radios = Array.from(container.querySelectorAll('input'))
+
+    for (const radio of radios) {
+      expect(classesOf(radio.closest('label')?.parentElement)).toEqual(
+        expect.arrayContaining([
+          'has-[[type=radio]:focus-visible]:outline-2',
+          'has-[[type=radio]:focus-visible]:outline-offset-2',
+          'has-[[type=radio]:focus-visible]:outline-primary-700',
+        ]),
+      )
+      expect(classesOf(radio)).toContain('focus-visible:outline-hidden')
+    }
+  })
+
   it("puts an option's extra content between its row and the next", () => {
     const container = renderList()
     const after = container.querySelector('#woher')!
