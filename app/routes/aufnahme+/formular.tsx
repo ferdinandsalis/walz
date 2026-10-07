@@ -327,8 +327,8 @@ export default function AufnahmeFormular() {
               </Field>
               <Field
                 name="studentEmail"
-                label="E-Mail Ihres Kindes"
-                hint="Ihr Kind bekommt die Bestätigung ebenfalls. Hat es keine eigene Adresse, geben Sie Ihre an."
+                label="E-Mail"
+                hint="Die Bestätigung geht auch an diese Adresse. Gibt es keine eigene, geben Sie Ihre an."
                 error={errors.studentEmail}
               >
                 {control => (
@@ -351,7 +351,7 @@ export default function AufnahmeFormular() {
                 <ChoiceCard
                   name="studentSameAddress"
                   label="Wohnt an Ihrer Adresse"
-                  hint="Entfernen Sie den Haken, wenn Ihr Kind woanders wohnt."
+                  hint="Entfernen Sie den Haken bei einer anderen Wohnadresse."
                   defaultChecked={
                     values ? values.studentSameAddress === 'on' : true
                   }

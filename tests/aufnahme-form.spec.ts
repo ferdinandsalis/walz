@@ -264,7 +264,7 @@ test.describe('Aufnahme Form', () => {
       await expect(page.getByText(title, { exact: true })).toBeVisible()
     }
     await expect(
-      page.getByRole('heading', { name: 'Für Ihr Kind bis zum Gespräch' }),
+      page.getByRole('heading', { name: 'Für dich bis zum Gespräch' }),
     ).toBeVisible()
   })
 
@@ -332,7 +332,7 @@ test.describe('Aufnahme Form', () => {
 
     await summary
       .getByRole('link', {
-        name: 'Geben Sie den Vor- und Nachnamen Ihres Kindes ein',
+        name: 'Geben Sie den Vor- und Nachnamen ein',
       })
       .click()
     await expect(page.locator('#studentName')).toBeFocused()
@@ -340,7 +340,7 @@ test.describe('Aufnahme Form', () => {
     // The date group links to its first wrong input
     await summary
       .getByRole('link', {
-        name: 'Geben Sie das Geburtsdatum Ihres Kindes ein',
+        name: 'Geben Sie das Geburtsdatum ein',
       })
       .click()
     await expect(page.locator('#studentBirthDay')).toBeFocused()

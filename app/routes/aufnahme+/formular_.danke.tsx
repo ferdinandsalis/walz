@@ -64,7 +64,7 @@ export default function AufnahmeFormularDanke() {
 
       <Notice
         icon={Lightbulb}
-        title="Für Ihr Kind bis zum Gespräch"
+        title="Für dich bis zum Gespräch"
         titleAs="h2"
         className="text-body-sm/relaxed"
       >

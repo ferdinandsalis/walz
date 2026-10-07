@@ -57,7 +57,7 @@ describe('constants', () => {
       {
         title: 'Anmeldung absenden',
         description:
-          'Sie und Ihr Kind bekommen sofort eine Bestätigung per E-Mail.',
+          'Sie und die:der Jugendliche bekommen sofort eine Bestätigung per E-Mail.',
       },
       {
         title: 'Anruf von Frauke Rätz',
@@ -67,7 +67,7 @@ describe('constants', () => {
       {
         title: 'Aufnahmegespräch',
         description:
-          'Etwa 30 Minuten mit Ihrem Kind; in den letzten 10 Minuten sind Sie dabei.',
+          'Etwa 30 Minuten mit der:dem Jugendlichen; in den letzten 10 Minuten sind Sie dabei.',
       },
       { title: 'Zu- oder Absage', description: 'Ab Jänner.' },
     ])
@@ -172,8 +172,8 @@ describe('parseAufnahmeForm', () => {
     ['parent1PostalCode', 'Geben Sie Ihre Postleitzahl ein'],
     ['parent1City', 'Geben Sie Ihren Wohnort ein'],
     ['parent1Country', 'Geben Sie Ihr Land ein'],
-    ['studentName', 'Geben Sie den Vor- und Nachnamen Ihres Kindes ein'],
-    ['studentEmail', 'Geben Sie die E-Mail-Adresse Ihres Kindes ein'],
+    ['studentName', 'Geben Sie den Vor- und Nachnamen ein'],
+    ['studentEmail', 'Geben Sie die E-Mail-Adresse ein'],
     ['currentGrade', 'Geben Sie die derzeitige Klasse oder Schulstufe ein'],
     ['schoolHistory', 'Geben Sie die bisher besuchten Schulen ein'],
   ])(
@@ -185,7 +185,7 @@ describe('parseAufnahmeForm', () => {
 
   it('treats whitespace-only input as empty and trims padded values', () => {
     expect(errorsFor({ studentName: '   ' }).studentName).toBe(
-      'Geben Sie den Vor- und Nachnamen Ihres Kindes ein',
+      'Geben Sie den Vor- und Nachnamen ein',
     )
     expect(
       parsedWith({ parent1Email: ' anna@beispiel.at ' }).parent1.email,
@@ -219,7 +219,7 @@ describe('parseAufnahmeForm', () => {
     ],
     [
       'studentEmail',
-      'Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein',
+      'Geben Sie die E-Mail-Adresse im Format name@beispiel.at ein',
     ],
     [
       'parent2Email',
@@ -240,7 +240,7 @@ describe('parseAufnahmeForm', () => {
     })
   })
 
-  it('validates the child address only when the box is unticked', () => {
+  it('validates the applicant address only when the box is unticked', () => {
     expect(errorsFor({ parent1Street: '' })).toEqual({
       parent1Street: 'Geben Sie Ihre Straße und Hausnummer ein',
     })
@@ -249,15 +249,15 @@ describe('parseAufnahmeForm', () => {
     expect(parseAufnahmeForm(unticked)).toEqual({
       success: false,
       fieldErrors: {
-        studentStreet: 'Geben Sie Straße und Hausnummer Ihres Kindes ein',
-        studentPostalCode: 'Geben Sie die Postleitzahl Ihres Kindes ein',
-        studentCity: 'Geben Sie den Wohnort Ihres Kindes ein',
-        studentCountry: 'Geben Sie das Land Ihres Kindes ein',
+        studentStreet: 'Geben Sie Straße und Hausnummer ein',
+        studentPostalCode: 'Geben Sie die Postleitzahl ein',
+        studentCity: 'Geben Sie den Wohnort ein',
+        studentCountry: 'Geben Sie das Land ein',
       },
     })
   })
 
-  it('keeps the child address when the box is unticked', () => {
+  it('keeps the applicant address when the box is unticked', () => {
     const { studentSameAddress: _ticked, ...unticked } = validRaw
     const result = parseAufnahmeForm({
       ...unticked,
@@ -278,7 +278,7 @@ describe('parseAufnahmeForm', () => {
     })
   })
 
-  it('ignores hidden child address values while the box is ticked', () => {
+  it('ignores hidden applicant address values while the box is ticked', () => {
     const data = parsedWith({ studentStreet: 'Ringstraße 1' })
 
     expect(data.student.sameAddress).toBe(true)
@@ -562,7 +562,7 @@ describe('checkBirthdate', () => {
   it('asks for the date when all parts are empty', () => {
     expect(checkBirthdate('', '', '', today)).toEqual({
       ok: false,
-      message: 'Geben Sie das Geburtsdatum Ihres Kindes ein',
+      message: 'Geben Sie das Geburtsdatum ein',
       parts: ['day', 'month', 'year'],
     })
   })
@@ -578,7 +578,7 @@ describe('checkBirthdate', () => {
   it('treats whitespace-only parts as empty', () => {
     expect(checkBirthdate('  ', '  ', '  ', today)).toMatchObject({
       ok: false,
-      message: 'Geben Sie das Geburtsdatum Ihres Kindes ein',
+      message: 'Geben Sie das Geburtsdatum ein',
     })
   })
 
@@ -796,7 +796,7 @@ describe('SECTIONS', () => {
         title: 'Ihre Angaben',
         id: 'abschnitt-1',
       },
-      { key: 'student', number: 2, title: 'Ihr Kind', id: 'abschnitt-2' },
+      { key: 'student', number: 2, title: 'Jugendliche:r', id: 'abschnitt-2' },
       {
         key: 'parent2',
         number: 3,
@@ -893,7 +893,7 @@ describe('sectionStatus', () => {
     expect(sectionStatus('parent1', validRaw, { mail: 'Fehler' })).toBe('done')
   })
 
-  it('counts the child address as done while the box is ticked', () => {
+  it('counts the applicant address as done while the box is ticked', () => {
     const values = {
       ...validRaw,
       studentSameAddress: 'on',

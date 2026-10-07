@@ -37,13 +37,13 @@ describe('Notice', () => {
 
   it('renders the title as a heading at the level asked for', () => {
     const container = renderStatic(
-      <Notice icon={Lock} title="Für Ihr Kind bis zum Gespräch" titleAs="h2">
+      <Notice icon={Lock} title="Für dich bis zum Gespräch" titleAs="h2">
         <p>Text</p>
       </Notice>,
     )
     const heading = container.querySelector('h2')
 
-    expect(heading?.textContent).toBe('Für Ihr Kind bis zum Gespräch')
+    expect(heading?.textContent).toBe('Für dich bis zum Gespräch')
     expect(classesOf(heading)).toContain('text-secondary-800')
     expect(container.querySelector('h3')).toBeNull()
   })

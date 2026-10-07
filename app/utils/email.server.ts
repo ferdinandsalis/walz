@@ -130,7 +130,7 @@ export async function sendAufnahmeNotificationEmail(
     const emailBody = [
       'Neue Aufnahmeanmeldung eingegangen:',
       [
-        'KIND',
+        'JUGENDLICHE:R',
         `Name: ${student.name}`,
         `E-Mail: ${student.email}`,
         `Geburtsdatum: ${birthdateForOffice(student.birthdate)}`,

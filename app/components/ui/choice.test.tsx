@@ -15,7 +15,7 @@ describe('ChoiceCard', () => {
       <ChoiceCard
         name="studentSameAddress"
         label="Wohnt an Ihrer Adresse"
-        hint="Entfernen Sie den Haken, wenn Ihr Kind woanders wohnt."
+        hint="Entfernen Sie den Haken bei einer anderen Wohnadresse."
         defaultChecked
       />,
     )
@@ -36,7 +36,7 @@ describe('ChoiceCard', () => {
     const hint = container.querySelector('#studentSameAddress-hint')
 
     expect(hint?.textContent).toBe(
-      'Entfernen Sie den Haken, wenn Ihr Kind woanders wohnt.',
+      'Entfernen Sie den Haken bei einer anderen Wohnadresse.',
     )
     expect(hint?.closest('label')).toBeNull()
     expect(

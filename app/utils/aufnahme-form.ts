@@ -38,7 +38,7 @@ export const AUFNAHME_STEPS: ReadonlyArray<{
   {
     title: 'Anmeldung absenden',
     description:
-      'Sie und Ihr Kind bekommen sofort eine Bestätigung per E-Mail.',
+      'Sie und die:der Jugendliche bekommen sofort eine Bestätigung per E-Mail.',
   },
   {
     title: 'Anruf von Frauke Rätz',
@@ -48,7 +48,7 @@ export const AUFNAHME_STEPS: ReadonlyArray<{
   {
     title: 'Aufnahmegespräch',
     description:
-      'Etwa 30 Minuten mit Ihrem Kind; in den letzten 10 Minuten sind Sie dabei.',
+      'Etwa 30 Minuten mit der:dem Jugendlichen; in den letzten 10 Minuten sind Sie dabei.',
   },
   { title: 'Zu- oder Absage', description: 'Ab Jänner.' },
 ]
@@ -110,7 +110,7 @@ export function checkBirthdate(
   if (emptyParts.length === BIRTHDATE_PARTS.length) {
     return {
       ok: false,
-      message: 'Geben Sie das Geburtsdatum Ihres Kindes ein',
+      message: 'Geben Sie das Geburtsdatum ein',
       parts: BIRTHDATE_PARTS,
     }
   }
@@ -174,8 +174,7 @@ type EmailField = 'parent1Email' | 'studentEmail' | 'parent2Email'
 
 const EMAIL_FORMAT_MESSAGES: Record<EmailField, string> = {
   parent1Email: 'Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein',
-  studentEmail:
-    'Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein',
+  studentEmail: 'Geben Sie die E-Mail-Adresse im Format name@beispiel.at ein',
   parent2Email:
     'Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein',
 }
@@ -240,11 +239,8 @@ const parent1Schema = z.object({
 })
 
 const studentSchema = z.object({
-  name: required('Geben Sie den Vor- und Nachnamen Ihres Kindes ein'),
-  email: requiredEmail(
-    'Geben Sie die E-Mail-Adresse Ihres Kindes ein',
-    'studentEmail',
-  ),
+  name: required('Geben Sie den Vor- und Nachnamen ein'),
+  email: requiredEmail('Geben Sie die E-Mail-Adresse ein', 'studentEmail'),
   birthdate: z
     .object({ day: z.string(), month: z.string(), year: z.string() })
     .transform((parts, ctx) => {
@@ -259,10 +255,10 @@ const studentSchema = z.object({
 
 const studentAddressSchema = z.object(
   addressFields({
-    street: 'Geben Sie Straße und Hausnummer Ihres Kindes ein',
-    postalCode: 'Geben Sie die Postleitzahl Ihres Kindes ein',
-    city: 'Geben Sie den Wohnort Ihres Kindes ein',
-    country: 'Geben Sie das Land Ihres Kindes ein',
+    street: 'Geben Sie Straße und Hausnummer ein',
+    postalCode: 'Geben Sie die Postleitzahl ein',
+    city: 'Geben Sie den Wohnort ein',
+    country: 'Geben Sie das Land ein',
   }),
 )
 
@@ -507,7 +503,7 @@ export const SECTIONS: ReadonlyArray<{
   id: string
 }> = [
   { key: 'parent1', number: 1, title: 'Ihre Angaben', id: 'abschnitt-1' },
-  { key: 'student', number: 2, title: 'Ihr Kind', id: 'abschnitt-2' },
+  { key: 'student', number: 2, title: 'Jugendliche:r', id: 'abschnitt-2' },
   {
     key: 'parent2',
     number: 3,

@@ -120,7 +120,7 @@ describe('aufnahme-form action', () => {
 
     expect(result.init.status).toBe(400)
     expect(result.data.fieldErrors.studentName).toBe(
-      'Geben Sie den Vor- und Nachnamen Ihres Kindes ein',
+      'Geben Sie den Vor- und Nachnamen ein',
     )
     expect(result.data.values.parent1Name).toBe('Anna Mustermann')
     expect(sendAufnahmeNotificationEmail).not.toHaveBeenCalled()
@@ -135,7 +135,7 @@ describe('aufnahme-form action', () => {
 
     expect(result.init.status).toBe(400)
     expect(result.data.fieldErrors.studentEmail).toBe(
-      'Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein',
+      'Geben Sie die E-Mail-Adresse im Format name@beispiel.at ein',
     )
   })
 

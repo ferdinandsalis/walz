@@ -130,7 +130,9 @@ describe('Aufnahme form after a failed submit', () => {
 
     const groups = Array.from(summary.querySelector('ul')!.children)
     expect(groups.map(group => group.tagName)).toEqual(['LI', 'LI', 'LI'])
-    expect(within(groups[1] as HTMLElement).getByText('Ihr Kind')).toBeTruthy()
+    expect(
+      within(groups[1] as HTMLElement).getByText('Jugendliche:r'),
+    ).toBeTruthy()
     expect(hrefs(groups[1]!)).toEqual(['#studentBirthMonth'])
 
     // An error outside every section closes the list, without a label
@@ -150,5 +152,22 @@ describe('Aufnahme form school history', () => {
     expect(document.getElementById(`${field.id}-hint`)?.textContent).toBe(
       'Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute)',
     )
+  })
+})
+
+describe('Aufnahme form section for the applicant', () => {
+  it('addresses the applicant without calling them a child', () => {
+    renderWithActionData({ fieldErrors: {}, values: {} })
+
+    const heading = screen.getByRole('heading', { name: /Jugendliche:r/ })
+    const section = heading.closest('fieldset')!
+    const email = within(section).getByLabelText('E-Mail')
+    expect(document.getElementById(`${email.id}-hint`)?.textContent).toBe(
+      'Die Bestätigung geht auch an diese Adresse. Gibt es keine eigene, geben Sie Ihre an.',
+    )
+    expect(section.textContent).toContain(
+      'Entfernen Sie den Haken bei einer anderen Wohnadresse.',
+    )
+    expect(section.textContent).not.toMatch(/Kind/)
   })
 })

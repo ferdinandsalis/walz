@@ -7,7 +7,7 @@ import { SectionMap } from './section-map.tsx'
 
 const sections = [
   { id: 'abschnitt-1', number: 1, title: 'Ihre Angaben', state: 'done' },
-  { id: 'abschnitt-2', number: 2, title: 'Ihr Kind', state: 'attention' },
+  { id: 'abschnitt-2', number: 2, title: 'Jugendliche:r', state: 'attention' },
   {
     id: 'abschnitt-3',
     number: 3,
@@ -38,7 +38,7 @@ describe('SectionMap', () => {
       links.map(link => [link.getAttribute('href'), visibleText(link)]),
     ).toEqual([
       ['#abschnitt-1', 'Ihre Angaben'],
-      ['#abschnitt-2', 'Ihr Kind'],
+      ['#abschnitt-2', 'Jugendliche:r'],
       ['#abschnitt-3', 'Weitere erziehungsberechtigte Person'],
       ['#abschnitt-4', 'Zum Schluss'],
     ])

@@ -121,6 +121,13 @@ test('writes each address on one line', async () => {
   expect(text).toContain('Adresse: Lindengasse 12/2/14, 1070 Wien, Österreich')
 })
 
+test('heads the applicant section JUGENDLICHE:R', async () => {
+  const text = await notificationTextFor(aufnahme)
+
+  expect(text).toContain('JUGENDLICHE:R\nName: ')
+  expect(text).not.toContain('KIND')
+})
+
 test('marks a copied address', async () => {
   const text = await notificationTextFor({
     ...aufnahme,

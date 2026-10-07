@@ -46,7 +46,7 @@ test('shows the section map beside the form on wide screens', async ({
   await page.goto('/aufnahme/formular')
   await expectMapBesideForm(page)
 
-  await sectionMap(page).getByRole('link', { name: 'Ihr Kind' }).click()
+  await sectionMap(page).getByRole('link', { name: 'Jugendliche:r' }).click()
 
   await expect(page.locator('#abschnitt-2')).toBeInViewport()
   const top = await page
