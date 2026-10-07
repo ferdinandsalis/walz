@@ -219,3 +219,21 @@ test('leaves out a second guardian without an email', async () => {
     'delivered+parent1@resend.dev',
   ])
 })
+
+test('sends the confirmation once to an address given twice', async () => {
+  const fetch = resendResponds(200, { id: 'test-email-id' })
+
+  // The child-email hint asks parents to give their own address if the child
+  // has none, so the same address can come in twice, in any case.
+  await sendAufnahmeConfirmationEmail({
+    ...aufnahme,
+    student: { ...aufnahme.student, email: 'Delivered+Parent1@resend.dev' },
+    parent2: {
+      name: 'Bernd Testmann',
+      email: 'delivered+parent1@resend.dev',
+      sameAddressAsParent1: false,
+    },
+  })
+
+  expect(recipientsOf(fetch)).toEqual(['Delivered+Parent1@resend.dev'])
+})

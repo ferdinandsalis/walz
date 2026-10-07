@@ -47,6 +47,24 @@ function sourceLine(source: AufnahmeSubmission['source']) {
   return source.other ? `${source.label}: ${source.other}` : source.label
 }
 
+// The child and both parents, each address once: parents give their own
+// address for a child without one, so the same address can come in twice.
+function confirmationRecipients(data: AufnahmeSubmission) {
+  const addresses = [
+    data.student.email,
+    data.parent1.email,
+    data.parent2?.email,
+  ]
+  const recipients: string[] = []
+  const seen = new Set<string>()
+  for (const address of addresses) {
+    if (!address || seen.has(address.toLowerCase())) continue
+    seen.add(address.toLowerCase())
+    recipients.push(address)
+  }
+  return recipients
+}
+
 export async function sendAufnahmeConfirmationEmail(
   data: AufnahmeSubmission,
 ): Promise<{ success: boolean; error?: string }> {
@@ -78,15 +96,9 @@ das Team der Walz
 
 P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vorabinformation.`
 
-    // Send to both student and parents
-    const recipients = [data.student.email, data.parent1.email]
-    if (data.parent2?.email) {
-      recipients.push(data.parent2.email)
-    }
-
     const { error } = await resend.emails.send({
       from: 'Walz <office@walz.at>',
-      to: recipients,
+      to: confirmationRecipients(data),
       subject: 'Einladung zum Aufnahmegespräch an der Walz',
       text: emailBody,
       attachments: [
