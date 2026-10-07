@@ -299,7 +299,8 @@ and the spam hint names office@walz.at; that trade-off is accepted.
     - only the empty ones for "partly empty";
     - only the year for "year not 4 digits".
 - The page renders `<title>` itself (React 19 hoists it) with the "Fehler: "
-  prefix. The route drops its `meta` title, so there is exactly one `<title>`.
+  prefix. The route's `meta` returns an empty array, which overrides the root
+  `meta` title "Walz" (`app/root.tsx`), so there is exactly one `<title>`.
 
 **Mail failure**
 
