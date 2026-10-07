@@ -1,5 +1,9 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
-import { fillParent1, gotoHydratedForm } from './aufnahme-helpers.ts'
+import {
+  fillParent1,
+  gotoHydratedForm,
+  resolvedColor,
+} from './aufnahme-helpers.ts'
 
 // Fills every required field; the child lives at the parent's address, so the
 // child address fields stay hidden and untouched.
@@ -29,18 +33,6 @@ async function expectSectionNodes(
       state,
     )
   }
-}
-
-// The colour a token resolves to, as the browser reports computed colours.
-function resolvedColor(page: Page, token: string) {
-  return page.evaluate(token => {
-    const probe = document.createElement('div')
-    probe.style.backgroundColor = `var(${token})`
-    document.body.append(probe)
-    const color = getComputedStyle(probe).backgroundColor
-    probe.remove()
-    return color
-  }, token)
 }
 
 async function expectSolidOutline(locator: Locator) {

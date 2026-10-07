@@ -1,26 +1,10 @@
 import { test, expect, type Locator } from '@playwright/test'
+import { expectFocusOutline, gotoHydratedForm } from './aufnahme-helpers.ts'
 
 async function box(locator: Locator) {
   const result = await locator.boundingBox()
   if (!result) throw new Error('expected the element to be visible')
   return result
-}
-
-// A keyboard user must find the focused control: a solid outline of at least
-// 2px in an opaque colour, not the faint site-wide one.
-async function expectVisibleFocusOutline(locator: Locator) {
-  await expect(locator).toBeFocused()
-  const outline = await locator.evaluate(element => {
-    const style = getComputedStyle(element)
-    return {
-      style: style.outlineStyle,
-      width: parseFloat(style.outlineWidth),
-      color: style.outlineColor,
-    }
-  })
-  expect(outline.style).toBe('solid')
-  expect(outline.width).toBeGreaterThanOrEqual(2)
-  expect(outline.color).toMatch(/^rgb\(/)
 }
 
 // A thumb-sized target: at least 44px high, and the label itself takes a tap
@@ -41,6 +25,18 @@ async function expectTouchTarget(label: Locator) {
       )
     expect(hit).toBe(await label.textContent())
   }
+}
+
+// The box shadows that draw something: a shadow with no offset, blur or
+// spread is invisible whatever its colour.
+async function visibleShadows(locator: Locator) {
+  const boxShadow = await locator.evaluate(
+    element => getComputedStyle(element).boxShadow,
+  )
+  return boxShadow
+    .split(/,(?![^(]*\))/)
+    .map(shadow => shadow.trim())
+    .filter(shadow => /[1-9]/.test(shadow.replace(/\([^)]*\)/g, '')))
 }
 
 function fontSize(locator: Locator) {
@@ -68,13 +64,62 @@ test.describe('Aufnahme layout', () => {
 
     await page.locator('#source').focus()
     await page.keyboard.press('Tab')
-    await expectVisibleFocusOutline(
+    await expectFocusOutline(
       page.getByRole('link', { name: 'Datenschutzerklärung' }),
     )
 
     await page.keyboard.press('Tab')
-    await expectVisibleFocusOutline(
-      page.getByRole('button', { name: 'Anmeldung absenden' }),
+    const submit = page.getByRole('button', { name: 'Anmeldung absenden' })
+    await expectFocusOutline(submit)
+    // The outline is the only focus mark: the button keeps its resting look
+    // instead of adding its own focus ring
+    const focusedShadows = await visibleShadows(submit)
+    await submit.blur()
+    expect(focusedShadows).toEqual(await visibleShadows(submit))
+  })
+
+  test('outlines the error summary and its links on keyboard focus', async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).focus()
+    await page.keyboard.press('Enter')
+    const summary = page.locator('#aufnahme-errors')
+    await expectFocusOutline(summary)
+
+    await page.keyboard.press('Tab')
+    await expectFocusOutline(
+      summary.getByRole('link', {
+        name: 'Geben Sie Ihren Vor- und Nachnamen ein',
+      }),
+    )
+  })
+
+  test('outlines the further guardian toggle on keyboard focus', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    await page.locator('#schoolHistory').focus()
+    await page.keyboard.press('Tab')
+    await expectFocusOutline(
+      page.locator('summary', {
+        hasText: 'Weitere erziehungsberechtigte Person angeben',
+      }),
+    )
+  })
+
+  test('outlines the section map links on keyboard focus', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/aufnahme/formular')
+
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).focus()
+    await page.keyboard.press('Tab')
+    await expectFocusOutline(
+      page
+        .getByRole('navigation', { name: 'Abschnitte' })
+        .getByRole('link', { name: 'Ihre Angaben' }),
     )
   })
 
@@ -93,7 +138,7 @@ test.describe('Aufnahme layout', () => {
     expect(label.weight).toBeGreaterThanOrEqual(700)
   })
 
-  test('outlines the email links on the confirmation page on keyboard focus', async ({
+  test('outlines the links on the confirmation page on keyboard focus', async ({
     page,
   }) => {
     await page.goto('/aufnahme/formular/danke')
@@ -106,12 +151,14 @@ test.describe('Aufnahme layout', () => {
     ).toBeFocused()
 
     await page.keyboard.press('Tab')
-    await expectVisibleFocusOutline(
-      page.getByRole('link', { name: 'office@walz.at' }),
+    await expectFocusOutline(page.getByRole('link', { name: 'office@walz.at' }))
+    await page.keyboard.press('Tab')
+    await expectFocusOutline(
+      page.getByRole('link', { name: 'agnes.chorherr@walz.at' }),
     )
     await page.keyboard.press('Tab')
-    await expectVisibleFocusOutline(
-      page.getByRole('link', { name: 'agnes.chorherr@walz.at' }),
+    await expectFocusOutline(
+      page.getByRole('link', { name: 'Zurück zur Aufnahme' }),
     )
   })
 

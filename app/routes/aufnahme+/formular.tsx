@@ -405,7 +405,12 @@ export default function AufnahmeFormular() {
                 suppressHydrationWarning
                 className="group/parent2"
               >
-                <summary className="border-input bg-card hover:bg-muted/40 focus-visible:ring-ring flex cursor-pointer list-none items-center gap-3 rounded-md border border-dashed px-4 py-3 font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden [&::-webkit-details-marker]:hidden">
+                <summary
+                  className={cn(
+                    'border-input bg-card hover:bg-muted/40 flex cursor-pointer list-none items-center gap-3 rounded-md border border-dashed px-4 py-3 font-medium [&::-webkit-details-marker]:hidden',
+                    visibleFocusOutline,
+                  )}
+                >
                   <Plus
                     aria-hidden
                     weight="bold"
@@ -515,13 +520,14 @@ export default function AufnahmeFormular() {
                   <span className="bg-path-done size-3 rounded-full ring-4 ring-(color:--path-gap)" />
                 </PathMarker>
                 {/* At 20px bold the white label counts as large text, which
-                passes 3:1 on the orange. */}
+                passes 3:1 on the orange. On focus the button keeps its resting
+                inner ring, so the outline is the only focus mark. */}
                 <Button
                   type="submit"
                   size="lg"
                   aria-disabled={isBusy ? true : undefined}
                   className={cn(
-                    'w-full gap-2 text-[1.25rem] font-bold aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto',
+                    'focus-visible:ring-card/20 w-full gap-2 text-[1.25rem] font-bold focus-visible:ring-offset-0 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto',
                     visibleFocusOutline,
                   )}
                 >

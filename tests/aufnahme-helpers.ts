@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 
 // Fills section 1, "Ihre Angaben"; the country is already set.
 export async function fillParent1(page: Page) {
@@ -17,4 +17,42 @@ export async function fillParent1(page: Page) {
 export async function gotoHydratedForm(page: Page) {
   await page.goto('/aufnahme/formular')
   await page.waitForFunction(() => '__reactRouterDataRouter' in window)
+}
+
+// The colour a token resolves to, as the browser reports computed colours.
+export function resolvedColor(page: Page, token: string) {
+  return page.evaluate(token => {
+    const probe = document.createElement('div')
+    probe.style.backgroundColor = `var(${token})`
+    document.body.append(probe)
+    const color = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return color
+  }, token)
+}
+
+// The one focus look of the Aufnahme pages, the fields' own: a solid 2px
+// primary-700 outline at 2px offset, clear on the page and on the orange.
+export async function expectFocusOutline(locator: Locator) {
+  await expect(locator).toBeFocused()
+  const primary700 = await resolvedColor(locator.page(), '--color-primary-700')
+  // Polled, as a control may fade its outline colour in
+  await expect
+    .poll(() =>
+      locator.evaluate(element => {
+        const style = getComputedStyle(element)
+        return {
+          style: style.outlineStyle,
+          width: style.outlineWidth,
+          offset: style.outlineOffset,
+          color: style.outlineColor,
+        }
+      }),
+    )
+    .toEqual({
+      style: 'solid',
+      width: '2px',
+      offset: '2px',
+      color: primary700,
+    })
 }

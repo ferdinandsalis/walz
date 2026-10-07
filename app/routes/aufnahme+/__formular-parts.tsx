@@ -13,6 +13,7 @@ import { MailLink } from '#app/components/mail-link.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
 import { PathMarker, PathNode, Waypoint } from '#app/components/ui/path.tsx'
+import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import {
   AUFNAHME_FIELD_NAMES,
   type BirthdatePart,
@@ -23,6 +24,7 @@ import {
   type SectionStatus,
   sectionOf,
 } from '#app/utils/aufnahme-form.ts'
+import { cn } from '#app/utils/misc.tsx'
 
 /*
   The presentational parts of the Aufnahme form: its sections, the address and
@@ -154,7 +156,10 @@ export function ErrorSummary({
       ref={ref}
       id="aufnahme-errors"
       tabIndex={-1}
-      className="border-foreground-danger bg-card focus-visible:ring-ring rounded-md border-2 p-4 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+      className={cn(
+        'border-foreground-danger bg-card rounded-md border-2 p-4 focus:outline-hidden',
+        visibleFocusOutline,
+      )}
     >
       <div role="alert">
         {formError === 'mail' ? (
@@ -199,7 +204,10 @@ export function ErrorSummary({
                         <a
                           href={`#${error.fieldId}`}
                           onClick={event => focusField(event, error.fieldId)}
-                          className="text-body-sm text-foreground-danger font-medium underline underline-offset-2"
+                          className={cn(
+                            'text-body-sm text-foreground-danger font-medium underline underline-offset-2',
+                            visibleFocusOutline,
+                          )}
                         >
                           {error.message}
                         </a>

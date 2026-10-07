@@ -4,7 +4,9 @@ import { Link } from 'react-router'
 import { MailLink } from '#app/components/mail-link.tsx'
 import { Notice } from '#app/components/ui/notice.tsx'
 import { StepsPath } from '#app/components/ui/steps-path.tsx'
+import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
+import { cn } from '#app/utils/misc.tsx'
 
 export function meta() {
   return [
@@ -78,7 +80,10 @@ export default function AufnahmeFormularDanke() {
       <p>
         <Link
           to="/aufnahme"
-          className="text-muted-foreground underline underline-offset-2"
+          className={cn(
+            'text-muted-foreground underline underline-offset-2',
+            visibleFocusOutline,
+          )}
         >
           Zurück zur Aufnahme
         </Link>
