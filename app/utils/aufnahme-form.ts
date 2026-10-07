@@ -271,7 +271,7 @@ const schoolSchema = z.object({
   schoolHistory: z
     .string()
     .trim()
-    .min(1, 'Geben Sie die besuchten Schulen nach der Volksschule ein')
+    .min(1, 'Geben Sie die bisher besuchten Schulen ein')
     .max(
       MAX_SCHOOL_HISTORY_LENGTH,
       `Die Liste der Schulen darf höchstens ${MAX_SCHOOL_HISTORY_LENGTH} Zeichen lang sein`,

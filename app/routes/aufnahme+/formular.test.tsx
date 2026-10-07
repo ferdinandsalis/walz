@@ -140,3 +140,15 @@ describe('Aufnahme form after a failed submit', () => {
     expect(trailing.textContent).toBe('Ein unbekannter Fehler')
   })
 })
+
+describe('Aufnahme form school history', () => {
+  it('asks for the schools attended so far, after the Volksschule', () => {
+    renderWithActionData({ fieldErrors: {}, values: {} })
+
+    const field = screen.getByLabelText('Bisher besuchte Schulen')
+    expect(field.tagName).toBe('TEXTAREA')
+    expect(document.getElementById(`${field.id}-hint`)?.textContent).toBe(
+      'Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute)',
+    )
+  })
+})

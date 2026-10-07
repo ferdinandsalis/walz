@@ -383,8 +383,8 @@ export default function AufnahmeFormular() {
               </Field>
               <Field
                 name="schoolHistory"
-                label="Besuchte Schulen nach der Volksschule"
-                hint="Mit Ort und Jahren, die derzeitige Schule zuletzt, z. B. MS Lindengasse, Wien (2022–heute)"
+                label="Bisher besuchte Schulen"
+                hint="Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute)"
                 error={errors.schoolHistory}
               >
                 {control => (

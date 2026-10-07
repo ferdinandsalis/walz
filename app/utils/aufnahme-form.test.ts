@@ -175,10 +175,7 @@ describe('parseAufnahmeForm', () => {
     ['studentName', 'Geben Sie den Vor- und Nachnamen Ihres Kindes ein'],
     ['studentEmail', 'Geben Sie die E-Mail-Adresse Ihres Kindes ein'],
     ['currentGrade', 'Geben Sie die derzeitige Klasse oder Schulstufe ein'],
-    [
-      'schoolHistory',
-      'Geben Sie die besuchten Schulen nach der Volksschule ein',
-    ],
+    ['schoolHistory', 'Geben Sie die bisher besuchten Schulen ein'],
   ])(
     'reports a missing %s with its person-specific message',
     (field, message) => {
