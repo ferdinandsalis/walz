@@ -47,10 +47,7 @@ export function StepsPath({
               key={step.title}
               // The text size sets the line height that centres the marker
               // on the first line (`lh`).
-              className={cn(
-                'relative',
-                full ? 'text-body-md pl-2 sm:pl-0' : 'text-body-xs',
-              )}
+              className={cn('relative', full ? 'text-body-md' : 'text-body-xs')}
             >
               {full && index === 0 ? <DoneStretch /> : null}
               {index === steps.length - 1 ? <RailEnd /> : null}

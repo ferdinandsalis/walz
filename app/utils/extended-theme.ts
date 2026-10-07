@@ -6,7 +6,7 @@ export const extendedTheme = {
     choice: '0.75rem',
   },
   spacing: {
-    path: '2rem',
+    path: '2.5rem',
     'path-wide': '3.5rem',
   },
   insetShadow: {

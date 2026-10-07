@@ -156,6 +156,32 @@ test.describe('Aufnahme layout', () => {
       expect(error.y).toBeLessThan(postalCode.y)
     })
 
+    test('lines the section titles up with the field labels', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+
+      // The text itself, not its box: the box may start under the node
+      const titleLeft = await page
+        .locator('#abschnitt-1 legend h2')
+        .evaluate(heading => {
+          const walker = document.createTreeWalker(
+            heading,
+            NodeFilter.SHOW_TEXT,
+          )
+          while (walker.nextNode()) {
+            const text = walker.currentNode
+            if (text.parentElement?.closest('[aria-hidden="true"]')) continue
+            const range = document.createRange()
+            range.selectNodeContents(text)
+            return range.getBoundingClientRect().left
+          }
+          throw new Error('expected the title text')
+        })
+      const label = await box(page.locator('label[for=parent1Name]'))
+      expect(Math.abs(titleLeft - label.x)).toBeLessThanOrEqual(1)
+    })
+
     test('gives the checkbox and the radio rows thumb-sized targets', async ({
       page,
     }) => {

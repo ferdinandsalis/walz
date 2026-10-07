@@ -923,19 +923,15 @@ function FormSection({
           <PathMarker>
             <PathNode state={status} number={number} />
           </PathMarker>
-          {/* On a phone the indent is the node's width; the padding keeps the
-              title clear of its ring. */}
-          <span className="block pl-2 sm:pl-0">
-            {title}
-            {optional ? (
-              <>
-                {' '}
-                <span className="text-muted-foreground font-normal">
-                  (optional)
-                </span>
-              </>
-            ) : null}
-          </span>
+          {title}
+          {optional ? (
+            <>
+              {' '}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
+            </>
+          ) : null}
         </h2>
       </legend>
       {children}
