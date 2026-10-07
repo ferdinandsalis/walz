@@ -3,9 +3,13 @@ import { test, expect, type Page } from '@playwright/test'
 
 const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
+// The Walz brand colours (primary orange, secondary blue) fall below the WCAG
+// contrast minimums by the owner's decision, so this scan does not check
+// contrast. Contrast of new markup is reviewed by hand.
 async function scan(page: Page) {
   const { violations } = await new AxeBuilder({ page })
     .withTags(WCAG_AA_TAGS)
+    .disableRules(['color-contrast'])
     .analyze()
   return violations
 }
