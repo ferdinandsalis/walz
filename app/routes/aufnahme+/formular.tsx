@@ -484,10 +484,11 @@ export default function AufnahmeFormular() {
             legend="Wie haben Sie von der Walz erfahren? (optional)"
             className="group/source"
           >
-            <div className="flex flex-col gap-1">
+            {/* Each row is 44px high, so a thumb hits it. */}
+            <div className="flex flex-col">
               {SOURCE_OPTIONS.map(option => (
                 <Fragment key={option.value}>
-                  <label className="text-body-sm flex cursor-pointer items-center gap-3 py-1.5">
+                  <label className="text-body-sm flex min-h-11 cursor-pointer items-center gap-3">
                     <input
                       type="radio"
                       name="source"
@@ -873,8 +874,9 @@ function SameAddressCheckbox({
 }) {
   const { hintId } = fieldIds(name)
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-body-sm flex cursor-pointer items-center gap-3 font-medium">
+    <div className="flex flex-col">
+      {/* 44px high, so a thumb hits it: the box shows or hides an address. */}
+      <label className="text-body-sm flex min-h-11 cursor-pointer items-center gap-3 font-medium">
         <input
           type="checkbox"
           id={name}

@@ -23,6 +23,26 @@ async function expectVisibleFocusOutline(locator: Locator) {
   expect(outline.color).toMatch(/^rgb\(/)
 }
 
+// A thumb-sized target: at least 44px high, and the label itself takes a tap
+// anywhere in that height, not a neighbour that overlaps it.
+async function expectTouchTarget(label: Locator) {
+  // elementFromPoint only sees the viewport
+  await label.scrollIntoViewIfNeeded()
+  const { x, y, width, height } = await box(label)
+  expect(height).toBeGreaterThanOrEqual(44)
+  for (const pointY of [y + 1, y + height - 1]) {
+    const hit = await label
+      .page()
+      .evaluate(
+        ([pointX, pointY]) =>
+          document.elementFromPoint(pointX!, pointY!)?.closest('label')
+            ?.textContent ?? null,
+        [x + width / 2, pointY],
+      )
+    expect(hit).toBe(await label.textContent())
+  }
+}
+
 function fontSize(locator: Locator) {
   return locator.evaluate(element => getComputedStyle(element).fontSize)
 }
@@ -116,6 +136,25 @@ test.describe('Aufnahme layout', () => {
       )
       expect(error.y).toBeGreaterThan(postalCodeLabel.y)
       expect(error.y).toBeLessThan(postalCode.y)
+    })
+
+    test('gives the checkbox and the radio rows thumb-sized targets', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+
+      await expectTouchTarget(
+        page
+          .locator('label')
+          .filter({ has: page.locator('#studentSameAddress') }),
+      )
+      const radioLabels = page
+        .locator('label')
+        .filter({ has: page.locator('input[type=radio]') })
+      await expect(radioLabels).toHaveCount(6)
+      for (const label of await radioLabels.all()) {
+        await expectTouchTarget(label)
+      }
     })
   })
 
