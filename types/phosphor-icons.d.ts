@@ -41,6 +41,7 @@ declare module '@phosphor-icons/react' {
   export const House: Icon
   export const Info: Icon
   export const InstagramLogo: Icon
+  export const Lightbulb: Icon
   export const Link: Icon
   export const LinkSimple: Icon
   export const List: Icon

@@ -1,7 +1,9 @@
-import { CheckCircle } from '@phosphor-icons/react'
+import { Lightbulb } from '@phosphor-icons/react'
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
 import { MailLink } from '#app/components/mail-link.tsx'
+import { Notice } from '#app/components/ui/notice.tsx'
+import { StepsPath } from '#app/components/ui/steps-path.tsx'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 
 export function meta() {
@@ -53,50 +55,25 @@ export default function AufnahmeFormularDanke() {
         </p>
       </div>
 
-      <div className="border-muted bg-card rounded-md border px-4 py-3">
-        <h2 className="font-condensed text-body-sm font-bold">
-          So geht es weiter
-        </h2>
-        <ol className="text-body-xs mt-1.5 flex flex-col gap-2">
-          {AUFNAHME_STEPS.map((step, index) => (
-            <li key={step.title} className="flex gap-2">
-              <span className="text-muted-foreground w-4 shrink-0 tabular-nums">
-                {index === 0 ? (
-                  <>
-                    <CheckCircle
-                      size={16}
-                      weight="fill"
-                      className="text-primary"
-                      aria-hidden="true"
-                    />
-                    <span className="sr-only">Erledigt: </span>
-                  </>
-                ) : (
-                  `${index + 1}.`
-                )}
-              </span>
-              <span>
-                <span className="font-medium">{step.title}</span>
-                <br />
-                <span className="text-muted-foreground">
-                  {step.description}
-                </span>
-              </span>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <StepsPath
+        steps={AUFNAHME_STEPS}
+        variant="full"
+        heading="So geht es weiter"
+        className="mt-2"
+      />
 
-      <div className="border-muted bg-card rounded-md border px-4 py-3">
-        <h2 className="font-condensed text-body-sm font-bold">
-          Für Ihr Kind bis zum Gespräch
-        </h2>
-        <p className="text-body-xs mt-1.5">
+      <Notice
+        icon={Lightbulb}
+        title="Für Ihr Kind bis zum Gespräch"
+        titleAs="h2"
+        className="text-body-sm/relaxed"
+      >
+        <p>
           Schicke drei Gründe, warum du in die Walz gehen möchtest, per E-Mail
           an <MailLink address="agnes.chorherr@walz.at" />, und überlege dir
           eine kreative Antwort auf die Frage, was du mit der Walz verbindest.
         </p>
-      </div>
+      </Notice>
 
       <p>
         <Link

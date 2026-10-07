@@ -84,3 +84,82 @@ test("mirrors the form's section state", async ({ page }) => {
 
   await expect(firstNode).toHaveAttribute('data-node-state', 'done')
 })
+
+test('draws the first segment fully under reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/aufnahme/formular/danke')
+
+  const segment = page
+    .getByRole('list', { name: 'So geht es weiter' })
+    .locator('.origin-top')
+  await expect(segment).toHaveCount(1)
+  await expect(segment).toHaveCSS('transform', 'none')
+})
+
+test('shows the steps path and both notices on /aufnahme', async ({ page }) => {
+  await page.goto('/aufnahme')
+
+  const steps = page
+    .locator('#vorgehensweise')
+    .getByRole('list', { name: 'So geht es weiter' })
+  await expect(steps.getByRole('listitem')).toHaveText([
+    'Anmeldung absenden',
+    'Anruf von Frauke Rätz',
+    'Aufnahmegespräch',
+    'Zu- oder Absage',
+  ])
+
+  // "Aufnahmetermin" also appears in the prose, so match the exact text.
+  for (const title of ['Aufnahmetermin', 'Plätze frei']) {
+    await expect(
+      page
+        .locator('.bg-secondary-50')
+        .filter({ has: page.getByText(title, { exact: true }) }),
+    ).toHaveCount(1)
+  }
+
+  // The form CTA stays inside the "Aufnahmetermin" notice.
+  await page
+    .locator('.bg-secondary-50')
+    .filter({
+      has: page.getByRole('heading', { name: 'Aufnahmetermin', exact: true }),
+    })
+    .getByRole('link', { name: 'Zum Anmeldeformular' })
+    .click()
+  await expect(page).toHaveURL('/aufnahme/formular')
+})
+
+// The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
+// scroll width alone could miss a box running off the screen; every box's
+// right edge is checked as well.
+async function boxesPastTheRightEdge(page: Page) {
+  return page.evaluate(() => {
+    const width = document.documentElement.clientWidth
+    return Array.from(document.body.querySelectorAll('*'))
+      .filter(element => element.getBoundingClientRect().right > width + 0.5)
+      .map(
+        element =>
+          `${element.tagName.toLowerCase()} ${element.getAttribute('class') ?? ''}`,
+      )
+  })
+}
+
+test.describe('on a narrow phone', () => {
+  test.use({ viewport: { width: 320, height: 640 } })
+
+  for (const path of ['/aufnahme/formular/danke', '/aufnahme']) {
+    test(`does not scroll sideways at 320px on ${path}`, async ({ page }) => {
+      await page.goto(path)
+      await page.evaluate(() => document.fonts.ready)
+
+      await expect(
+        page.getByRole('list', { name: 'So geht es weiter' }),
+      ).toBeVisible()
+      const scrollWidth = await page.evaluate(
+        () => document.documentElement.scrollWidth,
+      )
+      expect(scrollWidth).toBeLessThanOrEqual(320)
+      expect(await boxesPastTheRightEdge(page)).toEqual([])
+    })
+  }
+})

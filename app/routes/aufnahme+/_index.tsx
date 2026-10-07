@@ -4,7 +4,10 @@ import { Link, useLoaderData } from 'react-router'
 import { Toc } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
+import { Notice } from '#app/components/ui/notice.tsx'
+import { StepsPath } from '#app/components/ui/steps-path.tsx'
 import { trackEvent } from '#app/utils/analytics.ts'
+import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 import { cn } from '#app/utils/misc.tsx'
 import {
   type AufnahmeQuery,
@@ -78,6 +81,12 @@ export default function Aufnahme() {
               eingezahlt ist.
             </p>
           </div>
+
+          <StepsPath
+            steps={AUFNAHME_STEPS}
+            variant="compact"
+            heading="So geht es weiter"
+          />
 
           <AdmissionDay />
         </article>
@@ -250,11 +259,12 @@ export default function Aufnahme() {
 
 function AdmissionDay() {
   return (
-    <div className="border-muted bg-card ring-muted/40 relative max-w-lg rounded-md border p-4 ring-8">
-      <div className="text-secondary mb-2 flex items-center gap-1">
-        <Info size={18} className="text-secondary" />
-        <span className="font-condensed text-body-md">Aufnahmetermin</span>
-      </div>
+    <Notice
+      icon={Info}
+      title="Aufnahmetermin"
+      titleAs="h2"
+      className="max-w-lg"
+    >
       <div className="text-body-sm/normal space-y-4">
         <p>
           Für einen Aufnahmetermin für den Jahrgang Zeta (9. Schulstufe,
@@ -272,17 +282,13 @@ function AdmissionDay() {
           </Link>
         </Button>
       </div>
-    </div>
+    </Notice>
   )
 }
 
 function LateralEntryBox() {
   return (
-    <div className="border-muted bg-card ring-muted/40 relative max-w-lg rounded-md border p-4 ring-8">
-      <div className="text-secondary mb-2 flex items-center gap-1">
-        <Info size={18} className="text-secondary" />
-        <span className="font-condensed text-body-md">Plätze frei</span>
-      </div>
+    <Notice icon={Info} title="Plätze frei" titleAs="h3" className="max-w-lg">
       <div className="text-body-sm/normal space-y-4">
         <p>
           Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe) sind
@@ -297,6 +303,6 @@ function LateralEntryBox() {
           </a>
         </p>
       </div>
-    </div>
+    </Notice>
   )
 }
