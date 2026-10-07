@@ -52,6 +52,7 @@ declare module '@phosphor-icons/react' {
   export const Trophy: Icon
   export const User: Icon
   export const Users: Icon
+  export const WarningCircle: Icon
   export const X: Icon
   export const YoutubeLogo: Icon
 }
