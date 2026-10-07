@@ -164,10 +164,9 @@ describe('aufnahme-form action', () => {
     expect(result.data.values.parent1Name).toBe('Anna Mustermann')
     expect(sendAufnahmeConfirmationEmail).not.toHaveBeenCalled()
     expect(captureException).toHaveBeenCalledTimes(1)
+    // A constant message: the provider's error text may quote an address
     expect(captureException).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: expect.stringContaining('Office mail down'),
-      }),
+      new Error('Aufnahme notification email failed'),
     )
   })
 
@@ -182,9 +181,7 @@ describe('aufnahme-form action', () => {
     )
     expect(captureException).toHaveBeenCalledTimes(1)
     expect(captureException).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: expect.stringContaining('Confirmation mail down'),
-      }),
+      new Error('Aufnahme confirmation email failed'),
     )
   })
 

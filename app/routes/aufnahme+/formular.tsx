@@ -113,11 +113,9 @@ export async function action({ request }: ActionFunctionArgs) {
   // parents must be able to retry instead of getting a confirmation.
   const notificationResult = await sendAufnahmeNotificationEmail(submission)
   if (!notificationResult.success) {
-    captureException(
-      new Error(
-        `Aufnahme notification email failed: ${notificationResult.error}`,
-      ),
-    )
+    // Both reports use constant messages: the provider's error text may quote
+    // an address from the form, which must not reach Sentry.
+    captureException(new Error('Aufnahme notification email failed'))
     return data<AufnahmeActionData>(
       { formError: 'mail', values },
       { status: 502 },
@@ -128,11 +126,7 @@ export async function action({ request }: ActionFunctionArgs) {
   // reported but does not turn the submission into an error.
   const confirmationResult = await sendAufnahmeConfirmationEmail(submission)
   if (!confirmationResult.success) {
-    captureException(
-      new Error(
-        `Aufnahme confirmation email failed: ${confirmationResult.error}`,
-      ),
-    )
+    captureException(new Error('Aufnahme confirmation email failed'))
   }
 
   return redirect(SUCCESS_PATH)
