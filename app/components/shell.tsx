@@ -4,7 +4,7 @@ import {
   InstagramLogo,
   YoutubeLogo,
 } from '@phosphor-icons/react'
-import { Link, NavLink } from 'react-router'
+import { Link, NavLink, useMatches } from 'react-router'
 import { cn } from '#app/utils/misc.tsx'
 import { LogoType } from './brand.tsx'
 import { NewsletterForm } from './newsletter.tsx'
@@ -77,14 +77,29 @@ export function Navigation() {
 }
 
 export function FooterNavigation() {
+  // Routes with their own call to action (the admission form) opt out of the
+  // newsletter box so it does not compete with it
+  const hideNewsletter = useMatches().some(
+    match =>
+      (match.handle as { hideNewsletter?: boolean } | undefined)
+        ?.hideNewsletter === true,
+  )
+
   return (
     <footer className="relative z-10 grid grid-cols-2 items-start gap-12 py-12 lg:py-24">
-      <div id="newsletter" className="col-span-2 md:col-span-1">
-        <h1 className="sr-only">Newsletter</h1>
-        <NewsletterForm />
-      </div>
+      {hideNewsletter ? null : (
+        <div id="newsletter" className="col-span-2 md:col-span-1">
+          <h1 className="sr-only">Newsletter</h1>
+          <NewsletterForm />
+        </div>
+      )}
 
-      <div className="col-span-2 grid grid-cols-2 gap-8 md:col-span-1">
+      <div
+        className={cn(
+          'col-span-2 grid grid-cols-2 gap-8',
+          !hideNewsletter && 'md:col-span-1',
+        )}
+      >
         <nav className="grid grid-cols-1 gap-1">
           {/* Site Links */}
           {navigation.main.map(item => (

@@ -111,6 +111,14 @@ test.describe('Aufnahme Form', () => {
     )
   })
 
+  test('has no newsletter box on the form', async ({ page }) => {
+    await page.goto('/aufnahme/formular')
+    await expect(
+      page.getByRole('heading', { name: 'Anmeldung für die Walz' }),
+    ).toBeVisible()
+    await expect(page.locator('#newsletter')).toHaveCount(0)
+  })
+
   test("submits a complete form with the child at the parent's address", async ({
     page,
   }) => {
