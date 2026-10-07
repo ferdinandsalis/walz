@@ -1,9 +1,19 @@
-import { CircleNotch } from '@phosphor-icons/react'
+import { CaretDown, CircleNotch, Lock } from '@phosphor-icons/react'
+import { captureException } from '@sentry/react-router'
 import { isbot } from 'isbot'
-import { useEffect, useRef } from 'react'
+import {
+  type FocusEvent,
+  type FormEvent,
+  type RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import {
   type ActionFunctionArgs,
+  data,
   Form,
+  Link,
   type LoaderFunctionArgs,
   redirect,
   useActionData,
@@ -11,23 +21,63 @@ import {
 } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { z } from 'zod'
+import { Field } from '#app/components/form-field.tsx'
 import { Button } from '#app/components/ui/button.tsx'
+import { ChoiceCard } from '#app/components/ui/choice.tsx'
 import { Input } from '#app/components/ui/input.tsx'
-import { Label } from '#app/components/ui/label.tsx'
+import { Notice } from '#app/components/ui/notice.tsx'
+import {
+  PathDot,
+  PathMarker,
+  PathRail,
+  RailEnd,
+} from '#app/components/ui/path.tsx'
+import { SectionMap } from '#app/components/ui/section-map.tsx'
+import { StepsPath } from '#app/components/ui/steps-path.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
+import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
+import {
+  AUFNAHME_FIELD_NAMES,
+  AUFNAHME_STEPS,
+  type BirthdatePart,
+  hasParent2Data,
+  parseAufnahmeForm,
+  resolveAddresses,
+  type SectionKey,
+  SECTIONS,
+  type SectionStatus,
+  sectionStatus,
+} from '#app/utils/aufnahme-form.ts'
 import {
   sendAufnahmeConfirmationEmail,
   sendAufnahmeNotificationEmail,
 } from '#app/utils/email.server.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
+import { cn } from '#app/utils/misc.tsx'
+import {
+  ALL_BIRTHDATE_PARTS,
+  AddressFields,
+  BIRTHDATE_INPUTS,
+  BirthdateFields,
+  birthdateProblem,
+  ErrorSummary,
+  errorSummaryEntries,
+  type FieldErrors,
+  FormSection,
+  isBirthdateInput,
+  SubHeading,
+} from './__formular-parts.tsx'
 
 export const SUCCESS_PATH = '/aufnahme/formular/danke'
 
+// The page renders its own <title>, so it can carry an error prefix; an empty
+// meta keeps the root "Walz" title from adding a second one.
 export function meta() {
-  return [{ title: 'Aufnahmeformular | Walz' }]
+  return []
 }
+
+export const handle = { hideNewsletter: true }
 
 /**
  * Confirmation used to live at `?success=true`; keep old links working.
@@ -40,27 +90,9 @@ export function loader({ request }: LoaderFunctionArgs) {
   return null
 }
 
-const aufnahmeFormSchema = z.object({
-  studentName: z.string().min(1, 'Name ist erforderlich'),
-  studentEmail: z.string().email('Ungültige E-Mail-Adresse'),
-  studentAddress: z.string().min(1, 'Adresse ist erforderlich'),
-  studentBirthdate: z.string().min(1, 'Geburtsdatum ist erforderlich'),
-  currentSchool: z.string().min(1, 'Schule ist erforderlich'),
-  currentGrade: z.string().min(1, 'Klasse/Schulstufe ist erforderlich'),
-  parent1Name: z.string().min(1, 'Name ist erforderlich'),
-  parent1Phone: z.string().min(1, 'Telefon ist erforderlich'),
-  parent1Email: z.string().email('Ungültige E-Mail-Adresse'),
-  parent1Address: z.string().min(1, 'Adresse ist erforderlich'),
-  parent2Name: z.string().optional(),
-  parent2Phone: z.string().optional(),
-  parent2Email: z
-    .string()
-    .email('Ungültige E-Mail-Adresse')
-    .optional()
-    .or(z.literal('')),
-  parent2Address: z.string().optional(),
-  source: z.string().min(1, 'Dieses Feld ist erforderlich'),
-})
+export type AufnahmeActionData =
+  | { fieldErrors: Record<string, string>; values: Record<string, string> }
+  | { formError: 'mail'; values: Record<string, string> }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
@@ -74,45 +106,41 @@ export async function action({ request }: ActionFunctionArgs) {
   // Check honeypot for spam
   await checkHoneypot(formData)
 
-  // Validate form data
-  const parseResult = aufnahmeFormSchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  )
+  // Only known fields are read, so the honeypot inputs never echo back.
+  const values: Record<string, string> = {}
+  for (const name of AUFNAHME_FIELD_NAMES) {
+    const value = formData.get(name)
+    if (typeof value === 'string') values[name] = value
+  }
 
+  const parseResult = parseAufnahmeForm(values)
   if (!parseResult.success) {
-    return {
-      success: false,
-      error: 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.',
-      errors: parseResult.error.flatten().fieldErrors,
-    }
-  }
-
-  const data = parseResult.data
-
-  // Send confirmation email to parents and student
-  const confirmationResult = await sendAufnahmeConfirmationEmail(data)
-
-  if (!confirmationResult.success) {
-    console.error(
-      'Failed to send confirmation email:',
-      confirmationResult.error,
+    return data<AufnahmeActionData>(
+      { fieldErrors: parseResult.fieldErrors, values },
+      { status: 400 },
     )
-    return {
-      success: false,
-      error:
-        'Es gab ein Problem beim Senden der Bestätigungs-E-Mail. Bitte versuchen Sie es später erneut.',
-    }
   }
 
-  // Send notification email to school
-  const notificationResult = await sendAufnahmeNotificationEmail(data)
+  const submission = resolveAddresses(parseResult.data)
 
+  // The office copy goes first: if it fails nothing was recorded, so the
+  // parents must be able to retry instead of getting a confirmation.
+  const notificationResult = await sendAufnahmeNotificationEmail(submission)
   if (!notificationResult.success) {
-    console.error(
-      'Failed to send notification email:',
-      notificationResult.error,
+    // Both reports use constant messages: the provider's error text may quote
+    // an address from the form, which must not reach Sentry.
+    captureException(new Error('Aufnahme notification email failed'))
+    return data<AufnahmeActionData>(
+      { formError: 'mail', values },
+      { status: 502 },
     )
-    // Don't fail the whole process if notification fails, but log it
+  }
+
+  // The application is recorded at this point, so a failed confirmation is
+  // reported but does not turn the submission into an error.
+  const confirmationResult = await sendAufnahmeConfirmationEmail(submission)
+  if (!confirmationResult.success) {
+    captureException(new Error('Aufnahme confirmation email failed'))
   }
 
   return redirect(SUCCESS_PATH)
@@ -121,8 +149,23 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function AufnahmeFormular() {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const isSubmitting = navigation.state === 'submitting'
-  const showSpinner = useSpinDelay(isSubmitting)
+
+  // A failed submit returns the raw values, so every entry, box and reveal is
+  // restored, also after a full page reload without JavaScript.
+  const values = actionData?.values
+  const serverErrors: FieldErrors =
+    actionData && 'fieldErrors' in actionData ? actionData.fieldErrors : {}
+  const { errors, birthdateError, handleBlur, handleInput } = useFormatChecks(
+    actionData,
+    serverErrors,
+  )
+
+  const formRef = useRef<HTMLFormElement>(null)
+  const statuses = useSectionStatuses(formRef, actionData, errors)
+
+  const parent2Open =
+    hasParent2Data(values ?? {}) ||
+    Object.keys(serverErrors).some(name => name.startsWith('parent2'))
 
   // The form is long, so knowing how many people start it but never finish is
   // as interesting as the completions themselves. Fires once per page view.
@@ -133,242 +176,540 @@ export default function AufnahmeFormular() {
     trackEvent('Aufnahme Form Start')
   }
 
-  // A failed submission is invisible otherwise: the page neither navigates nor
-  // changes its URL, and the mail failure below is reported the same way.
+  // Every action result is a failure, as success redirects. Each new one moves
+  // focus to the summary, so a screen reader hears what went wrong. The event
+  // makes failures countable: the page neither navigates nor changes its URL.
+  const summaryRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (actionData?.error) trackEvent('Aufnahme Form Error')
+    if (!actionData) return
+    trackEvent('Aufnahme Form Error', {
+      type: 'formError' in actionData ? 'mail' : 'validation',
+    })
+    summaryRef.current?.focus()
   }, [actionData])
 
+  // The button stays enabled, so it keeps focus; this guard drops the clicks
+  // that land while a submission is in flight. A ref, because the navigation
+  // state reaches the component only after a render.
+  const isBusy = navigation.state !== 'idle'
+  const showSpinner = useSpinDelay(isBusy)
+  const submissionInFlight = useRef(false)
+  useEffect(() => {
+    if (navigation.state === 'idle') submissionInFlight.current = false
+  }, [navigation.state, actionData])
+  function guardSubmit(event: FormEvent<HTMLFormElement>) {
+    if (submissionInFlight.current) {
+      event.preventDefault()
+      return
+    }
+    submissionInFlight.current = true
+  }
+
   return (
-    <div className="px-4 py-8">
-      <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
-        Aufnahmeformular
-      </h1>
+    <div className="grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
+      <div className="flex max-w-xl flex-col gap-6 pb-8">
+        <title>
+          {actionData ? 'Fehler: Anmeldung | Walz' : 'Anmeldung | Walz'}
+        </title>
 
-      <Form method="POST" onInput={handleFirstInput}>
-        <HoneypotInputs />
+        <h1 className="font-condensed text-primary text-4xl font-bold">
+          Anmeldung für die Walz
+        </h1>
 
-        <div className="space-y-8">
-          {/* Student Information */}
-          <fieldset className="border-muted border-t p-0">
-            <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
-              Informationen Jugendliche:r
-            </legend>
-            <div className="mt-4 space-y-4">
-              <div>
-                <Label htmlFor="studentName" className="required">
-                  Vor- und Nachname *
-                </Label>
-                <Input
-                  id="studentName"
-                  name="studentName"
-                  required
-                  className="mt-1"
-                />
-              </div>
+        <p className="text-body-sm/relaxed">
+          Schön, dass Sie sich für die Walz interessieren. Bitte füllen Sie das
+          Formular als Elternteil oder erziehungsberechtigte Person aus. Es
+          dauert etwa 5 Minuten.
+        </p>
 
-              <div>
-                <Label htmlFor="studentEmail" className="required">
-                  E-Mail *
-                </Label>
-                <Input
-                  id="studentEmail"
-                  name="studentEmail"
-                  type="email"
-                  required
-                  className="mt-1"
-                />
-              </div>
+        <StepsPath
+          steps={AUFNAHME_STEPS}
+          variant="compact"
+          heading="So geht es weiter"
+          hanging
+        />
 
-              <div>
-                <Label htmlFor="studentAddress" className="required">
-                  Wohnadresse *
-                </Label>
-                <Input
-                  id="studentAddress"
-                  name="studentAddress"
-                  required
-                  className="mt-1"
-                />
-              </div>
+        <p className="text-body-xs text-muted-foreground">
+          Felder ohne „optional“ müssen ausgefüllt werden.
+        </p>
 
-              <div>
-                <Label htmlFor="studentBirthdate" className="required">
-                  Geburtsdatum *
-                </Label>
-                <Input
-                  id="studentBirthdate"
-                  name="studentBirthdate"
-                  type="date"
-                  required
-                  className="mt-1"
-                />
-              </div>
+        {actionData ? (
+          <ErrorSummary
+            ref={summaryRef}
+            errors={errorSummaryEntries(serverErrors, values)}
+            formError={
+              'formError' in actionData ? actionData.formError : undefined
+            }
+          />
+        ) : null}
 
-              <div>
-                <Label htmlFor="currentSchool" className="required">
-                  Derzeit besuchte Schule *
-                </Label>
-                <Input
-                  id="currentSchool"
-                  name="currentSchool"
-                  required
-                  className="mt-1"
-                />
-              </div>
+        <Form
+          ref={formRef}
+          method="POST"
+          noValidate
+          onSubmit={guardSubmit}
+          onInput={event => {
+            handleFirstInput()
+            handleInput(event)
+          }}
+          onBlur={handleBlur}
+        >
+          <HoneypotInputs />
 
-              <div>
-                <Label htmlFor="currentGrade" className="required">
-                  Klasse/Schulstufe *
-                </Label>
-                <Input
-                  id="currentGrade"
-                  name="currentGrade"
-                  required
-                  className="mt-1"
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          {/* Parent 1 Information */}
-          <fieldset className="border-muted border-t p-0">
-            <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
-              Informationen Elternteil 1
-            </legend>
-            <div className="mt-4 space-y-4">
-              <div>
-                <Label htmlFor="parent1Name" className="required">
-                  Name *
-                </Label>
-                <Input
-                  id="parent1Name"
-                  name="parent1Name"
-                  required
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="parent1Phone" className="required">
-                  Telefon *
-                </Label>
-                <Input
-                  id="parent1Phone"
-                  name="parent1Phone"
-                  type="tel"
-                  required
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="parent1Email" className="required">
-                  E-Mail *
-                </Label>
-                <Input
-                  id="parent1Email"
-                  name="parent1Email"
-                  type="email"
-                  required
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="parent1Address" className="required">
-                  Adresse *
-                </Label>
-                <Input
-                  id="parent1Address"
-                  name="parent1Address"
-                  required
-                  className="mt-1"
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          {/* Parent 2 Information */}
-          <fieldset className="border-muted m-0 border-t p-0">
-            <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
-              Informationen Elternteil 2
-              <span className="text-muted-foreground ml-2 text-sm font-normal">
-                (optional)
-              </span>
-            </legend>
-            <div className="mt-4 space-y-4">
-              <div>
-                <Label htmlFor="parent2Name">Name</Label>
-                <Input id="parent2Name" name="parent2Name" className="mt-1" />
-              </div>
-
-              <div>
-                <Label htmlFor="parent2Phone">Telefon</Label>
-                <Input
-                  id="parent2Phone"
-                  name="parent2Phone"
-                  type="tel"
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="parent2Email">E-Mail</Label>
-                <Input
-                  id="parent2Email"
-                  name="parent2Email"
-                  type="email"
-                  className="mt-1"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="parent2Address">Adresse</Label>
-                <Input
-                  id="parent2Address"
-                  name="parent2Address"
-                  className="mt-1"
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          {/* Additional Information */}
-          <fieldset className="border-muted border-t p-0">
-            <legend className="font-condensed text-h5 pr-2 pl-0 font-bold">
-              Zusätzliche Informationen
-            </legend>
-            <div className="mt-4">
-              <Label htmlFor="source" className="required">
-                Wie sind Sie auf uns aufmerksam geworden? *
-              </Label>
-              <Textarea
-                id="source"
-                name="source"
-                required
-                className="mt-1"
-                rows={3}
+          {/* One path runs through all sections and ends at the submit. */}
+          <PathRail hanging className="flex flex-col gap-12">
+            <FormSection section="parent1" status={statuses.parent1}>
+              <Field
+                name="parent1Name"
+                label="Vor- und Nachname"
+                error={errors.parent1Name}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    autoComplete="section-parent1 name"
+                    spellCheck={false}
+                    required
+                    defaultValue={values?.parent1Name}
+                  />
+                )}
+              </Field>
+              <Field
+                name="parent1Email"
+                label="E-Mail"
+                error={errors.parent1Email}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    type="email"
+                    autoComplete="section-parent1 email"
+                    spellCheck={false}
+                    required
+                    defaultValue={values?.parent1Email}
+                  />
+                )}
+              </Field>
+              <Field
+                name="parent1Phone"
+                label="Telefon"
+                hint="Wir rufen Sie an, um den Termin für das Aufnahmegespräch zu vereinbaren."
+                error={errors.parent1Phone}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    type="tel"
+                    autoComplete="section-parent1 tel"
+                    required
+                    defaultValue={values?.parent1Phone}
+                  />
+                )}
+              </Field>
+              <AddressFields
+                person="parent1"
+                values={values}
+                errors={errors}
+                autocompleteSection="section-parent1"
               />
-            </div>
-          </fieldset>
+            </FormSection>
 
-          {actionData?.error && (
-            <div className="rounded-md border border-red-500 bg-red-50 p-4 text-red-900">
-              {actionData.error}
-            </div>
-          )}
+            <FormSection section="student" status={statuses.student}>
+              <Field
+                name="studentName"
+                label="Vor- und Nachname"
+                error={errors.studentName}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    autoComplete="off"
+                    spellCheck={false}
+                    required
+                    defaultValue={values?.studentName}
+                  />
+                )}
+              </Field>
+              <Field
+                name="studentEmail"
+                label="E-Mail"
+                hint="Die Bestätigung geht auch an diese Adresse. Gibt es keine eigene, geben Sie Ihre an."
+                error={errors.studentEmail}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    type="email"
+                    autoComplete="off"
+                    spellCheck={false}
+                    required
+                    defaultValue={values?.studentEmail}
+                  />
+                )}
+              </Field>
+              <BirthdateFields values={values} error={birthdateError} />
 
-          <div className="flex items-center gap-4">
-            <Button type="submit" size="lg" disabled={isSubmitting}>
-              Absenden
-            </Button>
-            {showSpinner && (
-              <CircleNotch className="text-secondary animate-spin" />
-            )}
-          </div>
-        </div>
-      </Form>
+              <SubHeading>Wohnadresse</SubHeading>
+              {/* The address shows only while the box is cleared; CSS does it, so
+              it works before hydration and without JavaScript. */}
+              <div className="group/student-address flex flex-col gap-6">
+                <ChoiceCard
+                  name="studentSameAddress"
+                  label="Wohnt an Ihrer Adresse"
+                  hint="Entfernen Sie den Haken bei einer anderen Wohnadresse."
+                  defaultChecked={
+                    values ? values.studentSameAddress === 'on' : true
+                  }
+                />
+                <div className="flex flex-col gap-6 group-has-[[name=studentSameAddress]:checked]/student-address:hidden">
+                  <AddressFields
+                    person="student"
+                    values={values}
+                    errors={errors}
+                    autocompleteSection="section-student"
+                  />
+                </div>
+              </div>
+
+              <SubHeading>Schule</SubHeading>
+              <Field
+                name="currentGrade"
+                label="Derzeitige Klasse / Schulstufe"
+                hint="z. B. 4B, 8. Schulstufe"
+                error={errors.currentGrade}
+              >
+                {control => (
+                  <Input
+                    {...control}
+                    required
+                    defaultValue={values?.currentGrade}
+                  />
+                )}
+              </Field>
+              <Field
+                name="schoolHistory"
+                label="Alle bisher besuchten Schulen"
+                error={errors.schoolHistory}
+              >
+                {control => (
+                  <Textarea
+                    {...control}
+                    rows={4}
+                    required
+                    defaultValue={values?.schoolHistory}
+                  />
+                )}
+              </Field>
+            </FormSection>
+
+            <FormSection section="parent2" status={statuses.parent2} optional>
+              {/* A parent may open the native disclosure before hydration; the
+              open attribute then differs from the server HTML on purpose. */}
+              <details
+                open={parent2Open}
+                suppressHydrationWarning
+                className="group/parent2"
+              >
+                <summary
+                  className={cn(
+                    'border-input bg-card hover:bg-muted/40 rounded-choice flex min-h-12 cursor-pointer list-none items-center gap-3 border border-dashed px-4 py-3 font-medium [&::-webkit-details-marker]:hidden',
+                    visibleFocusOutline,
+                  )}
+                >
+                  {/* A caret, not a plus turning into "×": closing the
+                  section keeps what was typed, so nothing reads as "remove". */}
+                  <CaretDown
+                    aria-hidden
+                    weight="bold"
+                    className="text-primary size-5 shrink-0 transition-transform group-open/parent2:rotate-180"
+                  />
+                  Weitere erziehungsberechtigte Person angeben
+                </summary>
+                <div className="mt-6 flex flex-col gap-6">
+                  <Field
+                    name="parent2Name"
+                    label="Vor- und Nachname"
+                    error={errors.parent2Name}
+                  >
+                    {control => (
+                      <Input
+                        {...control}
+                        autoComplete="section-parent2 name"
+                        spellCheck={false}
+                        defaultValue={values?.parent2Name}
+                      />
+                    )}
+                  </Field>
+                  <Field
+                    name="parent2Email"
+                    label="E-Mail"
+                    error={errors.parent2Email}
+                  >
+                    {control => (
+                      <Input
+                        {...control}
+                        type="email"
+                        autoComplete="section-parent2 email"
+                        spellCheck={false}
+                        defaultValue={values?.parent2Email}
+                      />
+                    )}
+                  </Field>
+                  <Field
+                    name="parent2Phone"
+                    label="Telefon"
+                    error={errors.parent2Phone}
+                  >
+                    {control => (
+                      <Input
+                        {...control}
+                        type="tel"
+                        autoComplete="section-parent2 tel"
+                        defaultValue={values?.parent2Phone}
+                      />
+                    )}
+                  </Field>
+                  <div className="group/parent2-address flex flex-col gap-6">
+                    <ChoiceCard
+                      name="parent2SameAddress"
+                      label="Wohnt an Ihrer Adresse"
+                      defaultChecked={values?.parent2SameAddress === 'on'}
+                    />
+                    <div className="flex flex-col gap-6 group-has-[[name=parent2SameAddress]:checked]/parent2-address:hidden">
+                      <AddressFields
+                        person="parent2"
+                        values={values}
+                        errors={errors}
+                        autocompleteSection="section-parent2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </FormSection>
+
+            <FormSection section="final" status={statuses.final}>
+              <Field
+                name="source"
+                label="Wie haben Sie von der Walz erfahren? (optional)"
+                hint="z. B. über Freunde, eine Veranstaltung, Instagram …"
+                error={errors.source}
+              >
+                {control => (
+                  <Textarea
+                    {...control}
+                    rows={3}
+                    defaultValue={values?.source}
+                  />
+                )}
+              </Field>
+
+              <Notice icon={Lock} className="text-body-xs/relaxed">
+                Wir verwenden Ihre Angaben nur für das Aufnahmeverfahren der
+                Walz. Kommt kein Schulvertrag zustande, löschen wir sie. Mehr
+                dazu in unserer{' '}
+                <Link
+                  to="/datenschutz"
+                  className={cn(
+                    'text-foreground underline underline-offset-2',
+                    visibleFocusOutline,
+                  )}
+                >
+                  Datenschutzerklärung
+                </Link>
+                .
+              </Notice>
+
+              {/* The path ends in a dot beside the button. */}
+              <div className="relative flex">
+                <RailEnd className="top-1/2" />
+                <PathMarker className="h-full">
+                  <PathDot done />
+                </PathMarker>
+                {/* At 20px bold the white label counts as large text, which
+                passes 3:1 on the orange. On focus the button keeps its resting
+                inner ring, so the outline is the only focus mark. */}
+                <Button
+                  type="submit"
+                  size="lg"
+                  aria-disabled={isBusy ? true : undefined}
+                  className={cn(
+                    'focus-visible:ring-card/20 w-full gap-2 text-[1.25rem] font-bold focus-visible:ring-offset-0 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto',
+                    visibleFocusOutline,
+                  )}
+                >
+                  {showSpinner ? (
+                    <CircleNotch aria-hidden className="size-5 animate-spin" />
+                  ) : null}
+                  Anmeldung absenden
+                </Button>
+              </div>
+              {/* Always rendered, so screen readers pick up the text change. */}
+              <p role="status" className="sr-only">
+                {isBusy ? 'Wird gesendet …' : ''}
+              </p>
+            </FormSection>
+          </PathRail>
+        </Form>
+      </div>
+
+      {/* After the form, so a screen reader meets it last; the grid places it
+      in the site's right column. */}
+      <SectionMap
+        sections={SECTIONS.map(section => ({
+          ...section,
+          state: statuses[section.key],
+        }))}
+        className="hidden lg:sticky lg:top-4 lg:col-start-2 lg:row-start-1 lg:block"
+      />
     </div>
   )
+}
+
+/**
+ * What the checks found for a field since the last submit: a message to show,
+ * or null once the value is valid, which hides the server's error. A field
+ * without an entry shows the server's error, if any.
+ */
+type ClientCheck = { message: string; parts?: BirthdatePart[] } | null
+
+/**
+ * Checks while the parent fills in the form, merged over the errors of the
+ * last submit. They parse the form like the submit does, so both always agree.
+ * Empty required fields are left to the submit.
+ */
+function useFormatChecks(
+  actionData: AufnahmeActionData | undefined,
+  serverErrors: FieldErrors,
+) {
+  // The checks belong to one action result; a new result starts afresh, so a
+  // check made before it cannot hide one of its errors.
+  const [state, setState] = useState<{
+    actionData: AufnahmeActionData | undefined
+    checks: Record<string, ClientCheck | undefined>
+  }>({ actionData, checks: {} })
+  const checks = state.actionData === actionData ? state.checks : {}
+
+  function setChecks(update: Record<string, ClientCheck | undefined>) {
+    setState(current => ({
+      actionData,
+      checks: {
+        ...(current.actionData === actionData ? current.checks : {}),
+        ...update,
+      },
+    }))
+  }
+
+  const errors: FieldErrors = { ...serverErrors }
+  for (const [name, check] of Object.entries(checks)) {
+    if (check === null) delete errors[name]
+    else if (check) errors[name] = check.message
+  }
+
+  const birthdateError = errors.studentBirthdate
+    ? {
+        message: errors.studentBirthdate,
+        parts:
+          checks.studentBirthdate?.parts ??
+          birthdateProblem(actionData?.values)?.parts ??
+          ALL_BIRTHDATE_PARTS,
+      }
+    : undefined
+
+  // Email fields are checked on leaving them; the date group once focus
+  // leaves all three of its inputs, so moving from Tag to Monat is quiet.
+  function handleBlur(event: FocusEvent<HTMLFormElement>) {
+    const input = event.target
+    if (!(input instanceof HTMLInputElement)) return
+
+    if (input.type === 'email') {
+      const message = currentFieldErrors(input.form)[input.name]
+      if (input.value.trim() === '') {
+        // An empty required email is left to the submit; an optional one is
+        // valid.
+        setChecks({ [input.name]: message ? undefined : null })
+      } else {
+        setChecks({ [input.name]: message ? { message } : null })
+      }
+    } else if (isBirthdateInput(input.name)) {
+      if (input.closest('fieldset')?.contains(event.relatedTarget)) return
+      const values = formValues(input.form)
+      const allEmpty = BIRTHDATE_INPUTS.every(
+        ({ name }) => (values[name] ?? '').trim() === '',
+      )
+      setChecks({
+        studentBirthdate: allEmpty
+          ? undefined
+          : (birthdateProblem(values) ?? null),
+      })
+    }
+  }
+
+  // While typing, an error only ever clears, once a submit would no longer
+  // report it. Every shown error is checked, as an entry can settle another
+  // field's error: emptying the further guardian's section makes the name
+  // optional again.
+  function handleInput(event: FormEvent<HTMLFormElement>) {
+    const input = event.target
+    if (
+      !(input instanceof HTMLInputElement) &&
+      !(input instanceof HTMLTextAreaElement)
+    ) {
+      return
+    }
+    const fieldErrors = currentFieldErrors(input.form)
+    const settled = Object.keys(errors).filter(name => !(name in fieldErrors))
+    if (settled.length > 0) {
+      setChecks(Object.fromEntries(settled.map(name => [name, null])))
+    }
+  }
+
+  return { errors, birthdateError, handleBlur, handleInput }
+}
+
+/**
+ * Each section's status for its node on the path. Until the form is mounted,
+ * and so without JavaScript, it follows the submitted values. Then it follows
+ * the form's own values, which include restored and autofilled entries.
+ */
+function useSectionStatuses(
+  formRef: RefObject<HTMLFormElement | null>,
+  actionData: AufnahmeActionData | undefined,
+  errors: FieldErrors,
+): Record<SectionKey, SectionStatus> {
+  const [liveValues, setLiveValues] = useState<Record<string, string> | null>(
+    null,
+  )
+  useEffect(() => {
+    const form = formRef.current
+    if (!form) return
+    const update = () => setLiveValues(formValues(form))
+    update()
+    form.addEventListener('input', update)
+    form.addEventListener('change', update)
+    return () => {
+      form.removeEventListener('input', update)
+      form.removeEventListener('change', update)
+    }
+  }, [formRef])
+
+  const values = liveValues ?? actionData?.values ?? {}
+  return Object.fromEntries(
+    SECTIONS.map(({ key }) => [key, sectionStatus(key, values, errors)]),
+  ) as Record<SectionKey, SectionStatus>
+}
+
+function formValues(form: HTMLFormElement | null) {
+  const values: Record<string, string> = {}
+  if (!form) return values
+  for (const [name, value] of new FormData(form)) {
+    if (typeof value === 'string') values[name] = value
+  }
+  return values
+}
+
+// The errors a submit of the form's current values would get.
+function currentFieldErrors(form: HTMLFormElement | null): FieldErrors {
+  const result = parseAufnahmeForm(formValues(form))
+  return result.success ? {} : result.fieldErrors
 }

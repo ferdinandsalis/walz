@@ -1,0 +1,602 @@
+import { z } from 'zod'
+
+export type Address = {
+  street: string
+  postalCode: string
+  city: string
+  country: string
+}
+
+// Shown as a short list before the form and in full on the confirmation page.
+export const AUFNAHME_STEPS: ReadonlyArray<{
+  title: string
+  description: string
+}> = [
+  {
+    title: 'Anmeldung absenden',
+    description:
+      'Sie und die:der Jugendliche bekommen sofort eine Bestätigung per E-Mail.',
+  },
+  {
+    title: 'Anruf von der Walz',
+    description:
+      'Ab Mitte November, nach dem Tag der offenen Tür, vereinbaren wir das Aufnahmegespräch.',
+  },
+  {
+    title: 'Aufnahmegespräch',
+    description:
+      'Etwa 30 Minuten mit der:dem Jugendlichen, der:dem Mentor:in und der Schulleitung; in den letzten 10 Minuten sind Sie dabei.',
+  },
+  { title: 'Zu- oder Absage', description: 'Ab Jänner.' },
+]
+
+export const DEFAULT_COUNTRY = 'Österreich'
+
+// In page order, so the error summary lists problems top to bottom.
+export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
+  'parent1Name',
+  'parent1Email',
+  'parent1Phone',
+  'parent1Street',
+  'parent1PostalCode',
+  'parent1City',
+  'parent1Country',
+  'studentName',
+  'studentEmail',
+  'studentBirthDay',
+  'studentBirthMonth',
+  'studentBirthYear',
+  'studentSameAddress',
+  'studentStreet',
+  'studentPostalCode',
+  'studentCity',
+  'studentCountry',
+  'currentGrade',
+  'schoolHistory',
+  'parent2Name',
+  'parent2Email',
+  'parent2Phone',
+  'parent2SameAddress',
+  'parent2Street',
+  'parent2PostalCode',
+  'parent2City',
+  'parent2Country',
+  'source',
+]
+
+const MAX_LINE_LENGTH = 200
+const MAX_SCHOOL_HISTORY_LENGTH = 2000
+const MAX_SOURCE_LENGTH = 1000
+const LINE_TOO_LONG = `Dieser Eintrag ist zu lang (höchstens ${MAX_LINE_LENGTH} Zeichen)`
+
+export type BirthdatePart = 'day' | 'month' | 'year'
+
+const BIRTHDATE_PARTS: BirthdatePart[] = ['day', 'month', 'year']
+
+export function checkBirthdate(
+  day: string,
+  month: string,
+  year: string,
+  today: Date = new Date(),
+):
+  | { ok: true; iso: string }
+  | { ok: false; message: string; parts: BirthdatePart[] } {
+  const given = { day: day.trim(), month: month.trim(), year: year.trim() }
+  const emptyParts = BIRTHDATE_PARTS.filter(part => given[part] === '')
+
+  if (emptyParts.length === BIRTHDATE_PARTS.length) {
+    return {
+      ok: false,
+      message: 'Geben Sie das Geburtsdatum ein',
+      parts: BIRTHDATE_PARTS,
+    }
+  }
+  if (emptyParts.length > 0) {
+    return {
+      ok: false,
+      message: 'Das Geburtsdatum muss Tag, Monat und Jahr enthalten',
+      parts: emptyParts,
+    }
+  }
+  if (!/^\d{4}$/.test(given.year)) {
+    return {
+      ok: false,
+      message: 'Das Jahr muss vier Ziffern haben',
+      parts: ['year'],
+    }
+  }
+
+  const notRealDate = {
+    ok: false as const,
+    message: 'Das Geburtsdatum muss ein gültiges Datum sein',
+    parts: BIRTHDATE_PARTS,
+  }
+  if (!/^\d{1,2}$/.test(given.day) || !/^\d{1,2}$/.test(given.month)) {
+    return notRealDate
+  }
+
+  // Date rolls impossible dates over (31 Feb becomes 3 Mar), so a date is only
+  // real when it survives the round trip. setUTCFullYear avoids the two-digit
+  // year mapping of the Date constructor.
+  const dayNumber = Number(given.day)
+  const monthNumber = Number(given.month)
+  const yearNumber = Number(given.year)
+  const date = new Date(0)
+  date.setUTCFullYear(yearNumber, monthNumber - 1, dayNumber)
+  if (
+    date.getUTCFullYear() !== yearNumber ||
+    date.getUTCMonth() !== monthNumber - 1 ||
+    date.getUTCDate() !== dayNumber
+  ) {
+    return notRealDate
+  }
+
+  const startOfToday = Date.UTC(
+    today.getUTCFullYear(),
+    today.getUTCMonth(),
+    today.getUTCDate(),
+  )
+  if (date.getTime() >= startOfToday) {
+    return {
+      ok: false,
+      message: 'Das Geburtsdatum muss in der Vergangenheit liegen',
+      parts: BIRTHDATE_PARTS,
+    }
+  }
+
+  return { ok: true, iso: date.toISOString().slice(0, 10) }
+}
+
+type EmailField = 'parent1Email' | 'studentEmail' | 'parent2Email'
+
+const EMAIL_FORMAT_MESSAGES: Record<EmailField, string> = {
+  parent1Email: 'Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein',
+  studentEmail: 'Geben Sie die E-Mail-Adresse im Format name@beispiel.at ein',
+  parent2Email:
+    'Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein',
+}
+
+function isEmail(value: string) {
+  return z.email().safeParse(value).success
+}
+
+export type AufnahmeInput = {
+  parent1: { name: string; email: string; phone: string; address: Address }
+  student: {
+    name: string
+    email: string
+    birthdate: string
+    sameAddress: boolean
+    address?: Address
+    currentGrade: string
+    schoolHistory: string
+  }
+  parent2?: {
+    name: string
+    email?: string
+    phone?: string
+    sameAddress: boolean
+    address?: Address
+  }
+  source?: string
+}
+
+const required = (message: string) =>
+  z.string().trim().min(1, message).max(MAX_LINE_LENGTH, LINE_TOO_LONG)
+
+const optional = () => z.string().trim().max(MAX_LINE_LENGTH, LINE_TOO_LONG)
+
+const requiredEmail = (message: string, field: EmailField) =>
+  required(message).refine(isEmail, EMAIL_FORMAT_MESSAGES[field])
+
+const addressFields = (messages: {
+  street: string
+  postalCode: string
+  city: string
+  country: string
+}) => ({
+  street: required(messages.street),
+  postalCode: required(messages.postalCode),
+  city: required(messages.city),
+  country: required(messages.country),
+})
+
+// The schemas use generic keys (name, street, ...); parseSection maps issues
+// back to the form field names by prefixing the person.
+const parent1Schema = z.object({
+  name: required('Geben Sie Ihren Vor- und Nachnamen ein'),
+  email: requiredEmail('Geben Sie Ihre E-Mail-Adresse ein', 'parent1Email'),
+  phone: required('Geben Sie Ihre Telefonnummer ein'),
+  ...addressFields({
+    street: 'Geben Sie Ihre Straße und Hausnummer ein',
+    postalCode: 'Geben Sie Ihre Postleitzahl ein',
+    city: 'Geben Sie Ihren Wohnort ein',
+    country: 'Geben Sie Ihr Land ein',
+  }),
+})
+
+const studentSchema = z.object({
+  name: required('Geben Sie den Vor- und Nachnamen ein'),
+  email: requiredEmail('Geben Sie die E-Mail-Adresse ein', 'studentEmail'),
+  birthdate: z
+    .object({ day: z.string(), month: z.string(), year: z.string() })
+    .transform((parts, ctx) => {
+      const result = checkBirthdate(parts.day, parts.month, parts.year)
+      if (!result.ok) {
+        ctx.addIssue({ code: 'custom', message: result.message })
+        return z.NEVER
+      }
+      return result.iso
+    }),
+})
+
+const studentAddressSchema = z.object(
+  addressFields({
+    street: 'Geben Sie Straße und Hausnummer ein',
+    postalCode: 'Geben Sie die Postleitzahl ein',
+    city: 'Geben Sie den Wohnort ein',
+    country: 'Geben Sie das Land ein',
+  }),
+)
+
+const schoolSchema = z.object({
+  currentGrade: required('Geben Sie die derzeitige Klasse oder Schulstufe ein'),
+  schoolHistory: z
+    .string()
+    .trim()
+    .min(1, 'Geben Sie die bisher besuchten Schulen ein')
+    .max(
+      MAX_SCHOOL_HISTORY_LENGTH,
+      `Die Liste der Schulen darf höchstens ${MAX_SCHOOL_HISTORY_LENGTH} Zeichen lang sein`,
+    ),
+})
+
+// Every field is optional; the address stays optional even once a name is
+// required.
+const parent2Schema = z.object({
+  name: required(
+    'Geben Sie den Namen der weiteren erziehungsberechtigten Person ein',
+  ),
+  email: optional().refine(
+    value => value === '' || isEmail(value),
+    EMAIL_FORMAT_MESSAGES.parent2Email,
+  ),
+  phone: optional(),
+  street: optional(),
+  postalCode: optional(),
+  city: optional(),
+  country: optional(),
+})
+
+// A free answer, so it may run over several lines.
+const sourceSchema = z.object({
+  source: z
+    .string()
+    .trim()
+    .max(
+      MAX_SOURCE_LENGTH,
+      `Die Antwort darf höchstens ${MAX_SOURCE_LENGTH} Zeichen lang sein`,
+    ),
+})
+
+type FieldErrors = Record<string, string>
+
+function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+function parseSection<Schema extends z.ZodType>(
+  schema: Schema,
+  input: unknown,
+  prefix: string,
+  fieldErrors: FieldErrors,
+): z.output<Schema> | undefined {
+  const result = schema.safeParse(input)
+  if (result.success) return result.data
+
+  for (const issue of result.error.issues) {
+    const key = String(issue.path[0])
+    const fieldName = prefix ? `${prefix}${capitalize(key)}` : key
+    fieldErrors[fieldName] ??= issue.message
+  }
+  return undefined
+}
+
+const EMPTY_ADDRESS: Address = {
+  street: '',
+  postalCode: '',
+  city: '',
+  country: '',
+}
+
+const PARENT2_CONTACT_FIELDS = ['parent2Name', 'parent2Phone', 'parent2Email']
+const PARENT2_ADDRESS_FIELDS = [
+  'parent2Street',
+  'parent2PostalCode',
+  'parent2City',
+]
+
+// Whether the form holds data for a second guardian. The checkbox and the
+// defaulted country do not count, so an untouched section is dropped instead
+// of failing; the address counts only while it is shown (box unticked).
+export function hasParent2Data(
+  values: Record<string, string | undefined>,
+): boolean {
+  const fields =
+    values.parent2SameAddress === 'on'
+      ? PARENT2_CONTACT_FIELDS
+      : [...PARENT2_CONTACT_FIELDS, ...PARENT2_ADDRESS_FIELDS]
+  return fields.some(name => (values[name] ?? '').trim() !== '')
+}
+
+export function parseAufnahmeForm(
+  raw: Record<string, string>,
+):
+  | { success: true; data: AufnahmeInput }
+  | { success: false; fieldErrors: Record<string, string> } {
+  const values: Record<string, string> = {}
+  for (const name of AUFNAHME_FIELD_NAMES) values[name] = raw[name] ?? ''
+
+  // The generic keys of one person's fields, e.g. parent1Street -> street.
+  const personFields = (prefix: string) => ({
+    name: values[`${prefix}Name`] ?? '',
+    email: values[`${prefix}Email`] ?? '',
+    phone: values[`${prefix}Phone`] ?? '',
+    street: values[`${prefix}Street`] ?? '',
+    postalCode: values[`${prefix}PostalCode`] ?? '',
+    city: values[`${prefix}City`] ?? '',
+    country: values[`${prefix}Country`] ?? '',
+  })
+
+  const fieldErrors: FieldErrors = {}
+
+  const parent1Fields = personFields('parent1')
+  const parent1 = parseSection(
+    parent1Schema,
+    parent1Fields,
+    'parent1',
+    fieldErrors,
+  )
+
+  const studentFields = personFields('student')
+  const student = parseSection(
+    studentSchema,
+    {
+      name: studentFields.name,
+      email: studentFields.email,
+      birthdate: {
+        day: values.studentBirthDay,
+        month: values.studentBirthMonth,
+        year: values.studentBirthYear,
+      },
+    },
+    'student',
+    fieldErrors,
+  )
+
+  const studentSameAddress = values.studentSameAddress === 'on'
+  const studentAddress = studentSameAddress
+    ? undefined
+    : parseSection(studentAddressSchema, studentFields, 'student', fieldErrors)
+
+  const school = parseSection(
+    schoolSchema,
+    {
+      currentGrade: values.currentGrade,
+      schoolHistory: values.schoolHistory,
+    },
+    '',
+    fieldErrors,
+  )
+
+  // While the box is ticked the address fields are hidden, so whatever they
+  // still hold is neither validated nor kept.
+  const parent2SameAddress = values.parent2SameAddress === 'on'
+  const parent2Fields = parent2SameAddress
+    ? { ...personFields('parent2'), ...EMPTY_ADDRESS }
+    : personFields('parent2')
+  const parent2Given = hasParent2Data(values)
+  const parent2 = parent2Given
+    ? parseSection(parent2Schema, parent2Fields, 'parent2', fieldErrors)
+    : undefined
+
+  const source = parseSection(
+    sourceSchema,
+    { source: values.source },
+    '',
+    fieldErrors,
+  )?.source
+
+  if (
+    Object.keys(fieldErrors).length > 0 ||
+    !parent1 ||
+    !student ||
+    !school ||
+    (!studentSameAddress && !studentAddress) ||
+    (parent2Given && !parent2)
+  ) {
+    return { success: false, fieldErrors }
+  }
+
+  return {
+    success: true,
+    data: {
+      parent1: {
+        name: parent1.name,
+        email: parent1.email,
+        phone: parent1.phone,
+        address: {
+          street: parent1.street,
+          postalCode: parent1.postalCode,
+          city: parent1.city,
+          country: parent1.country,
+        },
+      },
+      student: {
+        name: student.name,
+        email: student.email,
+        birthdate: student.birthdate,
+        sameAddress: studentSameAddress,
+        address: studentAddress,
+        currentGrade: school.currentGrade,
+        schoolHistory: school.schoolHistory,
+      },
+      parent2: parent2
+        ? {
+            name: parent2.name,
+            email: parent2.email || undefined,
+            phone: parent2.phone || undefined,
+            sameAddress: parent2SameAddress,
+            address: parent2SameAddress ? undefined : optionalAddress(parent2),
+          }
+        : undefined,
+      source: source || undefined,
+    },
+  }
+}
+
+// A second guardian may leave the address out entirely; the country alone
+// does not count, because it is prefilled.
+function optionalAddress(fields: Address): Address | undefined {
+  if (!fields.street && !fields.postalCode && !fields.city) return undefined
+  return {
+    street: fields.street,
+    postalCode: fields.postalCode,
+    city: fields.city,
+    country: fields.country,
+  }
+}
+
+export type SectionKey = 'parent1' | 'student' | 'parent2' | 'final'
+
+export type SectionStatus = 'open' | 'done' | 'attention' | 'optional'
+
+// In page order; the id is the anchor the section map links to.
+export const SECTIONS: ReadonlyArray<{
+  key: SectionKey
+  number: 1 | 2 | 3 | 4
+  title: string
+  id: string
+}> = [
+  { key: 'parent1', number: 1, title: 'Ihre Angaben', id: 'abschnitt-1' },
+  { key: 'student', number: 2, title: 'Jugendliche:r', id: 'abschnitt-2' },
+  {
+    key: 'parent2',
+    number: 3,
+    title: 'Weitere erziehungsberechtigte Person',
+    id: 'abschnitt-3',
+  },
+  { key: 'final', number: 4, title: 'Zum Schluss', id: 'abschnitt-4' },
+]
+
+const SECTION_PREFIXES: ReadonlyArray<[string, SectionKey]> = [
+  ['parent1', 'parent1'],
+  ['student', 'student'],
+  ['parent2', 'parent2'],
+]
+
+const SECTION_KEYS: Record<string, SectionKey> = {
+  currentGrade: 'student',
+  schoolHistory: 'student',
+  source: 'final',
+}
+
+// Maps a field name or an error key (such as studentBirthdate, which is not a
+// field name) to the section it is shown in.
+export function sectionOf(key: string): SectionKey | undefined {
+  return (
+    SECTION_PREFIXES.find(([prefix]) => key.startsWith(prefix))?.[1] ??
+    SECTION_KEYS[key]
+  )
+}
+
+// The status follows the rules the submit uses, so a node never promises more
+// than the form accepts. The final section holds the submit button, so it is
+// never done or optional.
+export function sectionStatus(
+  section: SectionKey,
+  values: Record<string, string>,
+  shownErrors: Record<string, string>,
+): SectionStatus {
+  if (Object.keys(shownErrors).some(key => sectionOf(key) === section)) {
+    return 'attention'
+  }
+  if (section === 'final') return 'open'
+
+  if (section === 'parent2' && !hasParent2Data(values)) return 'optional'
+
+  const result = parseAufnahmeForm(values)
+  const hasOwnError =
+    !result.success &&
+    Object.keys(result.fieldErrors).some(key => sectionOf(key) === section)
+  return hasOwnError ? 'open' : 'done'
+}
+
+export type Guardian = {
+  name: string
+  email?: string
+  phone?: string
+  address?: Address
+  sameAddressAsParent1: boolean
+}
+
+export type AufnahmeSubmission = {
+  parent1: Guardian & { email: string; phone: string; address: Address }
+  student: {
+    name: string
+    email: string
+    birthdate: string
+    address: Address
+    sameAddressAsParent1: boolean
+    currentGrade: string
+    schoolHistory: string
+  }
+  parent2?: Guardian
+  source?: string
+}
+
+export function resolveAddresses(input: AufnahmeInput): AufnahmeSubmission {
+  const parent1Address = input.parent1.address
+
+  const studentAddress = input.student.sameAddress
+    ? parent1Address
+    : input.student.address
+  if (!studentAddress) {
+    throw new Error('The child address is missing although the box is cleared')
+  }
+
+  return {
+    parent1: { ...input.parent1, sameAddressAsParent1: false },
+    student: {
+      name: input.student.name,
+      email: input.student.email,
+      birthdate: input.student.birthdate,
+      address: studentAddress,
+      sameAddressAsParent1: input.student.sameAddress,
+      currentGrade: input.student.currentGrade,
+      schoolHistory: input.student.schoolHistory,
+    },
+    parent2: input.parent2
+      ? {
+          name: input.parent2.name,
+          email: input.parent2.email,
+          phone: input.parent2.phone,
+          address: input.parent2.sameAddress
+            ? parent1Address
+            : input.parent2.address,
+          sameAddressAsParent1: input.parent2.sameAddress,
+        }
+      : undefined,
+    source: input.source,
+  }
+}
+
+export function formatAddress(address: Address): string {
+  return [
+    address.street,
+    [address.postalCode, address.city].filter(Boolean).join(' '),
+    address.country,
+  ]
+    .filter(Boolean)
+    .join(', ')
+}

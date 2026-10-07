@@ -98,6 +98,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.60.0",
     "@react-router/dev": "^7.9.3",
     "@tailwindcss/vite": "^4.3.0",
@@ -124,6 +125,7 @@
     "eslint-plugin-testing-library": "^7.16.2",
     "globals": "^17.6.0",
     "groq-js": "^2.0.0",
+    "jsdom": "^29.1.1",
     "patch-package": "^8.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.8.0",

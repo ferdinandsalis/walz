@@ -28,6 +28,8 @@ declare module '@phosphor-icons/react' {
   export const CaretUp: Icon
   export const ChatCircleText: Icon
   export const ChatText: Icon
+  export const Check: Icon
+  export const CheckCircle: Icon
   export const CheckSquare: Icon
   export const CircleNotch: Icon
   export const Clipboard: Icon
@@ -39,19 +41,23 @@ declare module '@phosphor-icons/react' {
   export const House: Icon
   export const Info: Icon
   export const InstagramLogo: Icon
+  export const Lightbulb: Icon
   export const Link: Icon
   export const LinkSimple: Icon
   export const List: Icon
+  export const Lock: Icon
   export const MagnifyingGlassPlus: Icon
   export const Microphone: Icon
   export const Newspaper: Icon
   export const Phone: Icon
+  export const Plus: Icon
   export const Question: Icon
   export const Quotes: Icon
   export const Smiley: Icon
   export const Trophy: Icon
   export const User: Icon
   export const Users: Icon
+  export const WarningCircle: Icon
   export const X: Icon
   export const YoutubeLogo: Icon
 }

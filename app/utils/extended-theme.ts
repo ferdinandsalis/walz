@@ -3,6 +3,14 @@ export const extendedTheme = {
     lg: 'var(--radius)',
     md: 'calc(var(--radius) - 2px)',
     sm: 'calc(var(--radius) - 4px)',
+    choice: 'var(--radius-choice)',
+  },
+  spacing: {
+    path: 'var(--spacing-path)',
+    'path-wide': 'var(--spacing-path-wide)',
+  },
+  insetShadow: {
+    field: 'var(--inset-shadow-field)',
   },
   fontFamily: {
     sans: ['Museo Sans', 'Museo Sans Fallback'],
@@ -70,11 +78,25 @@ export const extendedTheme = {
     primary: {
       DEFAULT: 'hsl(var(--primary))',
       foreground: 'hsl(var(--primary-foreground))',
+      50: 'var(--color-primary-50)',
+      100: 'var(--color-primary-100)',
+      200: 'var(--color-primary-200)',
+      700: 'var(--color-primary-700)',
+      800: 'var(--color-primary-800)',
     },
     secondary: {
       DEFAULT: 'hsl(var(--secondary))',
       foreground: 'hsl(var(--secondary-foreground))',
+      50: 'var(--color-secondary-50)',
+      200: 'var(--color-secondary-200)',
+      700: 'var(--color-secondary-700)',
+      800: 'var(--color-secondary-800)',
     },
+    danger: {
+      50: 'var(--color-danger-50)',
+    },
+    path: 'var(--color-path)',
+    'path-done': 'var(--color-path-done)',
     destructive: {
       DEFAULT: 'hsl(var(--destructive))',
       foreground: 'hsl(var(--destructive-foreground))',
@@ -114,5 +136,6 @@ export const extendedTheme = {
   animation: {
     'accordion-down': 'accordion-down 0.2s ease-out',
     'accordion-up': 'accordion-up 0.2s ease-out',
+    'path-draw': 'var(--animate-path-draw)',
   },
 }

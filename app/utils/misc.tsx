@@ -37,6 +37,8 @@ const customTwMerge = extendTailwindMerge<string, string>({
     theme: {
       color: formatColors(),
       radius: Object.keys(extendedTheme.borderRadius),
+      spacing: Object.keys(extendedTheme.spacing),
+      'inset-shadow': Object.keys(extendedTheme.insetShadow),
     },
     classGroups: {
       'font-size': [

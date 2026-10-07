@@ -1,6 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Resend } from 'resend'
+import {
+  formatAddress,
+  type Address,
+  type AufnahmeSubmission,
+  type Guardian,
+} from './aufnahme-form.ts'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -12,26 +18,50 @@ function schoolInbox() {
     : 'delivered@resend.dev'
 }
 
-interface AufnahmeFormData {
-  studentName: string
-  studentEmail: string
-  studentAddress: string
-  studentBirthdate: string
-  currentSchool: string
-  currentGrade: string
-  parent1Name: string
-  parent1Phone: string
-  parent1Email: string
-  parent1Address: string
-  parent2Name?: string
-  parent2Phone?: string
-  parent2Email?: string
-  parent2Address?: string
-  source: string
+const SAME_ADDRESS_NOTE = '(wie erziehungsberechtigte Person 1)'
+
+// The office confirms a copied address on the phone, so the copy is visible.
+function addressLine(address: Address, copiedFromParent1: boolean) {
+  const formatted = formatAddress(address)
+  return copiedFromParent1 ? `${formatted} ${SAME_ADDRESS_NOTE}` : formatted
+}
+
+function birthdateForOffice(isoDate: string) {
+  const [year, month, day] = isoDate.split('-')
+  return `${day}.${month}.${year}`
+}
+
+function guardianLines(guardian: Guardian) {
+  return [
+    `Name: ${guardian.name}`,
+    guardian.phone ? `Telefon: ${guardian.phone}` : undefined,
+    guardian.email ? `E-Mail: ${guardian.email}` : undefined,
+    guardian.address
+      ? `Adresse: ${addressLine(guardian.address, guardian.sameAddressAsParent1)}`
+      : undefined,
+  ].filter((line): line is string => line !== undefined)
+}
+
+// The child and both parents, each address once: parents give their own
+// address for a child without one, so the same address can come in twice.
+function confirmationRecipients(data: AufnahmeSubmission) {
+  const addresses = [
+    data.student.email,
+    data.parent1.email,
+    data.parent2?.email,
+  ]
+  const recipients: string[] = []
+  const seen = new Set<string>()
+  for (const address of addresses) {
+    if (!address || seen.has(address.toLowerCase())) continue
+    seen.add(address.toLowerCase())
+    recipients.push(address)
+  }
+  return recipients
 }
 
 export async function sendAufnahmeConfirmationEmail(
-  data: AufnahmeFormData,
+  data: AufnahmeSubmission,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // Read the contract PDF
@@ -45,7 +75,7 @@ export async function sendAufnahmeConfirmationEmail(
 
 vielen Dank für die Zusendung des Aufnahmeformulars!
 
-Nach unserem Tag der offenen Tür am 14.11.2026 wird sich Frauke Rätz telefonisch bei Ihnen, liebe Eltern, melden, um einen Termin für das persönliche Aufnahmegespräch zu vereinbaren.
+Nach unserem Tag der offenen Tür am 14.11.2026 wird sich jemand von der Walz telefonisch bei Ihnen, liebe Eltern, melden, um einen Termin für das persönliche Aufnahmegespräch zu vereinbaren.
 
 Für dich, liebe:r Bewerber:in, bis zum Gespräch:
 • Schicke bitte eine kurze E-Mail an agnes.chorherr@walz.at mit drei Gründen, warum du in die Walz gehen möchtest.
@@ -61,15 +91,9 @@ das Team der Walz
 
 P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vorabinformation.`
 
-    // Send to both student and parents
-    const recipients = [data.studentEmail, data.parent1Email]
-    if (data.parent2Email) {
-      recipients.push(data.parent2Email)
-    }
-
     const { error } = await resend.emails.send({
       from: 'Walz <office@walz.at>',
-      to: recipients,
+      to: confirmationRecipients(data),
       subject: 'Einladung zum Aufnahmegespräch an der Walz',
       text: emailBody,
       attachments: [
@@ -84,7 +108,8 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending confirmation email:', error)
+    // Resend's error text can quote an address, so the log line stays fixed
+    console.error('Error sending confirmation email')
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -93,34 +118,31 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
 }
 
 export async function sendAufnahmeNotificationEmail(
-  data: AufnahmeFormData,
+  data: AufnahmeSubmission,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const emailBody = `Neue Aufnahmeanmeldung eingegangen:
-
-JUGENDLICHE*R:
-Name: ${data.studentName}
-E-Mail: ${data.studentEmail}
-Adresse: ${data.studentAddress}
-Geburtsdatum: ${data.studentBirthdate}
-Derzeitige Schule: ${data.currentSchool}
-Derzeitige Klasse/Schulstufe: ${data.currentGrade}
-
-ELTERNTEIL 1:
-Name: ${data.parent1Name}
-Telefon: ${data.parent1Phone}
-E-Mail: ${data.parent1Email}
-Adresse: ${data.parent1Address}
-
-ELTERNTEIL 2:
-${data.parent2Name ? `Name: ${data.parent2Name}` : 'Nicht angegeben'}
-${data.parent2Phone ? `Telefon: ${data.parent2Phone}` : ''}
-${data.parent2Email ? `E-Mail: ${data.parent2Email}` : ''}
-${data.parent2Address ? `Adresse: ${data.parent2Address}` : ''}
-
-WIE AUF UNS AUFMERKSAM GEWORDEN:
-${data.source}
-`
+    const { student, parent1, parent2 } = data
+    const emailBody = [
+      'Neue Aufnahmeanmeldung eingegangen:',
+      [
+        'JUGENDLICHE:R',
+        `Name: ${student.name}`,
+        `E-Mail: ${student.email}`,
+        `Geburtsdatum: ${birthdateForOffice(student.birthdate)}`,
+        `Adresse: ${addressLine(student.address, student.sameAddressAsParent1)}`,
+        `Derzeitige Klasse/Schulstufe: ${student.currentGrade}`,
+      ].join('\n'),
+      ['SCHULEN NACH DER VOLKSSCHULE', student.schoolHistory].join('\n'),
+      ['ERZIEHUNGSBERECHTIGTE PERSON 1', ...guardianLines(parent1)].join('\n'),
+      [
+        'ERZIEHUNGSBERECHTIGTE PERSON 2',
+        ...(parent2 ? guardianLines(parent2) : ['Nicht angegeben']),
+      ].join('\n'),
+      [
+        'WIE AUF UNS AUFMERKSAM GEWORDEN',
+        data.source ?? 'Nicht angegeben',
+      ].join('\n'),
+    ].join('\n\n')
 
     const { error } = await resend.emails.send({
       from: 'Walz Aufnahme <office@walz.at>',
@@ -133,7 +155,8 @@ ${data.source}
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending notification email:', error)
+    // Resend's error text can quote an address, so the log line stays fixed
+    console.error('Error sending notification email')
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

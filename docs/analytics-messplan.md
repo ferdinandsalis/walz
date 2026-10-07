@@ -28,7 +28,7 @@ for character. These are already firing from the code:
 | --------------------- | ----------------------------------------------- | ---------- |
 | `Aufnahme Form Start` | first input in the admissions form              | —          |
 | `Aufnahme CTA`        | a button leading into the form                  | `position` |
-| `Aufnahme Form Error` | the form comes back with an error               | —          |
+| `Aufnahme Form Error` | the form comes back with an error               | `type`     |
 | `FAQ Open`            | a question is expanded on the homepage          | `faq`      |
 | `FAQ Read More`       | the link from a homepage FAQ to the full answer | `faq`      |
 
@@ -165,17 +165,18 @@ most useful number after "how many applied" is "how many started and gave up".
 
 Two events, fired from `app/routes/aufnahme+/formular.tsx`:
 
-| Goal                  | Trigger                                                      |
-| --------------------- | ------------------------------------------------------------ |
-| `Aufnahme Form Start` | first `input` on any field, once per page view               |
-| `Aufnahme Form Error` | when `actionData?.error` is set (validation or mail failure) |
+| Goal                  | Trigger                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `Aufnahme Form Start` | first `input` on any field, once per page view                               |
+| `Aufnahme Form Error` | every action result that is not a redirect; `type` is `validation` or `mail` |
 
 _Implemented_ in `app/routes/aufnahme+/formular.tsx`.
 
 Together with the `danke` pageview these give a completion rate for the form
-itself, and separate "gave up" from "tried and it broke". The error event
-matters more than it looks: the action returns a generic error if the
-confirmation mail fails, and that failure is currently invisible.
+itself, and separate "gave up" from "tried and it broke". The error event's
+`type` tells the two failures apart: `validation` means the parent has something
+to fix, `mail` means the office notification could not be sent and nothing was
+recorded.
 
 ### And the CTA into the form
 
