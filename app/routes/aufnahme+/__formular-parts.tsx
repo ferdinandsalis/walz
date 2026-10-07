@@ -297,7 +297,7 @@ export function AddressFields({
       <Field
         name={street}
         label="Straße und Hausnummer"
-        hint="Mit Stiege und Tür, z. B. Lindengasse 12/2/14"
+        hint="Mit Stiege und Tür"
         error={errors[street]}
       >
         {control => (

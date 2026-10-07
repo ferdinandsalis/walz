@@ -207,6 +207,18 @@ test('sends the confirmation to the child, parent 1 and parent 2', async () => {
   ])
 })
 
+test('announces a call from someone at the Walz, without naming a person', async () => {
+  const fetch = resendResponds(200, { id: 'test-email-id' })
+
+  await sendAufnahmeConfirmationEmail(aufnahme)
+
+  const text = textOf(fetch)
+  expect(text).toContain(
+    'wird sich jemand von der Walz telefonisch bei Ihnen, liebe Eltern, melden',
+  )
+  expect(text).not.toContain('Frauke')
+})
+
 test('leaves out a second guardian without an email', async () => {
   const fetch = resendResponds(200, { id: 'test-email-id' })
 

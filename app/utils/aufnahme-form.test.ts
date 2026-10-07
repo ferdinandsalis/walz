@@ -59,14 +59,14 @@ describe('constants', () => {
           'Sie und die:der Jugendliche bekommen sofort eine Bestätigung per E-Mail.',
       },
       {
-        title: 'Anruf von Frauke Rätz',
+        title: 'Anruf von der Walz',
         description:
           'Ab Mitte November, nach dem Tag der offenen Tür, vereinbaren wir das Aufnahmegespräch.',
       },
       {
         title: 'Aufnahmegespräch',
         description:
-          'Etwa 30 Minuten mit der:dem Jugendlichen; in den letzten 10 Minuten sind Sie dabei.',
+          'Etwa 30 Minuten mit der:dem Jugendlichen, der:dem Mentor:in und der Schulleitung; in den letzten 10 Minuten sind Sie dabei.',
       },
       { title: 'Zu- oder Absage', description: 'Ab Jänner.' },
     ])

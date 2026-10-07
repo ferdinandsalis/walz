@@ -109,7 +109,7 @@ test('shows the steps path above the prose and both notices on /aufnahme', async
     .getByRole('list', { name: 'So geht es weiter' })
   await expect(steps.getByRole('listitem')).toHaveText([
     'Anmeldung absenden',
-    'Anruf von Frauke Rätz',
+    'Anruf von der Walz',
     'Aufnahmegespräch',
     'Zu- oder Absage',
   ])

@@ -236,7 +236,7 @@ test.describe('Aufnahme Form', () => {
 
     for (const title of [
       'Anmeldung absenden',
-      'Anruf von Frauke Rätz',
+      'Anruf von der Walz',
       'Aufnahmegespräch',
       'Zu- oder Absage',
     ]) {

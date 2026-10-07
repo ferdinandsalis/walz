@@ -167,14 +167,24 @@ describe('Aufnahme form error summary lists', () => {
 })
 
 describe('Aufnahme form school history', () => {
-  it('asks for the schools attended so far, after the Volksschule', () => {
+  it('asks for all schools attended so far, without a hint', () => {
     renderWithActionData({ fieldErrors: {}, values: {} })
 
-    const field = screen.getByLabelText('Bisher besuchte Schulen')
+    const field = screen.getByLabelText('Alle bisher besuchten Schulen')
     expect(field.tagName).toBe('TEXTAREA')
-    expect(document.getElementById(`${field.id}-hint`)?.textContent).toBe(
-      'Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute)',
-    )
+    expect(document.getElementById(`${field.id}-hint`)).toBeNull()
+    expect(field.hasAttribute('aria-describedby')).toBe(false)
+  })
+})
+
+describe('Aufnahme form street hint', () => {
+  it('asks for staircase and door without an example, for every person', () => {
+    renderWithActionData({ fieldErrors: {}, values: {} })
+
+    for (const person of ['parent1', 'student', 'parent2']) {
+      const hint = document.getElementById(`${person}Street-hint`)
+      expect(hint?.textContent).toBe('Mit Stiege und Tür')
+    }
   })
 })
 
