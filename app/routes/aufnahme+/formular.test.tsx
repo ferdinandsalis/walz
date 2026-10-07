@@ -113,6 +113,7 @@ describe('Aufnahme form after a failed submit', () => {
     // The group label is plain text: the count stays the summary's only
     // heading, and the form keeps the only heading for "Ihre Angaben"
     const label = within(summary).getByText('Ihre Angaben')
+    expect(label.tagName).toBe('P')
     expect(label.closest('h1, h2, h3, h4, h5, h6')).toBeNull()
     expect(summary.querySelectorAll('h1, h2, h3, h4, h5, h6')).toHaveLength(1)
     expect(

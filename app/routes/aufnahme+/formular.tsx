@@ -872,14 +872,9 @@ function ErrorSummary({
               {errorSummaryGroups(errors).map(group => (
                 <li key={group.key} className="flex flex-col gap-1.5">
                   {group.section ? (
-                    <p className="font-condensed text-body-sm flex items-center gap-2 font-bold">
-                      <span
-                        aria-hidden="true"
-                        className="border-foreground-danger text-foreground-danger text-body-2xs grid size-5 shrink-0 place-items-center rounded-full border-[1.5px]"
-                      >
-                        {group.section.number}
-                      </span>
-                      <span>{group.section.title}</span>
+                    // In line with the heading's text and the links.
+                    <p className="font-condensed text-body-sm pl-7 font-bold">
+                      {group.section.title}
                     </p>
                   ) : null}
                   <ul className="flex flex-col gap-2 pl-7">
