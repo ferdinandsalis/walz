@@ -89,7 +89,7 @@ them:
 ```css
 --color-path: var(--color-primary-200);
 --color-path-done: var(--color-primary);
---spacing-path: 2rem; /* content indent from the rail, phone */
+--spacing-path: 2.5rem; /* content indent from the rail, phone */
 --spacing-path-wide: 3.5rem; /* from the sm breakpoint (600px) */
 --radius-choice: 0.75rem;
 --inset-shadow-field: inset 0 1px 2px hsl(15 20% 40% / 0.08);
