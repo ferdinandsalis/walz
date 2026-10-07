@@ -19,8 +19,10 @@ async function fillRequired(page: Page) {
   await page.locator('#schoolHistory').fill('MS Testgasse, Wien (2022–heute)')
 }
 
-// The client-side checks and the submit guard need the hydrated page; React
-// Router creates its router while hydrating.
+// The client-side checks and the submit guard need React on the page. React
+// Router sets this global in createHydratedRouter (react-router/dom, verified
+// against 7.18.4), so it marks that hydration has started, not that every
+// event handler is committed yet.
 async function gotoHydratedForm(page: Page) {
   await page.goto('/aufnahme/formular')
   await page.waitForFunction(() => '__reactRouterDataRouter' in window)
@@ -382,6 +384,31 @@ test.describe('Aufnahme Form', () => {
     await expect(page.locator('#parent1Email-error')).toBeHidden()
   })
 
+  test('clears the further guardian errors once that section is emptied', async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+
+    await fillRequired(page)
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').click()
+    await page.locator('#parent2Phone').fill('0'.repeat(201))
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+
+    await expect(page.locator('#parent2Name-error')).toBeVisible()
+    await expect(page.locator('#parent2Phone-error')).toHaveText(
+      'Dieser Eintrag ist zu lang (höchstens 200 Zeichen)',
+    )
+
+    // An empty optional field is valid, and without any further guardian
+    // data the name is no longer needed
+    await page.locator('#parent2Phone').fill('')
+    await expect(page.locator('#parent2Phone-error')).toBeHidden()
+    await expect(page.locator('#parent2Name-error')).toBeHidden()
+    await expect(page.locator('#parent2Name')).not.toHaveAttribute(
+      'aria-invalid',
+    )
+  })
+
   test('marks the button busy and announces the submission', async ({
     page,
   }) => {
@@ -409,6 +436,36 @@ test.describe('Aufnahme Form', () => {
     await expect(page.locator('#aufnahme-errors')).toBeFocused()
     await expect(button).not.toHaveAttribute('aria-disabled')
     await expect(page.getByRole('status')).toHaveText('')
+  })
+
+  test('submits again after a failed submit', async ({ page }) => {
+    await gotoHydratedForm(page)
+
+    let posts = 0
+    page.on('request', request => {
+      if (
+        request.method() === 'POST' &&
+        new URL(request.url()).pathname.startsWith('/aufnahme/formular')
+      ) {
+        posts += 1
+      }
+    })
+
+    const button = page.getByRole('button', { name: 'Anmeldung absenden' })
+    const summary = page.locator('#aufnahme-errors')
+    await button.click()
+    await expect(summary).toBeFocused()
+    await expect(
+      summary.getByRole('heading', { name: 'Bitte prüfen Sie 11 Angaben' }),
+    ).toBeVisible()
+
+    await page.locator('#studentName').fill('Max Testfrau')
+    await button.click()
+
+    await expect(
+      summary.getByRole('heading', { name: 'Bitte prüfen Sie 10 Angaben' }),
+    ).toBeVisible()
+    expect(posts).toBe(2)
   })
 
   test('posts once on a double click', async ({ page }) => {

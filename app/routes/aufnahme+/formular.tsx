@@ -44,8 +44,7 @@ import {
   DEFAULT_COUNTRY,
   type FormatCheckedField,
   hasParent2Data,
-  MAX_LINE_LENGTH,
-  MAX_SCHOOL_HISTORY_LENGTH,
+  isFieldValueValid,
   parseAufnahmeForm,
   resolveAddresses,
   SOURCE_OPTIONS,
@@ -652,18 +651,6 @@ function useFormatChecks(
       }
     : undefined
 
-  function checkBirthdateOf(form: HTMLFormElement | null) {
-    const value = (name: string) => {
-      const input = form?.elements.namedItem(name)
-      return input instanceof HTMLInputElement ? input.value : ''
-    }
-    return checkBirthdate(
-      value('studentBirthDay'),
-      value('studentBirthMonth'),
-      value('studentBirthYear'),
-    )
-  }
-
   // Email fields are checked on leaving them; the date group once focus
   // leaves all three of its inputs, so moving from Tag to Monat is quiet.
   function handleBlur(event: FocusEvent<HTMLFormElement>) {
@@ -681,13 +668,11 @@ function useFormatChecks(
       }
     } else if (isBirthdateInput(input.name)) {
       if (input.closest('fieldset')?.contains(event.relatedTarget)) return
-      const parts = BIRTHDATE_INPUTS.map(({ name }) =>
-        input.form?.elements.namedItem(name),
+      const values = formValues(input.form)
+      const allEmpty = BIRTHDATE_INPUTS.every(
+        ({ name }) => (values[name] ?? '').trim() === '',
       )
-      const allEmpty = parts.every(
-        part => !(part instanceof HTMLInputElement) || part.value.trim() === '',
-      )
-      const result = checkBirthdateOf(input.form)
+      const result = checkBirthdateOf(values)
       setCheck(
         'studentBirthdate',
         allEmpty
@@ -708,31 +693,41 @@ function useFormatChecks(
     ) {
       return
     }
+    const values = formValues(input.form)
 
     if (isBirthdateInput(input.name)) {
-      if (errors.studentBirthdate && checkBirthdateOf(input.form).ok) {
+      if (errors.studentBirthdate && checkBirthdateOf(values).ok) {
         setCheck('studentBirthdate', null)
       }
-    } else if (errors[input.name] && isValidValue(input.name, input.value)) {
-      setCheck(input.name, null)
+      return
+    }
+
+    // Emptying the further guardian's fields can make the name optional again.
+    const affected = new Set([input.name])
+    if (input.name.startsWith('parent2')) affected.add('parent2Name')
+    for (const name of affected) {
+      if (errors[name] && isFieldValueValid(name, values)) setCheck(name, null)
     }
   }
 
   return { errors, birthdateError, handleBlur, handleInput }
 }
 
-// Mirrors the schema for the fields without a dedicated check: an error from
-// the last submit clears once the field holds something of allowed length.
-function isValidValue(name: string, value: string) {
-  const trimmed = value.trim()
-  if (isEmailField(name)) {
-    return trimmed === ''
-      ? name === 'parent2Email'
-      : checkEmailFormat(name, trimmed) === undefined
+function formValues(form: HTMLFormElement | null) {
+  const values: Record<string, string> = {}
+  if (!form) return values
+  for (const [name, value] of new FormData(form)) {
+    if (typeof value === 'string') values[name] = value
   }
-  const maxLength =
-    name === 'schoolHistory' ? MAX_SCHOOL_HISTORY_LENGTH : MAX_LINE_LENGTH
-  return trimmed !== '' && trimmed.length <= maxLength
+  return values
+}
+
+function checkBirthdateOf(values: Record<string, string>) {
+  return checkBirthdate(
+    values.studentBirthDay ?? '',
+    values.studentBirthMonth ?? '',
+    values.studentBirthYear ?? '',
+  )
 }
 
 type ErrorSummaryEntry = { fieldId: string; message: string }

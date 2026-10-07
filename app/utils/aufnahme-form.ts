@@ -88,8 +88,8 @@ export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
   'sourceOther',
 ]
 
-export const MAX_LINE_LENGTH = 200
-export const MAX_SCHOOL_HISTORY_LENGTH = 2000
+const MAX_LINE_LENGTH = 200
+const MAX_SCHOOL_HISTORY_LENGTH = 2000
 const LINE_TOO_LONG = `Dieser Eintrag ist zu lang (höchstens ${MAX_LINE_LENGTH} Zeichen)`
 
 export type BirthdatePart = 'day' | 'month' | 'year'
@@ -359,6 +359,39 @@ export function hasParent2Data(
       ? PARENT2_CONTACT_FIELDS
       : [...PARENT2_CONTACT_FIELDS, ...PARENT2_ADDRESS_FIELDS]
   return fields.some(name => (values[name] ?? '').trim() !== '')
+}
+
+const OPTIONAL_FIELDS: ReadonlyArray<string> = [
+  'parent2Email',
+  'parent2Phone',
+  ...PARENT2_ADDRESS_FIELDS,
+  'parent2Country',
+  'sourceOther',
+]
+
+const FORMAT_CHECKED_FIELDS: ReadonlyArray<string> = Object.keys(
+  EMAIL_FORMAT_MESSAGES,
+)
+
+/**
+ * Whether a field's value would pass the schema's check for it, so an error
+ * from the last submit can clear while the parent corrects it. The date of
+ * birth has its own check, `checkBirthdate`.
+ */
+export function isFieldValueValid(
+  name: string,
+  values: Record<string, string | undefined>,
+): boolean {
+  const value = (values[name] ?? '').trim()
+  if (value === '') {
+    // The further guardian's name is needed only while other data is given.
+    if (name === 'parent2Name') return !hasParent2Data(values)
+    return OPTIONAL_FIELDS.includes(name)
+  }
+  if (FORMAT_CHECKED_FIELDS.includes(name) && !isEmail(value)) return false
+  const maxLength =
+    name === 'schoolHistory' ? MAX_SCHOOL_HISTORY_LENGTH : MAX_LINE_LENGTH
+  return value.length <= maxLength
 }
 
 function isSourceValue(value: string): value is SourceValue {
