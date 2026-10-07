@@ -170,25 +170,6 @@ test.describe('Aufnahme Form', () => {
     ).toBeVisible()
   })
 
-  test('should show loading state while submitting', async ({ page }) => {
-    await page.goto('/aufnahme/formular')
-
-    await fillRequired(page)
-
-    const submitButton = page.getByRole('button', {
-      name: 'Anmeldung absenden',
-    })
-    await submitButton.click()
-
-    // The busy state passes too quickly to observe here (see "marks the button
-    // busy and announces the submission"), so this only checks the outcome
-    await expect(
-      page.getByRole('heading', {
-        name: 'Danke, wir haben Ihre Anmeldung erhalten',
-      }),
-    ).toBeVisible({ timeout: 10000 })
-  })
-
   test("reveals the child's address fields when the box is cleared", async ({
     page,
   }) => {
