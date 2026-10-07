@@ -156,8 +156,8 @@ test.describe('Aufnahme Form', () => {
     })
     await submitButton.click()
 
-    // Button should be disabled (but this might happen very quickly)
-    // So we just check that the form processes successfully
+    // The busy state passes too quickly to observe here (see "marks the button
+    // busy and announces the submission"), so this only checks the outcome
     await expect(page.getByText('Vielen Dank für Ihre Anmeldung!')).toBeVisible(
       { timeout: 10000 },
     )
