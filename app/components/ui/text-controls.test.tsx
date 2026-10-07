@@ -21,3 +21,41 @@ describe.each([
     expect(markup).toContain('aria-invalid:border-2')
   })
 })
+
+describe('Input', () => {
+  it('renders h-12, the primary-700 focus outline, the invalid fill and the inset shadow', () => {
+    const markup = renderToStaticMarkup(<Input />)
+
+    for (const className of [
+      'h-12',
+      'focus-visible:outline-2',
+      'focus-visible:outline-offset-2',
+      'focus-visible:outline-primary-700',
+      'aria-invalid:bg-danger-50',
+      'aria-invalid:border-input-invalid',
+      'inset-shadow-field',
+    ]) {
+      expect(markup).toContain(className)
+    }
+    expect(markup).not.toContain('focus-visible:ring-2')
+  })
+})
+
+describe('Textarea', () => {
+  it('gets the same focus, invalid and shadow classes but no h-12', () => {
+    const markup = renderToStaticMarkup(<Textarea />)
+
+    for (const className of [
+      'focus-visible:outline-2',
+      'focus-visible:outline-offset-2',
+      'focus-visible:outline-primary-700',
+      'aria-invalid:bg-danger-50',
+      'aria-invalid:border-input-invalid',
+      'inset-shadow-field',
+    ]) {
+      expect(markup).toContain(className)
+    }
+    expect(markup).not.toContain('focus-visible:ring-2')
+    expect(markup).not.toMatch(/\sh-12\b/)
+  })
+})

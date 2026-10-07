@@ -102,6 +102,45 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  /*
+    Lernpfad tints and shades are literal values with no dark-mode variant. They
+    derive from the brand colours and never replace them.
+
+    - Blue is decoration: edges, washes, numerals.
+    - Blue text uses secondary-700 or -800.
+    - Small orange text uses primary-700 or -800.
+    - White text on orange only at 18.66px bold or larger.
+    - The -50 tints are surfaces, never text.
+  */
+  --color-primary-50: hsl(15 90% 97%); /* surface: checked, selected */
+  --color-primary-100: hsl(15 88% 93%); /* ornament */
+  --color-primary-200: hsl(15 85% 84%); /* rail, decorative lines */
+  --color-primary-700: hsl(
+    15 85% 38%
+  ); /* small orange text, focus outline, 6.0:1 */
+  --color-primary-800: hsl(15 80% 30%); /* numbers in nodes, 8.5:1 */
+  --color-secondary-50: hsl(198 76% 96%); /* notice surface */
+  --color-secondary-200: hsl(198 70% 80%); /* decorative only */
+  --color-secondary-700: hsl(198 90% 28%); /* blue icons, 6.8:1 */
+  --color-secondary-800: hsl(198 85% 22%); /* blue headings and titles, 9.5:1 */
+  --color-danger-50: hsl(345 80% 97%); /* invalid input fill */
+
+  --color-path: var(--color-primary-200);
+  --color-path-done: var(--color-primary);
+  --spacing-path: 2rem; /* content indent from the rail, phone */
+  --spacing-path-wide: 3.5rem; /* from the sm breakpoint (600px) */
+  --radius-choice: 0.75rem;
+  --inset-shadow-field: inset 0 1px 2px hsl(15 20% 40% / 0.08);
+  --animate-path-draw: path-draw 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+  @keyframes path-draw {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
@@ -172,6 +211,9 @@
     --foreground-danger: 345 82.7% 40.8%;
     --ring: 215 20.2% 55%;
     --radius: 0.5rem;
+
+    /* The colour behind a path node's ring; set it where a node sits on a tint. */
+    --path-gap: var(--color-background);
   }
 }
 
