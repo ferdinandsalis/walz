@@ -1,7 +1,17 @@
-import { CircleNotch, Lock, Plus } from '@phosphor-icons/react'
+import { CircleNotch, Lock, Plus, WarningCircle } from '@phosphor-icons/react'
 import { captureException } from '@sentry/react-router'
 import { isbot } from 'isbot'
-import { Fragment, type ReactNode, useEffect, useRef } from 'react'
+import {
+  type FocusEvent,
+  type FormEvent,
+  Fragment,
+  type MouseEvent,
+  type ReactNode,
+  type Ref,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import {
   type ActionFunctionArgs,
   data,
@@ -30,8 +40,12 @@ import {
   AUFNAHME_STEPS,
   type BirthdatePart,
   checkBirthdate,
+  checkEmailFormat,
   DEFAULT_COUNTRY,
+  type FormatCheckedField,
   hasParent2Data,
+  MAX_LINE_LENGTH,
+  MAX_SCHOOL_HISTORY_LENGTH,
   parseAufnahmeForm,
   resolveAddresses,
   SOURCE_OPTIONS,
@@ -128,25 +142,20 @@ export async function action({ request }: ActionFunctionArgs) {
 export default function AufnahmeFormular() {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const isSubmitting = navigation.state === 'submitting'
-  const showSpinner = useSpinDelay(isSubmitting)
 
   // A failed submit returns the raw values, so every entry, box and reveal is
   // restored, also after a full page reload without JavaScript.
   const values = actionData?.values
-  const errors: FieldErrors =
+  const serverErrors: FieldErrors =
     actionData && 'fieldErrors' in actionData ? actionData.fieldErrors : {}
-
-  const birthdateError = errors.studentBirthdate
-    ? {
-        message: errors.studentBirthdate,
-        parts: invalidBirthdateParts(values),
-      }
-    : undefined
+  const { errors, birthdateError, handleBlur, handleInput } = useFormatChecks(
+    actionData,
+    serverErrors,
+  )
 
   const parent2Open =
     hasParent2Data(values ?? {}) ||
-    Object.keys(errors).some(name => name.startsWith('parent2'))
+    Object.keys(serverErrors).some(name => name.startsWith('parent2'))
 
   // The form is long, so knowing how many people start it but never finish is
   // as interesting as the completions themselves. Fires once per page view.
@@ -157,15 +166,40 @@ export default function AufnahmeFormular() {
     trackEvent('Aufnahme Form Start')
   }
 
-  // A failed submission is invisible otherwise: the page neither navigates nor
-  // changes its URL, and the mail failure below is reported the same way.
+  // Every action result is a failure, as success redirects. Each new one moves
+  // focus to the summary, so a screen reader hears what went wrong. The event
+  // makes failures countable: the page neither navigates nor changes its URL.
+  const summaryRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (actionData) trackEvent('Aufnahme Form Error')
+    if (!actionData) return
+    trackEvent('Aufnahme Form Error', {
+      type: 'formError' in actionData ? 'mail' : 'validation',
+    })
+    summaryRef.current?.focus()
   }, [actionData])
+
+  // The button stays enabled, so it keeps focus; this guard drops the clicks
+  // that land while a submission is in flight. A ref, because the navigation
+  // state reaches the component only after a render.
+  const isBusy = navigation.state !== 'idle'
+  const showSpinner = useSpinDelay(isBusy)
+  const submissionInFlight = useRef(false)
+  useEffect(() => {
+    if (navigation.state === 'idle') submissionInFlight.current = false
+  }, [navigation.state, actionData])
+  function guardSubmit(event: FormEvent<HTMLFormElement>) {
+    if (submissionInFlight.current) {
+      event.preventDefault()
+      return
+    }
+    submissionInFlight.current = true
+  }
 
   return (
     <div className="flex max-w-xl flex-col gap-6 pb-8">
-      <title>Anmeldung | Walz</title>
+      <title>
+        {actionData ? 'Fehler: Anmeldung | Walz' : 'Anmeldung | Walz'}
+      </title>
 
       <h1 className="font-condensed text-primary text-4xl font-bold">
         Anmeldung für die Walz
@@ -197,10 +231,25 @@ export default function AufnahmeFormular() {
         Felder ohne „optional“ müssen ausgefüllt werden.
       </p>
 
+      {actionData ? (
+        <ErrorSummary
+          ref={summaryRef}
+          errors={errorSummaryEntries(serverErrors, values)}
+          formError={
+            'formError' in actionData ? actionData.formError : undefined
+          }
+        />
+      ) : null}
+
       <Form
         method="POST"
         noValidate
-        onInput={handleFirstInput}
+        onSubmit={guardSubmit}
+        onInput={event => {
+          handleFirstInput()
+          handleInput(event)
+        }}
+        onBlur={handleBlur}
         className="mt-2 flex flex-col gap-12"
       >
         <HoneypotInputs />
@@ -488,27 +537,21 @@ export default function AufnahmeFormular() {
             </span>
           </p>
 
-          {actionData && 'formError' in actionData ? (
-            <div className="rounded-md border border-red-500 bg-red-50 p-4 text-red-900">
-              Ihre Anmeldung konnte gerade nicht gesendet werden. Bitte
-              versuchen Sie es in ein paar Minuten noch einmal oder schreiben
-              Sie an office@walz.at.
-            </div>
-          ) : null}
-
-          <div className="flex items-center gap-4">
-            <Button
-              type="submit"
-              size="lg"
-              disabled={isSubmitting}
-              className="w-full sm:w-auto"
-            >
-              Anmeldung absenden
-            </Button>
-            {showSpinner && (
-              <CircleNotch className="text-secondary animate-spin" />
-            )}
-          </div>
+          <Button
+            type="submit"
+            size="lg"
+            aria-disabled={isBusy ? true : undefined}
+            className="w-full gap-2 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto sm:self-start"
+          >
+            {showSpinner ? (
+              <CircleNotch aria-hidden className="size-5 animate-spin" />
+            ) : null}
+            Anmeldung absenden
+          </Button>
+          {/* Always rendered, so screen readers pick up the text change. */}
+          <p role="status" className="sr-only">
+            {isBusy ? 'Wird gesendet …' : ''}
+          </p>
         </FormSection>
       </Form>
     </div>
@@ -525,6 +568,278 @@ function invalidBirthdateParts(values: FormValues): BirthdatePart[] {
     values?.studentBirthYear ?? '',
   )
   return result.ok ? ['day', 'month', 'year'] : result.parts
+}
+
+const BIRTHDATE_INPUTS: ReadonlyArray<{
+  part: BirthdatePart
+  name: string
+  label: string
+  className: string
+}> = [
+  { part: 'day', name: 'studentBirthDay', label: 'Tag', className: 'w-16' },
+  {
+    part: 'month',
+    name: 'studentBirthMonth',
+    label: 'Monat',
+    className: 'w-16',
+  },
+  { part: 'year', name: 'studentBirthYear', label: 'Jahr', className: 'w-24' },
+]
+
+const EMAIL_FIELDS: ReadonlyArray<string> = [
+  'parent1Email',
+  'studentEmail',
+  'parent2Email',
+]
+
+function isEmailField(name: string): name is FormatCheckedField {
+  return EMAIL_FIELDS.includes(name)
+}
+
+function birthdateInputName(part: BirthdatePart) {
+  return BIRTHDATE_INPUTS.find(input => input.part === part)!.name
+}
+
+function isBirthdateInput(name: string) {
+  return BIRTHDATE_INPUTS.some(input => input.name === name)
+}
+
+/**
+ * What the format checks found for a field since the last submit: a message
+ * to show, or null once the value is valid, which hides the server's error.
+ * A field without an entry shows the server's error, if any.
+ */
+type ClientCheck = { message: string; parts?: BirthdatePart[] } | null
+
+/**
+ * Format checks while the parent fills in the form, merged over the errors of
+ * the last submit. Empty required fields are left to the submit.
+ */
+function useFormatChecks(
+  actionData: AufnahmeActionData | undefined,
+  serverErrors: FieldErrors,
+) {
+  // The checks belong to one action result; a new result starts afresh, so a
+  // check made before it cannot hide one of its errors.
+  const [state, setState] = useState<{
+    actionData: AufnahmeActionData | undefined
+    checks: Record<string, ClientCheck | undefined>
+  }>({ actionData, checks: {} })
+  const checks = state.actionData === actionData ? state.checks : {}
+
+  function setCheck(name: string, check: ClientCheck | undefined) {
+    setState(current => ({
+      actionData,
+      checks: {
+        ...(current.actionData === actionData ? current.checks : {}),
+        [name]: check,
+      },
+    }))
+  }
+
+  const errors: FieldErrors = { ...serverErrors }
+  for (const [name, check] of Object.entries(checks)) {
+    if (check === null) delete errors[name]
+    else if (check) errors[name] = check.message
+  }
+
+  const birthdateError = errors.studentBirthdate
+    ? {
+        message: errors.studentBirthdate,
+        parts:
+          checks.studentBirthdate?.parts ??
+          invalidBirthdateParts(actionData?.values),
+      }
+    : undefined
+
+  function checkBirthdateOf(form: HTMLFormElement | null) {
+    const value = (name: string) => {
+      const input = form?.elements.namedItem(name)
+      return input instanceof HTMLInputElement ? input.value : ''
+    }
+    return checkBirthdate(
+      value('studentBirthDay'),
+      value('studentBirthMonth'),
+      value('studentBirthYear'),
+    )
+  }
+
+  // Email fields are checked on leaving them; the date group once focus
+  // leaves all three of its inputs, so moving from Tag to Monat is quiet.
+  function handleBlur(event: FocusEvent<HTMLFormElement>) {
+    const input = event.target
+    if (!(input instanceof HTMLInputElement)) return
+
+    if (isEmailField(input.name)) {
+      const value = input.value.trim()
+      if (value === '') {
+        // The further guardian's email is optional, so empty is valid there.
+        setCheck(input.name, input.name === 'parent2Email' ? null : undefined)
+      } else {
+        const message = checkEmailFormat(input.name, value)
+        setCheck(input.name, message ? { message } : null)
+      }
+    } else if (isBirthdateInput(input.name)) {
+      if (input.closest('fieldset')?.contains(event.relatedTarget)) return
+      const parts = BIRTHDATE_INPUTS.map(({ name }) =>
+        input.form?.elements.namedItem(name),
+      )
+      const allEmpty = parts.every(
+        part => !(part instanceof HTMLInputElement) || part.value.trim() === '',
+      )
+      const result = checkBirthdateOf(input.form)
+      setCheck(
+        'studentBirthdate',
+        allEmpty
+          ? undefined
+          : result.ok
+            ? null
+            : { message: result.message, parts: result.parts },
+      )
+    }
+  }
+
+  // While typing, an error only ever clears, once the value is valid.
+  function handleInput(event: FormEvent<HTMLFormElement>) {
+    const input = event.target
+    if (
+      !(input instanceof HTMLInputElement) &&
+      !(input instanceof HTMLTextAreaElement)
+    ) {
+      return
+    }
+
+    if (isBirthdateInput(input.name)) {
+      if (errors.studentBirthdate && checkBirthdateOf(input.form).ok) {
+        setCheck('studentBirthdate', null)
+      }
+    } else if (errors[input.name] && isValidValue(input.name, input.value)) {
+      setCheck(input.name, null)
+    }
+  }
+
+  return { errors, birthdateError, handleBlur, handleInput }
+}
+
+// Mirrors the schema for the fields without a dedicated check: an error from
+// the last submit clears once the field holds something of allowed length.
+function isValidValue(name: string, value: string) {
+  const trimmed = value.trim()
+  if (isEmailField(name)) {
+    return trimmed === ''
+      ? name === 'parent2Email'
+      : checkEmailFormat(name, trimmed) === undefined
+  }
+  const maxLength =
+    name === 'schoolHistory' ? MAX_SCHOOL_HISTORY_LENGTH : MAX_LINE_LENGTH
+  return trimmed !== '' && trimmed.length <= maxLength
+}
+
+type ErrorSummaryEntry = { fieldId: string; message: string }
+
+// The date group has one error; it links to the first of its wrong inputs.
+const SUMMARY_ORDER = AUFNAHME_FIELD_NAMES.map(name =>
+  isBirthdateInput(name) ? 'studentBirthdate' : name,
+)
+
+function errorSummaryEntries(
+  fieldErrors: FieldErrors,
+  values: FormValues,
+): ErrorSummaryEntry[] {
+  // An error for an unlisted field still shows, at the end.
+  const position = (name: string) => {
+    const index = SUMMARY_ORDER.indexOf(name)
+    return index === -1 ? SUMMARY_ORDER.length : index
+  }
+  return Object.entries(fieldErrors)
+    .sort(([a], [b]) => position(a) - position(b))
+    .map(([name, message]) => ({
+      fieldId:
+        name === 'studentBirthdate'
+          ? birthdateInputName(invalidBirthdateParts(values)[0] ?? 'day')
+          : name,
+      message,
+    }))
+}
+
+// Without JavaScript the link jumps to the input. With it, the input also
+// gets focus, a closed further-guardian section opens first, and the label
+// scrolls into view above the input, so the question stays readable.
+function focusField(event: MouseEvent<HTMLAnchorElement>, fieldId: string) {
+  const input = document.getElementById(fieldId)
+  if (!input) return
+  event.preventDefault()
+
+  const details = input.closest('details')
+  if (details && !details.open) details.open = true
+
+  const caption = isBirthdateInput(fieldId)
+    ? input.closest('fieldset')?.querySelector(':scope > legend')
+    : document.querySelector(`label[for="${fieldId}"]`)
+  ;(caption ?? input).scrollIntoView()
+  input.focus({ preventScroll: true })
+}
+
+function ErrorSummary({
+  ref,
+  errors,
+  formError,
+}: {
+  ref: Ref<HTMLDivElement>
+  errors: ErrorSummaryEntry[]
+  formError?: 'mail'
+}) {
+  return (
+    <div
+      ref={ref}
+      id="aufnahme-errors"
+      tabIndex={-1}
+      className="border-foreground-danger bg-card focus-visible:ring-ring rounded-md border-2 p-4 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+    >
+      <div role="alert">
+        {formError === 'mail' ? (
+          <p className="text-body-sm flex items-start gap-2 font-medium">
+            <WarningCircle
+              aria-hidden
+              weight="fill"
+              className="text-foreground-danger mt-0.5 size-5 shrink-0"
+            />
+            <span>
+              Ihre Anmeldung konnte gerade nicht gesendet werden. Bitte
+              versuchen Sie es in ein paar Minuten noch einmal oder schreiben
+              Sie an office@walz.at.
+            </span>
+          </p>
+        ) : (
+          <>
+            <h2 className="font-condensed text-h5 flex items-start gap-2">
+              <WarningCircle
+                aria-hidden
+                weight="fill"
+                className="text-foreground-danger mt-1.5 size-5 shrink-0"
+              />
+              {errors.length === 1
+                ? 'Bitte prüfen Sie 1 Angabe'
+                : `Bitte prüfen Sie ${errors.length} Angaben`}
+            </h2>
+            <ul className="mt-3 flex flex-col gap-2 pl-7">
+              {errors.map(error => (
+                <li key={error.fieldId}>
+                  <a
+                    href={`#${error.fieldId}`}
+                    onClick={event => focusField(event, error.fieldId)}
+                    className="text-body-sm text-foreground-danger font-medium underline underline-offset-2"
+                  >
+                    {error.message}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    </div>
+  )
 }
 
 // A fieldset per section, so a screen reader names the person behind
@@ -660,22 +975,6 @@ function AddressFields({
     </>
   )
 }
-
-const BIRTHDATE_INPUTS: ReadonlyArray<{
-  part: BirthdatePart
-  name: string
-  label: string
-  className: string
-}> = [
-  { part: 'day', name: 'studentBirthDay', label: 'Tag', className: 'w-16' },
-  {
-    part: 'month',
-    name: 'studentBirthMonth',
-    label: 'Monat',
-    className: 'w-16',
-  },
-  { part: 'year', name: 'studentBirthYear', label: 'Jahr', className: 'w-24' },
-]
 
 function BirthdateFields({
   values,

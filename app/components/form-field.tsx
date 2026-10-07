@@ -65,7 +65,7 @@ export function Field({
     <div className={cn('flex flex-col gap-1.5', className)}>
       <Label
         htmlFor={name}
-        className="text-body-sm text-foreground leading-normal font-medium"
+        className="text-body-sm text-foreground scroll-mt-4 leading-normal font-medium"
       >
         {label}
       </Label>
@@ -111,7 +111,7 @@ export function FieldGroup({
       }
       className={cn('flex flex-col gap-1.5', className)}
     >
-      <legend className="text-body-sm text-foreground mb-1.5 font-medium">
+      <legend className="text-body-sm text-foreground mb-1.5 scroll-mt-4 font-medium">
         {legend}
       </legend>
       {hint ? <FieldHint id={hintId}>{hint}</FieldHint> : null}

@@ -55,6 +55,7 @@ export const AUFNAHME_STEPS: ReadonlyArray<{
 
 export const DEFAULT_COUNTRY = 'Österreich'
 
+// In page order, so the error summary lists problems top to bottom.
 export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
   'parent1Name',
   'parent1Email',
@@ -76,8 +77,8 @@ export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
   'currentGrade',
   'schoolHistory',
   'parent2Name',
-  'parent2Phone',
   'parent2Email',
+  'parent2Phone',
   'parent2SameAddress',
   'parent2Street',
   'parent2PostalCode',
@@ -87,8 +88,8 @@ export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
   'sourceOther',
 ]
 
-const MAX_LINE_LENGTH = 200
-const MAX_SCHOOL_HISTORY_LENGTH = 2000
+export const MAX_LINE_LENGTH = 200
+export const MAX_SCHOOL_HISTORY_LENGTH = 2000
 const LINE_TOO_LONG = `Dieser Eintrag ist zu lang (höchstens ${MAX_LINE_LENGTH} Zeichen)`
 
 export type BirthdatePart = 'day' | 'month' | 'year'
