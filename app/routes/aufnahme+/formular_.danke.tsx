@@ -61,6 +61,7 @@ export default function AufnahmeFormularDanke() {
         steps={AUFNAHME_STEPS}
         variant="full"
         heading="So geht es weiter"
+        hanging
         className="mt-2"
       />
 

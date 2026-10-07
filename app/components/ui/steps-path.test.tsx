@@ -22,13 +22,18 @@ function byClass(container: Element, className: string) {
   )
 }
 
-function renderSteps(variant: 'compact' | 'full', headingAs?: 'h2' | 'h3') {
+function renderSteps(
+  variant: 'compact' | 'full',
+  headingAs?: 'h2' | 'h3',
+  hanging?: boolean,
+) {
   return renderStatic(
     <StepsPath
       steps={STEPS}
       variant={variant}
       heading="So geht es weiter"
       headingAs={headingAs}
+      hanging={hanging}
     />,
   )
 }
@@ -60,6 +65,16 @@ describe('StepsPath', () => {
     expect(container.querySelector('h2')).toBeNull()
     expect(container.querySelector('h3')?.textContent).toBe('So geht es weiter')
   })
+
+  it.each(['compact', 'full'] as const)(
+    'hangs the %s rail in the left margin only when asked',
+    variant => {
+      expect(byClass(renderSteps(variant), 'xl:-ml-path-wide')).toHaveLength(0)
+      expect(
+        byClass(renderSteps(variant, 'h2', true), 'xl:-ml-path-wide'),
+      ).toHaveLength(1)
+    },
+  )
 
   describe('compact', () => {
     it('lists the titles only, with nothing marked done', () => {

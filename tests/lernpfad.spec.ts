@@ -1,5 +1,5 @@
-import { test, expect, type Page } from '@playwright/test'
-import { fillParent1, gotoHydratedForm } from './aufnahme-helpers.ts'
+import { test, expect, type Locator, type Page } from '@playwright/test'
+import { fillParent1, gotoHydratedForm, textLeft } from './aufnahme-helpers.ts'
 
 test('the newsletter field keeps 16px and shows a visible focus outline', async ({
   page,
@@ -192,6 +192,111 @@ test.describe('on a narrow phone', () => {
       )
       expect(scrollWidth).toBeLessThanOrEqual(320)
       expect(await boxesPastTheRightEdge(page)).toEqual([])
+    })
+  }
+})
+
+// From xl (1160px) the path hangs in the left margin, so its text shares one
+// left edge with the page heading. Narrower screens have no margin to hang
+// in, so the path keeps its indent there.
+test.describe('the hanging path', () => {
+  async function expectOnTheHeadingEdge(text: Locator, heading: Locator) {
+    expect(
+      Math.abs((await textLeft(text)) - (await textLeft(heading))),
+    ).toBeLessThanOrEqual(1)
+  }
+
+  async function expectEveryStepOnTheHeadingEdge(page: Page, heading: Locator) {
+    const steps = page
+      .getByRole('list', { name: 'So geht es weiter' })
+      .getByRole('listitem')
+    await expect(steps).toHaveCount(4)
+    for (const step of await steps.all()) {
+      await expectOnTheHeadingEdge(step, heading)
+    }
+  }
+
+  test.describe('on a wide screen', () => {
+    test.use({ viewport: { width: 1280, height: 900 } })
+
+    test('lines the form up with its heading, the nodes in the margin', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+      const heading = page.getByRole('heading', {
+        level: 1,
+        name: 'Anmeldung für die Walz',
+      })
+
+      await expectOnTheHeadingEdge(
+        page.locator('#abschnitt-1 legend h2'),
+        heading,
+      )
+      await expectOnTheHeadingEdge(
+        page.locator('label[for=parent1Name]'),
+        heading,
+      )
+      await expectEveryStepOnTheHeadingEdge(page, heading)
+
+      const node = page.locator('#abschnitt-1 [data-node-state]')
+      const nodeBox = (await node.boundingBox())!
+      expect(nodeBox.x + nodeBox.width).toBeLessThanOrEqual(
+        await textLeft(heading),
+      )
+      // ... and clear of the site navigation in the column beside it
+      const navigationRight = await page.locator('header').evaluate(header =>
+        Math.max(
+          ...Array.from(header.querySelectorAll('a, button'))
+            .map(element => element.getBoundingClientRect())
+            .filter(box => box.width > 0)
+            .map(box => box.right),
+        ),
+      )
+      expect(nodeBox.x).toBeGreaterThan(navigationRight)
+    })
+
+    test('lines the steps up with the heading on the confirmation page', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular/danke')
+
+      await expectEveryStepOnTheHeadingEdge(
+        page,
+        page.getByRole('heading', {
+          level: 1,
+          name: 'Danke, wir haben Ihre Anmeldung erhalten',
+        }),
+      )
+    })
+
+    test('lines the steps up with the heading on /aufnahme', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme')
+
+      await expectEveryStepOnTheHeadingEdge(
+        page,
+        page.getByRole('heading', { level: 1, name: 'Vorgehensweise' }),
+      )
+    })
+  })
+
+  for (const viewport of [
+    { width: 1024, height: 768 },
+    { width: 375, height: 812 },
+  ]) {
+    test(`keeps the form indented from its heading at ${viewport.width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport)
+      await page.goto('/aufnahme/formular')
+      const headingLeft = await textLeft(
+        page.getByRole('heading', { level: 1, name: 'Anmeldung für die Walz' }),
+      )
+
+      expect(
+        await textLeft(page.locator('#abschnitt-1 legend h2')),
+      ).toBeGreaterThan(headingLeft)
     })
   }
 })

@@ -59,6 +59,7 @@ export default function Aufnahme() {
             steps={AUFNAHME_STEPS}
             variant="compact"
             heading="So geht es weiter"
+            hanging
           />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>

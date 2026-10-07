@@ -19,6 +19,25 @@ export async function gotoHydratedForm(page: Page) {
   await page.waitForFunction(() => '__reactRouterDataRouter' in window)
 }
 
+// The left edge of an element's first visible text, not of its box: the box
+// may start under a path marker. Hidden markers and screen-reader-only text
+// are skipped.
+export function textLeft(locator: Locator) {
+  return locator.evaluate(element => {
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+    while (walker.nextNode()) {
+      const text = walker.currentNode
+      if (!text.textContent?.trim()) continue
+      if (text.parentElement?.closest('[aria-hidden="true"], .sr-only'))
+        continue
+      const range = document.createRange()
+      range.selectNodeContents(text)
+      return range.getBoundingClientRect().left
+    }
+    throw new Error('expected visible text')
+  })
+}
+
 // The colour a token resolves to, as the browser reports computed colours.
 export function resolvedColor(page: Page, token: string) {
   return page.evaluate(token => {

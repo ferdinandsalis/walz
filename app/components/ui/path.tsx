@@ -7,6 +7,11 @@ import { cn } from '#app/utils/misc.tsx'
   The rail's centre sits 16px from the left edge, the centre of a 32px node, so
   every marker lines up on it. Rail and markers are decoration and hidden from
   screen readers; the content beside them carries the meaning.
+
+  A hanging rail keeps that geometry but, from xl, pulls its box left by the
+  indent, so the rail and its markers sit in the page's left margin and the
+  content lines up with the page heading. Markers are placed from the content
+  edge, so they follow without a change of their own.
 */
 
 /** The same states as a form section's `SectionStatus`, so they pass through. */
@@ -15,15 +20,24 @@ export type PathNodeState = 'open' | 'done' | 'attention' | 'optional'
 export function PathRail({
   children,
   dashed = false,
+  hanging = false,
   className,
 }: {
   children: ReactNode
   /** Draws the line dashed, for a stretch that still lies ahead. */
   dashed?: boolean
+  /** From xl, hangs the rail in the left margin; see above. */
+  hanging?: boolean
   className?: string
 }) {
   return (
-    <div className={cn('pl-path sm:pl-path-wide relative', className)}>
+    <div
+      className={cn(
+        'pl-path sm:pl-path-wide relative',
+        hanging && 'xl:-ml-path-wide',
+        className,
+      )}
+    >
       <span
         aria-hidden="true"
         className={cn(

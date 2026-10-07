@@ -72,6 +72,19 @@ describe('SectionMap', () => {
     expect(container.querySelector('[aria-current]')).toBeNull()
   })
 
+  // Its mini-rail lives inside the panel, so it never hangs in the margin.
+  it('keeps its rail inside the panel', () => {
+    const hanging = Array.from(renderMap().querySelectorAll('*')).filter(
+      element =>
+        element
+          .getAttribute('class')
+          ?.split(/\s+/)
+          .includes('xl:-ml-path-wide'),
+    )
+
+    expect(hanging).toHaveLength(0)
+  })
+
   it('sets the node ring to the colour of its tinted panel', () => {
     const classes =
       renderMap().querySelector('nav')?.getAttribute('class')?.split(/\s+/) ??

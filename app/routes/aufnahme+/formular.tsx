@@ -226,6 +226,7 @@ export default function AufnahmeFormular() {
           steps={AUFNAHME_STEPS}
           variant="compact"
           heading="So geht es weiter"
+          hanging
         />
 
         <p className="text-body-xs text-muted-foreground">
@@ -256,7 +257,7 @@ export default function AufnahmeFormular() {
           <HoneypotInputs />
 
           {/* One path runs through all sections and ends at the submit. */}
-          <PathRail className="flex flex-col gap-12">
+          <PathRail hanging className="flex flex-col gap-12">
             <FormSection section="parent1" status={statuses.parent1}>
               <Field
                 name="parent1Name"

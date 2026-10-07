@@ -128,6 +128,32 @@ describe('PathRail', () => {
       expect.arrayContaining(['pl-path', 'sm:pl-path-wide']),
     )
   })
+
+  it('stays inside its column unless it hangs', () => {
+    const rail = renderStatic(
+      <PathRail>
+        <p>Inhalt</p>
+      </PathRail>,
+    ).firstElementChild
+
+    expect(classesOf(rail)).not.toContain('xl:-ml-path-wide')
+  })
+
+  it('hangs in the left margin from xl when asked', () => {
+    const rail = renderStatic(
+      <PathRail hanging>
+        <p>Inhalt</p>
+      </PathRail>,
+    ).firstElementChild
+
+    expect(classesOf(rail)).toEqual(
+      expect.arrayContaining([
+        'pl-path',
+        'sm:pl-path-wide',
+        'xl:-ml-path-wide',
+      ]),
+    )
+  })
 })
 
 describe('Waypoint', () => {

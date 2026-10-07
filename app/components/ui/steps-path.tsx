@@ -13,12 +13,15 @@ export function StepsPath({
   variant,
   heading,
   headingAs: Heading = 'h2',
+  hanging = false,
   className,
 }: {
   steps: ReadonlyArray<{ title: string; description: string }>
   variant: 'compact' | 'full'
   heading: string
   headingAs?: 'h2' | 'h3'
+  /** From xl, hangs the rail in the left margin, as `PathRail` does. */
+  hanging?: boolean
   className?: string
 }) {
   const headingId = useId()
@@ -35,7 +38,7 @@ export function StepsPath({
       >
         {heading}
       </Heading>
-      <PathRail dashed className={full ? 'mt-5' : 'mt-3'}>
+      <PathRail dashed hanging={hanging} className={full ? 'mt-5' : 'mt-3'}>
         {/* Safari drops the list role from a list without bullets. */}
         <ol
           role="list"

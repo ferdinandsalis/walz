@@ -1,5 +1,9 @@
 import { test, expect, type Locator } from '@playwright/test'
-import { expectFocusOutline, gotoHydratedForm } from './aufnahme-helpers.ts'
+import {
+  expectFocusOutline,
+  gotoHydratedForm,
+  textLeft,
+} from './aufnahme-helpers.ts'
 
 async function box(locator: Locator) {
   const result = await locator.boundingBox()
@@ -225,23 +229,7 @@ test.describe('Aufnahme layout', () => {
     }) => {
       await page.goto('/aufnahme/formular')
 
-      // The text itself, not its box: the box may start under the node
-      const titleLeft = await page
-        .locator('#abschnitt-1 legend h2')
-        .evaluate(heading => {
-          const walker = document.createTreeWalker(
-            heading,
-            NodeFilter.SHOW_TEXT,
-          )
-          while (walker.nextNode()) {
-            const text = walker.currentNode
-            if (text.parentElement?.closest('[aria-hidden="true"]')) continue
-            const range = document.createRange()
-            range.selectNodeContents(text)
-            return range.getBoundingClientRect().left
-          }
-          throw new Error('expected the title text')
-        })
+      const titleLeft = await textLeft(page.locator('#abschnitt-1 legend h2'))
       const label = await box(page.locator('label[for=parent1Name]'))
       expect(Math.abs(titleLeft - label.x)).toBeLessThanOrEqual(1)
     })
