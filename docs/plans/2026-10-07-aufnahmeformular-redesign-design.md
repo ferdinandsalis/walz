@@ -20,7 +20,7 @@ The form stays one page. It gains:
 - structured addresses with "Wohnt an Ihrer Adresse" checkboxes,
 - one required school-history field that replaces "Derzeit besuchte Schule",
 - a three-field date of birth,
-- an optional "Wie haben Sie von der Walz erfahren?" with options,
+- an optional free-text "Wie haben Sie von der Walz erfahren?",
 - a privacy notice, and
 - a confirmation page that explains what happens next.
 
@@ -101,7 +101,7 @@ blocking flaws, all fixed below:
 | School history                 | One required textarea, schools after the Volksschule with the current one last. Replaces "Derzeit besuchte Schule" |
 | Current grade                  | Stays as its own field                                                                                             |
 | Date of birth                  | Three numeric fields (Tag, Monat, Jahr)                                                                            |
-| "Wie aufmerksam geworden"      | Optional, radio options plus "Anderes" with a text field                                                           |
+| "Wie aufmerksam geworden"      | Optional, one free-text field (Ferdinand's decision, replacing the radio options)                                  |
 | Privacy notice                 | Short text above the submit button plus a link to `/datenschutz`, no checkbox. Wording needs Agnes                 |
 | Mail order                     | Office notification first, then the parents' confirmation                                                          |
 | Not changed                    | No "which entry" field; names stay one field each                                                                  |
@@ -164,10 +164,10 @@ validation reports it instead.
 
 **Schule** (sub-heading)
 
-| Name            | Label                                 | Type / attributes                | Hint                                                                                       |
-| --------------- | ------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------ |
-| `currentGrade`  | Derzeitige Klasse / Schulstufe        |                                  | z. B. 4B, 8. Schulstufe                                                                    |
-| `schoolHistory` | Besuchte Schulen nach der Volksschule | textarea, 4 rows, max 2000 chars | Mit Ort und Jahren, die derzeitige Schule zuletzt, z. B. MS Lindengasse, Wien (2022–heute) |
+| Name            | Label                          | Type / attributes                | Hint                                                                                                                   |
+| --------------- | ------------------------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `currentGrade`  | Derzeitige Klasse / Schulstufe |                                  | z. B. 4B, 8. Schulstufe                                                                                                |
+| `schoolHistory` | Bisher besuchte Schulen        | textarea, 4 rows, max 2000 chars | Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute) |
 
 ### Section 3 · Weitere erziehungsberechtigte Person (optional)
 
@@ -185,23 +185,15 @@ the returned values contain parent-2 data or parent-2 errors.
 
 ### Section 4 · Zum Schluss
 
-**How they heard about Walz.** A fieldset with the legend "Wie haben Sie von der
-Walz erfahren? (optional)" holds radio buttons named `source` **[Agnes:
-options]**:
+**How they heard about Walz.** One optional textarea named `source`, by
+Ferdinand's decision. It replaces the radio options and their "Anderes" text
+field: a free answer asks less of the parent and still tells the office what it
+needs.
 
-| Value               | Label                                    |
-| ------------------- | ---------------------------------------- |
-| `freunde-familie`   | Freund:innen oder Familie                |
-| `walz-gemeinschaft` | Eltern oder Schüler:innen der Walz       |
-| `internet`          | Internetsuche oder Website               |
-| `veranstaltung`     | Veranstaltung, z. B. Tag der offenen Tür |
-| `social-media`      | Social Media                             |
-| `anderes`           | Anderes                                  |
-
-- A text field `sourceOther` ("Woher genau?", max 200 characters) follows the
-  "Anderes" radio directly.
-- It shows only while `:has(input[value="anderes"]:checked)` matches.
-- The server ignores it unless `source` is `anderes`.
+- **Label:** "Wie haben Sie von der Walz erfahren? (optional)".
+- **Hint:** "z. B. über Freunde, eine Veranstaltung, Instagram …".
+- **Type:** `Textarea`, 3 rows, at most 1000 characters after trimming.
+- An empty or blank answer counts as not given.
 
 **Privacy notice [Agnes].** Shown with a lock icon:
 
@@ -341,10 +333,11 @@ summary stay distinguishable.
 | birthdate                        | in the future                | Das Geburtsdatum muss in der Vergangenheit liegen                                                      |
 | `studentStreet` … (box unticked) | empty                        | Geben Sie Straße und Hausnummer ein / die Postleitzahl … / den Wohnort … / das Land ein                |
 | `currentGrade`                   | empty                        | Geben Sie die derzeitige Klasse oder Schulstufe ein                                                    |
-| `schoolHistory`                  | empty                        | Geben Sie die besuchten Schulen nach der Volksschule ein                                               |
+| `schoolHistory`                  | empty                        | Geben Sie die bisher besuchten Schulen ein                                                             |
 | `schoolHistory`                  | over 2000 characters         | Die Liste der Schulen darf höchstens 2000 Zeichen lang sein                                            |
 | `parent2Name`                    | other parent-2 data, no name | Geben Sie den Namen der weiteren erziehungsberechtigten Person ein                                     |
 | `parent2Email`                   | invalid                      | Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein |
+| `source`                         | over 1000 characters         | Die Antwort darf höchstens 1000 Zeichen lang sein                                                      |
 | any single-line text             | over 200 characters          | Dieser Eintrag ist zu lang (höchstens 200 Zeichen)                                                     |
 
 ### Data flow
@@ -368,7 +361,7 @@ summary stay distinguishable.
    - Inputs read `defaultValue` from `values`.
    - Checkboxes read `defaultChecked={values ? values.x === 'on' : default}`,
      because an unticked box is absent from `FormData`.
-   - The `source` radio and `<details open>` restore the same way.
+   - `<details open>` restores the same way.
    - A no-JS round trip therefore keeps every entry and every reveal.
 4. **Resolve addresses** (`resolveAddresses(parsed)`, after a successful parse):
    - The child, and parent 2 when given, get the parent-1 address when their box
@@ -388,8 +381,8 @@ summary stay distinguishable.
 - The address fields after each "Wohnt an Ihrer Adresse" checkbox are always
   rendered.
 - A `:has(input[name=…SameAddress]:checked)` rule hides them while the box is
-  ticked; the "Anderes" text field works the same way. `display: none` also
-  removes them from the tab order and the accessibility tree.
+  ticked. `display: none` also removes them from the tab order and the
+  accessibility tree.
 - `noValidate` keeps hidden `required` fields from blocking a submit, and the
   schema skips them.
 - So the reveal works without hydration, and nothing depends on React state.
@@ -400,8 +393,8 @@ summary stay distinguishable.
 
 | Unit                                          | Responsibility                                                                                                                                                                          |
 | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app/utils/aufnahme-form.ts`                  | Field names, schema, messages, `resolveAddresses`, steps constant, source options. Shared by client (format checks) and server.                                                         |
-| `app/components/form-field.tsx`               | `Field`: label, optional hint, error with icon, wiring of `id`, `aria-describedby` and `aria-invalid` for one input. `FieldGroup`: the same for fieldsets (date, radios).               |
+| `app/utils/aufnahme-form.ts`                  | Field names, schema, messages, `resolveAddresses`, steps constant. Shared by client (format checks) and server.                                                                         |
+| `app/components/form-field.tsx`               | `Field`: label, optional hint, error with icon, wiring of `id`, `aria-describedby` and `aria-invalid` for one input. `FieldGroup`: the same for fieldsets (date).                       |
 | `app/routes/aufnahme+/formular.tsx`           | Loader (legacy redirect), action, page. Composes `AddressFields`, `BirthdateFields` and `ErrorSummary`, which stay local to the route file unless reused. Sets `handle.hideNewsletter`. |
 | `app/routes/aufnahme+/formular_.danke.tsx`    | Confirmation page using the steps constant.                                                                                                                                             |
 | `app/utils/email.server.ts`                   | `AufnahmeFormData` takes the resolved data; the notification text is below.                                                                                                             |
@@ -418,8 +411,7 @@ summary stay distinguishable.
 - Hints: muted `text-body-xs`.
 - Errors: `text-foreground-danger` with an alert icon. The input gets a 2px
   `border-input-invalid` border.
-- Checkboxes and radios: native, `accent-primary`, 20px. The whole label is
-  clickable.
+- Checkboxes: native, `accent-primary`, 20px. The whole label is clickable.
 
 **Notification email**
 
@@ -441,7 +433,7 @@ ERZIEHUNGSBERECHTIGTE PERSON 2
 Nicht angegeben | Name / Telefon / E-Mail / Adresse (only lines with values)
 
 WIE AUF UNS AUFMERKSAM GEWORDEN
-<option label>[: sourceOther] | Nicht angegeben
+<source as entered> | Nicht angegeben
 ```
 
 - The "(wie erziehungsberechtigte Person 1)" suffix appears only when the
@@ -466,8 +458,8 @@ email-test edits from before this spec get rewritten against it.
 - Parent 2:
   - a phone without a name yields the name error;
   - the defaulted country and checkbox alone do not count as "given".
-- `source`: optional; "Anderes" keeps `sourceOther`; `sourceOther` is ignored
-  for any other option.
+- `source`: optional, trimmed, at most 1000 characters; a blank answer counts as
+  not given.
 - `resolveAddresses`: copies and sets the flag; leaves an unticked parent 2
   alone.
 - Length limits are enforced.
@@ -488,7 +480,7 @@ email-test edits from before this spec get rewritten against it.
   copied.
 - The school-history block appears.
 - The parent-2 block lists only lines with values.
-- The source label appears.
+- The source answer appears as entered, or "Nicht angegeben".
 - Resend stays stubbed at HTTP.
 
 **E2E (Playwright): `tests/aufnahme-form.spec.ts`**
@@ -542,14 +534,14 @@ email-test edits from before this spec get rewritten against it.
    contract follows, and when?
 2. **Steps:** is the timing right, and do Quereinstieg families need different
    wording? The confirmation email has the same gap.
-3. **"Wie aufmerksam geworden":** are these the right options?
+3. **"Wie aufmerksam geworden":** settled by Ferdinand as one free-text field.
 4. **Child's email:** many 13-year-olds have none. Is a parent's address
    acceptable there, as the hint says?
 5. **Wording:** the form says "erziehungsberechtigte Person" for the parents
    and, by Ferdinand's decision, "Jugendliche:r" for the applicant, in the
-   site's colon style; the option labels keep the colon too. Should the site
-   keep the colon at all? The blind-and-visually-impaired association DBSV
-   prefers the asterisk for screen readers.
+   site's colon style. Should the site keep the colon at all? The
+   blind-and-visually-impaired association DBSV prefers the asterisk for screen
+   readers.
 6. **Audience on `/aufnahme`:** the page tells the child "fülle bitte das
    Anmeldeformular aus", while the form addresses the parent. Should that
    sentence change?

@@ -158,7 +158,7 @@ intended:
 - `attention` is not colour-only: its node shows a "!" glyph, as `done` shows a
   tick.
 
-### `PathRail`, `PathNode`, `Waypoint` (`path.tsx`)
+### `PathRail`, `PathNode`, `Waypoint`, `PathDot` (`path.tsx`)
 
 **`PathRail`** wraps content and draws a 2px `--color-path` line down its left
 edge.
@@ -184,6 +184,9 @@ edge.
 
 **`Waypoint`** is a 10px filled `--color-path` dot beside a sub-heading on the
 rail ("Wohnadresse", "Schule").
+
+**`PathDot`** is a 12px filled dot: `--color-path` for a step that lies ahead,
+`--color-path-done` (`done`) for the end of the form's path beside the submit.
 
 Non-interactive markers are always filled, smaller or numbered, never outlined
 like a radio button.
@@ -221,13 +224,14 @@ existing "So geht es weiter" heading, with the list labelled by that heading.
   card.
 - **Use:** both "Wohnt an Ihrer Adresse" boxes.
 
-**`ChoiceList`** is a grouped list of native radio rows with dividers, used for
-"Wie haben Sie von der Walz erfahren?".
+**`ChoiceList`** is a grouped list of native radio rows with dividers. It stays
+in the vocabulary for single choices, although the form no longer uses it: "Wie
+haben Sie von der Walz erfahren?" is a free-text field by Ferdinand's decision.
 
 - Each row is 48px or taller, and its label fills it.
 - The checked row is tinted `primary-50`.
-- The list keeps the `group/source` wrapper, so "Woher genau?" stays directly
-  under "Anderes" and is still revealed by CSS.
+- A row can carry content after it (`after`), such as a field that CSS reveals
+  while the row is checked.
 
 Native controls stay native: no `appearance: none`. Ids, names, `defaultChecked`
 logic and `aria` wiring stay as they are.
@@ -309,7 +313,7 @@ export function sectionStatus(
 | `student*`, including the date error key `studentBirthdate` | `student`   |
 | `currentGrade`, `schoolHistory`                             | `student`   |
 | `parent2*`                                                  | `parent2`   |
-| `source`, `sourceOther`                                     | `final`     |
+| `source`                                                    | `final`     |
 | anything else                                               | `undefined` |
 
 **`sectionStatus`** applies these rules in order; the first match wins:
@@ -350,11 +354,18 @@ shown as skippable or done.
   - The legend stays the fieldset's first child, and its numbered circle becomes
     a `PathNode`.
   - The sub-headings "Wohnadresse" and "Schule" get a `Waypoint`.
-- **Choices:** both "Wohnt an Ihrer Adresse" boxes become `ChoiceCard`s, and the
-  source radios become a `ChoiceList`.
+- **Choices:** both "Wohnt an Ihrer Adresse" boxes become `ChoiceCard`s.
+- **Further guardian:** the `<details>` summary takes the choice shape
+  (`rounded-choice`, at least 48px high) with its dashed border, and a caret
+  that turns when open. A plus turning into "×" would read as "remove this
+  person", but closing the section keeps what was typed.
+- **Source:** "Wie haben Sie von der Walz erfahren? (optional)" is a 3-row
+  `Textarea`.
+- **Section map jumps** stop 24px below the top edge (`scroll-mt-6` on the
+  fieldsets), so the node is not clipped.
 - **Privacy note:** a `Notice`.
 - **Submit:** "Anmeldung absenden" at 20px bold condensed. The rail ends in a
-  filled 12px dot beside the button.
+  filled 12px `PathDot` beside the button.
 - **Date row:** wraps (`flex-wrap`), so it fits the 248px content width at
   320px.
 - **Right column at `lg` and up:** `SectionMap`.
@@ -372,9 +383,9 @@ shown as skippable or done.
 
 ### `/aufnahme`
 
-- **Vorgehensweise:** the prose stays unchanged (it addresses the child with
-  "du"). A `compact` `StepsPath` follows it; the step titles are
-  address-neutral.
+- **Vorgehensweise:** a `compact` `StepsPath` comes first, as an overview at a
+  glance; the step titles are address-neutral. The prose follows it unchanged
+  (it addresses the child with "du").
 - **Info boxes:** `AdmissionDay` and `LateralEntryBox` become `Notice`s, with
   their content, links and CTA unchanged.
 
@@ -388,6 +399,11 @@ shown as skippable or done.
   - the 44px touch-target tests;
   - the outline test on the privacy link and the submit button;
   - the confirmation h1 focus.
+- **Focus:** every focusable control on the three pages draws the fields' 2px
+  `primary-700` outline at 2px offset: links, the error summary and its links,
+  the further-guardian summary, the section-map links and the submit. The submit
+  keeps its resting look, so the outline is its only focus mark. The site-wide
+  rules in `app.css` and `button.tsx` stay as they are.
 - **Decoration** is `aria-hidden`: rail, nodes, waypoints, dots and the draw-in
   segment.
 - **Reflow:** at 320px and at 200% zoom nothing overflows horizontally, and long
@@ -408,7 +424,6 @@ shown as skippable or done.
   - the empty form;
   - an invalid date;
   - a ticked or unticked address box;
-  - a hidden `sourceOther`;
   - parent 2 given or absent;
   - `final` never returning `done` or `optional`.
 - Static-markup tests:
@@ -447,7 +462,17 @@ shown as skippable or done.
 ## Copy needing sign-off
 
 - `aria-label="Abschnitte"` on the `SectionMap` (screen readers only).
-- No visible copy changes.
+- `aria-label="Menü"` on the phone menu button (screen readers only).
+- Visible copy changes, each approved by Ferdinand:
+  - "Jugendliche:r" for the applicant: the section title, its error-summary
+    group and the steps ("die:der Jugendliche", "der:dem Jugendlichen").
+  - "Bisher besuchte Schulen" with the hint "Alle Schulen nach der Volksschule,
+    mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien
+    (2022–heute)" and the message "Geben Sie die bisher besuchten Schulen ein".
+  - "Wie haben Sie von der Walz erfahren? (optional)" as one free-text field
+    with the hint "z. B. über Freunde, eine Veranstaltung, Instagram …" and the
+    message "Die Antwort darf höchstens 1000 Zeichen lang sein"; the radio
+    options and "Woher genau?" are gone.
 
 ## Out of scope
 
