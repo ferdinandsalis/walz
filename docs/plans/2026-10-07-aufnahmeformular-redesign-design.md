@@ -118,8 +118,8 @@ German copy is final unless marked **[Agnes]**.
   Anmeldung | Walz".
 - h1: "Anmeldung für die Walz".
 - Intro: "Schön, dass Sie sich für die Walz interessieren. Bitte füllen Sie das
-  Formular als Elternteil oder erziehungsberechtigte Person aus, gerne gemeinsam
-  mit Ihrem Kind. Es dauert etwa 5 Minuten."
+  Formular als Elternteil oder erziehungsberechtigte Person aus. Es dauert etwa
+  5 Minuten."
 - Compact box "So geht es weiter": the [steps](#steps) as a short numbered list,
   one line each, no descriptions. It must not push the first field below the
   first screen at 375 × 812.
