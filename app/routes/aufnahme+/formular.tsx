@@ -40,11 +40,8 @@ import {
   AUFNAHME_STEPS,
   type BirthdatePart,
   checkBirthdate,
-  checkEmailFormat,
   DEFAULT_COUNTRY,
-  type FormatCheckedField,
   hasParent2Data,
-  isFieldValueValid,
   parseAufnahmeForm,
   resolveAddresses,
   SOURCE_OPTIONS,
@@ -554,15 +551,6 @@ export default function AufnahmeFormular() {
 type FieldErrors = Record<string, string>
 type FormValues = Record<string, string> | undefined
 
-function invalidBirthdateParts(values: FormValues): BirthdatePart[] {
-  const result = checkBirthdate(
-    values?.studentBirthDay ?? '',
-    values?.studentBirthMonth ?? '',
-    values?.studentBirthYear ?? '',
-  )
-  return result.ok ? ['day', 'month', 'year'] : result.parts
-}
-
 const BIRTHDATE_INPUTS: ReadonlyArray<{
   part: BirthdatePart
   name: string
@@ -579,15 +567,7 @@ const BIRTHDATE_INPUTS: ReadonlyArray<{
   { part: 'year', name: 'studentBirthYear', label: 'Jahr', className: 'w-24' },
 ]
 
-const EMAIL_FIELDS: ReadonlyArray<string> = [
-  'parent1Email',
-  'studentEmail',
-  'parent2Email',
-]
-
-function isEmailField(name: string): name is FormatCheckedField {
-  return EMAIL_FIELDS.includes(name)
-}
+const ALL_BIRTHDATE_PARTS = BIRTHDATE_INPUTS.map(({ part }) => part)
 
 function birthdateInputName(part: BirthdatePart) {
   return BIRTHDATE_INPUTS.find(input => input.part === part)!.name
@@ -598,15 +578,16 @@ function isBirthdateInput(name: string) {
 }
 
 /**
- * What the format checks found for a field since the last submit: a message
- * to show, or null once the value is valid, which hides the server's error.
- * A field without an entry shows the server's error, if any.
+ * What the checks found for a field since the last submit: a message to show,
+ * or null once the value is valid, which hides the server's error. A field
+ * without an entry shows the server's error, if any.
  */
 type ClientCheck = { message: string; parts?: BirthdatePart[] } | null
 
 /**
- * Format checks while the parent fills in the form, merged over the errors of
- * the last submit. Empty required fields are left to the submit.
+ * Checks while the parent fills in the form, merged over the errors of the
+ * last submit. They parse the form like the submit does, so both always agree.
+ * Empty required fields are left to the submit.
  */
 function useFormatChecks(
   actionData: AufnahmeActionData | undefined,
@@ -620,12 +601,12 @@ function useFormatChecks(
   }>({ actionData, checks: {} })
   const checks = state.actionData === actionData ? state.checks : {}
 
-  function setCheck(name: string, check: ClientCheck | undefined) {
+  function setChecks(update: Record<string, ClientCheck | undefined>) {
     setState(current => ({
       actionData,
       checks: {
         ...(current.actionData === actionData ? current.checks : {}),
-        [name]: check,
+        ...update,
       },
     }))
   }
@@ -641,7 +622,8 @@ function useFormatChecks(
         message: errors.studentBirthdate,
         parts:
           checks.studentBirthdate?.parts ??
-          invalidBirthdateParts(actionData?.values),
+          birthdateProblem(actionData?.values)?.parts ??
+          ALL_BIRTHDATE_PARTS,
       }
     : undefined
 
@@ -651,14 +633,14 @@ function useFormatChecks(
     const input = event.target
     if (!(input instanceof HTMLInputElement)) return
 
-    if (isEmailField(input.name)) {
-      const value = input.value.trim()
-      if (value === '') {
-        // The further guardian's email is optional, so empty is valid there.
-        setCheck(input.name, input.name === 'parent2Email' ? null : undefined)
+    if (input.type === 'email') {
+      const message = currentFieldErrors(input.form)[input.name]
+      if (input.value.trim() === '') {
+        // An empty required email is left to the submit; an optional one is
+        // valid.
+        setChecks({ [input.name]: message ? undefined : null })
       } else {
-        const message = checkEmailFormat(input.name, value)
-        setCheck(input.name, message ? { message } : null)
+        setChecks({ [input.name]: message ? { message } : null })
       }
     } else if (isBirthdateInput(input.name)) {
       if (input.closest('fieldset')?.contains(event.relatedTarget)) return
@@ -666,19 +648,18 @@ function useFormatChecks(
       const allEmpty = BIRTHDATE_INPUTS.every(
         ({ name }) => (values[name] ?? '').trim() === '',
       )
-      const result = checkBirthdateOf(values)
-      setCheck(
-        'studentBirthdate',
-        allEmpty
+      setChecks({
+        studentBirthdate: allEmpty
           ? undefined
-          : result.ok
-            ? null
-            : { message: result.message, parts: result.parts },
-      )
+          : (birthdateProblem(values) ?? null),
+      })
     }
   }
 
-  // While typing, an error only ever clears, once the value is valid.
+  // While typing, an error only ever clears, once a submit would no longer
+  // report it. Every shown error is checked, as an entry can settle another
+  // field's error: emptying the further guardian's section makes the name
+  // optional again.
   function handleInput(event: FormEvent<HTMLFormElement>) {
     const input = event.target
     if (
@@ -687,20 +668,10 @@ function useFormatChecks(
     ) {
       return
     }
-    const values = formValues(input.form)
-
-    if (isBirthdateInput(input.name)) {
-      if (errors.studentBirthdate && checkBirthdateOf(values).ok) {
-        setCheck('studentBirthdate', null)
-      }
-      return
-    }
-
-    // Emptying the further guardian's fields can make the name optional again.
-    const affected = new Set([input.name])
-    if (input.name.startsWith('parent2')) affected.add('parent2Name')
-    for (const name of affected) {
-      if (errors[name] && isFieldValueValid(name, values)) setCheck(name, null)
+    const fieldErrors = currentFieldErrors(input.form)
+    const settled = Object.keys(errors).filter(name => !(name in fieldErrors))
+    if (settled.length > 0) {
+      setChecks(Object.fromEntries(settled.map(name => [name, null])))
     }
   }
 
@@ -716,12 +687,23 @@ function formValues(form: HTMLFormElement | null) {
   return values
 }
 
-function checkBirthdateOf(values: Record<string, string>) {
-  return checkBirthdate(
-    values.studentBirthDay ?? '',
-    values.studentBirthMonth ?? '',
-    values.studentBirthYear ?? '',
+// The errors a submit of the form's current values would get.
+function currentFieldErrors(form: HTMLFormElement | null): FieldErrors {
+  const result = parseAufnahmeForm(formValues(form))
+  return result.success ? {} : result.fieldErrors
+}
+
+// The date's error with the parts it concerns, which the field errors of the
+// parse do not name; undefined for a valid date.
+function birthdateProblem(values: FormValues) {
+  const result = checkBirthdate(
+    values?.studentBirthDay ?? '',
+    values?.studentBirthMonth ?? '',
+    values?.studentBirthYear ?? '',
   )
+  return result.ok
+    ? undefined
+    : { message: result.message, parts: result.parts }
 }
 
 type ErrorSummaryEntry = { fieldId: string; message: string }
@@ -745,7 +727,7 @@ function errorSummaryEntries(
     .map(([name, message]) => ({
       fieldId:
         name === 'studentBirthdate'
-          ? birthdateInputName(invalidBirthdateParts(values)[0] ?? 'day')
+          ? birthdateInputName(birthdateProblem(values)?.parts[0] ?? 'day')
           : name,
       message,
     }))

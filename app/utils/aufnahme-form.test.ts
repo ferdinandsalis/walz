@@ -5,10 +5,8 @@ import {
   DEFAULT_COUNTRY,
   SOURCE_OPTIONS,
   checkBirthdate,
-  checkEmailFormat,
   formatAddress,
   hasParent2Data,
-  isFieldValueValid,
   parseAufnahmeForm,
   resolveAddresses,
   type AufnahmeInput,
@@ -437,6 +435,14 @@ describe('parseAufnahmeForm', () => {
       })
     })
 
+    it('reports an overlong email as too long, not as malformed', () => {
+      const overlong = `anna.${'a'.repeat(200)}@beispiel.at`
+
+      expect(errorsFor({ parent1Email: overlong })).toEqual({
+        parent1Email: 'Dieser Eintrag ist zu lang (höchstens 200 Zeichen)',
+      })
+    })
+
     it('limits single-line fields to 200 characters', () => {
       expect(errorsFor({ parent1City: 'a'.repeat(201) })).toEqual({
         parent1City: 'Dieser Eintrag ist zu lang (höchstens 200 Zeichen)',
@@ -655,108 +661,6 @@ describe('checkBirthdate', () => {
       ok: false,
       message: 'Das Geburtsdatum muss in der Vergangenheit liegen',
     })
-  })
-})
-
-describe('checkEmailFormat', () => {
-  it.each([
-    [
-      'parent1Email',
-      'Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein',
-    ],
-    [
-      'studentEmail',
-      'Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein',
-    ],
-    [
-      'parent2Email',
-      'Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein',
-    ],
-  ] as const)('returns the format message for %s', (field, message) => {
-    expect(checkEmailFormat(field, 'kein-at-zeichen')).toBe(message)
-  })
-
-  it('accepts a valid address, padded or not', () => {
-    expect(checkEmailFormat('parent1Email', 'anna@beispiel.at')).toBeUndefined()
-    expect(
-      checkEmailFormat('parent1Email', ' anna@beispiel.at '),
-    ).toBeUndefined()
-  })
-
-  it('leaves empty values to the required check', () => {
-    expect(checkEmailFormat('parent1Email', '')).toBeUndefined()
-    expect(checkEmailFormat('parent1Email', '   ')).toBeUndefined()
-  })
-})
-
-describe('isFieldValueValid', () => {
-  it.each(['parent1Name', 'studentName', 'currentGrade', 'parent1Country'])(
-    'requires a value for %s',
-    field => {
-      expect(isFieldValueValid(field, { [field]: '  ' })).toBe(false)
-      expect(isFieldValueValid(field, { [field]: 'x' })).toBe(true)
-    },
-  )
-
-  it.each([
-    'parent2Email',
-    'parent2Phone',
-    'parent2Street',
-    'parent2PostalCode',
-    'parent2City',
-    'parent2Country',
-    'sourceOther',
-  ])('accepts an empty %s, which is optional', field => {
-    expect(
-      isFieldValueValid(field, { [field]: '', parent2Name: 'Peter' }),
-    ).toBe(true)
-  })
-
-  it('accepts an empty parent2Name only once no other parent-2 data remains', () => {
-    expect(
-      isFieldValueValid('parent2Name', {
-        parent2Name: '',
-        parent2Phone: '0660 7654321',
-      }),
-    ).toBe(false)
-    expect(
-      isFieldValueValid('parent2Name', { parent2Name: '', parent2Phone: '' }),
-    ).toBe(true)
-    // The address counts only while it is shown
-    expect(
-      isFieldValueValid('parent2Name', {
-        parent2Name: '',
-        parent2Street: 'Lindengasse 1',
-        parent2SameAddress: 'on',
-      }),
-    ).toBe(true)
-  })
-
-  it('checks the email format', () => {
-    expect(isFieldValueValid('parent1Email', { parent1Email: 'anna@' })).toBe(
-      false,
-    )
-    expect(isFieldValueValid('parent2Email', { parent2Email: 'peter@' })).toBe(
-      false,
-    )
-    expect(
-      isFieldValueValid('parent1Email', { parent1Email: ' anna@beispiel.at ' }),
-    ).toBe(true)
-  })
-
-  it('applies the length limits', () => {
-    expect(
-      isFieldValueValid('parent2Phone', { parent2Phone: '0'.repeat(201) }),
-    ).toBe(false)
-    expect(
-      isFieldValueValid('parent2Phone', { parent2Phone: '0'.repeat(200) }),
-    ).toBe(true)
-    expect(
-      isFieldValueValid('schoolHistory', { schoolHistory: 'x'.repeat(2000) }),
-    ).toBe(true)
-    expect(
-      isFieldValueValid('schoolHistory', { schoolHistory: 'x'.repeat(2001) }),
-    ).toBe(false)
   })
 })
 

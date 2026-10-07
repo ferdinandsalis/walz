@@ -351,6 +351,12 @@ test.describe('Aufnahme Form', () => {
 
     const email = page.locator('#parent1Email')
     const error = page.locator('#parent1Email-error')
+    // An empty field is left to the submit
+    await email.focus()
+    await email.press('Tab')
+    await expect(error).toBeHidden()
+
+    await email.focus()
     await email.pressSequentially('anna@')
     await expect(error).toBeHidden()
 
@@ -365,6 +371,48 @@ test.describe('Aufnahme Form', () => {
     await email.pressSequentially('resend.dev')
     await expect(error).toBeHidden()
     await expect(email).not.toHaveAttribute('aria-invalid')
+  })
+
+  test('keeps the length error of an overlong email when leaving the field', async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+
+    const email = page.locator('#parent1Email')
+    const error = page.locator('#parent1Email-error')
+    // Well formed, but longer than the 200 characters a line may have
+    await email.fill(`delivered+${'a'.repeat(204)}@resend.dev`)
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+    await expect(error).toHaveText(
+      'Dieser Eintrag ist zu lang (höchstens 200 Zeichen)',
+    )
+
+    await email.focus()
+    await email.press('Tab')
+
+    await expect(error).toHaveText(
+      'Dieser Eintrag ist zu lang (höchstens 200 Zeichen)',
+    )
+  })
+
+  test("accepts an empty further guardian's email when leaving it", async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').click()
+    const email = page.locator('#parent2Email')
+    const error = page.locator('#parent2Email-error')
+    await email.fill('peter@')
+    await email.press('Tab')
+    await expect(error).toHaveText(
+      'Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein',
+    )
+
+    await email.fill('')
+    await email.press('Tab')
+
+    await expect(error).toBeHidden()
   })
 
   test('checks the birthdate only after leaving the date group', async ({

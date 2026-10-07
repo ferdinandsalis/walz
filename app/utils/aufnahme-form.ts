@@ -170,12 +170,9 @@ export function checkBirthdate(
   return { ok: true, iso: date.toISOString().slice(0, 10) }
 }
 
-export type FormatCheckedField =
-  | 'parent1Email'
-  | 'studentEmail'
-  | 'parent2Email'
+type EmailField = 'parent1Email' | 'studentEmail' | 'parent2Email'
 
-const EMAIL_FORMAT_MESSAGES: Record<FormatCheckedField, string> = {
+const EMAIL_FORMAT_MESSAGES: Record<EmailField, string> = {
   parent1Email: 'Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein',
   studentEmail:
     'Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein',
@@ -185,17 +182,6 @@ const EMAIL_FORMAT_MESSAGES: Record<FormatCheckedField, string> = {
 
 function isEmail(value: string) {
   return z.email().safeParse(value).success
-}
-
-// Empty values are left to the required check, so a blur on an untouched field
-// reports nothing.
-export function checkEmailFormat(
-  field: FormatCheckedField,
-  value: string,
-): string | undefined {
-  const trimmed = value.trim()
-  if (trimmed === '' || isEmail(trimmed)) return undefined
-  return EMAIL_FORMAT_MESSAGES[field]
 }
 
 export type AufnahmeInput = {
@@ -224,7 +210,7 @@ const required = (message: string) =>
 
 const optional = () => z.string().trim().max(MAX_LINE_LENGTH, LINE_TOO_LONG)
 
-const requiredEmail = (message: string, field: FormatCheckedField) =>
+const requiredEmail = (message: string, field: EmailField) =>
   required(message).refine(isEmail, EMAIL_FORMAT_MESSAGES[field])
 
 const addressFields = (messages: {
@@ -359,39 +345,6 @@ export function hasParent2Data(
       ? PARENT2_CONTACT_FIELDS
       : [...PARENT2_CONTACT_FIELDS, ...PARENT2_ADDRESS_FIELDS]
   return fields.some(name => (values[name] ?? '').trim() !== '')
-}
-
-const OPTIONAL_FIELDS: ReadonlyArray<string> = [
-  'parent2Email',
-  'parent2Phone',
-  ...PARENT2_ADDRESS_FIELDS,
-  'parent2Country',
-  'sourceOther',
-]
-
-const FORMAT_CHECKED_FIELDS: ReadonlyArray<string> = Object.keys(
-  EMAIL_FORMAT_MESSAGES,
-)
-
-/**
- * Whether a field's value would pass the schema's check for it, so an error
- * from the last submit can clear while the parent corrects it. The date of
- * birth has its own check, `checkBirthdate`.
- */
-export function isFieldValueValid(
-  name: string,
-  values: Record<string, string | undefined>,
-): boolean {
-  const value = (values[name] ?? '').trim()
-  if (value === '') {
-    // The further guardian's name is needed only while other data is given.
-    if (name === 'parent2Name') return !hasParent2Data(values)
-    return OPTIONAL_FIELDS.includes(name)
-  }
-  if (FORMAT_CHECKED_FIELDS.includes(name) && !isEmail(value)) return false
-  const maxLength =
-    name === 'schoolHistory' ? MAX_SCHOOL_HISTORY_LENGTH : MAX_LINE_LENGTH
-  return value.length <= maxLength
 }
 
 function isSourceValue(value: string): value is SourceValue {
