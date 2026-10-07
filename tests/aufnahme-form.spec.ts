@@ -131,10 +131,12 @@ test.describe('Aufnahme Form', () => {
     // is countable as a pageview goal
     await expect(page).toHaveURL('/aufnahme/formular/danke')
     await expect(
-      page.getByText('Vielen Dank für Ihre Anmeldung!'),
+      page.getByRole('heading', {
+        name: 'Danke, wir haben Ihre Anmeldung erhalten',
+      }),
     ).toBeVisible()
     await expect(
-      page.getByText(/Bestätigungs-E-Mail mit weiteren Informationen/),
+      page.getByText(/Wir haben eine Bestätigung an die angegebenen/),
     ).toBeVisible()
   })
 
@@ -152,7 +154,9 @@ test.describe('Aufnahme Form', () => {
     await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
 
     await expect(
-      page.getByText('Vielen Dank für Ihre Anmeldung!'),
+      page.getByRole('heading', {
+        name: 'Danke, wir haben Ihre Anmeldung erhalten',
+      }),
     ).toBeVisible()
   })
 
@@ -168,9 +172,11 @@ test.describe('Aufnahme Form', () => {
 
     // The busy state passes too quickly to observe here (see "marks the button
     // busy and announces the submission"), so this only checks the outcome
-    await expect(page.getByText('Vielen Dank für Ihre Anmeldung!')).toBeVisible(
-      { timeout: 10000 },
-    )
+    await expect(
+      page.getByRole('heading', {
+        name: 'Danke, wir haben Ihre Anmeldung erhalten',
+      }),
+    ).toBeVisible({ timeout: 10000 })
   })
 
   test("reveals the child's address fields when the box is cleared", async ({
@@ -221,6 +227,29 @@ test.describe('Aufnahme Form', () => {
     await expect(sourceOther).toBeVisible()
   })
 
+  test('explains the next steps on the confirmation page', async ({ page }) => {
+    await page.goto('/aufnahme/formular/danke')
+
+    const heading = page.getByRole('heading', {
+      level: 1,
+      name: 'Danke, wir haben Ihre Anmeldung erhalten',
+    })
+    await expect(heading).toBeVisible()
+    await expect(heading).toBeFocused()
+
+    for (const title of [
+      'Anmeldung absenden',
+      'Anruf von Frauke Rätz',
+      'Aufnahmegespräch',
+      'Zu- oder Absage',
+    ]) {
+      await expect(page.getByText(title, { exact: true })).toBeVisible()
+    }
+    await expect(
+      page.getByRole('heading', { name: 'Für Ihr Kind bis zum Gespräch' }),
+    ).toBeVisible()
+  })
+
   test('should redirect the legacy success URL to the confirmation page', async ({
     page,
   }) => {
@@ -228,7 +257,9 @@ test.describe('Aufnahme Form', () => {
 
     await expect(page).toHaveURL('/aufnahme/formular/danke')
     await expect(
-      page.getByText('Vielen Dank für Ihre Anmeldung!'),
+      page.getByRole('heading', {
+        name: 'Danke, wir haben Ihre Anmeldung erhalten',
+      }),
     ).toBeVisible()
   })
 

@@ -28,6 +28,7 @@ declare module '@phosphor-icons/react' {
   export const CaretUp: Icon
   export const ChatCircleText: Icon
   export const ChatText: Icon
+  export const CheckCircle: Icon
   export const CheckSquare: Icon
   export const CircleNotch: Icon
   export const Clipboard: Icon
