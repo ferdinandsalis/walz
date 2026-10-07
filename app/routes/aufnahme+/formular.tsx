@@ -973,7 +973,7 @@ function BirthdateFields({
           <div key={input.name} className="flex flex-col gap-1">
             <Label
               htmlFor={input.name}
-              className="text-body-xs text-foreground leading-normal"
+              className="text-body-sm text-foreground leading-normal"
             >
               {input.label}
             </Label>
