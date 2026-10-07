@@ -98,6 +98,7 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.60.0",
     "@react-router/dev": "^7.9.3",
     "@tailwindcss/vite": "^4.3.0",
