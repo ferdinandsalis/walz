@@ -25,10 +25,13 @@ import {
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
 import {
+  controlProps,
   describedByIds,
   Field,
+  FieldError,
   FieldGroup,
   fieldIds,
+  FieldLabel,
 } from '#app/components/form-field.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
@@ -910,28 +913,36 @@ function AddressFields({
           />
         )}
       </Field>
-      <div className="grid grid-cols-[7rem_minmax(0,1fr)] items-end gap-4">
+      {/* PLZ and Ort share a row, with their errors in a full-width row
+          between the labels and the inputs, so a message does not wrap in the
+          narrow PLZ column and the two fields stay aligned. */}
+      <div className="grid grid-cols-[7rem_minmax(0,1fr)] gap-x-4 gap-y-1.5">
+        <FieldLabel htmlFor={postalCode}>PLZ</FieldLabel>
+        <FieldLabel htmlFor={city}>Ort</FieldLabel>
+        {errors[postalCode] || errors[city] ? (
+          <div className="col-span-2 flex flex-col gap-1.5">
+            {[postalCode, city].map(name =>
+              errors[name] ? (
+                <FieldError key={name} id={fieldIds(name).errorId}>
+                  {errors[name]}
+                </FieldError>
+              ) : null,
+            )}
+          </div>
+        ) : null}
         {/* No numeric keypad: it would block letters in foreign postcodes. */}
-        <Field name={postalCode} label="PLZ" error={errors[postalCode]}>
-          {control => (
-            <Input
-              {...control}
-              autoComplete={`${autocompleteSection} postal-code`}
-              required={required}
-              defaultValue={values?.[postalCode]}
-            />
-          )}
-        </Field>
-        <Field name={city} label="Ort" error={errors[city]}>
-          {control => (
-            <Input
-              {...control}
-              autoComplete={`${autocompleteSection} address-level2`}
-              required={required}
-              defaultValue={values?.[city]}
-            />
-          )}
-        </Field>
+        <Input
+          {...controlProps(postalCode, undefined, errors[postalCode])}
+          autoComplete={`${autocompleteSection} postal-code`}
+          required={required}
+          defaultValue={values?.[postalCode]}
+        />
+        <Input
+          {...controlProps(city, undefined, errors[city])}
+          autoComplete={`${autocompleteSection} address-level2`}
+          required={required}
+          defaultValue={values?.[city]}
+        />
       </div>
       <Field name={country} label="Land" error={errors[country]}>
         {control => (

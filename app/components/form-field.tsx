@@ -20,6 +20,36 @@ export function describedByIds(name: string, hint: ReactNode, error?: string) {
   return ids.length > 0 ? ids.join(' ') : undefined
 }
 
+export function controlProps(
+  name: string,
+  hint: ReactNode,
+  error?: string,
+): ControlProps {
+  return {
+    id: name,
+    name,
+    'aria-describedby': describedByIds(name, hint, error),
+    'aria-invalid': error ? true : undefined,
+  }
+}
+
+export function FieldLabel({
+  htmlFor,
+  children,
+}: {
+  htmlFor: string
+  children: ReactNode
+}) {
+  return (
+    <Label
+      htmlFor={htmlFor}
+      className="text-body-sm text-foreground scroll-mt-4 leading-normal font-medium"
+    >
+      {children}
+    </Label>
+  )
+}
+
 function FieldHint({ id, children }: { id: string; children: ReactNode }) {
   return (
     <p id={id} className="text-body-xs text-muted-foreground">
@@ -63,20 +93,10 @@ export function Field({
 
   return (
     <div className={cn('flex flex-col gap-1.5', className)}>
-      <Label
-        htmlFor={name}
-        className="text-body-sm text-foreground scroll-mt-4 leading-normal font-medium"
-      >
-        {label}
-      </Label>
+      <FieldLabel htmlFor={name}>{label}</FieldLabel>
       {hint ? <FieldHint id={hintId}>{hint}</FieldHint> : null}
       {error ? <FieldError id={errorId}>{error}</FieldError> : null}
-      {children({
-        id: name,
-        name,
-        'aria-describedby': describedByIds(name, hint, error),
-        'aria-invalid': error ? true : undefined,
-      })}
+      {children(controlProps(name, hint, error))}
     </div>
   )
 }
