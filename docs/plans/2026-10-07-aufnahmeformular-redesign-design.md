@@ -142,15 +142,15 @@ German copy is final unless marked **[Agnes]**.
 - PLZ gets no `inputmode`, because a numeric keypad would block letters in
   foreign postcodes.
 
-### Section 2 · Ihr Kind
+### Section 2 · Jugendliche:r
 
 **Person**
 
-| Name                                                       | Label                                              | Type / attributes                                       | Hint                                                                                                    |
-| ---------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `studentName`                                              | Vor- und Nachname                                  | `autocomplete=off`, `spellcheck=false`                  |                                                                                                         |
-| `studentEmail`                                             | E-Mail Ihres Kindes                                | `type=email`, `autocomplete=off`, `spellcheck=false`    | Ihr Kind bekommt die Bestätigung ebenfalls. Hat es keine eigene Adresse, geben Sie Ihre an. **[Agnes]** |
-| `studentBirthDay`, `studentBirthMonth`, `studentBirthYear` | Geburtsdatum (fieldset legend); Tag / Monat / Jahr | `inputmode=numeric`, `autocomplete=off`, no `maxLength` | z. B. 14 3 2012                                                                                         |
+| Name                                                       | Label                                              | Type / attributes                                       | Hint                                                                                             |
+| ---------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `studentName`                                              | Vor- und Nachname                                  | `autocomplete=off`, `spellcheck=false`                  |                                                                                                  |
+| `studentEmail`                                             | E-Mail                                             | `type=email`, `autocomplete=off`, `spellcheck=false`    | Die Bestätigung geht auch an diese Adresse. Gibt es keine eigene, geben Sie Ihre an. **[Agnes]** |
+| `studentBirthDay`, `studentBirthMonth`, `studentBirthYear` | Geburtsdatum (fieldset legend); Tag / Monat / Jahr | `inputmode=numeric`, `autocomplete=off`, no `maxLength` | z. B. 14 3 2012                                                                                  |
 
 The date inputs set no `maxLength`, so a pasted "14.03.2012" is not cut short;
 validation reports it instead.
@@ -159,7 +159,7 @@ validation reports it instead.
 
 | Name                               | Label                  | Type / attributes                                                 | Hint                                                   |
 | ---------------------------------- | ---------------------- | ----------------------------------------------------------------- | ------------------------------------------------------ |
-| `studentSameAddress`               | Wohnt an Ihrer Adresse | checkbox, ticked by default                                       | Entfernen Sie den Haken, wenn Ihr Kind woanders wohnt. |
+| `studentSameAddress`               | Wohnt an Ihrer Adresse | checkbox, ticked by default                                       | Entfernen Sie den Haken bei einer anderen Wohnadresse. |
 | `studentStreet` … `studentCountry` | as in section 1        | `section-student` tokens; shown only when the checkbox is cleared |                                                        |
 
 **Schule** (sub-heading)
@@ -229,12 +229,12 @@ timing must match what the school actually does; only Agnes can confirm that.
 One constant feeds both the intro box and the confirmation page **[Agnes:
 timing, and whether Quereinstieg families need different wording]**:
 
-1. **Anmeldung absenden.** Sie und Ihr Kind bekommen sofort eine Bestätigung per
-   E-Mail.
+1. **Anmeldung absenden.** Sie und die:der Jugendliche bekommen sofort eine
+   Bestätigung per E-Mail.
 2. **Anruf von Frauke Rätz.** Ab Mitte November, nach dem Tag der offenen Tür,
    vereinbaren wir das Aufnahmegespräch.
-3. **Aufnahmegespräch.** Etwa 30 Minuten mit Ihrem Kind; in den letzten 10
-   Minuten sind Sie dabei.
+3. **Aufnahmegespräch.** Etwa 30 Minuten mit der:dem Jugendlichen; in den
+   letzten 10 Minuten sind Sie dabei.
 4. **Zu- oder Absage.** Ab Jänner.
 
 The intro shows only the bold titles. The confirmation page shows titles and
@@ -249,7 +249,7 @@ descriptions.
 - Muted hint: "Keine E-Mail da? Schauen Sie im Spam-Ordner nach oder schreiben
   Sie an office@walz.at."
 - "So geht es weiter": the steps, with step 1 marked done.
-- Box "Für Ihr Kind bis zum Gespräch" (in "du", as in the confirmation email):
+- Box "Für dich bis zum Gespräch" (in "du", as in the confirmation email):
   "Schicke drei Gründe, warum du in die Walz gehen möchtest, per E-Mail an
   agnes.chorherr@walz.at, und überlege dir eine kreative Antwort auf die Frage,
   was du mit der Walz verbindest."
@@ -321,31 +321,31 @@ and the spam hint names office@walz.at; that trade-off is accepted.
 All messages live in the schema. They name the person, so lines in the error
 summary stay distinguishable.
 
-| Field                            | Condition                    | Message                                                                                                           |
-| -------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `parent1Name`                    | empty                        | Geben Sie Ihren Vor- und Nachnamen ein                                                                            |
-| `parent1Email`                   | empty                        | Geben Sie Ihre E-Mail-Adresse ein                                                                                 |
-| `parent1Email`                   | invalid                      | Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein                                                      |
-| `parent1Phone`                   | empty                        | Geben Sie Ihre Telefonnummer ein                                                                                  |
-| `parent1Street`                  | empty                        | Geben Sie Ihre Straße und Hausnummer ein                                                                          |
-| `parent1PostalCode`              | empty                        | Geben Sie Ihre Postleitzahl ein                                                                                   |
-| `parent1City`                    | empty                        | Geben Sie Ihren Wohnort ein                                                                                       |
-| `parent1Country`                 | empty                        | Geben Sie Ihr Land ein                                                                                            |
-| `studentName`                    | empty                        | Geben Sie den Vor- und Nachnamen Ihres Kindes ein                                                                 |
-| `studentEmail`                   | empty                        | Geben Sie die E-Mail-Adresse Ihres Kindes ein                                                                     |
-| `studentEmail`                   | invalid                      | Geben Sie die E-Mail-Adresse Ihres Kindes im Format name@beispiel.at ein                                          |
-| birthdate                        | all empty                    | Geben Sie das Geburtsdatum Ihres Kindes ein                                                                       |
-| birthdate                        | partly empty                 | Das Geburtsdatum muss Tag, Monat und Jahr enthalten                                                               |
-| birthdate                        | year not 4 digits            | Das Jahr muss vier Ziffern haben                                                                                  |
-| birthdate                        | not a real date              | Das Geburtsdatum muss ein gültiges Datum sein                                                                     |
-| birthdate                        | in the future                | Das Geburtsdatum muss in der Vergangenheit liegen                                                                 |
-| `studentStreet` … (box unticked) | empty                        | Geben Sie Straße und Hausnummer Ihres Kindes ein / die Postleitzahl … / den Wohnort … / das Land Ihres Kindes ein |
-| `currentGrade`                   | empty                        | Geben Sie die derzeitige Klasse oder Schulstufe ein                                                               |
-| `schoolHistory`                  | empty                        | Geben Sie die besuchten Schulen nach der Volksschule ein                                                          |
-| `schoolHistory`                  | over 2000 characters         | Die Liste der Schulen darf höchstens 2000 Zeichen lang sein                                                       |
-| `parent2Name`                    | other parent-2 data, no name | Geben Sie den Namen der weiteren erziehungsberechtigten Person ein                                                |
-| `parent2Email`                   | invalid                      | Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein            |
-| any single-line text             | over 200 characters          | Dieser Eintrag ist zu lang (höchstens 200 Zeichen)                                                                |
+| Field                            | Condition                    | Message                                                                                                |
+| -------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `parent1Name`                    | empty                        | Geben Sie Ihren Vor- und Nachnamen ein                                                                 |
+| `parent1Email`                   | empty                        | Geben Sie Ihre E-Mail-Adresse ein                                                                      |
+| `parent1Email`                   | invalid                      | Geben Sie Ihre E-Mail-Adresse im Format name@beispiel.at ein                                           |
+| `parent1Phone`                   | empty                        | Geben Sie Ihre Telefonnummer ein                                                                       |
+| `parent1Street`                  | empty                        | Geben Sie Ihre Straße und Hausnummer ein                                                               |
+| `parent1PostalCode`              | empty                        | Geben Sie Ihre Postleitzahl ein                                                                        |
+| `parent1City`                    | empty                        | Geben Sie Ihren Wohnort ein                                                                            |
+| `parent1Country`                 | empty                        | Geben Sie Ihr Land ein                                                                                 |
+| `studentName`                    | empty                        | Geben Sie den Vor- und Nachnamen ein                                                                   |
+| `studentEmail`                   | empty                        | Geben Sie die E-Mail-Adresse ein                                                                       |
+| `studentEmail`                   | invalid                      | Geben Sie die E-Mail-Adresse im Format name@beispiel.at ein                                            |
+| birthdate                        | all empty                    | Geben Sie das Geburtsdatum ein                                                                         |
+| birthdate                        | partly empty                 | Das Geburtsdatum muss Tag, Monat und Jahr enthalten                                                    |
+| birthdate                        | year not 4 digits            | Das Jahr muss vier Ziffern haben                                                                       |
+| birthdate                        | not a real date              | Das Geburtsdatum muss ein gültiges Datum sein                                                          |
+| birthdate                        | in the future                | Das Geburtsdatum muss in der Vergangenheit liegen                                                      |
+| `studentStreet` … (box unticked) | empty                        | Geben Sie Straße und Hausnummer ein / die Postleitzahl … / den Wohnort … / das Land ein                |
+| `currentGrade`                   | empty                        | Geben Sie die derzeitige Klasse oder Schulstufe ein                                                    |
+| `schoolHistory`                  | empty                        | Geben Sie die besuchten Schulen nach der Volksschule ein                                               |
+| `schoolHistory`                  | over 2000 characters         | Die Liste der Schulen darf höchstens 2000 Zeichen lang sein                                            |
+| `parent2Name`                    | other parent-2 data, no name | Geben Sie den Namen der weiteren erziehungsberechtigten Person ein                                     |
+| `parent2Email`                   | invalid                      | Geben Sie die E-Mail-Adresse der weiteren erziehungsberechtigten Person im Format name@beispiel.at ein |
+| any single-line text             | over 200 characters          | Dieser Eintrag ist zu lang (höchstens 200 Zeichen)                                                     |
 
 ### Data flow
 
@@ -424,7 +424,7 @@ summary stay distinguishable.
 **Notification email**
 
 ```
-KIND
+JUGENDLICHE:R
 Name: …
 E-Mail: …
 Geburtsdatum: 14.03.2012

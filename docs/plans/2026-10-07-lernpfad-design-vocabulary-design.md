@@ -241,8 +241,7 @@ padding.
   coloured `secondary-800`.
 - **Uses:**
   - the form's privacy note (lock icon, no title);
-  - "Für Ihr Kind bis zum Gespräch" on the confirmation page, which stays a
-    heading;
+  - "Für dich bis zum Gespräch" on the confirmation page, which stays a heading;
   - the two info boxes on `/aufnahme` (`AdmissionDay`, `LateralEntryBox`), which
     keep their content, links and CTA.
 
@@ -368,7 +367,7 @@ shown as skippable or done.
 - The h1 keeps its focus-on-mount. There is no seal.
 - **Steps:** a `full` `StepsPath`, with step 1 done and the one draw-in
   animation.
-- **"Für Ihr Kind bis zum Gespräch":** a `Notice` with an `h2` title.
+- **"Für dich bis zum Gespräch":** a `Notice` with an `h2` title.
 - **Mail links:** stay.
 
 ### `/aufnahme`
