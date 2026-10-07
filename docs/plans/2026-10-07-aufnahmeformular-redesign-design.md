@@ -545,10 +545,11 @@ email-test edits from before this spec get rewritten against it.
 3. **"Wie aufmerksam geworden":** are these the right options?
 4. **Child's email:** many 13-year-olds have none. Is a parent's address
    acceptable there, as the hint says?
-5. **Wording:** the form now says "erziehungsberechtigte Person" and avoids the
-   gender colon in its own labels; the option labels keep the site's colon.
-   Should the site keep the colon at all? The blind-and-visually-impaired
-   association DBSV prefers the asterisk for screen readers.
+5. **Wording:** the form says "erziehungsberechtigte Person" for the parents
+   and, by Ferdinand's decision, "Jugendliche:r" for the applicant, in the
+   site's colon style; the option labels keep the colon too. Should the site
+   keep the colon at all? The blind-and-visually-impaired association DBSV
+   prefers the asterisk for screen readers.
 6. **Audience on `/aufnahme`:** the page tells the child "fülle bitte das
    Anmeldeformular aus", while the form addresses the parent. Should that
    sentence change?
