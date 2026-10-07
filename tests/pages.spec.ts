@@ -31,3 +31,16 @@ test('has about page', async ({ page }) => {
     page.getByRole('heading', { name: 'Geschichte', exact: true }),
   ).toBeDefined()
 })
+
+test('names the phone menu button', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto('/')
+  // The toggle only works once React has hydrated the page
+  await page.waitForFunction(() => '__reactRouterDataRouter' in window)
+
+  const menu = page.getByRole('button', { name: 'Menü' })
+  await expect(menu).toBeVisible()
+  await expect(menu).toHaveAttribute('aria-expanded', 'false')
+  await menu.click()
+  await expect(menu).toHaveAttribute('aria-expanded', 'true')
+})
