@@ -1,4 +1,5 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
+import { fillParent1, gotoHydratedForm } from './aufnahme-helpers.ts'
 
 // Fills every required field; the child lives at the parent's address, so the
 // child address fields stay hidden and untouched.
@@ -11,16 +12,6 @@ async function fillRequired(page: Page) {
   await page.locator('#studentBirthYear').fill('2012')
   await page.locator('#currentGrade').fill('8a')
   await page.locator('#schoolHistory').fill('MS Testgasse, Wien (2022–heute)')
-}
-
-// Fills section 1, "Ihre Angaben"; the country is already set.
-async function fillParent1(page: Page) {
-  await page.locator('#parent1Name').fill('Anna Testfrau')
-  await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
-  await page.locator('#parent1Phone').fill('+43 660 1234567')
-  await page.locator('#parent1Street').fill('Teststraße 1/2/3')
-  await page.locator('#parent1PostalCode').fill('1010')
-  await page.locator('#parent1City').fill('Wien')
 }
 
 // The node beside a section's title on the path.
@@ -59,15 +50,6 @@ async function expectSolidOutline(locator: Locator) {
   })
   expect(outline.style).toBe('solid')
   expect(outline.width).toBeGreaterThanOrEqual(2)
-}
-
-// The client-side checks and the submit guard need React on the page. React
-// Router sets this global in createHydratedRouter (react-router/dom, verified
-// against 7.18.4), so it marks that hydration has started, not that every
-// event handler is committed yet.
-async function gotoHydratedForm(page: Page) {
-  await page.goto('/aufnahme/formular')
-  await page.waitForFunction(() => '__reactRouterDataRouter' in window)
 }
 
 test.describe('Aufnahme Form', () => {
