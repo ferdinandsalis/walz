@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import { createRoutesStub } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AufnahmeFormular, { type AufnahmeActionData } from './formular.tsx'
@@ -97,5 +97,45 @@ describe('Aufnahme form after a failed submit', () => {
     expect(plausible).toHaveBeenCalledExactlyOnceWith('Aufnahme Form Error', {
       props: { type: 'validation' },
     })
+  })
+
+  it('groups the error summary by section', () => {
+    const summary = renderWithActionData({
+      fieldErrors: {
+        studentBirthdate: 'Das Geburtsdatum muss Tag, Monat und Jahr enthalten',
+        mystery: 'Ein unbekannter Fehler',
+        parent1Email: 'Geben Sie Ihre E-Mail-Adresse ein',
+        parent1Name: 'Geben Sie Ihren Vor- und Nachnamen ein',
+      },
+      values: { studentBirthDay: '31' },
+    })!
+
+    // The group label is plain text: the count stays the summary's only
+    // heading, and the form keeps the only heading for "Ihre Angaben"
+    const label = within(summary).getByText('Ihre Angaben')
+    expect(label.closest('h1, h2, h3, h4, h5, h6')).toBeNull()
+    expect(summary.querySelectorAll('h1, h2, h3, h4, h5, h6')).toHaveLength(1)
+    expect(
+      screen.getAllByRole('heading', { name: /Ihre Angaben/ }),
+    ).toHaveLength(1)
+
+    const hrefs = (group: Element) =>
+      Array.from(group.querySelectorAll('ul a')).map(link =>
+        link.getAttribute('href'),
+      )
+    const firstGroup = label.closest('li')!
+    expect(hrefs(firstGroup)).toEqual(['#parent1Name', '#parent1Email'])
+    expect(precedes(label, firstGroup.querySelector('ul')!)).toBe(true)
+
+    const groups = Array.from(summary.querySelector('ul')!.children)
+    expect(groups.map(group => group.tagName)).toEqual(['LI', 'LI', 'LI'])
+    expect(within(groups[1] as HTMLElement).getByText('Ihr Kind')).toBeTruthy()
+    expect(hrefs(groups[1]!)).toEqual(['#studentBirthMonth'])
+
+    // An error outside every section closes the list, without a label
+    const trailing = groups[2]!
+    expect(trailing.firstElementChild?.tagName).toBe('UL')
+    expect(hrefs(trailing)).toEqual(['#mystery'])
+    expect(trailing.textContent).toBe('Ein unbekannter Fehler')
   })
 })

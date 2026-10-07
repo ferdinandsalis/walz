@@ -62,6 +62,7 @@ import {
   type SectionKey,
   SECTIONS,
   type SectionStatus,
+  sectionOf,
   sectionStatus,
   SOURCE_OPTIONS,
 } from '#app/utils/aufnahme-form.ts'
@@ -755,7 +756,11 @@ function birthdateProblem(values: FormValues) {
     : { message: result.message, parts: result.parts }
 }
 
-type ErrorSummaryEntry = { fieldId: string; message: string }
+type ErrorSummaryEntry = {
+  fieldId: string
+  message: string
+  section: SectionKey | undefined
+}
 
 // The date group has one error; it links to the first of its wrong inputs.
 const SUMMARY_ORDER = AUFNAHME_FIELD_NAMES.map(name =>
@@ -779,7 +784,26 @@ function errorSummaryEntries(
           ? birthdateInputName(birthdateProblem(values)?.parts[0] ?? 'day')
           : name,
       message,
+      section: sectionOf(name),
     }))
+}
+
+// The entries by section, in page order. Entries outside every section close
+// the list, in a group without a label.
+function errorSummaryGroups(entries: ErrorSummaryEntry[]) {
+  const groups = [
+    ...SECTIONS.map(section => ({
+      key: section.key,
+      section,
+      entries: entries.filter(entry => entry.section === section.key),
+    })),
+    {
+      key: 'other',
+      section: undefined,
+      entries: entries.filter(entry => entry.section === undefined),
+    },
+  ]
+  return groups.filter(group => group.entries.length > 0)
 }
 
 // Without JavaScript the link jumps to the input. With it, the input also
@@ -842,16 +866,35 @@ function ErrorSummary({
                 ? 'Bitte prüfen Sie 1 Angabe'
                 : `Bitte prüfen Sie ${errors.length} Angaben`}
             </h2>
-            <ul className="mt-3 flex flex-col gap-2 pl-7">
-              {errors.map(error => (
-                <li key={error.fieldId}>
-                  <a
-                    href={`#${error.fieldId}`}
-                    onClick={event => focusField(event, error.fieldId)}
-                    className="text-body-sm text-foreground-danger font-medium underline underline-offset-2"
-                  >
-                    {error.message}
-                  </a>
+            {/* The section labels are plain text, so the count stays the
+                summary's only heading. */}
+            <ul className="mt-3 flex flex-col gap-3">
+              {errorSummaryGroups(errors).map(group => (
+                <li key={group.key} className="flex flex-col gap-1.5">
+                  {group.section ? (
+                    <p className="font-condensed text-body-sm flex items-center gap-2 font-bold">
+                      <span
+                        aria-hidden="true"
+                        className="border-foreground-danger text-foreground-danger text-body-2xs grid size-5 shrink-0 place-items-center rounded-full border-[1.5px]"
+                      >
+                        {group.section.number}
+                      </span>
+                      <span>{group.section.title}</span>
+                    </p>
+                  ) : null}
+                  <ul className="flex flex-col gap-2 pl-7">
+                    {group.entries.map(error => (
+                      <li key={error.fieldId}>
+                        <a
+                          href={`#${error.fieldId}`}
+                          onClick={event => focusField(event, error.fieldId)}
+                          className="text-body-sm text-foreground-danger font-medium underline underline-offset-2"
+                        >
+                          {error.message}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               ))}
             </ul>
