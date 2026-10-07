@@ -99,7 +99,9 @@ test('draws the first segment fully under reduced motion', async ({ page }) => {
   await expect(segment).toHaveCSS('transform', 'none')
 })
 
-test('shows the steps path and both notices on /aufnahme', async ({ page }) => {
+test('shows the steps path above the prose and both notices on /aufnahme', async ({
+  page,
+}) => {
   await page.goto('/aufnahme')
 
   const steps = page
@@ -111,6 +113,19 @@ test('shows the steps path and both notices on /aufnahme', async ({ page }) => {
     'Aufnahmegespräch',
     'Zu- oder Absage',
   ])
+  // An overview at a glance, above the prose that tells the steps in full
+  const prose = page.getByText(
+    'Wenn du dich an der Walz bewerben willst, fülle bitte das Anmeldeformular aus.',
+  )
+  const stepsFirst = await steps.evaluate(
+    (list, paragraph) =>
+      Boolean(
+        list.compareDocumentPosition(paragraph!) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+    await prose.elementHandle(),
+  )
+  expect(stepsFirst).toBe(true)
 
   // "Aufnahmetermin" also appears in the prose, so match the exact text.
   for (const title of ['Aufnahmetermin', 'Plätze frei']) {

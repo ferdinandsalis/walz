@@ -54,6 +54,12 @@ export default function Aufnahme() {
           <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
             Vorgehensweise
           </h1>
+          {/* The steps at a glance; the prose below tells them in full. */}
+          <StepsPath
+            steps={AUFNAHME_STEPS}
+            variant="compact"
+            heading="So geht es weiter"
+          />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Wenn du dich an der Walz bewerben willst, fülle bitte das
@@ -81,12 +87,6 @@ export default function Aufnahme() {
               eingezahlt ist.
             </p>
           </div>
-
-          <StepsPath
-            steps={AUFNAHME_STEPS}
-            variant="compact"
-            heading="So geht es weiter"
-          />
 
           <AdmissionDay />
         </article>
