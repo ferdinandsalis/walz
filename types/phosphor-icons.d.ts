@@ -42,10 +42,12 @@ declare module '@phosphor-icons/react' {
   export const Link: Icon
   export const LinkSimple: Icon
   export const List: Icon
+  export const Lock: Icon
   export const MagnifyingGlassPlus: Icon
   export const Microphone: Icon
   export const Newspaper: Icon
   export const Phone: Icon
+  export const Plus: Icon
   export const Question: Icon
   export const Quotes: Icon
   export const Smiley: Icon
