@@ -167,6 +167,17 @@ edge.
   and up).
 - Nodes sit centred on the rail.
 - A `dashed` prop draws the line dashed.
+- A `hanging` prop hangs the rail in the left margin from `xl` (1160px), where
+  the site's navigation column leaves room beside the content.
+  - The rail box is pulled left by `--spacing-path-wide` (`xl:-ml-path-wide`)
+    and keeps its padding. The rail and every marker keep their geometry, so
+    they sit in the margin and the content shares one left edge with the page
+    h1.
+  - The markers are placed from the content edge, so they need no hanging
+    variant of their own.
+  - Below `xl` there is no margin to hang in, and the indent stays.
+  - In the margin the node rings take the page background, the default
+    `--path-gap`.
 
 **`PathNode`** is a 32px circle with a condensed number.
 
@@ -209,6 +220,8 @@ existing "So geht es weiter" heading, with the list labelled by that heading.
 - The solid segment draws in once with
   `motion-safe:animate-path-draw origin-top`. Under `prefers-reduced-motion` it
   is static.
+
+A `hanging` prop passes through to the `PathRail`; it is off by default.
 
 ### `ChoiceCard` and `ChoiceList` (`choice.tsx`)
 
@@ -346,6 +359,12 @@ shown as skippable or done.
 
 ## Placement
 
+From `xl` every path on the Aufnahme pages hangs in the left margin: the form's
+section rail, the form intro's steps, the confirmation page's steps and the
+steps on `/aufnahme`. Their text lines up with the page h1, and their nodes sit
+left of it, clear of the navigation links. The `SectionMap`'s rail stays inside
+its panel.
+
 ### Form (`/aufnahme/formular`)
 
 - **Intro:** a `compact` `StepsPath` under "So geht es weiter" replaces today's
@@ -431,6 +450,8 @@ shown as skippable or done.
   - `ChoiceCard` (native input kept, hint outside the label, wiring kept);
   - `Notice` (heading level);
   - `StepsPath` (list semantics, step-1 "Erledigt" outside `aria-hidden`);
+  - `PathRail` and `StepsPath` hang only with `hanging`, and `SectionMap` never
+    does;
   - the grouped summary (no extra headings, the trailing group).
 - **Tailwind merge:** `cn()` resolves the new token classes against built-in
   ones (e.g. `inset-shadow-field` and `shadow-md` both survive, while
@@ -446,6 +467,11 @@ shown as skippable or done.
   hidden.
 - At 320px nothing scrolls horizontally on the form, the confirmation page and
   `/aufnahme`.
+- At 1280px the form's first section title and first label, the steps on the
+  form, the confirmation page and `/aufnahme` start at the h1's left edge
+  (±1px). The first node ends at or before that edge and starts right of the
+  navigation links. At 1024px and 375px the section title stays indented from
+  the h1.
 - The first-screen test holds.
 - The confirmation page shows the `full` steps.
 - `/aufnahme` shows the compact steps and both notices.
