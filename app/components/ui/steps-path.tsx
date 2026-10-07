@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { cn } from '#app/utils/misc.tsx'
-import { PathMarker, PathNode, PathRail } from './path.tsx'
+import { PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
 
 /**
  * The steps of a process as an ordered list on a dashed rail, labelled by its
@@ -36,7 +36,9 @@ export function StepsPath({
         {heading}
       </Heading>
       <PathRail dashed className={full ? 'mt-5' : 'mt-3'}>
+        {/* Safari drops the list role from a list without bullets. */}
         <ol
+          role="list"
           aria-labelledby={headingId}
           className={cn('flex flex-col', full ? 'gap-6' : 'gap-3')}
         >
@@ -99,16 +101,6 @@ function DoneStretch() {
     <span
       aria-hidden="true"
       className="bg-path-done -left-path sm:-left-path-wide motion-safe:animate-path-draw absolute top-[0.5lh] -bottom-[calc(1.5rem+0.5lh)] ml-[15px] w-0.5 origin-top"
-    />
-  )
-}
-
-/** Covers the rail below the last marker, so the path ends at it. */
-function RailEnd() {
-  return (
-    <span
-      aria-hidden="true"
-      className="-left-path sm:-left-path-wide absolute top-[0.5lh] bottom-0 ml-[15px] w-0.5 bg-(--path-gap)"
     />
   )
 }

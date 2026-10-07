@@ -78,6 +78,21 @@ test.describe('Aufnahme layout', () => {
     )
   })
 
+  // At 20px bold the white label counts as large text, which passes 3:1 on
+  // the orange.
+  test('renders the submit label at 20px bold', async ({ page }) => {
+    await page.goto('/aufnahme/formular')
+
+    const label = await page
+      .getByRole('button', { name: 'Anmeldung absenden' })
+      .evaluate(element => {
+        const style = getComputedStyle(element)
+        return { size: style.fontSize, weight: Number(style.fontWeight) }
+      })
+    expect(label.size).toBe('20px')
+    expect(label.weight).toBeGreaterThanOrEqual(700)
+  })
+
   test('outlines the email links on the confirmation page on keyboard focus', async ({
     page,
   }) => {

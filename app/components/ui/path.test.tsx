@@ -3,7 +3,13 @@
  */
 import { describe, expect, it } from 'vitest'
 import { renderStatic } from '#tests/setup/render-static.ts'
-import { PathNode, PathRail, Waypoint, type PathNodeState } from './path.tsx'
+import {
+  PathNode,
+  PathRail,
+  RailEnd,
+  Waypoint,
+  type PathNodeState,
+} from './path.tsx'
 
 function classesOf(element: Element | null) {
   return element?.getAttribute('class')?.split(/\s+/) ?? []
@@ -129,5 +135,25 @@ describe('Waypoint', () => {
 
     expect(waypoint?.getAttribute('aria-hidden')).toBe('true')
     expect(waypoint?.querySelector('.bg-path')).not.toBeNull()
+  })
+})
+
+describe('RailEnd', () => {
+  it('covers the rail in the colour of the surface, hidden from screen readers', () => {
+    const cover = renderStatic(<RailEnd />).firstElementChild
+
+    expect(cover?.getAttribute('aria-hidden')).toBe('true')
+    expect(classesOf(cover)).toEqual(
+      expect.arrayContaining(['bg-(--path-gap)', 'top-[0.5lh]', 'bottom-0']),
+    )
+  })
+
+  it('starts where its place asks, such as the middle of a button', () => {
+    const cover = renderStatic(
+      <RailEnd className="top-1/2" />,
+    ).firstElementChild
+
+    expect(classesOf(cover)).toContain('top-1/2')
+    expect(classesOf(cover)).not.toContain('top-[0.5lh]')
   })
 })

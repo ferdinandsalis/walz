@@ -47,6 +47,13 @@ describe('StepsPath', () => {
     },
   )
 
+  // Safari drops the list role from a list without bullets.
+  it('keeps the list role on the unstyled list', () => {
+    expect(
+      renderSteps('compact').querySelector('ol')?.getAttribute('role'),
+    ).toBe('list')
+  })
+
   it('renders the heading at the level asked for', () => {
     const container = renderSteps('compact', 'h3')
 

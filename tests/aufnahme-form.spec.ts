@@ -3,13 +3,7 @@ import { test, expect, type Page } from '@playwright/test'
 // Fills every required field; the child lives at the parent's address, so the
 // child address fields stay hidden and untouched.
 async function fillRequired(page: Page) {
-  await page.locator('#parent1Name').fill('Anna Testfrau')
-  await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
-  await page.locator('#parent1Phone').fill('+43 660 1234567')
-  await page.locator('#parent1Street').fill('Teststraße 1/2/3')
-  await page.locator('#parent1PostalCode').fill('1010')
-  await page.locator('#parent1City').fill('Wien')
-
+  await fillParent1(page)
   await page.locator('#studentName').fill('Max Testfrau')
   await page.locator('#studentEmail').fill('delivered+max@resend.dev')
   await page.locator('#studentBirthDay').fill('15')
@@ -17,6 +11,33 @@ async function fillRequired(page: Page) {
   await page.locator('#studentBirthYear').fill('2012')
   await page.locator('#currentGrade').fill('8a')
   await page.locator('#schoolHistory').fill('MS Testgasse, Wien (2022–heute)')
+}
+
+// Fills section 1, "Ihre Angaben"; the country is already set.
+async function fillParent1(page: Page) {
+  await page.locator('#parent1Name').fill('Anna Testfrau')
+  await page.locator('#parent1Email').fill('delivered+anna@resend.dev')
+  await page.locator('#parent1Phone').fill('+43 660 1234567')
+  await page.locator('#parent1Street').fill('Teststraße 1/2/3')
+  await page.locator('#parent1PostalCode').fill('1010')
+  await page.locator('#parent1City').fill('Wien')
+}
+
+// The node beside a section's title on the path.
+function sectionNode(page: Page, number: number) {
+  return page.locator(`#abschnitt-${number} [data-node-state]`)
+}
+
+async function expectSectionNodes(
+  page: Page,
+  states: [string, string, string, string],
+) {
+  for (const [index, state] of states.entries()) {
+    await expect(sectionNode(page, index + 1)).toHaveAttribute(
+      'data-node-state',
+      state,
+    )
+  }
 }
 
 // The client-side checks and the submit guard need React on the page. React
@@ -594,8 +615,112 @@ test.describe('Aufnahme Form', () => {
     expect(posts).toBe(1)
   })
 
+  test('marks section 1 done once it is filled', async ({ page }) => {
+    await gotoHydratedForm(page)
+    await expect(sectionNode(page, 1)).toHaveAttribute(
+      'data-node-state',
+      'open',
+    )
+
+    await fillParent1(page)
+
+    await expect(sectionNode(page, 1)).toHaveAttribute(
+      'data-node-state',
+      'done',
+    )
+  })
+
+  test('marks only the sections with errors after an empty submit', async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+
+    await expect(page.locator('#aufnahme-errors')).toBeFocused()
+    await expectSectionNodes(page, [
+      'attention',
+      'attention',
+      'optional',
+      'open',
+    ])
+  })
+
+  test('turns a fixed section from attention to done without resubmitting', async ({
+    page,
+  }) => {
+    await gotoHydratedForm(page)
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+    await expect(sectionNode(page, 1)).toHaveAttribute(
+      'data-node-state',
+      'attention',
+    )
+
+    await fillParent1(page)
+
+    await expect(sectionNode(page, 1)).toHaveAttribute(
+      'data-node-state',
+      'done',
+    )
+    await expect(sectionNode(page, 2)).toHaveAttribute(
+      'data-node-state',
+      'attention',
+    )
+  })
+
+  test.describe('on a narrow phone', () => {
+    test.use({ viewport: { width: 320, height: 640 } })
+
+    test('keeps the date row inside the screen at 320px', async ({ page }) => {
+      await page.goto('/aufnahme/formular')
+      await page.evaluate(() => document.fonts.ready)
+
+      await expect(page.locator('#studentBirthYear')).toBeVisible()
+      const scrollWidth = await page.evaluate(
+        () => document.documentElement.scrollWidth,
+      )
+      expect(scrollWidth).toBeLessThanOrEqual(320)
+      const year = await page.locator('#studentBirthYear').boundingBox()
+      expect(year!.x + year!.width).toBeLessThanOrEqual(320)
+    })
+  })
+
+  test.describe('on a phone zoomed to 150%', () => {
+    // A 375px screen at 150% page zoom leaves 250 CSS pixels
+    test.use({ viewport: { width: 250, height: 640 } })
+
+    test('wraps the date row instead of running off the screen', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+      await page.evaluate(() => document.fonts.ready)
+
+      const day = await page.locator('#studentBirthDay').boundingBox()
+      const year = await page.locator('#studentBirthYear').boundingBox()
+      expect(year!.x + year!.width).toBeLessThanOrEqual(250)
+      expect(year!.y).toBeGreaterThan(day!.y)
+    })
+  })
+
   test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false })
+
+    test('marks only the sections with errors after an empty submit without JavaScript', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+      await expectSectionNodes(page, ['open', 'open', 'optional', 'open'])
+
+      await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+
+      await expect(page.locator('#parent1Name-error')).toBeVisible()
+      await expectSectionNodes(page, [
+        'attention',
+        'attention',
+        'optional',
+        'open',
+      ])
+    })
 
     test('keeps every entry and the unticked box after a failed submit without JavaScript', async ({
       page,

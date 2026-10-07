@@ -110,3 +110,19 @@ export function Waypoint({ className }: { className?: string }) {
     </PathMarker>
   )
 }
+
+/**
+ * Covers the rail from the middle of its parent's first line down, so the path
+ * ends at the marker there. It comes before the marker, which paints over it.
+ */
+export function RailEnd({ className }: { className?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        '-left-path sm:-left-path-wide absolute top-[0.5lh] bottom-0 ml-[15px] w-0.5 bg-(--path-gap)',
+        className,
+      )}
+    />
+  )
+}
