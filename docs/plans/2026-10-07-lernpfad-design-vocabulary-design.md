@@ -7,8 +7,8 @@ site a richer, reusable design vocabulary called **Lernpfad**. The admission
 pages adopt it first: `/aufnahme/formular`, `/aufnahme/formular/danke` and
 `/aufnahme`.
 
-**The idea.** The Walz logo's spiral is titled "Walz Lernpfad" in
-`app/components/brand.tsx`. The form becomes the first stretch of that path:
+**The idea.** The Walz logo's spiral is titled "Walz Lernpfad". The form becomes
+the first stretch of that path:
 
 - a rail runs down the form, with a node per section;
 - a filled node marks a finished section;
@@ -23,7 +23,7 @@ This spec extends the form spec
 approved there stays:
 
 - fields, order, copy;
-- errors and the error summary;
+- errors and the error summary behaviour;
 - autofill;
 - show/hide without JavaScript;
 - accessibility rules.
@@ -32,14 +32,15 @@ Only the visual layer and three placements change.
 
 ## Decisions
 
-| Topic                   | Decision                                                                                                     |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Direction               | A "Lernpfad" from the design exploration (B "Mappe" and C "Plakat" rejected)                                 |
-| Scope                   | Form, confirmation page, `/aufnahme` (steps + info boxes), and a section map beside the form on wide screens |
-| "Done" node             | Exact: computed from `parseAufnahmeForm` per section once hydrated; without JavaScript, plain numbered nodes |
-| Brand colours and fonts | Unchanged. New tints and shades are derived from them; the orange button stays orange                        |
-| Submit label            | "Anmeldung absenden" at 20px bold condensed, which counts as large text and passes 3:1 on orange. Form only  |
-| Other site pages        | Not touched in this branch (curriculum path, site-wide TOC and contrast fixes are follow-ups)                |
+| Topic                   | Decision                                                                                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Direction               | A "Lernpfad" from the design exploration (B "Mappe" and C "Plakat" rejected)                                                                            |
+| Scope                   | Form, confirmation page, `/aufnahme` (steps + info boxes), and a section map beside the form on wide screens                                            |
+| Section state on nodes  | Exact: computed from `parseAufnahmeForm`, the same rules the submit uses. Before hydration and without JavaScript it reflects the submitted values only |
+| Brand colours and fonts | Unchanged. New tints and shades are derived from them; the orange button stays orange                                                                   |
+| Spiral                  | Not used as an ornament (no seal, no spiral marks); the rail and nodes carry the idea                                                                   |
+| Submit label            | "Anmeldung absenden" at 20px bold condensed, which counts as large text and passes 3:1 on orange (measured 3.23). Form only                             |
+| Other site pages        | Not touched in this branch                                                                                                                              |
 
 ## Visual reference
 
@@ -50,29 +51,36 @@ binding text.
 - `lernpfad.html` (open with `?state=progress`, `?state=error` or
   `?page=danke`).
 - `shots/lernpfad-375-*.png` and `shots/lernpfad-1280-*.png`.
-- `proposal.md` §2–3 and §8.
 
-Where a mockup and this spec disagree, the spec wins. The mockups still show the
-old intro sentence.
+Where a mockup and this spec disagree, the spec wins. The mockups still show:
+
+- the old intro sentence;
+- the spiral seal and marks;
+- a "current" fill and outlined circles in the section map.
+
+None of these ship.
 
 ## Tokens
 
-All tokens go into the `@theme` block of `app/styles/app.css`.
+All tokens go into the `@theme` block of `app/styles/app.css` as literal `hsl()`
+values. Unlike the themeable `:root` channels, these tints have no dark-mode
+variant.
 
 **Brand tints and shades.** Derived from the brand colours, never replacing
 them:
 
 ```css
 --color-primary-50: hsl(15 90% 97%); /* surface: checked, selected */
---color-primary-100: hsl(15 88% 93%); /* focus halo, ornament */
+--color-primary-100: hsl(15 88% 93%); /* ornament */
 --color-primary-200: hsl(15 85% 84%); /* rail, decorative lines */
---color-primary-700: hsl(15 85% 38%); /* small orange text, 6.0:1 */
+--color-primary-700: hsl(
+  15 85% 38%
+); /* small orange text, focus outline, 6.0:1 */
 --color-primary-800: hsl(15 80% 30%); /* numbers in nodes, 8.5:1 */
 --color-secondary-50: hsl(198 76% 96%); /* notice surface */
---color-secondary-100: hsl(198 72% 90%);
 --color-secondary-200: hsl(198 70% 80%); /* decorative only */
---color-secondary-700: hsl(198 90% 28%); /* blue text and icons, 6.8:1 */
---color-secondary-800: hsl(198 85% 22%); /* blue headings, 9.5:1 */
+--color-secondary-700: hsl(198 90% 28%); /* blue icons, 6.8:1 */
+--color-secondary-800: hsl(198 85% 22%); /* blue headings and titles, 9.5:1 */
 --color-danger-50: hsl(345 80% 97%); /* invalid input fill */
 ```
 
@@ -81,10 +89,10 @@ them:
 ```css
 --color-path: var(--color-primary-200);
 --color-path-done: var(--color-primary);
---spacing-path: 2.5rem; /* content indent from the rail, phone */
+--spacing-path: 2rem; /* content indent from the rail, phone */
 --spacing-path-wide: 3.5rem; /* from the sm breakpoint (600px) */
 --radius-choice: 0.75rem;
---shadow-field: inset 0 1px 2px hsl(15 20% 40% / 0.08);
+--inset-shadow-field: inset 0 1px 2px hsl(15 20% 40% / 0.08);
 --animate-path-draw: path-draw 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
 @keyframes path-draw {
   from {
@@ -96,8 +104,11 @@ them:
 }
 ```
 
-**Usage rules.** These go as a comment above the tokens, because without them
-the tints get misused:
+Every new class group gets registered in `app/utils/extended-theme.ts`, so
+`cn()` (tailwind-merge) resolves conflicts with built-in classes: colours,
+spacing, radius, inset shadow and animation.
+
+**Usage rules.** These go as a comment above the tokens:
 
 - Blue is decoration: edges, washes, numerals.
 - Blue text uses `secondary-700` or `-800`.
@@ -107,260 +118,332 @@ the tints get misused:
 
 ## Shared control rules
 
-These apply site-wide through `Input` and `Textarea`.
+**`Input` only:**
 
-- **Height:** 48px (`h-12`). Today it is 40px.
-- **Focus:** 2px `primary` border plus a 4px `primary-100` halo, never blue. It
-  replaces the blue-grey ring on these two controls only. `Button` keeps its own
-  focus treatment, and the form's local focus outline on the submit button
-  stays.
-- **Invalid:** 2px `foreground-danger` border plus a `danger-50` fill. The error
-  icon and text stay above the input, as today.
-- **Inner shadow:** `--shadow-field`.
+- Height 48px (`h-12`). Today it is 40px.
+- `Textarea` keeps its row-based height.
 
-Contrast:
+**`Input` and `Textarea`:**
 
+- **Focus:** a 2px `primary-700` outline at 2px offset
+  (`focus-visible:outline-2 outline-offset-2`). It replaces today's blue-grey
+  ring. The border is untouched by focus, so it keeps showing the state (grey or
+  invalid), and nothing changes width on focus.
+- **Invalid:** keeps today's 2px `border-input-invalid` border and adds a
+  `danger-50` fill. The error icon and text stay above the input.
+- **Inner shadow:** `inset-shadow-field`.
+
+**Contrast:**
+
+- The focus outline is 5.6:1 or more against the page and the tints.
 - The input border stays at 3:1 or more against white, `primary-50` and
-  `secondary-50` (measured: 3.41 on the tints).
-- The newsletter input inherits all of this. Check it in the screenshots.
+  `secondary-50`.
+
+**Usages:** `Input` and `Textarea` appear only in `formular.tsx` and
+`newsletter.tsx`. The newsletter field (on most pages, including the
+confirmation page) inherits the focus and shadow; check it in the screenshots.
 
 ## Components
 
-All components live in `app/components/ui/`, one file each unless noted. Every
-ornament is `aria-hidden`, and every state an ornament shows also exists as
-text.
+All components live in `app/components/ui/`.
 
-### `PathRail` and `PathNode` (`path.tsx`)
+The rail, nodes, waypoints and dots are decoration (`aria-hidden`). This is
+intended:
+
+- The `done` and `optional` states, and the section numbers, exist only
+  visually. Screen-reader users get completeness from the fields and the error
+  summary, as today.
+- Hiding the node changes a section's accessible group name from "1 Ihre
+  Angaben" to "Ihre Angaben".
+- `attention` is not colour-only: its node shows a "!" glyph, as `done` shows a
+  tick.
+
+### `PathRail`, `PathNode`, `Waypoint` (`path.tsx`)
 
 **`PathRail`** wraps content and draws a 2px `--color-path` line down its left
 edge.
 
 - The content is indented `--spacing-path` (phone) or `--spacing-path-wide` (sm
   and up).
-- The rail is a pseudo-element or an `aria-hidden` span; no text lives in it.
-- The rail is solid by default. A `dashed` prop draws it dashed, which is used
-  after the current step in `StepsPath`.
+- Nodes sit centred on the rail.
+- A `dashed` prop draws the line dashed.
 
-**`PathNode`** is a 32px circle on the rail.
+**`PathNode`** is a 32px circle with a condensed number.
 
-- It shows a condensed number and has a `ring-4 ring-background`, so the rail
-  seems to pass behind it.
+- A ring in the colour of the surface behind it makes the rail seem to pass
+  behind the node. The ring colour is a CSS variable (`--path-gap`), set by each
+  surface: the page background, the `bg-muted/30` panel, the white summary.
 - **States:**
 
-  | State       | Look                                    |
-  | ----------- | --------------------------------------- |
-  | `open`      | orange ring, `primary-800` number       |
-  | `done`      | filled `primary` with a white tick icon |
-  | `attention` | danger ring on a `danger-50` fill       |
-  | `optional`  | dashed ring                             |
+  | State       | Look                                  |
+  | ----------- | ------------------------------------- |
+  | `open`      | orange ring, `primary-800` number     |
+  | `done`      | filled `primary` with a white tick    |
+  | `attention` | danger ring on `danger-50` with a "!" |
+  | `optional`  | dashed ring, `primary-800` number     |
 
-- The node is `aria-hidden`. The section title in the legend carries the
-  meaning.
+**`Waypoint`** is a 10px filled `--color-path` dot beside a sub-heading on the
+rail ("Wohnadresse", "Schule").
 
-**`Waypoint`** is a 10px `--color-path` dot beside a sub-heading on the rail
-("Wohnadresse", "Schule").
+Non-interactive markers are always filled, smaller or numbered, never outlined
+like a radio button.
 
 ### `StepsPath` (`steps-path.tsx`)
 
-`AUFNAHME_STEPS` drawn on a `PathRail`, in two sizes:
+`AUFNAHME_STEPS` drawn on a `PathRail`. It is an ordered list (`<ol>`) under the
+existing "So geht es weiter" heading, with the list labelled by that heading.
 
-- **`compact`:** 12px filled dots (never outlined circles, which read as radio
-  buttons) and titles only. Used in the form intro and on `/aufnahme`.
-- **`full`:** 32px `PathNode`s, each with its title and description. Used on the
-  confirmation page. Step 1 is `done`.
+| Variant   | Where                   | Markers                         | Text                  | Done state | Rail                                      |
+| --------- | ----------------------- | ------------------------------- | --------------------- | ---------- | ----------------------------------------- |
+| `compact` | Form intro, `/aufnahme` | 12px filled `--color-path` dots | Titles only           | None       | Dashed throughout: everything lies ahead  |
+| `full`    | Confirmation page       | 32px `PathNode`s                | Titles + descriptions | Step 1     | Solid from step 1 to step 2, dashed after |
 
-The rail is solid up to the current step and dashed after it. On the
-confirmation page the segment from step 1 to step 2 draws in once with
-`animate-path-draw`; under `prefers-reduced-motion` it is static.
+**`full` details:**
 
-The markup is an ordered list (`<ol>`). On the confirmation page, step 1 keeps
-the sr-only "Erledigt: " prefix it has today.
-
-### `SpiralMark` (`spiral-mark.tsx`)
-
-The logo spiral as a standalone inline SVG, `aria-hidden`. It reuses the path
-data from `brand.tsx`; extract it there instead of copying it. It has three
-uses:
-
-- a filled node at the end of the form's rail, beside the submit button;
-- the seal above the confirmation h1;
-- a large `primary-100` crop in the section map panel on wide screens.
+- Step 2 is `open` and steps 3–4 use filled 12px dots.
+- The sr-only "Erledigt: " prefix of step 1 sits in the list item's text,
+  outside the `aria-hidden` node.
+- The solid segment draws in once with
+  `motion-safe:animate-path-draw origin-top`. Under `prefers-reduced-motion` it
+  is static.
 
 ### `ChoiceCard` and `ChoiceList` (`choice.tsx`)
 
-**`ChoiceCard`** wraps one native 20px checkbox and its label and hint.
+**`ChoiceCard`** wraps one native 20px checkbox.
 
-- The row is 48px or taller, with border `border-border` and radius
-  `--radius-choice`.
-- When checked, the CSS `:has(:checked)` gives it
-  `border-primary bg-primary-50`. No JavaScript is involved.
-- It is used for both "Wohnt an Ihrer Adresse" boxes.
+- **Label:** fills the whole row (48px or more), so the full row is the hit
+  target.
+- **Hint:** stays outside the `<label>`, linked by `aria-describedby` as today,
+  so it is not read twice.
+- **Shape:** border `border-border`, radius `--radius-choice`.
+- **Checked:** `:has(:checked)` gives `border-primary bg-primary-50`.
+- **Focus:** `:has(:focus-visible)` draws the `primary-700` outline around the
+  card.
+- **Use:** both "Wohnt an Ihrer Adresse" boxes.
 
-**`ChoiceList`** is a grouped list of native radio rows with dividers.
+**`ChoiceList`** is a grouped list of native radio rows with dividers, used for
+"Wie haben Sie von der Walz erfahren?".
 
-- Each row is 48px or taller, and the checked row is tinted `primary-50`.
-- It is used for "Wie haben Sie von der Walz erfahren?".
-- "Woher genau?" stays directly under "Anderes" and is revealed by CSS, as
-  today.
+- Each row is 48px or taller, and its label fills it.
+- The checked row is tinted `primary-50`.
+- The list keeps the `group/source` wrapper, so "Woher genau?" stays directly
+  under "Anderes" and is still revealed by CSS.
 
-Native controls stay native: no `appearance: none`. Both components keep the
-ids, names, `defaultChecked` logic and `aria` wiring the form already has.
+Native controls stay native: no `appearance: none`. Ids, names, `defaultChecked`
+logic and `aria` wiring stay as they are.
 
 ### `Notice` (`notice.tsx`)
 
 A `bg-secondary-50` panel with a `secondary-700` Phosphor icon, `rounded-md` and
-padding. It takes an optional title. It is used for:
+padding.
 
-- the form's privacy note;
-- the "Für Ihr Kind bis zum Gespräch" box on the confirmation page;
-- the two info boxes on `/aufnahme` (`AdmissionDay`, `LateralEntryBox`).
-
-The info boxes keep their content, links and CTA button.
+- **Title:** optional. It takes a heading level (`as="h2"`/`"h3"`) and is
+  coloured `secondary-800`.
+- **Uses:**
+  - the form's privacy note (lock icon, no title);
+  - "Für Ihr Kind bis zum Gespräch" on the confirmation page, which stays a
+    heading;
+  - the two info boxes on `/aufnahme` (`AdmissionDay`, `LateralEntryBox`), which
+    keep their content, links and CTA.
 
 ### `SectionMap` (`section-map.tsx`)
 
-A sticky panel in the site's right column, shown from the `lg` breakpoint, where
-the root grid in `app/root.tsx` gains its 320px column. It uses the same sticky
-`bg-muted/30` panel styling as the `Toc` on `/aufnahme`. The form route moves to
-the subgrid layout that `/aufnahme` already uses, so the panel can sit in that
-column. It renders:
+A `nav` with `aria-label="Abschnitte"`, listing the four form sections as links
+on a mini-rail, each with its `PathNode` state.
 
-- a `nav` with `aria-label="Abschnitte"`;
-- the four form sections as links on a mini-rail, each with its `PathNode` state
-  (the same states as in the form);
-- a `SpiralMark` node labelled "Anmeldung absenden";
-- the remaining steps after it as a dashed `StepsPath` (titles only).
+- No scroll-spy and no "current" highlight.
+- No steps tail, because the steps already appear in the intro.
+- Links jump to the section fieldsets, which get the ids `abschnitt-1` …
+  `abschnitt-4`.
 
-Section links jump to the section legend. The map is hidden below the right
-column's breakpoint, where the form's own rail does the job.
+**Placement:**
+
+- It sits in the site's right column from the `lg` breakpoint, where the root
+  grid in `app/root.tsx` gains its 320px column.
+- It comes after the form in the DOM and is hidden below `lg`.
+- Classes: `hidden lg:block lg:sticky lg:top-4 lg:col-start-2 lg:row-start-1`.
+- The form route moves to the subgrid layout `/aufnahme` uses
+  (`grid grid-cols-subgrid lg:col-span-2`), with the form in the first column.
+- The panel uses the `bg-muted/30 rounded-md p-6` styling of the `Toc` on
+  `/aufnahme`.
+- **Check:** at 896–1160px (`lg`) as well as at 1280.
 
 ### Error summary, grouped
 
-The summary keeps its heading, focus behaviour and links. Its entries are
-grouped under each section's node and title, so the list doesn't read as broken
-numbering. Each group heading is the existing section title. Entry order stays
-page order.
+The summary keeps everything it has today:
 
-## The "done" state
+- the count heading;
+- focus on each new result (`tabIndex=-1`);
+- the `href` fallback;
+- page order;
+- the mail-failure variant.
 
-**`sectionStatus`** is a new function in `app/utils/aufnahme-form.ts`:
+**Changes:**
+
+- The entries are grouped by section.
+- A group is a list item holding a non-heading label (the section title as plain
+  text) and a nested `<ul>` of links.
+- Errors whose key maps to no section go into a trailing group without a label.
+- One shared `sectionOf()` decides the grouping, the same function
+  `sectionStatus` uses.
+
+## Section state
+
+Two new functions in `app/utils/aufnahme-form.ts`:
 
 ```ts
 export type SectionKey = 'parent1' | 'student' | 'parent2' | 'final'
 export type SectionStatus = 'open' | 'done' | 'attention' | 'optional'
+export function sectionOf(fieldOrErrorKey: string): SectionKey | undefined
 export function sectionStatus(
   section: SectionKey,
   values: Record<string, string>,
-  shownErrors: ReadonlySet<string>,
+  shownErrors: Record<string, string>,
 ): SectionStatus
 ```
 
-- **Field to section mapping:**
-  - `parent1*` belongs to `parent1`;
-  - `student*`, `currentGrade` and `schoolHistory` belong to `student`;
-  - `parent2*` belongs to `parent2`;
-  - `source` and `sourceOther` belong to `final`.
+**`sectionOf`** maps by name prefix, plus explicit entries:
 
-  The mapping is derived from `AUFNAHME_FIELD_NAMES`, not from a second list.
+| Key                                                         | Section     |
+| ----------------------------------------------------------- | ----------- |
+| `parent1*`                                                  | `parent1`   |
+| `student*`, including the date error key `studentBirthdate` | `student`   |
+| `currentGrade`, `schoolHistory`                             | `student`   |
+| `parent2*`                                                  | `parent2`   |
+| `source`, `sourceOther`                                     | `final`     |
+| anything else                                               | `undefined` |
 
-- **`attention`** applies when any field of the section has a shown error,
-  whether from the server or a live check.
-- **`done` for `parent1` and `student`** applies when
-  `parseAufnahmeForm(values)` reports no error for any field of the section.
-- **`parent2`:**
-  - `optional` when `hasParent2Data(values)` is false;
-  - otherwise `done` once it has no parse error, else `open`.
-- **`final`:**
-  - `optional` while no source is chosen;
-  - `done` once one is chosen and `sourceOther` (when relevant) has no error.
-- **Otherwise** the status is `open`.
+**`sectionStatus`** applies these rules in order; the first match wins:
 
-**On the page:**
+1. **`attention`** when any key in `shownErrors` maps to the section.
+2. **`done`:**
+   - for `parent1` and `student`, when `parseAufnahmeForm(values)` reports no
+     error that maps to the section;
+   - for `parent2`, when `hasParent2Data(values)` is true and there is no such
+     error.
+3. **`optional`** for `parent2` when `hasParent2Data(values)` is false.
+4. **`open`** otherwise.
 
-- The form computes the status from the live form values on `input` and
-  `change`, reusing the existing `formValues` handler path. It only does this
-  after hydration.
-- Without JavaScript, and before hydration, every required section renders
-  `open` and the optional ones `optional`.
-- The form rail and the `SectionMap` show the same status.
-- The node is decoration. A screen-reader user gets section completeness from
-  the fields and the error summary, as today. No live announcements are added.
+`final` is only ever `open` or `attention`. It holds the submit, so it is never
+shown as skippable or done.
+
+**On the page.** The status is computed during render:
+`sectionStatus(key, liveValues ?? actionData?.values ?? {}, shownErrors)`.
+
+- **`liveValues`** is `null` on the server and until hydration. After hydration,
+  the form reads `formValues(form)` once on mount, which picks up restored and
+  autofilled values, and then again on `input` and `change`.
+- **Server and first client render** therefore match. Without JavaScript, the
+  nodes reflect the last submitted values, so an empty form shows open, open,
+  optional, open.
+- **Where it shows:** the form rail and the `SectionMap` show the same status.
+  The section-3 legend's node carries the parent-2 status; the `<details>`
+  summary gets no node of its own.
+- **No live announcements** are added.
 
 ## Placement
 
 ### Form (`/aufnahme/formular`)
 
-- **Intro:** a compact `StepsPath` replaces today's "So geht es weiter" box.
-- **Sections:** each section's fieldset sits on one continuous `PathRail`.
-  - The numbered legend circle becomes a `PathNode` with the computed state.
+- **Intro:** a `compact` `StepsPath` under "So geht es weiter" replaces today's
+  box.
+- **Sections:** each section fieldset sits on one continuous `PathRail`.
+  - The legend stays the fieldset's first child, and its numbered circle becomes
+    a `PathNode`.
   - The sub-headings "Wohnadresse" and "Schule" get a `Waypoint`.
-  - The further-guardian `<details>` uses the `optional` node.
-- **Choices:** "Wohnt an Ihrer Adresse" (both) becomes a `ChoiceCard`, and the
+- **Choices:** both "Wohnt an Ihrer Adresse" boxes become `ChoiceCard`s, and the
   source radios become a `ChoiceList`.
-- **Privacy note:** becomes a `Notice` with the lock icon.
+- **Privacy note:** a `Notice`.
 - **Submit:** "Anmeldung absenden" at 20px bold condensed. The rail ends in a
-  `SpiralMark` node beside the button.
-- **Right column on wide screens:** `SectionMap`.
-- **First screen:** the first input must still end at or above 624px at 375×650.
-  The existing layout test guards this; with the compact steps the mockup
-  measured 620px at 812, so re-measure.
+  filled 12px dot beside the button.
+- **Date row:** wraps (`flex-wrap`), so it fits the 248px content width at
+  320px.
+- **Right column at `lg` and up:** `SectionMap`.
+- **First screen:** `tests/aufnahme-layout.spec.ts` keeps passing, with the
+  first input's bottom at or above 635px at 375×635. Re-measure, because `h-12`
+  adds 8px.
 
 ### Confirmation page (`/aufnahme/formular/danke`)
 
-- A `SpiralMark` seal sits above the h1, which keeps its focus-on-mount.
-- The steps become a `full` `StepsPath`, with step 1 `done` and the draw-in
+- The h1 keeps its focus-on-mount. There is no seal.
+- **Steps:** a `full` `StepsPath`, with step 1 done and the one draw-in
   animation.
-- The "Für Ihr Kind" box becomes a `Notice`.
-- The mail links stay.
+- **"Für Ihr Kind bis zum Gespräch":** a `Notice` with an `h2` title.
+- **Mail links:** stay.
 
 ### `/aufnahme`
 
 - **Vorgehensweise:** the prose stays unchanged (it addresses the child with
-  "du"). A compact `StepsPath` follows it; the step titles are address-neutral.
+  "du"). A `compact` `StepsPath` follows it; the step titles are
+  address-neutral.
 - **Info boxes:** `AdmissionDay` and `LateralEntryBox` become `Notice`s, with
   their content, links and CTA unchanged.
 
 ## Accessibility
 
-- Every legend stays the first child of its fieldset.
-- All ornaments are `aria-hidden`:
-  - rail, nodes, waypoints, dots;
-  - spiral;
-  - draw-in segment.
-- Non-interactive markers must look different from controls: they are filled,
-  smaller, or numbered.
-- **Reflow.** At 320px and at 200% zoom:
-  - nothing overflows horizontally;
-  - long legends ("Weitere erziehungsberechtigte Person (optional)") wrap beside
-    the node.
-- **Motion:** one animation only, and none under `prefers-reduced-motion`.
+- **Kept from the form:**
+  - every legend stays the fieldset's first child;
+  - `noValidate` with `required` stays;
+  - native controls;
+  - `section-*` autofill tokens and `off` on the child fields;
+  - the 44px touch-target tests;
+  - the outline test on the privacy link and the submit button;
+  - the confirmation h1 focus.
+- **Decoration** is `aria-hidden`: rail, nodes, waypoints, dots and the draw-in
+  segment.
+- **Reflow:** at 320px and at 200% zoom nothing overflows horizontally, and long
+  legends ("Weitere erziehungsberechtigte Person (optional)") wrap beside the
+  node.
+- **Motion:** one animation only, `motion-safe`.
 - **Checks:** the axe scans stay green. Contrast is checked by hand against the
-  usage rules above, because the scans skip `color-contrast` by the owner's
-  decision.
-- **No mail:** the no-mail rule for e2e runs stands.
+  usage rules, because the scans skip `color-contrast` by the owner's decision.
+- **No mail:** e2e runs stay mail-free.
 
 ## Testing
 
-- **Unit (Vitest):**
-  - `sectionStatus`: every state for every section, including a ticked address
-    box and a hidden `sourceOther`.
-  - Static-markup tests for `PathNode` states, `ChoiceCard` (native input kept,
-    wiring kept), `Notice`, and the `StepsPath` list semantics and step-1
-    "Erledigt".
-- **E2E, mail-free only:**
-  - the section-1 node turns `done` after filling section 1 (hydrated);
-  - a section with a shown error shows `attention`;
-  - the `ChoiceCard` tint follows the checkbox without JavaScript;
-  - `SectionMap` links jump to the sections at 1280px and the map is hidden at
-    375px;
-  - the first-screen bound holds;
-  - the confirmation page shows the `full` steps;
-  - `/aufnahme` shows the compact steps and both notices.
-  - The existing e2e and axe tests stay green.
-- **Build review:** screenshots at 320, 375 and 1280 of every changed page and
-  state, compared against the Lernpfad mockups, plus a keyboard pass. Then an
-  independent design and accessibility review, a revision, and a review by
-  Ferdinand.
+**Unit (Vitest):**
+
+- `sectionOf`: every prefix, the explicit keys, `studentBirthdate`, and an
+  unknown key.
+- `sectionStatus`, covering each section and state:
+  - the empty form;
+  - an invalid date;
+  - a ticked or unticked address box;
+  - a hidden `sourceOther`;
+  - parent 2 given or absent;
+  - `final` never returning `done` or `optional`.
+- Static-markup tests:
+  - `PathNode` (states and glyphs);
+  - `ChoiceCard` (native input kept, hint outside the label, wiring kept);
+  - `Notice` (heading level);
+  - `StepsPath` (list semantics, step-1 "Erledigt" outside `aria-hidden`);
+  - the grouped summary (no extra headings, the trailing group).
+- **Tailwind merge:** `cn()` resolves the new token classes against built-in
+  ones (e.g. `inset-shadow-field` and `shadow-md` both survive, while
+  `rounded-choice` vs `rounded-lg` keeps the later one).
+
+**E2E, mail-free only:**
+
+- After filling section 1 (hydrated), its node turns `done`.
+- After an empty submit, sections 1 and 2 show `attention` and sections 3 and 4
+  do not, with JavaScript and without it.
+- The `ChoiceCard` tint follows the checkbox without JavaScript.
+- At 1280px the `SectionMap` links jump to the sections; at 375px the map is
+  hidden.
+- At 320px nothing scrolls horizontally on the form, the confirmation page and
+  `/aufnahme`.
+- The first-screen test holds.
+- The confirmation page shows the `full` steps.
+- `/aufnahme` shows the compact steps and both notices.
+- The existing e2e and axe tests stay green.
+
+**Build review:**
+
+- Screenshots at 320, 375, 1024 and 1280 of every changed page and state,
+  compared against the Lernpfad mockups (minus the dropped spiral).
+- A keyboard pass.
+- An independent design and accessibility review, then a revision, then
+  Ferdinand's review.
 
 ## Copy needing sign-off
 
@@ -371,7 +454,8 @@ export function sectionStatus(
 
 - A path on `/curriculum`.
 - Replacing the `Toc` site-wide.
+- Any spiral ornament.
 - Brand-colour changes.
 - Site-wide `Button` label sizes.
-- Fixing blue headings and orange small text elsewhere (proposal §10).
+- Fixing blue headings and orange small text elsewhere.
 - Echoing the parent's address inside the "Wohnt an Ihrer Adresse" card.
