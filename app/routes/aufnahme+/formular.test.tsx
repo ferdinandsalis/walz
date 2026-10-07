@@ -145,6 +145,27 @@ describe('Aufnahme form after a failed submit', () => {
   })
 })
 
+describe('Aufnahme form error summary lists', () => {
+  // Safari drops the list role from a list without bullets.
+  it('keeps the list role on the outer and the nested lists', () => {
+    const summary = renderWithActionData({
+      fieldErrors: {
+        parent1Name: 'Geben Sie Ihren Vor- und Nachnamen ein',
+        studentName: 'Geben Sie den Vor- und Nachnamen ein',
+      },
+      values: {},
+    })!
+
+    const lists = Array.from(summary.querySelectorAll('ul'))
+    expect(lists).toHaveLength(3)
+    expect(lists.map(list => list.getAttribute('role'))).toEqual([
+      'list',
+      'list',
+      'list',
+    ])
+  })
+})
+
 describe('Aufnahme form school history', () => {
   it('asks for the schools attended so far, after the Volksschule', () => {
     renderWithActionData({ fieldErrors: {}, values: {} })

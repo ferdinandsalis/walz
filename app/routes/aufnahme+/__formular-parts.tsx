@@ -188,8 +188,9 @@ export function ErrorSummary({
                 : `Bitte prüfen Sie ${errors.length} Angaben`}
             </h2>
             {/* The section labels are plain text, so the count stays the
-                summary's only heading. */}
-            <ul className="mt-3 flex flex-col gap-3">
+                summary's only heading. The lists keep their role, which
+                Safari drops from a list without bullets. */}
+            <ul role="list" className="mt-3 flex flex-col gap-3">
               {errorSummaryGroups(errors).map(group => (
                 <li key={group.key} className="flex flex-col gap-1.5">
                   {group.section ? (
@@ -198,7 +199,7 @@ export function ErrorSummary({
                       {group.section.title}
                     </p>
                   ) : null}
-                  <ul className="flex flex-col gap-2 pl-7">
+                  <ul role="list" className="flex flex-col gap-2 pl-7">
                     {group.entries.map(error => (
                       <li key={error.fieldId}>
                         <a
