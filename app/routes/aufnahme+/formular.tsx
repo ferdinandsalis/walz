@@ -33,6 +33,7 @@ import {
   fieldIds,
   FieldLabel,
 } from '#app/components/form-field.tsx'
+import { MailLink } from '#app/components/mail-link.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
@@ -789,7 +790,7 @@ function ErrorSummary({
             <span>
               Ihre Anmeldung konnte gerade nicht gesendet werden. Bitte
               versuchen Sie es in ein paar Minuten noch einmal oder schreiben
-              Sie an office@walz.at.
+              Sie an <MailLink address="office@walz.at" />.
             </span>
           </p>
         ) : (

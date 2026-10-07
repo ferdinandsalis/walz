@@ -51,6 +51,9 @@ describe('Aufnahme form after a failed submit', () => {
       'Ihre Anmeldung konnte gerade nicht gesendet werden. Bitte versuchen Sie es in ein paar Minuten noch einmal oder schreiben Sie an office@walz.at.',
     )
     expect(
+      summary?.querySelector('a[href="mailto:office@walz.at"]')?.textContent,
+    ).toBe('office@walz.at')
+    expect(
       precedes(summary!, screen.getByRole('heading', { name: /Ihre Angaben/ })),
     ).toBe(true)
     // The message appears only once, in the summary slot

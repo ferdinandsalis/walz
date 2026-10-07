@@ -250,6 +250,19 @@ test.describe('Aufnahme Form', () => {
     ).toBeVisible()
   })
 
+  test('links the email addresses on the confirmation page', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular/danke')
+
+    for (const address of ['office@walz.at', 'agnes.chorherr@walz.at']) {
+      await expect(page.getByRole('link', { name: address })).toHaveAttribute(
+        'href',
+        `mailto:${address}`,
+      )
+    }
+  })
+
   test('should redirect the legacy success URL to the confirmation page', async ({
     page,
   }) => {

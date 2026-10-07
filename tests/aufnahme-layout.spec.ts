@@ -58,6 +58,28 @@ test.describe('Aufnahme layout', () => {
     )
   })
 
+  test('outlines the email links on the confirmation page on keyboard focus', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular/danke')
+    // The heading takes focus once the page is hydrated
+    await expect(
+      page.getByRole('heading', {
+        level: 1,
+        name: 'Danke, wir haben Ihre Anmeldung erhalten',
+      }),
+    ).toBeFocused()
+
+    await page.keyboard.press('Tab')
+    await expectVisibleFocusOutline(
+      page.getByRole('link', { name: 'office@walz.at' }),
+    )
+    await page.keyboard.press('Tab')
+    await expectVisibleFocusOutline(
+      page.getByRole('link', { name: 'agnes.chorherr@walz.at' }),
+    )
+  })
+
   test.describe('on a phone', () => {
     test.use({ viewport: { width: 375, height: 812 } })
 

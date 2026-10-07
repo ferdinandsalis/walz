@@ -1,6 +1,7 @@
 import { CheckCircle } from '@phosphor-icons/react'
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router'
+import { MailLink } from '#app/components/mail-link.tsx'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 
 export function meta() {
@@ -47,8 +48,8 @@ export default function AufnahmeFormularDanke() {
           geschickt.
         </p>
         <p className="text-body-xs text-muted-foreground">
-          Keine E-Mail da? Schauen Sie im Spam-Ordner nach oder schreiben Sie an
-          office@walz.at.
+          Keine E-Mail da? Schauen Sie im Spam-Ordner nach oder schreiben Sie an{' '}
+          <MailLink address="office@walz.at" />.
         </p>
       </div>
 
@@ -92,8 +93,8 @@ export default function AufnahmeFormularDanke() {
         </h2>
         <p className="text-body-xs mt-1.5">
           Schicke drei Gründe, warum du in die Walz gehen möchtest, per E-Mail
-          an agnes.chorherr@walz.at, und überlege dir eine kreative Antwort auf
-          die Frage, was du mit der Walz verbindest.
+          an <MailLink address="agnes.chorherr@walz.at" />, und überlege dir
+          eine kreative Antwort auf die Frage, was du mit der Walz verbindest.
         </p>
       </div>
 
