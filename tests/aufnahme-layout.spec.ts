@@ -118,4 +118,19 @@ test.describe('Aufnahme layout', () => {
       expect(error.y).toBeLessThan(postalCode.y)
     })
   })
+
+  test.describe('on a phone below the browser bars', () => {
+    // iOS Safari leaves about 635px of a 375 × 812 screen below its bars
+    test.use({ viewport: { width: 375, height: 635 } })
+
+    test('shows the first input whole on the first screen', async ({
+      page,
+    }) => {
+      await page.goto('/aufnahme/formular')
+      await page.evaluate(() => document.fonts.ready)
+
+      const firstInput = await box(page.locator('#parent1Name'))
+      expect(firstInput.y + firstInput.height).toBeLessThanOrEqual(635)
+    })
+  })
 })

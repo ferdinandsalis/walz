@@ -246,7 +246,7 @@ export default function AufnahmeFormular() {
           handleInput(event)
         }}
         onBlur={handleBlur}
-        className="mt-2 flex flex-col gap-12"
+        className="flex flex-col gap-12"
       >
         <HoneypotInputs />
 
@@ -826,7 +826,9 @@ function ErrorSummary({
 }
 
 // A fieldset per section, so a screen reader names the person behind
-// repeated labels such as "Vor- und Nachname".
+// repeated labels such as "Vor- und Nachname". The intro already sets the
+// first section apart, so it has no rule above it, which keeps its first input
+// on a phone's first screen.
 function FormSection({
   number,
   title,
@@ -838,7 +840,12 @@ function FormSection({
 }) {
   return (
     <fieldset className="flex min-w-0 flex-col gap-6">
-      <legend className="border-muted mb-6 w-full border-t pt-8">
+      <legend
+        className={cn(
+          'mb-6 w-full',
+          number > 1 && 'border-muted border-t pt-8',
+        )}
+      >
         <h2 className="font-condensed text-h5 flex items-start gap-3">
           <span className="border-primary text-body-sm flex size-8 shrink-0 items-center justify-center rounded-full border-2">
             {number}
