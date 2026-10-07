@@ -165,7 +165,20 @@ async function boxesPastTheRightEdge(page: Page) {
 test.describe('on a narrow phone', () => {
   test.use({ viewport: { width: 320, height: 640 } })
 
-  for (const path of ['/aufnahme/formular/danke', '/aufnahme']) {
+  // The form is checked with every reveal open: the further guardian's
+  // section and the applicant's own address.
+  async function openEveryReveal(page: Page) {
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').click()
+    await page.locator('#studentSameAddress').uncheck()
+    await expect(page.locator('#parent2Street')).toBeVisible()
+    await expect(page.locator('#studentStreet')).toBeVisible()
+  }
+
+  for (const [path, prepare] of [
+    ['/aufnahme/formular', openEveryReveal],
+    ['/aufnahme/formular/danke', undefined],
+    ['/aufnahme', undefined],
+  ] as const) {
     test(`does not scroll sideways at 320px on ${path}`, async ({ page }) => {
       await page.goto(path)
       await page.evaluate(() => document.fonts.ready)
@@ -173,6 +186,7 @@ test.describe('on a narrow phone', () => {
       await expect(
         page.getByRole('list', { name: 'So geht es weiter' }),
       ).toBeVisible()
+      await prepare?.(page)
       const scrollWidth = await page.evaluate(
         () => document.documentElement.scrollWidth,
       )
