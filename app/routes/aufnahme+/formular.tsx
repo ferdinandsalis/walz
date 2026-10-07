@@ -14,7 +14,12 @@ import {
 } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { Field, FieldGroup, fieldIds } from '#app/components/form-field.tsx'
+import {
+  describedByIds,
+  Field,
+  FieldGroup,
+  fieldIds,
+} from '#app/components/form-field.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
@@ -26,6 +31,7 @@ import {
   type BirthdatePart,
   checkBirthdate,
   DEFAULT_COUNTRY,
+  hasParent2Data,
   parseAufnahmeForm,
   resolveAddresses,
   SOURCE_OPTIONS,
@@ -139,7 +145,7 @@ export default function AufnahmeFormular() {
     : undefined
 
   const parent2Open =
-    PARENT2_DATA_FIELDS.some(name => values?.[name]?.trim()) ||
+    hasParent2Data(values ?? {}) ||
     Object.keys(errors).some(name => name.startsWith('parent2'))
 
   // The form is long, so knowing how many people start it but never finish is
@@ -512,17 +518,6 @@ export default function AufnahmeFormular() {
 type FieldErrors = Record<string, string>
 type FormValues = Record<string, string> | undefined
 
-// The same fields that make a second guardian "given" in the schema; the
-// prefilled country and the checkbox alone keep the section closed.
-const PARENT2_DATA_FIELDS = [
-  'parent2Name',
-  'parent2Phone',
-  'parent2Email',
-  'parent2Street',
-  'parent2PostalCode',
-  'parent2City',
-]
-
 function invalidBirthdateParts(values: FormValues): BirthdatePart[] {
   const result = checkBirthdate(
     values?.studentBirthDay ?? '',
@@ -689,14 +684,18 @@ function BirthdateFields({
   values: FormValues
   error?: { message: string; parts: BirthdatePart[] }
 }) {
-  const { errorId } = fieldIds('studentBirthdate')
+  const hint = 'z. B. 14 3 2012'
+  // Each input names the hint and the error itself, so they are read when a
+  // single input takes focus, not only on entering the group.
+  const describedBy = describedByIds('studentBirthdate', hint, error?.message)
 
   return (
     <FieldGroup
       name="studentBirthdate"
       legend="Geburtsdatum"
-      hint="z. B. 14 3 2012"
+      hint={hint}
       error={error?.message}
+      descriptionOnInputs
     >
       {/* No maxLength: a pasted "14.03.2012" must reach validation whole. */}
       <div className="flex gap-3">
@@ -715,7 +714,7 @@ function BirthdateFields({
               autoComplete="off"
               required
               defaultValue={values?.[input.name]}
-              aria-describedby={error ? errorId : undefined}
+              aria-describedby={describedBy}
               aria-invalid={
                 error?.parts.includes(input.part) ? true : undefined
               }

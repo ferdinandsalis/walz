@@ -14,7 +14,7 @@ export type ControlProps = {
   'aria-invalid'?: true
 }
 
-function describedBy(name: string, hint: ReactNode, error?: string) {
+export function describedByIds(name: string, hint: ReactNode, error?: string) {
   const { hintId, errorId } = fieldIds(name)
   const ids = [hint ? hintId : null, error ? errorId : null].filter(Boolean)
   return ids.length > 0 ? ids.join(' ') : undefined
@@ -74,7 +74,7 @@ export function Field({
       {children({
         id: name,
         name,
-        'aria-describedby': describedBy(name, hint, error),
+        'aria-describedby': describedByIds(name, hint, error),
         'aria-invalid': error ? true : undefined,
       })}
     </div>
@@ -87,6 +87,7 @@ export function FieldGroup({
   hint,
   error,
   className,
+  descriptionOnInputs = false,
   children,
 }: {
   name: string
@@ -94,13 +95,20 @@ export function FieldGroup({
   hint?: ReactNode
   error?: string
   className?: string
+  /**
+   * Set when every input in the group references the hint and error itself
+   * (see `describedByIds`), so a screen reader does not read them twice.
+   */
+  descriptionOnInputs?: boolean
   children: ReactNode
 }) {
   const { hintId, errorId } = fieldIds(name)
 
   return (
     <fieldset
-      aria-describedby={describedBy(name, hint, error)}
+      aria-describedby={
+        descriptionOnInputs ? undefined : describedByIds(name, hint, error)
+      }
       className={cn('flex flex-col gap-1.5', className)}
     >
       <legend className="text-body-sm text-foreground mb-1.5 font-medium">

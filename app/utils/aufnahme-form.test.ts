@@ -7,6 +7,7 @@ import {
   checkBirthdate,
   checkEmailFormat,
   formatAddress,
+  hasParent2Data,
   parseAufnahmeForm,
   resolveAddresses,
   type AufnahmeInput,
@@ -371,6 +372,31 @@ describe('parseAufnahmeForm', () => {
       expect(data.parent2).toMatchObject({ sameAddress: true })
       expect(data.parent2?.address).toBeUndefined()
     })
+
+    it('skips the hidden address checks while the box is ticked', () => {
+      const data = parsedWith({
+        parent2Name: 'Ben Beispiel',
+        parent2SameAddress: 'on',
+        parent2Street: 'x'.repeat(201),
+        parent2PostalCode: 'x'.repeat(201),
+        parent2City: 'x'.repeat(201),
+        parent2Country: 'x'.repeat(201),
+      })
+
+      expect(data.parent2).toMatchObject({ sameAddress: true })
+      expect(data.parent2?.address).toBeUndefined()
+    })
+
+    it('does not count a hidden address as given while the box is ticked', () => {
+      const data = parsedWith({
+        parent2SameAddress: 'on',
+        parent2Street: 'Ringstraße 1',
+        parent2PostalCode: '1010',
+        parent2City: 'Wien',
+      })
+
+      expect(data.parent2).toBeUndefined()
+    })
   })
 
   describe('source', () => {
@@ -471,6 +497,56 @@ describe('parseAufnahmeForm', () => {
       )
     })
   })
+})
+
+describe('hasParent2Data', () => {
+  it('is false for an untouched section', () => {
+    expect(hasParent2Data({})).toBe(false)
+  })
+
+  it('ignores the defaulted country and the checkbox', () => {
+    expect(
+      hasParent2Data({
+        parent2Country: 'Österreich',
+        parent2SameAddress: 'on',
+      }),
+    ).toBe(false)
+  })
+
+  it('treats whitespace-only values as empty', () => {
+    expect(hasParent2Data({ parent2Name: '  ', parent2Street: ' ' })).toBe(
+      false,
+    )
+  })
+
+  it.each([
+    'parent2Name',
+    'parent2Phone',
+    'parent2Email',
+    'parent2Street',
+    'parent2PostalCode',
+    'parent2City',
+  ])('counts %s while the box is unticked', field => {
+    expect(hasParent2Data({ [field]: 'x' })).toBe(true)
+  })
+
+  it.each(['parent2Street', 'parent2PostalCode', 'parent2City'])(
+    'ignores the hidden %s while the box is ticked',
+    field => {
+      expect(hasParent2Data({ [field]: 'x', parent2SameAddress: 'on' })).toBe(
+        false,
+      )
+    },
+  )
+
+  it.each(['parent2Name', 'parent2Phone', 'parent2Email'])(
+    'still counts %s while the box is ticked',
+    field => {
+      expect(hasParent2Data({ [field]: 'x', parent2SameAddress: 'on' })).toBe(
+        true,
+      )
+    },
+  )
 })
 
 describe('checkBirthdate', () => {

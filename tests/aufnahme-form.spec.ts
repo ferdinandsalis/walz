@@ -50,6 +50,58 @@ test.describe('Aufnahme Form', () => {
     await expect(page).toHaveURL('/aufnahme/formular')
   })
 
+  test('describes each date input with the hint and, after a failed submit, the error', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    const dateInputs = [
+      '#studentBirthDay',
+      '#studentBirthMonth',
+      '#studentBirthYear',
+    ]
+    for (const id of dateInputs) {
+      await expect(page.locator(id)).toHaveAttribute(
+        'aria-describedby',
+        'studentBirthdate-hint',
+      )
+    }
+    // The inputs carry the description, so the group does not repeat it
+    const dateGroup = page.getByRole('group', { name: 'Geburtsdatum' })
+    await expect(dateGroup).not.toHaveAttribute('aria-describedby')
+
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+
+    await expect(page.locator('#studentBirthdate-error')).toBeVisible()
+    for (const id of dateInputs) {
+      await expect(page.locator(id)).toHaveAttribute(
+        'aria-describedby',
+        'studentBirthdate-hint studentBirthdate-error',
+      )
+    }
+    await expect(dateGroup).not.toHaveAttribute('aria-describedby')
+  })
+
+  test('opens the further guardian section to show its error', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    await fillRequired(page)
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').click()
+    await page.locator('#parent2Phone').fill('+43 660 7654321')
+    // Closing the section again hides the phone the parent typed
+    await page.getByText('Weitere erziehungsberechtigte Person angeben').click()
+    await expect(page.locator('#parent2Name')).toBeHidden()
+
+    await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
+
+    await expect(page.locator('#parent2Name')).toBeVisible()
+    await expect(page.locator('#parent2Name-error')).toHaveText(
+      'Geben Sie den Namen der weiteren erziehungsberechtigten Person ein',
+    )
+  })
+
   test("submits a complete form with the child at the parent's address", async ({
     page,
   }) => {
@@ -192,6 +244,13 @@ test.describe('Aufnahme Form', () => {
       await page.locator('#studentStreet').fill('Kindgasse 5')
       await page.locator('#studentPostalCode').fill('1070')
       await page.locator('#studentCity').fill('Wien')
+      await page.getByLabel('Anderes').check()
+      await page.getByLabel('Woher genau?').fill('Plakat in der U-Bahn')
+      await page
+        .getByText('Weitere erziehungsberechtigte Person angeben')
+        .click()
+      await page.locator('#parent2Phone').fill('+43 660 7654321')
+      await page.locator('#parent2SameAddress').check()
 
       await page.getByRole('button', { name: 'Anmeldung absenden' }).click()
 
@@ -203,6 +262,15 @@ test.describe('Aufnahme Form', () => {
       await expect(page.locator('#studentStreet')).toHaveValue('Kindgasse 5')
       await expect(page.locator('#parent1Name')).toHaveValue('Anna Testfrau')
       await expect(page.locator('#studentBirthYear')).toHaveValue('2012')
+      await expect(page.getByLabel('Anderes')).toBeChecked()
+      await expect(page.getByLabel('Woher genau?')).toBeVisible()
+      await expect(page.getByLabel('Woher genau?')).toHaveValue(
+        'Plakat in der U-Bahn',
+      )
+      await expect(page.locator('#parent2Name')).toBeVisible()
+      await expect(page.locator('#parent2Phone')).toHaveValue('+43 660 7654321')
+      await expect(page.locator('#parent2SameAddress')).toBeChecked()
+      await expect(page.locator('#parent2Street')).toBeHidden()
     })
   })
 })

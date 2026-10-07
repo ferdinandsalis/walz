@@ -333,6 +333,33 @@ function parseSection<Schema extends z.ZodType>(
   return undefined
 }
 
+const EMPTY_ADDRESS: Address = {
+  street: '',
+  postalCode: '',
+  city: '',
+  country: '',
+}
+
+const PARENT2_CONTACT_FIELDS = ['parent2Name', 'parent2Phone', 'parent2Email']
+const PARENT2_ADDRESS_FIELDS = [
+  'parent2Street',
+  'parent2PostalCode',
+  'parent2City',
+]
+
+// Whether the form holds data for a second guardian. The checkbox and the
+// defaulted country do not count, so an untouched section is dropped instead
+// of failing; the address counts only while it is shown (box unticked).
+export function hasParent2Data(
+  values: Record<string, string | undefined>,
+): boolean {
+  const fields =
+    values.parent2SameAddress === 'on'
+      ? PARENT2_CONTACT_FIELDS
+      : [...PARENT2_CONTACT_FIELDS, ...PARENT2_ADDRESS_FIELDS]
+  return fields.some(name => (values[name] ?? '').trim() !== '')
+}
+
 function isSourceValue(value: string): value is SourceValue {
   return SOURCE_OPTIONS.some(option => option.value === value)
 }
@@ -397,18 +424,13 @@ export function parseAufnahmeForm(
     fieldErrors,
   )
 
-  // The checkbox and the defaulted country do not make a second guardian
-  // "given", so an untouched section is dropped instead of failing.
-  const parent2Fields = personFields('parent2')
-  const parent2Given = [
-    parent2Fields.name,
-    parent2Fields.phone,
-    parent2Fields.email,
-    parent2Fields.street,
-    parent2Fields.postalCode,
-    parent2Fields.city,
-  ].some(value => value.trim() !== '')
+  // While the box is ticked the address fields are hidden, so whatever they
+  // still hold is neither validated nor kept.
   const parent2SameAddress = values.parent2SameAddress === 'on'
+  const parent2Fields = parent2SameAddress
+    ? { ...personFields('parent2'), ...EMPTY_ADDRESS }
+    : personFields('parent2')
+  const parent2Given = hasParent2Data(values)
   const parent2 = parent2Given
     ? parseSection(parent2Schema, parent2Fields, 'parent2', fieldErrors)
     : undefined

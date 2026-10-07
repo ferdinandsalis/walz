@@ -1,10 +1,22 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import { Field, FieldGroup, fieldIds } from './form-field.tsx'
+import { describedByIds, Field, FieldGroup, fieldIds } from './form-field.tsx'
 
 describe('fieldIds', () => {
   it('derives hint and error ids from the field name', () => {
     expect(fieldIds('x')).toEqual({ hintId: 'x-hint', errorId: 'x-error' })
+  })
+})
+
+describe('describedByIds', () => {
+  it('lists the hint and error ids that exist', () => {
+    expect(describedByIds('x', 'Hinweis', 'Fehler')).toBe('x-hint x-error')
+    expect(describedByIds('x', 'Hinweis')).toBe('x-hint')
+    expect(describedByIds('x', undefined, 'Fehler')).toBe('x-error')
+  })
+
+  it('is undefined without hint and error', () => {
+    expect(describedByIds('x', undefined)).toBeUndefined()
   })
 })
 
@@ -89,5 +101,23 @@ describe('FieldGroup', () => {
     expect(markup.indexOf('id="g-error"')).toBeLessThan(
       markup.indexOf('<input'),
     )
+  })
+
+  it('leaves the description to the inputs when they reference it', () => {
+    const markup = renderToStaticMarkup(
+      <FieldGroup
+        name="g"
+        legend="Geburtsdatum"
+        hint="z. B. 14 3 2012"
+        error="Pflichtfeld"
+        descriptionOnInputs
+      >
+        <input name="day" />
+      </FieldGroup>,
+    )
+
+    expect(markup).not.toContain('aria-describedby')
+    expect(markup).toContain('id="g-hint"')
+    expect(markup).toContain('id="g-error"')
   })
 })
