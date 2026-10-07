@@ -1,8 +1,10 @@
 import { CircleNotch } from '@phosphor-icons/react'
+import { captureException } from '@sentry/react-router'
 import { isbot } from 'isbot'
 import { useEffect, useRef } from 'react'
 import {
   type ActionFunctionArgs,
+  data,
   Form,
   type LoaderFunctionArgs,
   redirect,
@@ -11,12 +13,16 @@ import {
 } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { z } from 'zod'
 import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
 import { trackEvent } from '#app/utils/analytics.ts'
+import {
+  AUFNAHME_FIELD_NAMES,
+  parseAufnahmeForm,
+  resolveAddresses,
+} from '#app/utils/aufnahme-form.ts'
 import {
   sendAufnahmeConfirmationEmail,
   sendAufnahmeNotificationEmail,
@@ -40,27 +46,9 @@ export function loader({ request }: LoaderFunctionArgs) {
   return null
 }
 
-const aufnahmeFormSchema = z.object({
-  studentName: z.string().min(1, 'Name ist erforderlich'),
-  studentEmail: z.string().email('Ungültige E-Mail-Adresse'),
-  studentAddress: z.string().min(1, 'Adresse ist erforderlich'),
-  studentBirthdate: z.string().min(1, 'Geburtsdatum ist erforderlich'),
-  currentSchool: z.string().min(1, 'Schule ist erforderlich'),
-  currentGrade: z.string().min(1, 'Klasse/Schulstufe ist erforderlich'),
-  parent1Name: z.string().min(1, 'Name ist erforderlich'),
-  parent1Phone: z.string().min(1, 'Telefon ist erforderlich'),
-  parent1Email: z.string().email('Ungültige E-Mail-Adresse'),
-  parent1Address: z.string().min(1, 'Adresse ist erforderlich'),
-  parent2Name: z.string().optional(),
-  parent2Phone: z.string().optional(),
-  parent2Email: z
-    .string()
-    .email('Ungültige E-Mail-Adresse')
-    .optional()
-    .or(z.literal('')),
-  parent2Address: z.string().optional(),
-  source: z.string().min(1, 'Dieses Feld ist erforderlich'),
-})
+export type AufnahmeActionData =
+  | { fieldErrors: Record<string, string>; values: Record<string, string> }
+  | { formError: 'mail'; values: Record<string, string> }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
@@ -74,45 +62,47 @@ export async function action({ request }: ActionFunctionArgs) {
   // Check honeypot for spam
   await checkHoneypot(formData)
 
-  // Validate form data
-  const parseResult = aufnahmeFormSchema.safeParse(
-    Object.fromEntries(formData.entries()),
-  )
+  // Only known fields are read, so the honeypot inputs never echo back.
+  const values: Record<string, string> = {}
+  for (const name of AUFNAHME_FIELD_NAMES) {
+    const value = formData.get(name)
+    if (typeof value === 'string') values[name] = value
+  }
 
+  const parseResult = parseAufnahmeForm(values)
   if (!parseResult.success) {
-    return {
-      success: false,
-      error: 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.',
-      errors: parseResult.error.flatten().fieldErrors,
-    }
-  }
-
-  const data = parseResult.data
-
-  // Send confirmation email to parents and student
-  const confirmationResult = await sendAufnahmeConfirmationEmail(data)
-
-  if (!confirmationResult.success) {
-    console.error(
-      'Failed to send confirmation email:',
-      confirmationResult.error,
+    return data<AufnahmeActionData>(
+      { fieldErrors: parseResult.fieldErrors, values },
+      { status: 400 },
     )
-    return {
-      success: false,
-      error:
-        'Es gab ein Problem beim Senden der Bestätigungs-E-Mail. Bitte versuchen Sie es später erneut.',
-    }
   }
 
-  // Send notification email to school
-  const notificationResult = await sendAufnahmeNotificationEmail(data)
+  const submission = resolveAddresses(parseResult.data)
 
+  // The office copy goes first: if it fails nothing was recorded, so the
+  // parents must be able to retry instead of getting a confirmation.
+  const notificationResult = await sendAufnahmeNotificationEmail(submission)
   if (!notificationResult.success) {
-    console.error(
-      'Failed to send notification email:',
-      notificationResult.error,
+    captureException(
+      new Error(
+        `Aufnahme notification email failed: ${notificationResult.error}`,
+      ),
     )
-    // Don't fail the whole process if notification fails, but log it
+    return data<AufnahmeActionData>(
+      { formError: 'mail', values },
+      { status: 502 },
+    )
+  }
+
+  // The application is recorded at this point, so a failed confirmation is
+  // reported but does not turn the submission into an error.
+  const confirmationResult = await sendAufnahmeConfirmationEmail(submission)
+  if (!confirmationResult.success) {
+    captureException(
+      new Error(
+        `Aufnahme confirmation email failed: ${confirmationResult.error}`,
+      ),
+    )
   }
 
   return redirect(SUCCESS_PATH)
@@ -136,7 +126,7 @@ export default function AufnahmeFormular() {
   // A failed submission is invisible otherwise: the page neither navigates nor
   // changes its URL, and the mail failure below is reported the same way.
   useEffect(() => {
-    if (actionData?.error) trackEvent('Aufnahme Form Error')
+    if (actionData) trackEvent('Aufnahme Form Error')
   }, [actionData])
 
   return (
@@ -353,9 +343,11 @@ export default function AufnahmeFormular() {
             </div>
           </fieldset>
 
-          {actionData?.error && (
+          {actionData && (
             <div className="rounded-md border border-red-500 bg-red-50 p-4 text-red-900">
-              {actionData.error}
+              {'formError' in actionData
+                ? 'Ihre Anmeldung konnte gerade nicht gesendet werden. Bitte versuchen Sie es in ein paar Minuten noch einmal oder schreiben Sie an office@walz.at.'
+                : 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.'}
             </div>
           )}
 
