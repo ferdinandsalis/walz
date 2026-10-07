@@ -1,9 +1,11 @@
 /**
  * @vitest-environment jsdom
  */
+import { CaretDown } from '@phosphor-icons/react'
 import { render, screen, waitFor, within } from '@testing-library/react'
 import { createRoutesStub } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { renderStatic } from '#tests/setup/render-static.ts'
 import AufnahmeFormular, { type AufnahmeActionData } from './formular.tsx'
 
 let plausible = vi.fn()
@@ -206,5 +208,20 @@ describe('Aufnahme form source question', () => {
     expect(document.getElementById(`${field.id}-error`)?.textContent).toBe(
       'Die Antwort darf höchstens 1000 Zeichen lang sein',
     )
+  })
+})
+
+describe('Aufnahme form further guardian toggle', () => {
+  // A plus that turns into "×" when open reads as "remove this person", but
+  // closing the section keeps what was typed.
+  it('marks the toggle with a caret, not a plus', () => {
+    renderWithActionData({ fieldErrors: {}, values: {} })
+
+    const summary = screen
+      .getByText('Weitere erziehungsberechtigte Person angeben')
+      .closest('summary')!
+    const caret = renderStatic(<CaretDown weight="bold" />).querySelector('svg')
+
+    expect(summary.querySelector('svg')?.innerHTML).toBe(caret?.innerHTML)
   })
 })

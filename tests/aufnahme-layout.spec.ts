@@ -110,6 +110,23 @@ test.describe('Aufnahme layout', () => {
     )
   })
 
+  test('shapes the further guardian toggle like the choices, with a turning caret', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    const toggle = page.locator('summary', {
+      hasText: 'Weitere erziehungsberechtigte Person angeben',
+    })
+    await expect(toggle).toHaveCSS('border-radius', '12px')
+    expect((await box(toggle)).height).toBeGreaterThanOrEqual(48)
+
+    const caret = toggle.locator('svg')
+    await expect(caret).toHaveCSS('rotate', 'none')
+    await toggle.click()
+    await expect(caret).toHaveCSS('rotate', '180deg')
+  })
+
   test('outlines the section map links on keyboard focus', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
     await page.goto('/aufnahme/formular')

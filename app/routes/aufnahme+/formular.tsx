@@ -1,4 +1,4 @@
-import { CircleNotch, Lock, Plus } from '@phosphor-icons/react'
+import { CaretDown, CircleNotch, Lock } from '@phosphor-icons/react'
 import { captureException } from '@sentry/react-router'
 import { isbot } from 'isbot'
 import {
@@ -407,14 +407,16 @@ export default function AufnahmeFormular() {
               >
                 <summary
                   className={cn(
-                    'border-input bg-card hover:bg-muted/40 flex cursor-pointer list-none items-center gap-3 rounded-md border border-dashed px-4 py-3 font-medium [&::-webkit-details-marker]:hidden',
+                    'border-input bg-card hover:bg-muted/40 rounded-choice flex min-h-12 cursor-pointer list-none items-center gap-3 border border-dashed px-4 py-3 font-medium [&::-webkit-details-marker]:hidden',
                     visibleFocusOutline,
                   )}
                 >
-                  <Plus
+                  {/* A caret, not a plus turning into "×": closing the
+                  section keeps what was typed, so nothing reads as "remove". */}
+                  <CaretDown
                     aria-hidden
                     weight="bold"
-                    className="text-primary size-5 shrink-0 transition-transform group-open/parent2:rotate-45"
+                    className="text-primary size-5 shrink-0 transition-transform group-open/parent2:rotate-180"
                   />
                   Weitere erziehungsberechtigte Person angeben
                 </summary>
