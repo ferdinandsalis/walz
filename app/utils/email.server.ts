@@ -1,6 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Resend } from 'resend'
+import {
+  formatAddress,
+  type Address,
+  type AufnahmeSubmission,
+  type Guardian,
+} from './aufnahme-form.ts'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -12,26 +18,37 @@ function schoolInbox() {
     : 'delivered@resend.dev'
 }
 
-interface AufnahmeFormData {
-  studentName: string
-  studentEmail: string
-  studentAddress: string
-  studentBirthdate: string
-  currentSchool: string
-  currentGrade: string
-  parent1Name: string
-  parent1Phone: string
-  parent1Email: string
-  parent1Address: string
-  parent2Name?: string
-  parent2Phone?: string
-  parent2Email?: string
-  parent2Address?: string
-  source: string
+const SAME_ADDRESS_NOTE = '(wie erziehungsberechtigte Person 1)'
+
+// The office confirms a copied address on the phone, so the copy is visible.
+function addressLine(address: Address, copiedFromParent1: boolean) {
+  const formatted = formatAddress(address)
+  return copiedFromParent1 ? `${formatted} ${SAME_ADDRESS_NOTE}` : formatted
+}
+
+function birthdateForOffice(isoDate: string) {
+  const [year, month, day] = isoDate.split('-')
+  return `${day}.${month}.${year}`
+}
+
+function guardianLines(guardian: Guardian) {
+  return [
+    `Name: ${guardian.name}`,
+    guardian.phone ? `Telefon: ${guardian.phone}` : undefined,
+    guardian.email ? `E-Mail: ${guardian.email}` : undefined,
+    guardian.address
+      ? `Adresse: ${addressLine(guardian.address, guardian.sameAddressAsParent1)}`
+      : undefined,
+  ].filter((line): line is string => line !== undefined)
+}
+
+function sourceLine(source: AufnahmeSubmission['source']) {
+  if (!source) return 'Nicht angegeben'
+  return source.other ? `${source.label}: ${source.other}` : source.label
 }
 
 export async function sendAufnahmeConfirmationEmail(
-  data: AufnahmeFormData,
+  data: AufnahmeSubmission,
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // Read the contract PDF
@@ -62,9 +79,9 @@ das Team der Walz
 P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vorabinformation.`
 
     // Send to both student and parents
-    const recipients = [data.studentEmail, data.parent1Email]
-    if (data.parent2Email) {
-      recipients.push(data.parent2Email)
+    const recipients = [data.student.email, data.parent1.email]
+    if (data.parent2?.email) {
+      recipients.push(data.parent2.email)
     }
 
     const { error } = await resend.emails.send({
@@ -93,34 +110,28 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
 }
 
 export async function sendAufnahmeNotificationEmail(
-  data: AufnahmeFormData,
+  data: AufnahmeSubmission,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const emailBody = `Neue Aufnahmeanmeldung eingegangen:
-
-JUGENDLICHE*R:
-Name: ${data.studentName}
-E-Mail: ${data.studentEmail}
-Adresse: ${data.studentAddress}
-Geburtsdatum: ${data.studentBirthdate}
-Derzeitige Schule: ${data.currentSchool}
-Derzeitige Klasse/Schulstufe: ${data.currentGrade}
-
-ELTERNTEIL 1:
-Name: ${data.parent1Name}
-Telefon: ${data.parent1Phone}
-E-Mail: ${data.parent1Email}
-Adresse: ${data.parent1Address}
-
-ELTERNTEIL 2:
-${data.parent2Name ? `Name: ${data.parent2Name}` : 'Nicht angegeben'}
-${data.parent2Phone ? `Telefon: ${data.parent2Phone}` : ''}
-${data.parent2Email ? `E-Mail: ${data.parent2Email}` : ''}
-${data.parent2Address ? `Adresse: ${data.parent2Address}` : ''}
-
-WIE AUF UNS AUFMERKSAM GEWORDEN:
-${data.source}
-`
+    const { student, parent1, parent2 } = data
+    const emailBody = [
+      'Neue Aufnahmeanmeldung eingegangen:',
+      [
+        'KIND',
+        `Name: ${student.name}`,
+        `E-Mail: ${student.email}`,
+        `Geburtsdatum: ${birthdateForOffice(student.birthdate)}`,
+        `Adresse: ${addressLine(student.address, student.sameAddressAsParent1)}`,
+        `Derzeitige Klasse/Schulstufe: ${student.currentGrade}`,
+      ].join('\n'),
+      ['SCHULEN NACH DER VOLKSSCHULE', student.schoolHistory].join('\n'),
+      ['ERZIEHUNGSBERECHTIGTE PERSON 1', ...guardianLines(parent1)].join('\n'),
+      [
+        'ERZIEHUNGSBERECHTIGTE PERSON 2',
+        ...(parent2 ? guardianLines(parent2) : ['Nicht angegeben']),
+      ].join('\n'),
+      ['WIE AUF UNS AUFMERKSAM GEWORDEN', sourceLine(data.source)].join('\n'),
+    ].join('\n\n')
 
     const { error } = await resend.emails.send({
       from: 'Walz Aufnahme <office@walz.at>',
