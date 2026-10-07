@@ -492,9 +492,8 @@ its panel.
 - Visible copy changes, each approved by Ferdinand:
   - "Jugendliche:r" for the applicant: the section title, its error-summary
     group and the steps ("die:der Jugendliche", "der:dem Jugendlichen").
-  - "Bisher besuchte Schulen" with the hint "Alle Schulen nach der Volksschule,
-    mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien
-    (2022–heute)" and the message "Geben Sie die bisher besuchten Schulen ein".
+  - "Alle bisher besuchten Schulen" without a hint and with the message "Geben
+    Sie die bisher besuchten Schulen ein".
   - "Wie haben Sie von der Walz erfahren? (optional)" as one free-text field
     with the hint "z. B. über Freunde, eine Veranstaltung, Instagram …" and the
     message "Die Antwort darf höchstens 1000 Zeichen lang sein"; the radio

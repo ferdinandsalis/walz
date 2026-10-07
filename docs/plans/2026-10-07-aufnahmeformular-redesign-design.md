@@ -132,7 +132,7 @@ German copy is final unless marked **[Agnes]**.
 | `parent1Name`       | Vor- und Nachname     | `autocomplete="section-parent1 name"`, `spellcheck=false`                |                                                                          |
 | `parent1Email`      | E-Mail                | `type=email`, `autocomplete="section-parent1 email"`, `spellcheck=false` |                                                                          |
 | `parent1Phone`      | Telefon               | `type=tel`, `autocomplete="section-parent1 tel"`                         | Wir rufen Sie an, um den Termin für das Aufnahmegespräch zu vereinbaren. |
-| `parent1Street`     | Straße und Hausnummer | `autocomplete="section-parent1 address-line1"`                           | Mit Stiege und Tür, z. B. Lindengasse 12/2/14                            |
+| `parent1Street`     | Straße und Hausnummer | `autocomplete="section-parent1 address-line1"`                           | Mit Stiege und Tür                                                       |
 | `parent1PostalCode` | PLZ                   | `autocomplete="section-parent1 postal-code"`                             |                                                                          |
 | `parent1City`       | Ort                   | `autocomplete="section-parent1 address-level2"`                          |                                                                          |
 | `parent1Country`    | Land                  | `autocomplete="section-parent1 country-name"`, default "Österreich"      |                                                                          |
@@ -164,10 +164,10 @@ validation reports it instead.
 
 **Schule** (sub-heading)
 
-| Name            | Label                          | Type / attributes                | Hint                                                                                                                   |
-| --------------- | ------------------------------ | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `currentGrade`  | Derzeitige Klasse / Schulstufe |                                  | z. B. 4B, 8. Schulstufe                                                                                                |
-| `schoolHistory` | Bisher besuchte Schulen        | textarea, 4 rows, max 2000 chars | Alle Schulen nach der Volksschule, mit Ort und Jahren, die derzeitige zuletzt, z. B. MS Lindengasse, Wien (2022–heute) |
+| Name            | Label                          | Type / attributes                | Hint                    |
+| --------------- | ------------------------------ | -------------------------------- | ----------------------- |
+| `currentGrade`  | Derzeitige Klasse / Schulstufe |                                  | z. B. 4B, 8. Schulstufe |
+| `schoolHistory` | Alle bisher besuchten Schulen  | textarea, 4 rows, max 2000 chars |                         |
 
 ### Section 3 · Weitere erziehungsberechtigte Person (optional)
 
@@ -223,10 +223,10 @@ timing, and whether Quereinstieg families need different wording]**:
 
 1. **Anmeldung absenden.** Sie und die:der Jugendliche bekommen sofort eine
    Bestätigung per E-Mail.
-2. **Anruf von Frauke Rätz.** Ab Mitte November, nach dem Tag der offenen Tür,
+2. **Anruf von der Walz.** Ab Mitte November, nach dem Tag der offenen Tür,
    vereinbaren wir das Aufnahmegespräch.
-3. **Aufnahmegespräch.** Etwa 30 Minuten mit der:dem Jugendlichen; in den
-   letzten 10 Minuten sind Sie dabei.
+3. **Aufnahmegespräch.** Etwa 30 Minuten mit der:dem Jugendlichen, der:dem
+   Mentor:in und der Schulleitung; in den letzten 10 Minuten sind Sie dabei.
 4. **Zu- oder Absage.** Ab Jänner.
 
 The intro shows only the bold titles. The confirmation page shows titles and
