@@ -11,6 +11,10 @@ export function sentryServerOptions(dsn: string) {
       // TODO: Make this work with Prisma
       // new Sentry.Integrations.Prisma({ client: prisma }),
     ],
+    // Console output stays in the server logs: it can quote personal data,
+    // such as a mail provider's error naming an address from a form.
+    beforeBreadcrumb: breadcrumb =>
+      breadcrumb.category === 'console' ? null : breadcrumb,
   } satisfies Parameters<typeof Sentry.init>[0]
 }
 
