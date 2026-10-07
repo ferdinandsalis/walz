@@ -4,6 +4,7 @@
 import { describe, expect, it } from 'vitest'
 import { renderStatic } from '#tests/setup/render-static.ts'
 import {
+  PathDot,
   PathNode,
   PathRail,
   RailEnd,
@@ -135,6 +136,30 @@ describe('Waypoint', () => {
 
     expect(waypoint?.getAttribute('aria-hidden')).toBe('true')
     expect(waypoint?.querySelector('.bg-path')).not.toBeNull()
+  })
+})
+
+describe('PathDot', () => {
+  it('is a 12px filled dot that knocks the rail out, hidden from screen readers', () => {
+    const dot = renderStatic(<PathDot />).firstElementChild
+
+    expect(dot?.getAttribute('aria-hidden')).toBe('true')
+    expect(classesOf(dot)).toEqual(
+      expect.arrayContaining([
+        'bg-path',
+        'size-3',
+        'rounded-full',
+        'ring-4',
+        'ring-(color:--path-gap)',
+      ]),
+    )
+  })
+
+  it('fills with the done colour when done', () => {
+    const dot = renderStatic(<PathDot done />).firstElementChild
+
+    expect(classesOf(dot)).toContain('bg-path-done')
+    expect(classesOf(dot)).not.toContain('bg-path')
   })
 })
 

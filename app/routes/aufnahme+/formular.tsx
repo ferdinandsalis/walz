@@ -26,7 +26,12 @@ import { Button } from '#app/components/ui/button.tsx'
 import { ChoiceCard } from '#app/components/ui/choice.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Notice } from '#app/components/ui/notice.tsx'
-import { PathMarker, PathRail, RailEnd } from '#app/components/ui/path.tsx'
+import {
+  PathDot,
+  PathMarker,
+  PathRail,
+  RailEnd,
+} from '#app/components/ui/path.tsx'
 import { SectionMap } from '#app/components/ui/section-map.tsx'
 import { StepsPath } from '#app/components/ui/steps-path.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
@@ -519,7 +524,7 @@ export default function AufnahmeFormular() {
               <div className="relative flex">
                 <RailEnd className="top-1/2" />
                 <PathMarker className="h-full">
-                  <span className="bg-path-done size-3 rounded-full ring-4 ring-(color:--path-gap)" />
+                  <PathDot done />
                 </PathMarker>
                 {/* At 20px bold the white label counts as large text, which
                 passes 3:1 on the orange. On focus the button keeps its resting

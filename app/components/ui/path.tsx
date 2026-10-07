@@ -112,6 +112,29 @@ export function Waypoint({ className }: { className?: string }) {
 }
 
 /**
+ * A 12px filled dot for a `PathMarker`: a step that lies ahead, or, `done`,
+ * the end of the path beside the submit.
+ */
+export function PathDot({
+  done = false,
+  className,
+}: {
+  done?: boolean
+  className?: string
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        'size-3 rounded-full ring-4 ring-(color:--path-gap)',
+        done ? 'bg-path-done' : 'bg-path',
+        className,
+      )}
+    />
+  )
+}
+
+/**
  * Covers the rail from the middle of its parent's first line down, so the path
  * ends at the marker there. It comes before the marker, which paints over it.
  */

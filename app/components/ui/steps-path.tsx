@@ -1,6 +1,6 @@
 import { useId } from 'react'
 import { cn } from '#app/utils/misc.tsx'
-import { PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
+import { PathDot, PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
 
 /**
  * The steps of a process as an ordered list on a dashed rail, labelled by its
@@ -58,7 +58,7 @@ export function StepsPath({
                     number={index + 1}
                   />
                 ) : (
-                  <span className="bg-path size-3 rounded-full ring-4 ring-(color:--path-gap)" />
+                  <PathDot />
                 )}
               </PathMarker>
               {full ? (
