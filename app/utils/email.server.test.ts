@@ -175,20 +175,14 @@ test('says "Nicht angegeben" without a second guardian', async () => {
   expect(text).toContain('ERZIEHUNGSBERECHTIGTE PERSON 2\nNicht angegeben\n')
 })
 
-test('names the source option and the free text', async () => {
-  const withOther = await notificationTextFor({
+test('prints the source answer as entered', async () => {
+  const withAnswer = await notificationTextFor({
     ...aufnahme,
-    source: { label: 'Anderes', other: 'Plakat' },
+    source: 'Über Freunde\nund Instagram',
   })
-  expect(withOther).toContain(
-    'WIE AUF UNS AUFMERKSAM GEWORDEN\nAnderes: Plakat',
+  expect(withAnswer).toContain(
+    'WIE AUF UNS AUFMERKSAM GEWORDEN\nÜber Freunde\nund Instagram',
   )
-
-  const withOption = await notificationTextFor({
-    ...aufnahme,
-    source: { label: 'Social Media' },
-  })
-  expect(withOption).toContain('WIE AUF UNS AUFMERKSAM GEWORDEN\nSocial Media')
 
   const without = await notificationTextFor(aufnahme)
   expect(without).toContain('WIE AUF UNS AUFMERKSAM GEWORDEN\nNicht angegeben')

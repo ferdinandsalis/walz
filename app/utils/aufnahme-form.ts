@@ -7,29 +7,6 @@ export type Address = {
   country: string
 }
 
-export type SourceValue =
-  | 'freunde-familie'
-  | 'walz-gemeinschaft'
-  | 'internet'
-  | 'veranstaltung'
-  | 'social-media'
-  | 'anderes'
-
-export const SOURCE_OPTIONS: ReadonlyArray<{
-  value: SourceValue
-  label: string
-}> = [
-  { value: 'freunde-familie', label: 'Freund:innen oder Familie' },
-  { value: 'walz-gemeinschaft', label: 'Eltern oder Schüler:innen der Walz' },
-  { value: 'internet', label: 'Internetsuche oder Website' },
-  {
-    value: 'veranstaltung',
-    label: 'Veranstaltung, z. B. Tag der offenen Tür',
-  },
-  { value: 'social-media', label: 'Social Media' },
-  { value: 'anderes', label: 'Anderes' },
-]
-
 // Shown as a short list before the form and in full on the confirmation page.
 export const AUFNAHME_STEPS: ReadonlyArray<{
   title: string
@@ -85,11 +62,11 @@ export const AUFNAHME_FIELD_NAMES: ReadonlyArray<string> = [
   'parent2City',
   'parent2Country',
   'source',
-  'sourceOther',
 ]
 
 const MAX_LINE_LENGTH = 200
 const MAX_SCHOOL_HISTORY_LENGTH = 2000
+const MAX_SOURCE_LENGTH = 1000
 const LINE_TOO_LONG = `Dieser Eintrag ist zu lang (höchstens ${MAX_LINE_LENGTH} Zeichen)`
 
 export type BirthdatePart = 'day' | 'month' | 'year'
@@ -201,7 +178,7 @@ export type AufnahmeInput = {
     sameAddress: boolean
     address?: Address
   }
-  source?: { value: SourceValue; other?: string }
+  source?: string
 }
 
 const required = (message: string) =>
@@ -291,7 +268,16 @@ const parent2Schema = z.object({
   country: optional(),
 })
 
-const sourceOtherSchema = z.object({ sourceOther: optional() })
+// A free answer, so it may run over several lines.
+const sourceSchema = z.object({
+  source: z
+    .string()
+    .trim()
+    .max(
+      MAX_SOURCE_LENGTH,
+      `Die Antwort darf höchstens ${MAX_SOURCE_LENGTH} Zeichen lang sein`,
+    ),
+})
 
 type FieldErrors = Record<string, string>
 
@@ -341,10 +327,6 @@ export function hasParent2Data(
       ? PARENT2_CONTACT_FIELDS
       : [...PARENT2_CONTACT_FIELDS, ...PARENT2_ADDRESS_FIELDS]
   return fields.some(name => (values[name] ?? '').trim() !== '')
-}
-
-function isSourceValue(value: string): value is SourceValue {
-  return SOURCE_OPTIONS.some(option => option.value === value)
 }
 
 export function parseAufnahmeForm(
@@ -418,16 +400,12 @@ export function parseAufnahmeForm(
     ? parseSection(parent2Schema, parent2Fields, 'parent2', fieldErrors)
     : undefined
 
-  const sourceValue = isSourceValue(values.source) ? values.source : undefined
-  const sourceOther =
-    sourceValue === 'anderes'
-      ? parseSection(
-          sourceOtherSchema,
-          { sourceOther: values.sourceOther },
-          '',
-          fieldErrors,
-        )?.sourceOther
-      : undefined
+  const source = parseSection(
+    sourceSchema,
+    { source: values.source },
+    '',
+    fieldErrors,
+  )?.source
 
   if (
     Object.keys(fieldErrors).length > 0 ||
@@ -472,9 +450,7 @@ export function parseAufnahmeForm(
             address: parent2SameAddress ? undefined : optionalAddress(parent2),
           }
         : undefined,
-      source: sourceValue
-        ? { value: sourceValue, other: sourceOther || undefined }
-        : undefined,
+      source: source || undefined,
     },
   }
 }
@@ -523,7 +499,6 @@ const SECTION_KEYS: Record<string, SectionKey> = {
   currentGrade: 'student',
   schoolHistory: 'student',
   source: 'final',
-  sourceOther: 'final',
 }
 
 // Maps a field name or an error key (such as studentBirthdate, which is not a
@@ -577,7 +552,7 @@ export type AufnahmeSubmission = {
     schoolHistory: string
   }
   parent2?: Guardian
-  source?: { label: string; other?: string }
+  source?: string
 }
 
 export function resolveAddresses(input: AufnahmeInput): AufnahmeSubmission {
@@ -589,10 +564,6 @@ export function resolveAddresses(input: AufnahmeInput): AufnahmeSubmission {
   if (!studentAddress) {
     throw new Error('The child address is missing although the box is cleared')
   }
-
-  const sourceOption = input.source
-    ? SOURCE_OPTIONS.find(option => option.value === input.source?.value)
-    : undefined
 
   return {
     parent1: { ...input.parent1, sameAddressAsParent1: false },
@@ -616,10 +587,7 @@ export function resolveAddresses(input: AufnahmeInput): AufnahmeSubmission {
           sameAddressAsParent1: input.parent2.sameAddress,
         }
       : undefined,
-    source:
-      input.source && sourceOption
-        ? { label: sourceOption.label, other: input.source.other }
-        : undefined,
+    source: input.source,
   }
 }
 

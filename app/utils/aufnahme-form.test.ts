@@ -3,7 +3,6 @@ import {
   AUFNAHME_FIELD_NAMES,
   AUFNAHME_STEPS,
   DEFAULT_COUNTRY,
-  SOURCE_OPTIONS,
   checkBirthdate,
   formatAddress,
   hasParent2Data,
@@ -73,23 +72,6 @@ describe('constants', () => {
     ])
   })
 
-  it('lists the source options', () => {
-    expect(SOURCE_OPTIONS).toEqual([
-      { value: 'freunde-familie', label: 'Freund:innen oder Familie' },
-      {
-        value: 'walz-gemeinschaft',
-        label: 'Eltern oder Schüler:innen der Walz',
-      },
-      { value: 'internet', label: 'Internetsuche oder Website' },
-      {
-        value: 'veranstaltung',
-        label: 'Veranstaltung, z. B. Tag der offenen Tür',
-      },
-      { value: 'social-media', label: 'Social Media' },
-      { value: 'anderes', label: 'Anderes' },
-    ])
-  })
-
   it('defaults the country to Österreich', () => {
     expect(DEFAULT_COUNTRY).toBe('Österreich')
   })
@@ -125,7 +107,6 @@ describe('constants', () => {
         'parent2City',
         'parent2Country',
         'source',
-        'sourceOther',
       ].sort(),
     )
   })
@@ -399,30 +380,26 @@ describe('parseAufnahmeForm', () => {
   })
 
   describe('source', () => {
-    it('drops sourceOther unless the source is "anderes"', () => {
+    it('keeps the answer as entered, trimmed', () => {
       expect(
-        parsedWith({ source: 'internet', sourceOther: 'x' }).source,
-      ).toEqual({ value: 'internet' })
-    })
-
-    it('keeps sourceOther for "anderes"', () => {
-      expect(
-        parsedWith({ source: 'anderes', sourceOther: ' Plakat ' }).source,
-      ).toEqual({ value: 'anderes', other: 'Plakat' })
-    })
-
-    it('leaves out an empty sourceOther', () => {
-      expect(parsedWith({ source: 'anderes', sourceOther: '' }).source).toEqual(
-        { value: 'anderes' },
-      )
+        parsedWith({ source: '  Über Freunde\nund Instagram  ' }).source,
+      ).toBe('Über Freunde\nund Instagram')
     })
 
     it('is undefined when absent', () => {
       expect(parsedWith({}).source).toBeUndefined()
     })
 
-    it('ignores an unknown source value', () => {
-      expect(parsedWith({ source: 'unbekannt' }).source).toBeUndefined()
+    it('leaves out an empty or blank answer', () => {
+      expect(parsedWith({ source: '' }).source).toBeUndefined()
+      expect(parsedWith({ source: '  \n ' }).source).toBeUndefined()
+    })
+
+    it('limits the answer to 1000 characters', () => {
+      expect(parsedWith({ source: 'a'.repeat(1000) }).source).toHaveLength(1000)
+      expect(errorsFor({ source: 'a'.repeat(1001) })).toEqual({
+        source: 'Die Antwort darf höchstens 1000 Zeichen lang sein',
+      })
     })
   })
 
@@ -471,8 +448,6 @@ describe('parseAufnahmeForm', () => {
         parent2PostalCode: long,
         parent2City: long,
         parent2Country: long,
-        source: 'anderes',
-        sourceOther: long,
       })
 
       expect(result.success).toBe(false)
@@ -496,7 +471,6 @@ describe('parseAufnahmeForm', () => {
           'parent2PostalCode',
           'parent2City',
           'parent2Country',
-          'sourceOther',
         ].sort(),
       )
       expect(new Set(Object.values(result.fieldErrors))).toEqual(
@@ -741,14 +715,10 @@ describe('resolveAddresses', () => {
     expect(resolveAddresses(parsedWith({})).parent2).toBeUndefined()
   })
 
-  it('resolves the source to its option label', () => {
+  it('passes the source answer through as entered', () => {
     expect(
-      resolveAddresses(parsedWith({ source: 'veranstaltung' })).source,
-    ).toEqual({ label: 'Veranstaltung, z. B. Tag der offenen Tür' })
-    expect(
-      resolveAddresses(parsedWith({ source: 'anderes', sourceOther: 'Plakat' }))
-        .source,
-    ).toEqual({ label: 'Anderes', other: 'Plakat' })
+      resolveAddresses(parsedWith({ source: 'Tag der offenen Tür' })).source,
+    ).toBe('Tag der offenen Tür')
     expect(resolveAddresses(parsedWith({})).source).toBeUndefined()
   })
 
@@ -820,7 +790,6 @@ describe('sectionOf', () => {
     ['parent2Email', 'parent2'],
     ['parent2SameAddress', 'parent2'],
     ['source', 'final'],
-    ['sourceOther', 'final'],
   ])('maps %s to %s', (key, section) => {
     expect(sectionOf(key)).toBe(section)
   })
@@ -968,20 +937,20 @@ describe('sectionStatus', () => {
     )
   })
 
-  it('keeps the final section open for source "anderes" without detail', () => {
-    const values = { ...validRaw, source: 'anderes', sourceOther: '' }
+  it('keeps the final section open with an answer', () => {
+    const values = { ...validRaw, source: 'Über Freunde' }
     expect(sectionStatus('final', values, {})).toBe('open')
   })
 
-  it('marks the final section as attention for a shown sourceOther error', () => {
-    const values = { ...validRaw, source: 'anderes' }
-    expect(sectionStatus('final', values, { sourceOther: 'Fehler' })).toBe(
+  it('marks the final section as attention for a shown source error', () => {
+    const values = { ...validRaw, source: 'a'.repeat(1001) }
+    expect(sectionStatus('final', values, { source: 'Fehler' })).toBe(
       'attention',
     )
   })
 
   it('never shows the final section as done or optional', () => {
-    const values = { ...validRaw, source: 'internet' }
+    const values = { ...validRaw, source: 'Über Freunde' }
     expect(sectionStatus('final', values, {})).toBe('open')
     expect(sectionStatus('final', {}, {})).toBe('open')
   })

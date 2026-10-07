@@ -171,3 +171,40 @@ describe('Aufnahme form section for the applicant', () => {
     expect(section.textContent).not.toMatch(/Kind/)
   })
 })
+
+describe('Aufnahme form source question', () => {
+  it('asks how they heard about the Walz in one optional text box', () => {
+    renderWithActionData({ fieldErrors: {}, values: {} })
+
+    const field = screen.getByLabelText(
+      'Wie haben Sie von der Walz erfahren? (optional)',
+    )
+    expect(field.tagName).toBe('TEXTAREA')
+    expect(field.getAttribute('name')).toBe('source')
+    expect(field.getAttribute('rows')).toBe('3')
+    expect(field.hasAttribute('required')).toBe(false)
+    expect(document.getElementById(`${field.id}-hint`)?.textContent).toBe(
+      'z. B. über Freunde, eine Veranstaltung, Instagram …',
+    )
+    expect(document.querySelector('input[type=radio]')).toBeNull()
+    expect(document.querySelector('[name=sourceOther]')).toBeNull()
+  })
+
+  it('restores the answer and shows its error after a failed submit', () => {
+    renderWithActionData({
+      fieldErrors: {
+        source: 'Die Antwort darf höchstens 1000 Zeichen lang sein',
+      },
+      values: { source: 'Über Freunde' },
+    })
+
+    const field = screen.getByLabelText(
+      'Wie haben Sie von der Walz erfahren? (optional)',
+    )
+    expect((field as HTMLTextAreaElement).value).toBe('Über Freunde')
+    expect(field.getAttribute('aria-invalid')).toBe('true')
+    expect(document.getElementById(`${field.id}-error`)?.textContent).toBe(
+      'Die Antwort darf höchstens 1000 Zeichen lang sein',
+    )
+  })
+})

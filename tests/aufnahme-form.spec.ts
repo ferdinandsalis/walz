@@ -232,19 +232,6 @@ test.describe('Aufnahme Form', () => {
     await expect(page.locator('#parent2Street')).toBeHidden()
   })
 
-  test('reveals "Woher genau?" only for "Anderes"', async ({ page }) => {
-    await page.goto('/aufnahme/formular')
-
-    const sourceOther = page.getByLabel('Woher genau?')
-    await expect(sourceOther).toBeHidden()
-
-    await page.getByLabel('Social Media').check()
-    await expect(sourceOther).toBeHidden()
-
-    await page.getByLabel('Anderes').check()
-    await expect(sourceOther).toBeVisible()
-  })
-
   test('explains the next steps on the confirmation page', async ({ page }) => {
     await page.goto('/aufnahme/formular/danke')
 
@@ -682,7 +669,7 @@ test.describe('Aufnahme Form', () => {
     )
   })
 
-  test('shows a visible focus outline on the choice card and the source rows', async ({
+  test('shows a visible focus outline on the choice card and the source field', async ({
     page,
   }) => {
     await page.goto('/aufnahme/formular')
@@ -695,9 +682,11 @@ test.describe('Aufnahme Form', () => {
 
     await page.getByText('Weitere erziehungsberechtigte Person angeben').focus()
     await page.keyboard.press('Tab')
-    const firstSource = page.getByLabel('Freund:innen oder Familie')
-    await expect(firstSource).toBeFocused()
-    await expectSolidOutline(firstSource.locator('xpath=ancestor::div[1]'))
+    const source = page.getByLabel(
+      'Wie haben Sie von der Walz erfahren? (optional)',
+    )
+    await expect(source).toBeFocused()
+    await expectSolidOutline(source)
   })
 
   test.describe('on a narrow phone', () => {
@@ -781,8 +770,7 @@ test.describe('Aufnahme Form', () => {
       await page.locator('#studentStreet').fill('Kindgasse 5')
       await page.locator('#studentPostalCode').fill('1070')
       await page.locator('#studentCity').fill('Wien')
-      await page.getByLabel('Anderes').check()
-      await page.getByLabel('Woher genau?').fill('Plakat in der U-Bahn')
+      await page.locator('#source').fill('Plakat in der U-Bahn')
       await page
         .getByText('Weitere erziehungsberechtigte Person angeben')
         .click()
@@ -805,11 +793,7 @@ test.describe('Aufnahme Form', () => {
       await expect(page.locator('#studentStreet')).toHaveValue('Kindgasse 5')
       await expect(page.locator('#parent1Name')).toHaveValue('Anna Testfrau')
       await expect(page.locator('#studentBirthYear')).toHaveValue('2012')
-      await expect(page.getByLabel('Anderes')).toBeChecked()
-      await expect(page.getByLabel('Woher genau?')).toBeVisible()
-      await expect(page.getByLabel('Woher genau?')).toHaveValue(
-        'Plakat in der U-Bahn',
-      )
+      await expect(page.locator('#source')).toHaveValue('Plakat in der U-Bahn')
       await expect(page.locator('#parent2Name')).toBeVisible()
       await expect(page.locator('#parent2Phone')).toHaveValue('+43 660 7654321')
       await expect(page.locator('#parent2SameAddress')).toBeChecked()

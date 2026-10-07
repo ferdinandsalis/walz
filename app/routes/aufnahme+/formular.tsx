@@ -21,9 +21,9 @@ import {
 } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
-import { Field, FieldGroup } from '#app/components/form-field.tsx'
+import { Field } from '#app/components/form-field.tsx'
 import { Button } from '#app/components/ui/button.tsx'
-import { ChoiceCard, ChoiceList } from '#app/components/ui/choice.tsx'
+import { ChoiceCard } from '#app/components/ui/choice.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Notice } from '#app/components/ui/notice.tsx'
 import { PathMarker, PathRail, RailEnd } from '#app/components/ui/path.tsx'
@@ -43,7 +43,6 @@ import {
   SECTIONS,
   type SectionStatus,
   sectionStatus,
-  SOURCE_OPTIONS,
 } from '#app/utils/aufnahme-form.ts'
 import {
   sendAufnahmeConfirmationEmail,
@@ -478,36 +477,20 @@ export default function AufnahmeFormular() {
             </FormSection>
 
             <FormSection section="final" status={statuses.final}>
-              <FieldGroup
+              <Field
                 name="source"
-                legend="Wie haben Sie von der Walz erfahren? (optional)"
-                className="group/source"
+                label="Wie haben Sie von der Walz erfahren? (optional)"
+                hint="z. B. über Freunde, eine Veranstaltung, Instagram …"
+                error={errors.source}
               >
-                <ChoiceList
-                  name="source"
-                  defaultValue={values?.source}
-                  options={SOURCE_OPTIONS.map(option => ({
-                    ...option,
-                    after:
-                      option.value === 'anderes' ? (
-                        // Indented under the option's label text.
-                        <Field
-                          name="sourceOther"
-                          label="Woher genau?"
-                          error={errors.sourceOther}
-                          className="hidden pr-3.5 pb-3 pl-[2.875rem] group-has-[[value=anderes]:checked]/source:flex"
-                        >
-                          {control => (
-                            <Input
-                              {...control}
-                              defaultValue={values?.sourceOther}
-                            />
-                          )}
-                        </Field>
-                      ) : undefined,
-                  }))}
-                />
-              </FieldGroup>
+                {control => (
+                  <Textarea
+                    {...control}
+                    rows={3}
+                    defaultValue={values?.source}
+                  />
+                )}
+              </Field>
 
               <Notice icon={Lock} className="text-body-xs/relaxed">
                 Wir verwenden Ihre Angaben nur für das Aufnahmeverfahren der

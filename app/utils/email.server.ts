@@ -42,11 +42,6 @@ function guardianLines(guardian: Guardian) {
   ].filter((line): line is string => line !== undefined)
 }
 
-function sourceLine(source: AufnahmeSubmission['source']) {
-  if (!source) return 'Nicht angegeben'
-  return source.other ? `${source.label}: ${source.other}` : source.label
-}
-
 // The child and both parents, each address once: parents give their own
 // address for a child without one, so the same address can come in twice.
 function confirmationRecipients(data: AufnahmeSubmission) {
@@ -143,7 +138,10 @@ export async function sendAufnahmeNotificationEmail(
         'ERZIEHUNGSBERECHTIGTE PERSON 2',
         ...(parent2 ? guardianLines(parent2) : ['Nicht angegeben']),
       ].join('\n'),
-      ['WIE AUF UNS AUFMERKSAM GEWORDEN', sourceLine(data.source)].join('\n'),
+      [
+        'WIE AUF UNS AUFMERKSAM GEWORDEN',
+        data.source ?? 'Nicht angegeben',
+      ].join('\n'),
     ].join('\n\n')
 
     const { error } = await resend.emails.send({

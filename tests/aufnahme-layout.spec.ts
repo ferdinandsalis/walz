@@ -66,7 +66,7 @@ test.describe('Aufnahme layout', () => {
   }) => {
     await page.goto('/aufnahme/formular')
 
-    await page.getByLabel('Social Media').focus()
+    await page.locator('#source').focus()
     await page.keyboard.press('Tab')
     await expectVisibleFocusOutline(
       page.getByRole('link', { name: 'Datenschutzerklärung' }),
@@ -182,9 +182,7 @@ test.describe('Aufnahme layout', () => {
       expect(Math.abs(titleLeft - label.x)).toBeLessThanOrEqual(1)
     })
 
-    test('gives the checkbox and the radio rows thumb-sized targets', async ({
-      page,
-    }) => {
+    test('gives the checkbox a thumb-sized target', async ({ page }) => {
       await page.goto('/aufnahme/formular')
 
       await expectTouchTarget(
@@ -192,13 +190,6 @@ test.describe('Aufnahme layout', () => {
           .locator('label')
           .filter({ has: page.locator('#studentSameAddress') }),
       )
-      const radioLabels = page
-        .locator('label')
-        .filter({ has: page.locator('input[type=radio]') })
-      await expect(radioLabels).toHaveCount(6)
-      for (const label of await radioLabels.all()) {
-        await expectTouchTarget(label)
-      }
     })
   })
 
