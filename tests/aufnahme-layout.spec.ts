@@ -6,6 +6,23 @@ async function box(locator: Locator) {
   return result
 }
 
+// A keyboard user must find the focused control: a solid outline of at least
+// 2px in an opaque colour, not the faint site-wide one.
+async function expectVisibleFocusOutline(locator: Locator) {
+  await expect(locator).toBeFocused()
+  const outline = await locator.evaluate(element => {
+    const style = getComputedStyle(element)
+    return {
+      style: style.outlineStyle,
+      width: parseFloat(style.outlineWidth),
+      color: style.outlineColor,
+    }
+  })
+  expect(outline.style).toBe('solid')
+  expect(outline.width).toBeGreaterThanOrEqual(2)
+  expect(outline.color).toMatch(/^rgb\(/)
+}
+
 function fontSize(locator: Locator) {
   return locator.evaluate(element => getComputedStyle(element).fontSize)
 }
@@ -22,6 +39,23 @@ test.describe('Aufnahme layout', () => {
     ]) {
       expect(await fontSize(page.locator(`label[for=${id}]`))).toBe(fieldLabel)
     }
+  })
+
+  test('outlines the privacy link and the submit button on keyboard focus', async ({
+    page,
+  }) => {
+    await page.goto('/aufnahme/formular')
+
+    await page.getByLabel('Social Media').focus()
+    await page.keyboard.press('Tab')
+    await expectVisibleFocusOutline(
+      page.getByRole('link', { name: 'Datenschutzerklärung' }),
+    )
+
+    await page.keyboard.press('Tab')
+    await expectVisibleFocusOutline(
+      page.getByRole('button', { name: 'Anmeldung absenden' }),
+    )
   })
 
   test.describe('on a phone', () => {

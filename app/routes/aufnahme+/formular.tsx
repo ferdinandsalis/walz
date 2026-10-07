@@ -37,6 +37,7 @@ import { Button } from '#app/components/ui/button.tsx'
 import { Input } from '#app/components/ui/input.tsx'
 import { Label } from '#app/components/ui/label.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
+import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import {
   AUFNAHME_FIELD_NAMES,
@@ -54,6 +55,7 @@ import {
   sendAufnahmeNotificationEmail,
 } from '#app/utils/email.server.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
+import { cn } from '#app/utils/misc.tsx'
 
 export const SUCCESS_PATH = '/aufnahme/formular/danke'
 
@@ -522,7 +524,10 @@ export default function AufnahmeFormular() {
               unserer{' '}
               <Link
                 to="/datenschutz"
-                className="text-foreground underline underline-offset-2"
+                className={cn(
+                  'text-foreground underline underline-offset-2',
+                  visibleFocusOutline,
+                )}
               >
                 Datenschutzerklärung
               </Link>
@@ -534,7 +539,10 @@ export default function AufnahmeFormular() {
             type="submit"
             size="lg"
             aria-disabled={isBusy ? true : undefined}
-            className="w-full gap-2 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto sm:self-start"
+            className={cn(
+              'w-full gap-2 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto sm:self-start',
+              visibleFocusOutline,
+            )}
           >
             {showSpinner ? (
               <CircleNotch aria-hidden className="size-5 animate-spin" />
