@@ -495,6 +495,72 @@ function optionalAddress(fields: Address): Address | undefined {
   }
 }
 
+export type SectionKey = 'parent1' | 'student' | 'parent2' | 'final'
+
+export type SectionStatus = 'open' | 'done' | 'attention' | 'optional'
+
+// In page order; the id is the anchor the section map links to.
+export const SECTIONS: ReadonlyArray<{
+  key: SectionKey
+  number: 1 | 2 | 3 | 4
+  title: string
+  id: string
+}> = [
+  { key: 'parent1', number: 1, title: 'Ihre Angaben', id: 'abschnitt-1' },
+  { key: 'student', number: 2, title: 'Ihr Kind', id: 'abschnitt-2' },
+  {
+    key: 'parent2',
+    number: 3,
+    title: 'Weitere erziehungsberechtigte Person',
+    id: 'abschnitt-3',
+  },
+  { key: 'final', number: 4, title: 'Zum Schluss', id: 'abschnitt-4' },
+]
+
+const SECTION_PREFIXES: ReadonlyArray<[string, SectionKey]> = [
+  ['parent1', 'parent1'],
+  ['student', 'student'],
+  ['parent2', 'parent2'],
+]
+
+const SECTION_KEYS: Record<string, SectionKey> = {
+  currentGrade: 'student',
+  schoolHistory: 'student',
+  source: 'final',
+  sourceOther: 'final',
+}
+
+// Maps a field name or an error key (such as studentBirthdate, which is not a
+// field name) to the section it is shown in.
+export function sectionOf(key: string): SectionKey | undefined {
+  return (
+    SECTION_PREFIXES.find(([prefix]) => key.startsWith(prefix))?.[1] ??
+    SECTION_KEYS[key]
+  )
+}
+
+// The status follows the rules the submit uses, so a node never promises more
+// than the form accepts. The final section holds the submit button, so it is
+// never done or optional.
+export function sectionStatus(
+  section: SectionKey,
+  values: Record<string, string>,
+  shownErrors: Record<string, string>,
+): SectionStatus {
+  if (Object.keys(shownErrors).some(key => sectionOf(key) === section)) {
+    return 'attention'
+  }
+  if (section === 'final') return 'open'
+
+  if (section === 'parent2' && !hasParent2Data(values)) return 'optional'
+
+  const result = parseAufnahmeForm(values)
+  const hasOwnError =
+    !result.success &&
+    Object.keys(result.fieldErrors).some(key => sectionOf(key) === section)
+  return hasOwnError ? 'open' : 'done'
+}
+
 export type Guardian = {
   name: string
   email?: string

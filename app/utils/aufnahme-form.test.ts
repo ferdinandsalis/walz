@@ -9,6 +9,9 @@ import {
   hasParent2Data,
   parseAufnahmeForm,
   resolveAddresses,
+  sectionOf,
+  sectionStatus,
+  SECTIONS,
   type AufnahmeInput,
 } from './aufnahme-form.ts'
 
@@ -784,5 +787,205 @@ describe('formatAddress', () => {
         country: '',
       }),
     ).toBe('Lindengasse 12, Wien')
+  })
+})
+
+describe('SECTIONS', () => {
+  it('lists the four sections in page order', () => {
+    expect(SECTIONS).toEqual([
+      {
+        key: 'parent1',
+        number: 1,
+        title: 'Ihre Angaben',
+        id: 'abschnitt-1',
+      },
+      { key: 'student', number: 2, title: 'Ihr Kind', id: 'abschnitt-2' },
+      {
+        key: 'parent2',
+        number: 3,
+        title: 'Weitere erziehungsberechtigte Person',
+        id: 'abschnitt-3',
+      },
+      { key: 'final', number: 4, title: 'Zum Schluss', id: 'abschnitt-4' },
+    ])
+  })
+})
+
+describe('sectionOf', () => {
+  it.each([
+    ['parent1Name', 'parent1'],
+    ['parent1PostalCode', 'parent1'],
+    ['studentName', 'student'],
+    ['studentSameAddress', 'student'],
+    ['studentBirthdate', 'student'],
+    ['currentGrade', 'student'],
+    ['schoolHistory', 'student'],
+    ['parent2Email', 'parent2'],
+    ['parent2SameAddress', 'parent2'],
+    ['source', 'final'],
+    ['sourceOther', 'final'],
+  ])('maps %s to %s', (key, section) => {
+    expect(sectionOf(key)).toBe(section)
+  })
+
+  it('maps every form field to a section', () => {
+    const unmapped = AUFNAHME_FIELD_NAMES.filter(
+      name => sectionOf(name) === undefined,
+    )
+    expect(unmapped).toEqual([])
+  })
+
+  it('maps keys that belong to no section to undefined', () => {
+    expect(sectionOf('mail')).toBeUndefined()
+    expect(sectionOf('')).toBeUndefined()
+  })
+})
+
+describe('sectionStatus', () => {
+  const statuses = (
+    values: Record<string, string>,
+    shownErrors: Record<string, string> = {},
+  ) => ({
+    parent1: sectionStatus('parent1', values, shownErrors),
+    student: sectionStatus('student', values, shownErrors),
+    parent2: sectionStatus('parent2', values, shownErrors),
+    final: sectionStatus('final', values, shownErrors),
+  })
+
+  it('shows an empty form as open, open, optional, open', () => {
+    expect(statuses({})).toEqual({
+      parent1: 'open',
+      student: 'open',
+      parent2: 'optional',
+      final: 'open',
+    })
+  })
+
+  it('marks the sections of a complete valid form as done', () => {
+    expect(statuses(validRaw)).toEqual({
+      parent1: 'done',
+      student: 'done',
+      parent2: 'optional',
+      final: 'open',
+    })
+  })
+
+  it('keeps the child section open for an impossible date', () => {
+    const values = {
+      ...validRaw,
+      studentBirthDay: '31',
+      studentBirthMonth: '2',
+      studentBirthYear: '2012',
+    }
+    expect(sectionStatus('student', values, {})).toBe('open')
+  })
+
+  it('keeps the child section open while the school fields are empty', () => {
+    expect(
+      sectionStatus('student', { ...validRaw, currentGrade: '' }, {}),
+    ).toBe('open')
+  })
+
+  it('lets a shown error win over values that parse clean', () => {
+    const shownErrors = { studentBirthdate: 'Das Jahr muss vier Ziffern haben' }
+    expect(sectionStatus('student', validRaw, shownErrors)).toBe('attention')
+    expect(sectionStatus('parent1', validRaw, shownErrors)).toBe('done')
+  })
+
+  it('ignores shown errors that belong to no section', () => {
+    expect(sectionStatus('parent1', validRaw, { mail: 'Fehler' })).toBe('done')
+  })
+
+  it('counts the child address as done while the box is ticked', () => {
+    const values = {
+      ...validRaw,
+      studentSameAddress: 'on',
+      studentStreet: '',
+      studentPostalCode: '',
+      studentCity: '',
+      studentCountry: '',
+    }
+    expect(sectionStatus('student', values, {})).toBe('done')
+  })
+
+  it('keeps the child section open when the box is cleared and the address is empty', () => {
+    const values = {
+      ...validRaw,
+      studentSameAddress: '',
+      studentStreet: '',
+      studentPostalCode: '',
+      studentCity: '',
+      studentCountry: '',
+    }
+    expect(sectionStatus('student', values, {})).toBe('open')
+  })
+
+  it('marks parent 2 done with a name and a phone', () => {
+    const values = {
+      ...validRaw,
+      parent2Name: 'Boris Beispiel',
+      parent2Phone: '0660 7654321',
+    }
+    expect(sectionStatus('parent2', values, {})).toBe('done')
+  })
+
+  it('keeps parent 2 open with only a phone', () => {
+    const values = { ...validRaw, parent2Phone: '0660 7654321' }
+    expect(sectionStatus('parent2', values, {})).toBe('open')
+  })
+
+  it('keeps parent 2 open when the email is malformed', () => {
+    const values = {
+      ...validRaw,
+      parent2Name: 'Boris Beispiel',
+      parent2Email: 'kein-email',
+    }
+    expect(sectionStatus('parent2', values, {})).toBe('open')
+  })
+
+  it('shows parent 2 as optional again once every text field is cleared', () => {
+    const values = {
+      ...validRaw,
+      parent2Name: '',
+      parent2Email: '',
+      parent2Phone: '',
+      parent2Street: '',
+      parent2PostalCode: '',
+      parent2City: '',
+    }
+    expect(sectionStatus('parent2', values, {})).toBe('optional')
+  })
+
+  it('ignores a hidden parent 2 address while the box is ticked', () => {
+    const values = {
+      ...validRaw,
+      parent2SameAddress: 'on',
+      parent2Street: 'Versteckt 1',
+    }
+    expect(sectionStatus('parent2', values, {})).toBe('optional')
+  })
+
+  it('shows parent 2 as attention when one of its fields has a shown error', () => {
+    expect(sectionStatus('parent2', validRaw, { parent2Email: 'Fehler' })).toBe(
+      'attention',
+    )
+  })
+
+  it('keeps the final section open for source "anderes" without detail', () => {
+    const values = { ...validRaw, source: 'anderes', sourceOther: '' }
+    expect(sectionStatus('final', values, {})).toBe('open')
+  })
+
+  it('marks the final section as attention for a shown sourceOther error', () => {
+    const values = { ...validRaw, source: 'anderes' }
+    expect(sectionStatus('final', values, { sourceOther: 'Fehler' })).toBe(
+      'attention',
+    )
+  })
+
+  it('never shows the final section as done or optional', () => {
+    const values = { ...validRaw, source: 'internet' }
+    expect(sectionStatus('final', values, {})).toBe('open')
+    expect(sectionStatus('final', {}, {})).toBe('open')
   })
 })
