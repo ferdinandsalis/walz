@@ -71,9 +71,9 @@ test('reports a notification that Resend rejects as failed', async () => {
   const result = await sendAufnahmeNotificationEmail(aufnahme)
 
   expect(result).toEqual({ success: false, error: 'API key is invalid' })
-  expect(consoleError).toHaveBeenCalledWith(
-    'Error sending notification email:',
-    expect.objectContaining({ message: 'API key is invalid' }),
+  // Resend's error text can quote an address, so only a fixed line is logged
+  expect(consoleError).toHaveBeenCalledExactlyOnceWith(
+    'Error sending notification email',
   )
 })
 
@@ -84,9 +84,9 @@ test('reports a confirmation that Resend rejects as failed', async () => {
   const result = await sendAufnahmeConfirmationEmail(aufnahme)
 
   expect(result).toEqual({ success: false, error: 'API key is invalid' })
-  expect(consoleError).toHaveBeenCalledWith(
-    'Error sending confirmation email:',
-    expect.objectContaining({ message: 'API key is invalid' }),
+  // Resend's error text can quote an address, so only a fixed line is logged
+  expect(consoleError).toHaveBeenCalledExactlyOnceWith(
+    'Error sending confirmation email',
   )
 })
 

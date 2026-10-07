@@ -24,8 +24,8 @@ function silentTransport() {
 }
 
 test('keeps form submissions and logged mail errors out of the events sent to Sentry', async () => {
-  // The mail helpers log the provider's error, which may quote an address. The
-  // log stays quiet here; Sentry wraps the console from init on.
+  // Logged errors may quote personal data, so console breadcrumbs stay out of
+  // Sentry. The log stays quiet here; Sentry wraps the console from init on.
   consoleError.mockImplementation(() => {})
   const events: Sentry.ErrorEvent[] = []
   Sentry.init({

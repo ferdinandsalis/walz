@@ -113,7 +113,8 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending confirmation email:', error)
+    // Resend's error text can quote an address, so the log line stays fixed
+    console.error('Error sending confirmation email')
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -156,7 +157,8 @@ export async function sendAufnahmeNotificationEmail(
 
     return { success: true }
   } catch (error) {
-    console.error('Error sending notification email:', error)
+    // Resend's error text can quote an address, so the log line stays fixed
+    console.error('Error sending notification email')
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
