@@ -9,7 +9,8 @@ import { Input } from './ui/input.tsx'
 export function NewsletterForm() {
   const fetcher = useFetcher<typeof action>()
   const showSpinner = useSpinDelay(fetcher.state !== 'idle')
-  const done = !!fetcher.data
+  const done = fetcher.data?.ok === true
+  const failed = fetcher.data?.ok === false
 
   return (
     <fetcher.Form
@@ -49,6 +50,11 @@ export function NewsletterForm() {
         </Button>
         {showSpinner && <CircleNotch className="text-secondary animate-spin" />}
         {done && <p className="text-green-500">Aktion Erfolgreich</p>}
+        {failed && (
+          <p role="alert" className="text-destructive">
+            Das hat leider nicht geklappt. Bitte versuch es später noch einmal.
+          </p>
+        )}
       </div>
     </fetcher.Form>
   )
