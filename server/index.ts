@@ -5,7 +5,7 @@ import chalk from 'chalk'
 import closeWithGrace from 'close-with-grace'
 import compression from 'compression'
 import express from 'express'
-import rateLimit from 'express-rate-limit'
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit'
 import getPort, { portNumbers } from 'get-port'
 import morgan from 'morgan'
 import { type ServerBuild } from 'react-router'
@@ -24,6 +24,12 @@ const viteDevServer = IS_PROD
     )
 
 const app = express()
+
+// Fly terminates TLS and forwards plain HTTP with X-Forwarded-Proto: https.
+// Trusting the proxy makes req.protocol (and so the request URL React Router
+// builds) https, which its action origin check compares against the
+// browser's Origin header.
+app.set('trust proxy', true)
 
 // Redirect bare domain to canonical www hostname
 app.use((req, res, next) => {
@@ -117,6 +123,11 @@ const rateLimitDefault = {
   max: 1000 * maxMultiple,
   standardHeaders: true,
   legacyHeaders: false,
+  // With trust proxy on, req.ip comes from X-Forwarded-For, which clients can
+  // spoof. Fly-Client-Ip is set by Fly's proxy and cannot be spoofed.
+  validate: { trustProxy: false },
+  keyGenerator: (req: express.Request) =>
+    ipKeyGenerator(req.get('fly-client-ip') ?? req.ip ?? ''),
 }
 
 const strongestRateLimit = rateLimit({
