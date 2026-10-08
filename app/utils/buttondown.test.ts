@@ -26,3 +26,32 @@ test('subscribes the address under the field name Buttondown expects', async () 
     utm_source: 'walz.at',
   })
 })
+
+test('adds an address that is already subscribed instead of rejecting it', async () => {
+  const fetch = buttondownResponds(201, {})
+
+  await addSubscriber('leser@example.com', 'walz.at')
+
+  const [, init] = fetch.mock.calls[0]!
+  expect(
+    new Headers(init?.headers).get('X-Buttondown-Collision-Behavior'),
+  ).toBe('add')
+})
+
+test('reports a subscription that Buttondown accepts as successful', async () => {
+  buttondownResponds(201, {})
+
+  expect(await addSubscriber('leser@example.com', 'walz.at')).toEqual({
+    success: true,
+  })
+})
+
+test('reports a subscription that Buttondown rejects as failed', async () => {
+  buttondownResponds(422, {
+    detail: [{ code: 'field_renamed', detail: 'Use `email_address`' }],
+  })
+
+  expect(await addSubscriber('leser@example.com', 'walz.at')).toEqual({
+    success: false,
+  })
+})
