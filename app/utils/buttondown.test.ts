@@ -46,12 +46,37 @@ test('reports a subscription that Buttondown accepts as successful', async () =>
   })
 })
 
-test('reports a subscription that Buttondown rejects as failed', async () => {
+test("reports a rejected subscription with Buttondown's status and code", async () => {
+  buttondownResponds(401, {
+    code: 'authentication_invalid',
+    detail: 'The provided token was invalid.',
+  })
+
+  expect(await addSubscriber('leser@example.com', 'walz.at')).toEqual({
+    success: false,
+    reason: '401 authentication_invalid',
+  })
+})
+
+test("reads the code from Buttondown's list of validation errors", async () => {
   buttondownResponds(422, {
     detail: [{ code: 'field_renamed', detail: 'Use `email_address`' }],
   })
 
   expect(await addSubscriber('leser@example.com', 'walz.at')).toEqual({
     success: false,
+    reason: '422 field_renamed',
+  })
+})
+
+test('reports a rejection without a readable code by its status', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async () => new Response('Bad Gateway', { status: 502 })),
+  )
+
+  expect(await addSubscriber('leser@example.com', 'walz.at')).toEqual({
+    success: false,
+    reason: '502',
   })
 })

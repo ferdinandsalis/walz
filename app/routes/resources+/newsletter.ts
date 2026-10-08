@@ -13,10 +13,13 @@ export async function action({ request }: ActionFunctionArgs) {
     })
     .parse(Object.fromEntries(formData.entries()))
 
-  const { success } = await Buttondown.addSubscriber(email, 'walz.at')
-  if (!success) {
-    // A constant message keeps the subscriber's address out of Sentry.
-    captureException(new Error('Newsletter subscription failed'))
+  const result = await Buttondown.addSubscriber(email, 'walz.at')
+  if (!result.success) {
+    // The reason holds only Buttondown's status and error code, never the
+    // subscriber's address.
+    captureException(
+      new Error(`Newsletter subscription failed: ${result.reason}`),
+    )
     return data({ ok: false }, { status: 502 })
   }
 
