@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.buttondown.email'
+const BASE_URL = 'https://api.buttondown.com'
 const ENDPOINT = '/v1/subscribers'
 
 export function addSubscriber(email: string, source?: 'walz.at') {
@@ -9,7 +9,7 @@ export function addSubscriber(email: string, source?: 'walz.at') {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email,
+      email_address: email,
       utm_source: source,
     }),
   })
