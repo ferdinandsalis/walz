@@ -74,6 +74,9 @@ test('hides the section map on phones', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Anmeldung für die Walz' }),
   ).toBeVisible()
+  await expect(
+    page.getByRole('list', { name: 'Aufnahmeprozess' }),
+  ).toBeVisible()
   await expect(sectionMap(page)).toBeHidden()
 })
 
@@ -106,7 +109,7 @@ test('shows the steps path above the prose and both notices on /aufnahme', async
 
   const steps = page
     .locator('#vorgehensweise')
-    .getByRole('list', { name: 'So geht es weiter' })
+    .getByRole('list', { name: 'Aufnahmeprozess' })
   await expect(steps.getByRole('listitem')).toHaveText([
     'Anmeldung absenden',
     'Anruf von der Walz',
@@ -174,18 +177,16 @@ test.describe('on a narrow phone', () => {
     await expect(page.locator('#studentStreet')).toBeVisible()
   }
 
-  for (const [path, prepare] of [
-    ['/aufnahme/formular', openEveryReveal],
-    ['/aufnahme/formular/danke', undefined],
-    ['/aufnahme', undefined],
+  for (const [path, stepsName, prepare] of [
+    ['/aufnahme/formular', 'Aufnahmeprozess', openEveryReveal],
+    ['/aufnahme/formular/danke', 'So geht es weiter', undefined],
+    ['/aufnahme', 'Aufnahmeprozess', undefined],
   ] as const) {
     test(`does not scroll sideways at 320px on ${path}`, async ({ page }) => {
       await page.goto(path)
       await page.evaluate(() => document.fonts.ready)
 
-      await expect(
-        page.getByRole('list', { name: 'So geht es weiter' }),
-      ).toBeVisible()
+      await expect(page.getByRole('list', { name: stepsName })).toBeVisible()
       await prepare?.(page)
       const scrollWidth = await page.evaluate(
         () => document.documentElement.scrollWidth,
@@ -206,9 +207,13 @@ test.describe('the hanging path', () => {
     ).toBeLessThanOrEqual(1)
   }
 
-  async function expectEveryStepOnTheHeadingEdge(page: Page, heading: Locator) {
+  async function expectEveryStepOnTheHeadingEdge(
+    page: Page,
+    stepsName: string,
+    heading: Locator,
+  ) {
     const steps = page
-      .getByRole('list', { name: 'So geht es weiter' })
+      .getByRole('list', { name: stepsName })
       .getByRole('listitem')
     await expect(steps).toHaveCount(4)
     for (const step of await steps.all()) {
@@ -236,7 +241,7 @@ test.describe('the hanging path', () => {
         page.locator('label[for=parent1Name]'),
         heading,
       )
-      await expectEveryStepOnTheHeadingEdge(page, heading)
+      await expectEveryStepOnTheHeadingEdge(page, 'Aufnahmeprozess', heading)
 
       const node = page.locator('#abschnitt-1 [data-node-state]')
       const nodeBox = (await node.boundingBox())!
@@ -262,6 +267,7 @@ test.describe('the hanging path', () => {
 
       await expectEveryStepOnTheHeadingEdge(
         page,
+        'So geht es weiter',
         page.getByRole('heading', {
           level: 1,
           name: 'Danke, wir haben Ihre Anmeldung erhalten',
@@ -276,6 +282,7 @@ test.describe('the hanging path', () => {
 
       await expectEveryStepOnTheHeadingEdge(
         page,
+        'Aufnahmeprozess',
         page.getByRole('heading', { level: 1, name: 'Vorgehensweise' }),
       )
     })
