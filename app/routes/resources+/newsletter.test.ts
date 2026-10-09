@@ -42,12 +42,16 @@ test('confirms a subscription that Buttondown accepts', async () => {
 })
 
 test('reports a subscription that Buttondown rejects without the address', async () => {
-  vi.mocked(addSubscriber).mockResolvedValue({ success: false })
+  vi.mocked(addSubscriber).mockResolvedValue({
+    success: false,
+    reason: '401 authentication_invalid',
+  })
 
   const result = await subscribe('leser@example.com')
 
   expect(result).toMatchObject({ data: { ok: false }, init: { status: 502 } })
   expect(captureException).toHaveBeenCalledOnce()
   const [error] = captureException.mock.calls[0]!
+  expect(String(error)).toContain('401 authentication_invalid')
   expect(String(error)).not.toContain('leser@example.com')
 })
