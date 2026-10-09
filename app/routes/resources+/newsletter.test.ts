@@ -49,9 +49,23 @@ test('reports a subscription that Buttondown rejects without the address', async
 
   const result = await subscribe('leser@example.com')
 
-  expect(result).toMatchObject({ data: { ok: false }, init: { status: 502 } })
+  expect(result).toMatchObject({
+    data: { ok: false, reason: 'unavailable' },
+    init: { status: 502 },
+  })
   expect(captureException).toHaveBeenCalledOnce()
   const [error] = captureException.mock.calls[0]!
   expect(String(error)).toContain('401 authentication_invalid')
   expect(String(error)).not.toContain('leser@example.com')
+})
+
+test('rejects an address the browser let through without subscribing it', async () => {
+  const result = await subscribe('leser@example')
+
+  expect(result).toMatchObject({
+    data: { ok: false, reason: 'invalid' },
+    init: { status: 400 },
+  })
+  expect(addSubscriber).not.toHaveBeenCalled()
+  expect(captureException).not.toHaveBeenCalled()
 })
