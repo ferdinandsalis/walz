@@ -179,8 +179,16 @@ function SubscribedNotice({ email }: { email: string }) {
         <h3 className="font-condensed text-body-md text-secondary mb-1 font-bold">
           Danke für deine Anmeldung!
         </h3>
-        Der nächste Newsletter kommt an{' '}
-        <strong className="font-medium break-words">{email}</strong>.
+        {/* Buttondown holds new subscribers until they confirm (double
+        opt-in) */}
+        <p>
+          Wir haben dir eine E-Mail an{' '}
+          <strong className="font-medium break-words">{email}</strong>{' '}
+          geschickt. Bitte bestätige darin deine Anmeldung.
+        </p>
+        <p className="text-body-xs text-muted-foreground mt-1">
+          Nichts angekommen? Schau im Spam-Ordner nach.
+        </p>
       </div>
     </div>
   )

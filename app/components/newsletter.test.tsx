@@ -70,12 +70,16 @@ test('clears the address error once the reader types again', () => {
   expect(emailField().getAttribute('aria-invalid')).toBeNull()
 })
 
-test('thanks the reader, names the address and moves focus there', async () => {
+test('asks the reader to confirm by email and moves focus there', async () => {
   renderForm({ ok: true })
 
   subscribe('leser@example.com')
 
   const thanks = await screen.findByText('Danke für deine Anmeldung!')
+  // Buttondown holds new subscribers until they confirm (double opt-in)
+  expect(thanks.parentElement?.textContent).toContain(
+    'Wir haben dir eine E-Mail an leser@example.com geschickt. Bitte bestätige darin deine Anmeldung.',
+  )
   expect(screen.getByText('leser@example.com')).toBeTruthy()
   expect(document.activeElement?.contains(thanks)).toBe(true)
 })
