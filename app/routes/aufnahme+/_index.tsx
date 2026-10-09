@@ -58,7 +58,7 @@ export default function Aufnahme() {
           <StepsPath
             steps={AUFNAHME_STEPS}
             variant="compact"
-            heading="So geht es weiter"
+            heading="Aufnahmeprozess"
             hanging
           />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">

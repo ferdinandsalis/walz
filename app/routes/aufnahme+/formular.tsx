@@ -225,7 +225,7 @@ export default function AufnahmeFormular() {
         <StepsPath
           steps={AUFNAHME_STEPS}
           variant="compact"
-          heading="So geht es weiter"
+          heading="Aufnahmeprozess"
           hanging
         />
 
