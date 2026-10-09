@@ -9,7 +9,6 @@ import { FieldError, FieldLabel } from './form-field.tsx'
 import { MailLink } from './mail-link.tsx'
 import { Button } from './ui/button.tsx'
 import { Input } from './ui/input.tsx'
-import { Notice } from './ui/notice.tsx'
 import { visibleFocusOutline } from './visible-focus.ts'
 
 // Not `email`: the footer shows on pages that may have their own email field.
@@ -60,7 +59,7 @@ export function NewsletterForm() {
   return (
     <div className="bg-card flex max-w-xl flex-col gap-4 rounded-md p-6 shadow-md xl:p-8">
       <div className="flex flex-col gap-1">
-        <h2 className="font-condensed text-body-md text-secondary-800 font-bold">
+        <h2 className="font-condensed text-body-md text-secondary font-bold">
           Newsletter
         </h2>
         <p className="text-body-sm/relaxed">
@@ -160,15 +159,23 @@ function SubscribedNotice({ email }: { email: string }) {
   }, [])
 
   return (
-    <div ref={ref} tabIndex={-1} className="outline-none">
-      <Notice
-        icon={CheckCircle}
-        title="Danke für deine Anmeldung!"
-        titleAs="h3"
-      >
+    // Laid out like the Aufnahme form's Notice, but in the site-wide blue
+    // rather than its darker shades
+    <div
+      ref={ref}
+      tabIndex={-1}
+      className="bg-secondary-50 text-body-sm flex gap-3 rounded-md p-4 outline-none"
+    >
+      <span className="flex h-7 shrink-0 items-center">
+        <CheckCircle aria-hidden className="text-secondary size-[1.25em]" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <h3 className="font-condensed text-body-md text-secondary mb-1 font-bold">
+          Danke für deine Anmeldung!
+        </h3>
         Der nächste Newsletter kommt an{' '}
         <strong className="font-medium break-words">{email}</strong>.
-      </Notice>
+      </div>
     </div>
   )
 }
