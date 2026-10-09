@@ -128,3 +128,20 @@ test('links the privacy policy and says how to unsubscribe', () => {
       .getAttribute('href'),
   ).toBe('/datenschutz')
 })
+
+test('outlines focused controls in the site-wide orange, not its darker shade', async () => {
+  renderForm({ ok: false, reason: 'unavailable' })
+  subscribe('leser@example.com')
+  await screen.findByRole('alert')
+
+  const controls = [
+    emailField(),
+    screen.getByRole('button', { name: 'Abonnieren' }),
+    screen.getByRole('link', { name: 'Datenschutzerklärung' }),
+    screen.getByRole('link', { name: 'office@walz.at' }),
+  ]
+  for (const control of controls) {
+    expect(control.className).toContain('focus-visible:outline-primary')
+    expect(control.className).not.toContain('outline-primary-700')
+  }
+})
