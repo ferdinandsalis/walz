@@ -89,7 +89,6 @@ export function FooterNavigation() {
     <footer className="relative z-10 grid grid-cols-2 items-start gap-12 py-12 lg:py-24">
       {hideNewsletter ? null : (
         <div id="newsletter" className="col-span-2 md:col-span-1">
-          <h1 className="sr-only">Newsletter</h1>
           <NewsletterForm />
         </div>
       )}

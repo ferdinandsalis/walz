@@ -1,61 +1,195 @@
-import { CircleNotch } from '@phosphor-icons/react'
-import { useFetcher } from 'react-router'
+import { CheckCircle, CircleNotch } from '@phosphor-icons/react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { Link, useFetcher } from 'react-router'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { useSpinDelay } from 'spin-delay'
 import { type action } from '#app/routes/resources+/newsletter.ts'
+import { cn } from '#app/utils/misc.tsx'
+import { FieldError, FieldLabel } from './form-field.tsx'
+import { MailLink } from './mail-link.tsx'
 import { Button } from './ui/button.tsx'
 import { Input } from './ui/input.tsx'
+import { visibleFocusOutline } from './visible-focus.ts'
+
+// Not `email`: the footer shows on pages that may have their own email field.
+const FIELD_ID = 'newsletter-email'
+const ERROR_ID = `${FIELD_ID}-error`
+
+// The Aufnahme pages' solid outline, but in the site-wide orange rather than
+// their darker primary-700
+const focusOutline = cn(visibleFocusOutline, 'focus-visible:outline-primary')
+
+const MISSING_ADDRESS = 'Gib deine E-Mail-Adresse ein.'
+const MALFORMED_ADDRESS =
+  'Gib deine E-Mail-Adresse im Format name@beispiel.at ein.'
 
 export function NewsletterForm() {
   const fetcher = useFetcher<typeof action>()
-  const showSpinner = useSpinDelay(fetcher.state !== 'idle')
-  const done = fetcher.data?.ok === true
-  const failed = fetcher.data?.ok === false
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [browserError, setBrowserError] = useState<string>()
+  const [submittedEmail, setSubmittedEmail] = useState('')
+  // A server-side rejection stays on the field until the reader edits it
+  const [editedSinceSubmit, setEditedSinceSubmit] = useState(false)
+
+  const isBusy = fetcher.state !== 'idle'
+  const showSpinner = useSpinDelay(isBusy)
+  const result = isBusy ? undefined : fetcher.data
+  const serverError =
+    result?.ok === false && !editedSinceSubmit ? result.reason : undefined
+  const error =
+    browserError ?? (serverError === 'invalid' ? MALFORMED_ADDRESS : undefined)
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const input = inputRef.current
+    if (isBusy || !input) {
+      event.preventDefault()
+      return
+    }
+    const message = input.validity.valueMissing
+      ? MISSING_ADDRESS
+      : input.validity.typeMismatch
+        ? MALFORMED_ADDRESS
+        : undefined
+    if (message) {
+      event.preventDefault()
+      setBrowserError(message)
+      input.focus()
+      return
+    }
+    setSubmittedEmail(input.value)
+    setEditedSinceSubmit(false)
+  }
 
   return (
-    <fetcher.Form
-      name="newsletter"
-      method="POST"
-      action="/resources/newsletter"
-      className="bg-card grid max-w-xl rounded-md p-6 shadow-md xl:p-8"
-      key={JSON.stringify(fetcher.data)}
-    >
-      <HoneypotInputs />
-      <p className="md:text-body-md mb-4 max-w-[28ch] text-lg text-balance">
-        <span className="font-bold">
-          Möchtest du auf dem Laufenden bleiben?
-        </span>{' '}
-        Dann melde dich für unseren{' '}
-        <strong className="text-secondary">Newsletter</strong> an!
-      </p>
-      <div className="mb-4">
-        <label className="sr-only">E-Mail</label>
-        <Input
-          name="email"
-          type="email"
-          placeholder="Deine E-Mail"
-          disabled={done}
-          defaultValue={done ? '' : undefined}
-          className="md:text-body-md rounded-lg bg-white p-6 shadow-md"
-        />
+    <div className="bg-card flex max-w-xl flex-col gap-4 rounded-md p-6 shadow-md xl:p-8">
+      <div className="flex flex-col gap-1">
+        <h2 className="font-condensed text-body-md text-secondary font-bold">
+          Newsletter
+        </h2>
+        <p className="text-body-sm/relaxed">
+          Neuigkeiten aus der Walz – Termine, Infoabende und Einblicke in den
+          Schulalltag, direkt in dein Postfach.
+        </p>
       </div>
-      <div className="flex items-center gap-4">
-        <Button
-          type="submit"
-          size="lg"
-          className="bg-primary md:text-body-md rounded-lg p-6 shadow-md"
-          disabled={fetcher.state === 'submitting'}
+
+      {result?.ok === true ? (
+        <SubscribedNotice email={submittedEmail} />
+      ) : (
+        <fetcher.Form
+          name="newsletter"
+          method="POST"
+          action="/resources/newsletter"
+          noValidate
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4"
         >
-          Abonnieren
-        </Button>
-        {showSpinner && <CircleNotch className="text-secondary animate-spin" />}
-        {done && <p className="text-green-500">Aktion Erfolgreich</p>}
-        {failed && (
-          <p role="alert" className="text-destructive">
-            Das hat leider nicht geklappt. Bitte versuch es später noch einmal.
+          <HoneypotInputs />
+          <div className="flex flex-col gap-1.5">
+            <FieldLabel htmlFor={FIELD_ID}>E-Mail-Adresse</FieldLabel>
+            {error ? <FieldError id={ERROR_ID}>{error}</FieldError> : null}
+            <Input
+              ref={inputRef}
+              id={FIELD_ID}
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              placeholder="name@beispiel.at"
+              className="focus-visible:outline-primary"
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? ERROR_ID : undefined}
+              onChange={() => {
+                setBrowserError(undefined)
+                setEditedSinceSubmit(true)
+              }}
+            />
+          </div>
+          {/* At 20px bold the white label counts as large text, which passes
+          3:1 on the orange. */}
+          <Button
+            type="submit"
+            size="lg"
+            aria-disabled={isBusy ? true : undefined}
+            className={cn(
+              'focus-visible:ring-card/20 w-full gap-2 text-[1.25rem] font-bold focus-visible:ring-offset-0 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto sm:self-start',
+              focusOutline,
+            )}
+          >
+            {showSpinner ? (
+              <CircleNotch aria-hidden className="size-5 animate-spin" />
+            ) : null}
+            Abonnieren
+          </Button>
+          {/* Always rendered, so screen readers pick up the text change. */}
+          <p role="status" className="sr-only">
+            {isBusy ? 'Wird gesendet …' : ''}
           </p>
-        )}
+          {serverError === 'unavailable' ? (
+            <p
+              role="alert"
+              className="text-body-sm text-foreground-danger font-medium"
+            >
+              Das hat leider nicht geklappt. Bitte versuch es später noch einmal
+              oder schreib uns an{' '}
+              <MailLink address="office@walz.at" className={focusOutline} />.
+            </p>
+          ) : null}
+        </fetcher.Form>
+      )}
+
+      <p className="text-body-xs text-muted-foreground">
+        Abmelden geht jederzeit über den Link in jeder Ausgabe. Mehr dazu in
+        unserer{' '}
+        <Link
+          to="/datenschutz"
+          className={cn(
+            'text-foreground underline underline-offset-2',
+            focusOutline,
+          )}
+        >
+          Datenschutzerklärung
+        </Link>
+        .
+      </p>
+    </div>
+  )
+}
+
+function SubscribedNotice({ email }: { email: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  // The form it replaces held focus, so focus moves here to have a screen
+  // reader announce the confirmation
+  useEffect(() => {
+    ref.current?.focus()
+  }, [])
+
+  return (
+    // Laid out like the Aufnahme form's Notice, but in the site-wide blue
+    // rather than its darker shades
+    <div
+      ref={ref}
+      tabIndex={-1}
+      className="bg-secondary-50 text-body-sm flex gap-3 rounded-md p-4 outline-none"
+    >
+      <span className="flex h-7 shrink-0 items-center">
+        <CheckCircle aria-hidden className="text-secondary size-[1.25em]" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <h3 className="font-condensed text-body-md text-secondary mb-1 font-bold">
+          Danke für deine Anmeldung!
+        </h3>
+        {/* Buttondown holds new subscribers until they confirm (double
+        opt-in) */}
+        <p>
+          Wir haben dir eine E-Mail an{' '}
+          <strong className="font-medium break-words">{email}</strong>{' '}
+          geschickt. Bitte bestätige darin deine Anmeldung.
+        </p>
+        <p className="text-body-xs text-muted-foreground mt-1">
+          Nichts angekommen? Schau im Spam-Ordner nach.
+        </p>
       </div>
-    </fetcher.Form>
+    </div>
   )
 }

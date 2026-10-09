@@ -5,9 +5,9 @@ import { test, expect, type APIRequestContext } from '@playwright/test'
 // React Router rejects actions whose Origin differs from the request URL, so
 // the server must build that URL from the forwarded protocol.
 //
-// The email is invalid on purpose: the action rejects it before anything is
-// sent to Buttondown, so reaching that rejection proves the request got past
-// React Router's origin check.
+// The email is invalid on purpose: the action rejects it as `invalid` before
+// anything is sent to Buttondown, so reaching that rejection proves the
+// request got past React Router's origin check.
 function postNewsletter(request: APIRequestContext, origin: string) {
   return request.post('/resources/newsletter.data', {
     headers: {
@@ -26,7 +26,7 @@ test('form actions accept same-origin submissions forwarded over https', async (
   const host = new URL(baseURL!).host
   const response = await postNewsletter(request, `https://${host}`)
 
-  expect(await response.text()).toContain('ZodError')
+  expect(await response.text()).toContain('"invalid"')
 })
 
 test('form actions still reject submissions from foreign origins', async ({
@@ -35,5 +35,5 @@ test('form actions still reject submissions from foreign origins', async ({
   const response = await postNewsletter(request, 'https://attacker.example')
 
   expect(response.status()).toBe(400)
-  expect(await response.text()).not.toContain('ZodError')
+  expect(await response.text()).not.toContain('"invalid"')
 })
