@@ -67,7 +67,7 @@ export async function sendAufnahmeConfirmationEmail(
     // Read the contract PDF
     const contractPath = path.join(
       process.cwd(),
-      'public/downloads/schulvertrag_september_2026.pdf',
+      'public/downloads/schulvertrag_september_2027.pdf',
     )
     const contractBuffer = fs.readFileSync(contractPath)
 
@@ -98,7 +98,7 @@ P.S.: Im Anhang befindet sich der Informationsteil unseres Schulvertrages als Vo
       text: emailBody,
       attachments: [
         {
-          filename: 'schulvertrag_september_2026.pdf',
+          filename: 'schulvertrag_september_2027.pdf',
           content: contractBuffer,
         },
       ],
