@@ -109,8 +109,8 @@ export default function Aufnahme() {
               Alle wichtigen Informationen und Rahmenbedingungen sind in unserem
               Schulvertrag zusammengefasst.{' '}
               <a
-                download="Schulvertrag September 2026.pdf"
-                href="/downloads/schulvertrag_september_2026.pdf"
+                download="Schulvertrag September 2027.pdf"
+                href="/downloads/schulvertrag_september_2027.pdf"
                 className="text-muted-foreground inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
               >
                 Hier herunterladen
