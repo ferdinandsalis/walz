@@ -128,15 +128,14 @@ describe('PhotoStrip', () => {
     )
   })
 
-  it('hides the scroll buttons and photo count when all photos fit', () => {
+  it('hides the scroll buttons when all photos fit', () => {
     render(<PhotoStrip photos={[photo('a', 'A1'), photo('b', 'A2')]} />)
 
     expect(screen.queryByRole('button', { name: 'Weitere Fotos' })).toBeNull()
     expect(screen.queryByRole('button', { name: 'Vorherige Fotos' })).toBeNull()
-    expect(screen.queryByText('2 Fotos')).toBeNull()
   })
 
-  it('shows the photo count and scroll buttons when the row overflows', () => {
+  it('offers to scroll, without a photo count, when the row overflows', () => {
     vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(1000)
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(400)
 
@@ -146,7 +145,7 @@ describe('PhotoStrip', () => {
       />,
     )
 
-    expect(screen.getByText('3 Fotos')).toBeTruthy()
+    expect(screen.queryByText(/Fotos?$/)).toBeNull()
     const back = screen.getByRole('button', { name: 'Vorherige Fotos' })
     const on = screen.getByRole('button', { name: 'Weitere Fotos' })
     expect((back as HTMLButtonElement).disabled).toBe(true)

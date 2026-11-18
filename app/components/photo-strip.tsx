@@ -169,23 +169,18 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
         })}
       </div>
       {isScrollable && (
-        <div className="mt-3 flex items-center justify-between">
-          <p className="text-body-xs text-muted-foreground tabular-nums">
-            {validPhotos.length} Fotos
-          </p>
-          {/* Touch screens swipe the row; the cut-off photo shows there is more. */}
-          <div className="flex gap-2 pointer-coarse:hidden">
-            <StripButton
-              direction={-1}
-              disabled={!scroll.canScrollBack}
-              onClick={() => scrollByPage(-1)}
-            />
-            <StripButton
-              direction={1}
-              disabled={!scroll.canScrollOn}
-              onClick={() => scrollByPage(1)}
-            />
-          </div>
+        // Touch screens swipe the row; the cut-off photo shows there is more.
+        <div className="mt-3 flex justify-end gap-2 pointer-coarse:hidden">
+          <StripButton
+            direction={-1}
+            disabled={!scroll.canScrollBack}
+            onClick={() => scrollByPage(-1)}
+          />
+          <StripButton
+            direction={1}
+            disabled={!scroll.canScrollOn}
+            onClick={() => scrollByPage(1)}
+          />
         </div>
       )}
 
