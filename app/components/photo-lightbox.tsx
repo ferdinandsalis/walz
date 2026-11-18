@@ -18,6 +18,7 @@ export type LightboxPhoto = {
   image: SanityImageSource
   alt?: string
   caption?: ReactNode
+  attribution?: string
 }
 
 /**
@@ -55,11 +56,16 @@ export function PhotoLightbox({
                     alt={photo.alt ?? ''}
                     className="max-h-[90vh] w-auto rounded-sm object-contain"
                   />
-                  {photo.caption && (
+                  {(photo.caption || photo.attribution) && (
                     <figcaption className="pointer-events-none absolute right-0 bottom-0 left-0 rounded-b-sm bg-linear-to-t from-black/80 via-black/60 to-transparent p-6 pt-12">
                       <div className="font-condensed text-body-sm text-white">
                         {photo.caption}
                       </div>
+                      {photo.attribution && (
+                        <div className="text-body-xs text-right text-white/80">
+                          {photo.attribution}
+                        </div>
+                      )}
                     </figcaption>
                   )}
                 </figure>

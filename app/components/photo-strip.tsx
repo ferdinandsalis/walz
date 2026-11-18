@@ -15,6 +15,7 @@ export type StripPhoto = {
   image: { asset?: { _ref: string } } & Record<string, unknown>
   caption?: string
   alt?: string
+  attribution?: string
 }
 
 /**
@@ -87,6 +88,7 @@ export function PhotoStrip({
           image: photo.image as SanityImageObject,
           alt: photo.alt ?? photo.caption,
           caption: photo.caption,
+          attribution: photo.attribution,
         }))}
         open={lightboxIndex !== null}
         startIndex={lightboxIndex ?? 0}

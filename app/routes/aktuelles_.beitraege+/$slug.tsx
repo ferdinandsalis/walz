@@ -82,6 +82,7 @@ type PhotoStripValue = {
     asset?: { _ref: string }
     caption?: string
     alt?: string
+    attribution?: string
   }>
 }
 
@@ -93,6 +94,7 @@ export function PhotoStripBlock({ value }: { value: PhotoStripValue }) {
         image: photo,
         caption: photo.caption,
         alt: photo.alt,
+        attribution: photo.attribution,
       }))}
       itemClassName="basis-1/2 md:basis-1/3"
     />
@@ -128,7 +130,14 @@ export const ImageComponent = ({ value, isInline }: any) => {
         />
       </button>
       <PhotoLightbox
-        photos={[{ image: value, alt: value.alt, caption: value.caption }]}
+        photos={[
+          {
+            image: value,
+            alt: value.alt,
+            caption: value.caption,
+            attribution: value.attribution,
+          },
+        ]}
         open={lightboxOpen}
         onOpenChange={setLightboxOpen}
       />

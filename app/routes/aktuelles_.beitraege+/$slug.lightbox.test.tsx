@@ -39,6 +39,24 @@ describe('PhotoStripBlock', () => {
     expect(withoutField.innerHTML).toBe('')
     expect(emptyList.innerHTML).toBe('')
   })
+
+  it('shows the photo credit in the lightbox', () => {
+    render(
+      <PhotoStripBlock
+        value={{
+          photos: [
+            { ...stripPhoto('a', 'Wandertag'), attribution: 'Foto: Agnes' },
+            stripPhoto('b', 'Gipfel'),
+          ],
+        }}
+      />,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Wandertag' }))
+
+    const dialog = screen.getByRole('dialog')
+    expect(within(dialog).getByText('Foto: Agnes')).toBeTruthy()
+  })
 })
 
 describe('ImageComponent', () => {
@@ -59,6 +77,19 @@ describe('ImageComponent', () => {
 
     const dialog = screen.getByRole('dialog')
     expect(within(dialog).getByText('Schülerinnen im Garten')).toBeTruthy()
+  })
+
+  it('shows the image credit in the lightbox', () => {
+    render(
+      <ImageComponent
+        value={image({ caption: 'Im Garten', attribution: 'Foto: Agnes' })}
+      />,
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Im Garten' }))
+
+    const dialog = screen.getByRole('dialog')
+    expect(within(dialog).getByText('Foto: Agnes')).toBeTruthy()
   })
 
   it('names the zoom button even without caption or alt', () => {
