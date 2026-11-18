@@ -43,6 +43,30 @@ function subscribe(
   return action({ request, params: {}, context: {} } as never)
 }
 
+test("subscribes from the reader's IP that Fly's proxy reports", async () => {
+  vi.mocked(addSubscriber).mockResolvedValue({ success: true })
+
+  await subscribe('leser@example.com', { 'Fly-Client-Ip': '203.0.113.7' })
+
+  expect(addSubscriber).toHaveBeenCalledWith(
+    'leser@example.com',
+    'walz.at',
+    '203.0.113.7',
+  )
+})
+
+test('subscribes without an IP when no proxy reports one', async () => {
+  vi.mocked(addSubscriber).mockResolvedValue({ success: true })
+
+  await subscribe('leser@example.com')
+
+  expect(addSubscriber).toHaveBeenCalledWith(
+    'leser@example.com',
+    'walz.at',
+    undefined,
+  )
+})
+
 test('confirms a subscription that Buttondown accepts', async () => {
   vi.mocked(addSubscriber).mockResolvedValue({ success: true })
 

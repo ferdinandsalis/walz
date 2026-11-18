@@ -6,6 +6,9 @@ type SubscribeResult = { success: true } | { success: false; reason: string }
 export async function addSubscriber(
   email: string,
   source?: 'walz.at',
+  // Buttondown's firewall rates the sign-up by this IP, and without it by the
+  // IP of our server, which every bot sign-up shares.
+  ipAddress?: string,
 ): Promise<SubscribeResult> {
   const response = await fetch(`${BASE_URL}${ENDPOINT}`, {
     method: 'post',
@@ -19,6 +22,7 @@ export async function addSubscriber(
     body: JSON.stringify({
       email_address: email,
       utm_source: source,
+      ip_address: ipAddress,
     }),
   })
   if (response.ok) return { success: true }

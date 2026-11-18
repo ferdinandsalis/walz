@@ -41,7 +41,14 @@ export async function action({ request }: ActionFunctionArgs) {
     return data({ ok: true } as const)
   }
 
-  const result = await Buttondown.addSubscriber(parsed.data.email, 'walz.at')
+  // Fly's proxy sets this header and clients cannot spoof it, unlike
+  // X-Forwarded-For.
+  const readerIp = request.headers.get('fly-client-ip') ?? undefined
+  const result = await Buttondown.addSubscriber(
+    parsed.data.email,
+    'walz.at',
+    readerIp,
+  )
   if (!result.success) {
     // The reason holds only Buttondown's status and error code, never the
     // subscriber's address.

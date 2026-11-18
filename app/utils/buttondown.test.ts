@@ -27,6 +27,26 @@ test('subscribes the address under the field name Buttondown expects', async () 
   })
 })
 
+test("hands Buttondown's firewall the reader's IP instead of the server's", async () => {
+  const fetch = buttondownResponds(201, {})
+
+  await addSubscriber('leser@example.com', 'walz.at', '203.0.113.7')
+
+  const [, init] = fetch.mock.calls[0]!
+  expect(JSON.parse(String(init?.body))).toMatchObject({
+    ip_address: '203.0.113.7',
+  })
+})
+
+test('leaves the IP out when the reader’s IP is unknown', async () => {
+  const fetch = buttondownResponds(201, {})
+
+  await addSubscriber('leser@example.com', 'walz.at', undefined)
+
+  const [, init] = fetch.mock.calls[0]!
+  expect(JSON.parse(String(init?.body))).not.toHaveProperty('ip_address')
+})
+
 test('adds an address that is already subscribed instead of rejecting it', async () => {
   const fetch = buttondownResponds(201, {})
 
