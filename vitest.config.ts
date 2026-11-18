@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   css: { postcss: { plugins: [] } },
   test: {
-    include: ['./app/**/*.test.{ts,tsx}'],
+    include: ['./app/**/*.test.{ts,tsx}', './other/**/*.test.ts'],
     setupFiles: ['./tests/setup/setup-test-env.ts'],
     restoreMocks: true,
     coverage: {
