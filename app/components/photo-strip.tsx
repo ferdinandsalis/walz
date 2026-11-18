@@ -3,6 +3,7 @@ import { getImageDimensions } from '@sanity/asset-utils'
 import { type SanityImageObject } from '@sanity/image-url'
 import React from 'react'
 import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
+import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 
 export type StripPhoto = {
@@ -132,7 +133,9 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
           aria-label="Fotostrecke"
           onScroll={measure}
           onKeyDown={focusNeighbour}
-          className="relative flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto motion-safe:scroll-smooth [&::-webkit-scrollbar]:hidden"
+          // The padding (offset by the negative margin) leaves room for the
+          // focus outline, which the scroller would otherwise clip.
+          className="relative -m-1 flex snap-x snap-mandatory scroll-px-1 [scrollbar-width:none] gap-3 overflow-x-auto p-1 motion-safe:scroll-smooth [&::-webkit-scrollbar]:hidden"
         >
           {validPhotos.map((photo, index) => {
             // An explicit width keeps the photo's shape; sizing the figure
@@ -151,7 +154,7 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
                     type="button"
                     onClick={() => setLightboxIndex(index)}
                     aria-label={photo.alt || photo.caption || 'Foto vergrößern'}
-                    className="block cursor-zoom-in overflow-hidden rounded transition-opacity hover:opacity-90"
+                    className={`block cursor-zoom-in overflow-hidden rounded transition-opacity hover:opacity-90 ${visibleFocusOutline}`}
                   >
                     <img
                       src={urlFor(photo.image as SanityImageObject)
