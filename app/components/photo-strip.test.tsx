@@ -115,6 +115,12 @@ describe('PhotoStrip', () => {
     expect(img.getAttribute('height')).toBe('192')
   })
 
+  it('sizes each photo from its shape, not from its caption', () => {
+    const { container } = render(<PhotoStrip photos={[photo('a', 'Forst')]} />)
+
+    expect(container.querySelector('figure')?.style.width).toBe('256px')
+  })
+
   it('hides the scroll buttons and counter when all photos fit', () => {
     render(<PhotoStrip photos={[photo('a', 'A1'), photo('b', 'A2')]} />)
 

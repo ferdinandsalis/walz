@@ -134,41 +134,46 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
           onKeyDown={focusNeighbour}
           className="relative flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto motion-safe:scroll-smooth [&::-webkit-scrollbar]:hidden"
         >
-          {validPhotos.map((photo, index) => (
-            <div
-              key={photo.key}
-              role="listitem"
-              className="flex-none snap-start"
-            >
-              <figure className="w-min">
-                <button
-                  type="button"
-                  onClick={() => setLightboxIndex(index)}
-                  aria-label={photo.alt || photo.caption || 'Foto vergrößern'}
-                  className="block cursor-zoom-in overflow-hidden rounded transition-opacity hover:opacity-90"
-                >
-                  <img
-                    src={urlFor(photo.image as SanityImageObject)
-                      .height(THUMBNAIL_HEIGHT * 2)
-                      .auto('format')
-                      .url()}
-                    alt={photo.alt ?? photo.caption ?? ''}
-                    width={Math.round(
-                      THUMBNAIL_HEIGHT * photoAspectRatio(photo.image),
-                    )}
-                    height={THUMBNAIL_HEIGHT}
-                    loading="lazy"
-                    className="bg-muted h-48 w-auto max-w-[80vw] object-cover"
-                  />
-                </button>
-                {photo.caption && (
-                  <figcaption className="text-body-xs text-muted-foreground mt-1.5 leading-snug">
-                    {photo.caption}
-                  </figcaption>
-                )}
-              </figure>
-            </div>
-          ))}
+          {validPhotos.map((photo, index) => {
+            // An explicit width keeps the photo's shape; sizing the figure
+            // from its content lets a narrow caption squeeze the photo.
+            const width = Math.round(
+              THUMBNAIL_HEIGHT * photoAspectRatio(photo.image),
+            )
+            return (
+              <div
+                key={photo.key}
+                role="listitem"
+                className="flex-none snap-start"
+              >
+                <figure style={{ width }} className="max-w-[80vw]">
+                  <button
+                    type="button"
+                    onClick={() => setLightboxIndex(index)}
+                    aria-label={photo.alt || photo.caption || 'Foto vergrößern'}
+                    className="block cursor-zoom-in overflow-hidden rounded transition-opacity hover:opacity-90"
+                  >
+                    <img
+                      src={urlFor(photo.image as SanityImageObject)
+                        .height(THUMBNAIL_HEIGHT * 2)
+                        .auto('format')
+                        .url()}
+                      alt={photo.alt ?? photo.caption ?? ''}
+                      width={width}
+                      height={THUMBNAIL_HEIGHT}
+                      loading="lazy"
+                      className="bg-muted h-48 w-full object-cover"
+                    />
+                  </button>
+                  {photo.caption && (
+                    <figcaption className="text-body-xs text-muted-foreground mt-1.5 leading-snug">
+                      {photo.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              </div>
+            )
+          })}
         </div>
         {scroll.canScrollBack && (
           <StripButton direction={-1} onClick={() => scrollByPage(-1)} />
