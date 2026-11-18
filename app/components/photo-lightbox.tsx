@@ -37,7 +37,10 @@ export function PhotoLightbox({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[95vh] w-[95vw] max-w-6xl overflow-hidden border-0 bg-transparent p-0 shadow-none">
+      <DialogContent
+        aria-describedby={undefined}
+        className="max-h-[95vh] w-[95vw] max-w-6xl overflow-hidden border-0 bg-transparent p-0 shadow-none"
+      >
         <DialogTitle className="sr-only">Foto</DialogTitle>
         <Carousel opts={{ startIndex, loop: photos.length > 1 }}>
           <CarouselContent>
