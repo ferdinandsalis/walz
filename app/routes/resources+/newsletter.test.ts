@@ -1,13 +1,15 @@
 import { beforeEach, expect, test, vi } from 'vitest'
 import { addSubscriber } from '#app/utils/buttondown.ts'
-import { action } from './newsletter.ts'
+import { action, loader } from './newsletter.ts'
 
-const { captureException } = vi.hoisted(() => ({
+const { captureException, captureMessage } = vi.hoisted(() => ({
   captureException: vi.fn(),
+  captureMessage: vi.fn(),
 }))
 
 vi.mock('@sentry/react-router', () => ({
   captureException,
+  captureMessage,
 }))
 
 vi.mock('#app/utils/buttondown.ts', () => ({
@@ -22,12 +24,21 @@ beforeEach(() => {
   vi.clearAllMocks()
 })
 
-function subscribe(email: string) {
+const READER_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36'
+const HEADLESS_UA =
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/143.0.0.0 Safari/537.36'
+
+function subscribe(
+  email: string,
+  headers: Record<string, string> = { 'User-Agent': READER_UA },
+) {
   const formData = new FormData()
   formData.append('email', email)
   const request = new Request('http://localhost/resources/newsletter', {
     method: 'POST',
     body: formData,
+    headers,
   })
   return action({ request, params: {}, context: {} } as never)
 }
@@ -68,4 +79,57 @@ test('rejects an address the browser let through without subscribing it', async 
   })
   expect(addSubscriber).not.toHaveBeenCalled()
   expect(captureException).not.toHaveBeenCalled()
+})
+
+test('pretends to subscribe a headless browser without passing it to Buttondown', async () => {
+  const result = await subscribe('opfer@example.com', {
+    'User-Agent': HEADLESS_UA,
+    'Sec-CH-UA': '"HeadlessChrome";v="143"',
+    'Sec-Fetch-Site': 'same-origin',
+    'Accept-Language': 'en-US',
+  })
+
+  expect(result).toMatchObject({ data: { ok: true } })
+  expect(addSubscriber).not.toHaveBeenCalled()
+  expect(captureException).not.toHaveBeenCalled()
+  expect(captureMessage).toHaveBeenCalledOnce()
+  const [message, context] = captureMessage.mock.calls[0]!
+  expect(message).toBe('Newsletter sign-up from a headless browser dropped')
+  expect(context).toEqual({
+    level: 'info',
+    tags: {
+      sec_ch_ua: '"HeadlessChrome";v="143"',
+      sec_fetch_site: 'same-origin',
+      accept_language: 'present',
+    },
+  })
+  expect(JSON.stringify(captureMessage.mock.calls)).not.toContain(
+    'opfer@example.com',
+  )
+})
+
+test('rejects a malformed address from a headless browser like any other', async () => {
+  const result = await subscribe('opfer@example', { 'User-Agent': HEADLESS_UA })
+
+  expect(result).toMatchObject({
+    data: { ok: false, reason: 'invalid' },
+    init: { status: 400 },
+  })
+  expect(captureMessage).not.toHaveBeenCalled()
+})
+
+test('subscribes a reader whose browser sends no user agent', async () => {
+  vi.mocked(addSubscriber).mockResolvedValue({ success: true })
+
+  const result = await subscribe('leser@example.com', {})
+
+  expect(result).toMatchObject({ data: { ok: true } })
+  expect(addSubscriber).toHaveBeenCalledOnce()
+})
+
+test('sends a direct visit to the form endpoint to the home page', async () => {
+  const response = await loader()
+
+  expect(response.status).toBe(302)
+  expect(response.headers.get('Location')).toBe('/')
 })

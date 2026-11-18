@@ -1,8 +1,14 @@
-import { captureException } from '@sentry/react-router'
-import { data, type ActionFunctionArgs } from 'react-router'
+import { captureException, captureMessage } from '@sentry/react-router'
+import { data, redirect, type ActionFunctionArgs } from 'react-router'
 import z from 'zod'
 import * as Buttondown from '#app/utils/buttondown.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
+
+// The form posts here; scanners that request the address directly land on the
+// home page instead of raising a missing-loader error.
+export async function loader() {
+  return redirect('/')
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData()
@@ -18,6 +24,23 @@ export async function action({ request }: ActionFunctionArgs) {
     return data({ ok: false, reason: 'invalid' } as const, { status: 400 })
   }
 
+  // Headless browsers sign strangers up to flood their inboxes. They get the
+  // same answer as a reader, so they have no reason to change, and the
+  // report carries only headers that tell bot setups apart, never the address.
+  if (isHeadlessBrowser(request)) {
+    captureMessage('Newsletter sign-up from a headless browser dropped', {
+      level: 'info',
+      tags: {
+        sec_ch_ua: request.headers.get('Sec-CH-UA') ?? 'missing',
+        sec_fetch_site: request.headers.get('Sec-Fetch-Site') ?? 'missing',
+        accept_language: request.headers.has('Accept-Language')
+          ? 'present'
+          : 'missing',
+      },
+    })
+    return data({ ok: true } as const)
+  }
+
   const result = await Buttondown.addSubscriber(parsed.data.email, 'walz.at')
   if (!result.success) {
     // The reason holds only Buttondown's status and error code, never the
@@ -29,4 +52,8 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   return data({ ok: true } as const)
+}
+
+function isHeadlessBrowser(request: Request) {
+  return /HeadlessChrome/.test(request.headers.get('User-Agent') ?? '')
 }
