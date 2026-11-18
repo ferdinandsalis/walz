@@ -2,6 +2,7 @@ import { validateDocument } from '@sanity/validation'
 import { createSchema } from 'sanity'
 import { describe, expect, it } from 'vitest'
 import { schemaTypes } from './index.ts'
+import post from './post.ts'
 
 const schema = createSchema({ name: 'test', types: schemaTypes })
 
@@ -40,14 +41,39 @@ describe('Fotostrecke validation', () => {
   })
 
   it('rejects a Fotostrecke with a single photo', async () => {
-    expect(await photoStripErrors({ photos: [photo('a')] })).not.toHaveLength(
-      0,
-    )
+    expect(await photoStripErrors({ photos: [photo('a')] })).not.toHaveLength(0)
   })
 
   it('accepts a Fotostrecke with two photos', async () => {
     expect(
       await photoStripErrors({ photos: [photo('a'), photo('b')] }),
     ).toHaveLength(0)
+  })
+})
+
+describe('Fotostrecke preview', () => {
+  type PhotoStripPreview = {
+    name: string
+    preview: {
+      prepare: (value: { photos?: unknown[] }) => { subtitle: string }
+    }
+  }
+  const body = post.fields.find(field => field.name === 'body') as unknown as {
+    of: PhotoStripPreview[]
+  }
+  const photoStripType = body.of.find(member => member.name === 'photoStrip')!
+  const subtitle = (photos?: unknown[]) =>
+    photoStripType.preview.prepare({ photos }).subtitle
+
+  it('counts the photos', () => {
+    expect(subtitle([photo('a'), photo('b')])).toBe('2 Fotos')
+  })
+
+  it('uses the singular for one photo', () => {
+    expect(subtitle([photo('a')])).toBe('1 Foto')
+  })
+
+  it('says when there are no photos yet', () => {
+    expect(subtitle(undefined)).toBe('Keine Fotos')
   })
 })

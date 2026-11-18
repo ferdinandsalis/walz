@@ -119,9 +119,13 @@ export default defineType({
               photos: 'photos',
             },
             prepare({ photos }) {
+              const count = photos?.length ?? 0
               return {
                 title: 'Fotostrecke',
-                subtitle: `${photos?.length ?? 0} Fotos`,
+                subtitle:
+                  count === 0
+                    ? 'Keine Fotos'
+                    : `${count} ${count === 1 ? 'Foto' : 'Fotos'}`,
                 media: photos?.[0],
               }
             },
