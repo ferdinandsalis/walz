@@ -29,13 +29,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # npm audit cannot ignore an advisory, so other/audit-gate.ts applies
+      # the allowlist; npm audit exits non-zero whenever it finds anything.
       - name: Run security audit
-        run: npm audit --audit-level=moderate
+        run: |
+          npm audit --json > audit-results.json || true
+          node other/audit-gate.ts moderate audit-results.json
 
       - name: Check for vulnerabilities
         id: audit-check
         run: |
-          if npm audit --audit-level=high --json > audit-results.json; then
+          if node other/audit-gate.ts high audit-results.json; then
             echo "No high/critical vulnerabilities found"
             echo "status=success" >> $GITHUB_OUTPUT
           else

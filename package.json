@@ -75,7 +75,7 @@
     "express-rate-limit": "^8.3.0",
     "fs-extra": "^11.3.2",
     "get-port": "^7.1.0",
-    "glob": "^13.0.6",
+    "glob": "^14.0.6",
     "groq": "^6.17.0",
     "isbot": "^5.1.31",
     "morgan": "^1.10.1",
@@ -146,9 +146,17 @@
     "typeid-js": {
       "uuid": "^11.1.1"
     },
-    "@module-federation/dts-plugin": {
-      "adm-zip": "^0.6.1",
-      "undici": "^7.29.1"
+    "@sentry/bundler-plugins": {
+      "glob": "^14.0.6"
+    },
+    "@sentry/react-router": {
+      "glob": "^14.0.6"
+    },
+    "@oclif/core": {
+      "minimatch": "^11.0.1"
+    },
+    "remix-flat-routes": {
+      "minimatch": "^11.0.1"
     }
   }
 }
