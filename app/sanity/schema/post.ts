@@ -3,6 +3,27 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 // Beitrag
 
+const bodyImageFields = [
+  {
+    name: 'caption',
+    type: 'string',
+    title: 'Image caption',
+    description: 'Caption displayed below the image.',
+  },
+  {
+    name: 'alt',
+    type: 'string',
+    title: 'Alternative text',
+    description: 'Important for SEO and accessiblity.',
+  },
+  {
+    name: 'attribution',
+    type: 'string',
+    title: 'Image attribution',
+    description: 'Attribution of the image.',
+  },
+]
+
 export default defineType({
   name: 'post',
   title: 'Post',
@@ -70,26 +91,41 @@ export default defineType({
           options: {
             hotspot: true,
           },
+          fields: bodyImageFields,
+        }),
+        defineArrayMember({
+          name: 'photoStrip',
+          type: 'object',
+          title: 'Fotostrecke',
           fields: [
-            {
-              name: 'caption',
-              type: 'string',
-              title: 'Image caption',
-              description: 'Caption displayed below the image.',
-            },
-            {
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative text',
-              description: 'Important for SEO and accessiblity.',
-            },
-            {
-              name: 'attribution',
-              type: 'string',
-              title: 'Image attribution',
-              description: 'Attribution of the image.',
-            },
+            defineField({
+              name: 'photos',
+              title: 'Fotos',
+              type: 'array',
+              of: [
+                defineArrayMember({
+                  type: 'image',
+                  options: {
+                    hotspot: true,
+                  },
+                  fields: bodyImageFields,
+                }),
+              ],
+              validation: Rule => Rule.min(2),
+            }),
           ],
+          preview: {
+            select: {
+              photos: 'photos',
+            },
+            prepare({ photos }) {
+              return {
+                title: 'Fotostrecke',
+                subtitle: `${photos?.length ?? 0} Fotos`,
+                media: photos?.[0],
+              }
+            },
+          },
         }),
         defineArrayMember({
           type: 'block',

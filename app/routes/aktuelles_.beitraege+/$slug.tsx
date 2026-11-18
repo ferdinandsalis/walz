@@ -7,6 +7,7 @@ import {
   useLoaderData,
 } from 'react-router'
 import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
+import { PhotoStrip } from '#app/components/photo-strip.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
 
@@ -60,6 +61,7 @@ export default function Post() {
                 return <p className="mb-2">{value}</p>
               },
               image: ImageComponent,
+              photoStrip: PhotoStripBlock,
             },
           }}
         />
@@ -70,6 +72,29 @@ export default function Post() {
 
 export function ErrorBoundary() {
   return <NotFoundErrorBoundary />
+}
+
+type PhotoStripValue = {
+  photos?: Array<{
+    _key: string
+    asset?: { _ref: string }
+    caption?: string
+    alt?: string
+  }>
+}
+
+export function PhotoStripBlock({ value }: { value: PhotoStripValue }) {
+  return (
+    <PhotoStrip
+      photos={(value.photos ?? []).map(photo => ({
+        key: photo._key,
+        image: photo,
+        caption: photo.caption,
+        alt: photo.alt,
+      }))}
+      itemClassName="basis-1/2 md:basis-1/3"
+    />
+  )
 }
 
 export const ImageComponent = ({ value, isInline }: any) => {
