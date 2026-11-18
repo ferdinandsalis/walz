@@ -96,7 +96,6 @@ export function PhotoStripBlock({ value }: { value: PhotoStripValue }) {
         alt: photo.alt,
         attribution: photo.attribution,
       }))}
-      itemClassName="basis-1/2 md:basis-1/3"
     />
   )
 }
