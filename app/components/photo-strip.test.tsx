@@ -13,7 +13,6 @@ import { stubCarouselBrowserApis } from '#tests/setup/stub-carousel-apis.ts'
 import {
   PhotoStrip,
   photoAspectRatio,
-  visibleRange,
   type StripPhoto,
 } from './photo-strip.tsx'
 
@@ -41,18 +40,6 @@ describe('photoAspectRatio', () => {
     }
 
     expect(photoAspectRatio(cropped)).toBeCloseTo(400 / 600)
-  })
-})
-
-describe('visibleRange', () => {
-  const items = [0, 208, 416, 624].map(left => ({ left, width: 200 }))
-
-  it('counts photos that are at least half in view', () => {
-    expect(visibleRange(items, 0, 450)).toEqual([0, 1])
-  })
-
-  it('follows the scroll position', () => {
-    expect(visibleRange(items, 200, 450)).toEqual([1, 2])
   })
 })
 
@@ -124,30 +111,32 @@ describe('PhotoStrip', () => {
     expect(container.querySelector('img')?.getAttribute('alt')).toBe('')
   })
 
-  it('lazy-loads thumbnails in their own shape', () => {
+  it('lazy-loads photos in their own shape', () => {
     render(<PhotoStrip photos={[photo('a', 'Wandertag')]} />)
     const img = screen.getByRole('img')
 
     expect(img.getAttribute('loading')).toBe('lazy')
-    expect(img.getAttribute('width')).toBe('256')
-    expect(img.getAttribute('height')).toBe('192')
+    expect(img.getAttribute('width')).toBe('341')
+    expect(img.getAttribute('height')).toBe('256')
   })
 
   it('sizes each photo from its shape, not from its caption', () => {
     const { container } = render(<PhotoStrip photos={[photo('a', 'Forst')]} />)
 
-    expect(container.querySelector('figure')?.style.width).toBe('256px')
+    expect(container.querySelector('figure')?.style.width).toBe(
+      `calc(var(--photo-height) * ${800 / 600})`,
+    )
   })
 
-  it('hides the scroll buttons and counter when all photos fit', () => {
+  it('hides the scroll buttons and photo count when all photos fit', () => {
     render(<PhotoStrip photos={[photo('a', 'A1'), photo('b', 'A2')]} />)
 
     expect(screen.queryByRole('button', { name: 'Weitere Fotos' })).toBeNull()
     expect(screen.queryByRole('button', { name: 'Vorherige Fotos' })).toBeNull()
-    expect(screen.queryByText(/von 2/)).toBeNull()
+    expect(screen.queryByText('2 Fotos')).toBeNull()
   })
 
-  it('offers to scroll on and shows the counter when the row overflows', () => {
+  it('shows the photo count and scroll buttons when the row overflows', () => {
     vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(1000)
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(400)
 
@@ -157,9 +146,11 @@ describe('PhotoStrip', () => {
       />,
     )
 
-    expect(screen.getByRole('button', { name: 'Weitere Fotos' })).toBeTruthy()
-    expect(screen.queryByRole('button', { name: 'Vorherige Fotos' })).toBeNull()
-    expect(screen.getByText(/von 3/)).toBeTruthy()
+    expect(screen.getByText('3 Fotos')).toBeTruthy()
+    const back = screen.getByRole('button', { name: 'Vorherige Fotos' })
+    const on = screen.getByRole('button', { name: 'Weitere Fotos' })
+    expect((back as HTMLButtonElement).disabled).toBe(true)
+    expect((on as HTMLButtonElement).disabled).toBe(false)
   })
 
   it('moves focus between photos with the arrow keys', () => {
