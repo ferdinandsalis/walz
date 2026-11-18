@@ -110,10 +110,10 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
 
   if (validPhotos.length === 0) return null
 
-  const isScrollable = scroll.canScrollBack || scroll.canScrollOn
-
   return (
-    <div className="my-8">
+    // The arrows overlay the row's ends while the pointer is over the strip
+    // or a photo has focus; touch screens swipe instead.
+    <div className="group/strip relative my-6 [--photo-height:--spacing(56)] sm:[--photo-height:--spacing(64)]">
       <div
         ref={scrollerRef}
         role="list"
@@ -124,7 +124,7 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
         // it stops at the text column, with just enough room for the focus
         // outline, which the scroller would otherwise clip. The padding
         // offsets the negative margin, so photos start and snap at the text.
-        className="mx-[calc(-1*var(--bleed))] -my-1 flex snap-x snap-mandatory scroll-px-(--bleed) [scrollbar-width:none] gap-3 overflow-x-auto px-(--bleed) py-1 [--bleed:--spacing(4)] [--photo-height:--spacing(56)] motion-safe:scroll-smooth sm:[--bleed:--spacing(1)] sm:[--photo-height:--spacing(64)] [&::-webkit-scrollbar]:hidden"
+        className="mx-[calc(-1*var(--bleed))] -my-1 flex snap-x snap-mandatory scroll-px-(--bleed) [scrollbar-width:none] gap-3 overflow-x-auto px-(--bleed) py-1 [--bleed:--spacing(4)] motion-safe:scroll-smooth sm:[--bleed:--spacing(1)] [&::-webkit-scrollbar]:hidden"
       >
         {validPhotos.map((photo, index) => {
           // An explicit width keeps the photo's shape; sizing the figure from
@@ -168,20 +168,11 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
           )
         })}
       </div>
-      {isScrollable && (
-        // Touch screens swipe the row; the cut-off photo shows there is more.
-        <div className="mt-3 flex justify-end gap-2 pointer-coarse:hidden">
-          <StripButton
-            direction={-1}
-            disabled={!scroll.canScrollBack}
-            onClick={() => scrollByPage(-1)}
-          />
-          <StripButton
-            direction={1}
-            disabled={!scroll.canScrollOn}
-            onClick={() => scrollByPage(1)}
-          />
-        </div>
+      {scroll.canScrollBack && (
+        <StripButton direction={-1} onClick={() => scrollByPage(-1)} />
+      )}
+      {scroll.canScrollOn && (
+        <StripButton direction={1} onClick={() => scrollByPage(1)} />
       )}
 
       <PhotoLightbox
@@ -203,11 +194,9 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
 
 function StripButton({
   direction,
-  disabled,
   onClick,
 }: {
   direction: 1 | -1
-  disabled: boolean
   onClick: () => void
 }) {
   const Icon = direction === 1 ? ArrowRight : ArrowLeft
@@ -215,9 +204,8 @@ function StripButton({
     <button
       type="button"
       onClick={onClick}
-      disabled={disabled}
       aria-label={direction === 1 ? 'Weitere Fotos' : 'Vorherige Fotos'}
-      className={`border-border bg-card text-foreground hover:bg-muted flex size-9 items-center justify-center rounded-full border transition-colors disabled:pointer-events-none disabled:opacity-40 ${visibleFocusOutline}`}
+      className={`border-border bg-card text-foreground hover:bg-muted absolute top-[calc(var(--photo-height)/2)] flex size-9 -translate-y-1/2 items-center justify-center rounded-full border opacity-0 transition group-focus-within/strip:opacity-100 group-hover/strip:opacity-100 pointer-coarse:hidden ${direction === 1 ? 'right-2' : 'left-2'} ${visibleFocusOutline}`}
     >
       <Icon className="size-4" />
     </button>

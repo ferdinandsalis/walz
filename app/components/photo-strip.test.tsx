@@ -146,10 +146,8 @@ describe('PhotoStrip', () => {
     )
 
     expect(screen.queryByText(/Fotos?$/)).toBeNull()
-    const back = screen.getByRole('button', { name: 'Vorherige Fotos' })
-    const on = screen.getByRole('button', { name: 'Weitere Fotos' })
-    expect((back as HTMLButtonElement).disabled).toBe(true)
-    expect((on as HTMLButtonElement).disabled).toBe(false)
+    expect(screen.getByRole('button', { name: 'Weitere Fotos' })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: 'Vorherige Fotos' })).toBeNull()
   })
 
   it('moves focus between photos with the arrow keys', () => {
