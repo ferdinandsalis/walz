@@ -94,6 +94,8 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
     const scroller = scrollerRef.current
     if (!scroller) return
     const { scrollLeft, clientWidth, scrollWidth } = scroller
+    // Photos in the faded margin don't count as shown.
+    const bleed = parseFloat(getComputedStyle(scroller).paddingLeft) || 0
     const items = Array.from(scroller.children, item => {
       const element = item as HTMLElement
       return { left: element.offsetLeft, width: element.offsetWidth }
@@ -101,7 +103,7 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
     setScroll({
       canScrollBack: scrollLeft > 1,
       canScrollOn: scrollLeft + clientWidth < scrollWidth - 1,
-      range: visibleRange(items, scrollLeft, clientWidth),
+      range: visibleRange(items, scrollLeft + bleed, clientWidth - 2 * bleed),
     })
   }, [])
 
@@ -148,9 +150,11 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
           aria-label="Fotostrecke"
           onScroll={measure}
           onKeyDown={focusNeighbour}
-          // The padding (offset by the negative margin) leaves room for the
-          // focus outline, which the scroller would otherwise clip.
-          className="relative -m-1 flex snap-x snap-mandatory scroll-px-1 [scrollbar-width:none] gap-3 overflow-x-auto p-1 motion-safe:scroll-smooth [&::-webkit-scrollbar]:hidden"
+          // The row bleeds into the page margin (--bleed), where photos fade
+          // out; padding offsets the negative margin, so photos still start
+          // and snap at the text column. The vertical padding leaves room for
+          // the focus outline, which the scroller would otherwise clip.
+          className="relative mx-[calc(-1*var(--bleed))] -my-1 flex snap-x snap-mandatory scroll-px-(--bleed) [scrollbar-width:none] gap-3 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_calc(var(--bleed)-4px),black_calc(100%-var(--bleed)+4px),transparent)] px-(--bleed) py-1 [--bleed:--spacing(4)] motion-safe:scroll-smooth sm:[--bleed:--spacing(8)] xl:[--bleed:--spacing(16)] [&::-webkit-scrollbar]:hidden"
         >
           {validPhotos.map((photo, index) => {
             // An explicit width keeps the photo's shape; sizing the figure
