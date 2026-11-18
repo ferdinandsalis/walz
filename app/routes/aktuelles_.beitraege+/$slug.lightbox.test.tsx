@@ -1,10 +1,10 @@
 /**
  * @vitest-environment jsdom
  */
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { stubCarouselBrowserApis } from '#tests/setup/stub-carousel-apis.ts'
-import { PhotoStripBlock } from './$slug.tsx'
+import { ImageComponent, PhotoStripBlock } from './$slug.tsx'
 
 const stripPhoto = (key: string, caption: string) => ({
   _key: key,
@@ -38,5 +38,32 @@ describe('PhotoStripBlock', () => {
 
     expect(withoutField.innerHTML).toBe('')
     expect(emptyList.innerHTML).toBe('')
+  })
+})
+
+describe('ImageComponent', () => {
+  const image = (extra: Record<string, unknown>) => ({
+    _type: 'image',
+    asset: { _ref: 'image-Tb9Ew8CXIwaY6R1kjMvI0uRR-800x600-jpg' },
+    ...extra,
+  })
+
+  it('opens the image in the lightbox when tapped', () => {
+    render(
+      <ImageComponent value={image({ caption: 'Schülerinnen im Garten' })} />,
+    )
+
+    fireEvent.click(
+      screen.getByRole('button', { name: /Schülerinnen im Garten/ }),
+    )
+
+    const dialog = screen.getByRole('dialog')
+    expect(within(dialog).getByText('Schülerinnen im Garten')).toBeTruthy()
+  })
+
+  it('names the zoom button even without caption or alt', () => {
+    render(<ImageComponent value={image({})} />)
+
+    expect(screen.getByRole('button', { name: 'Foto vergrößern' })).toBeTruthy()
   })
 })

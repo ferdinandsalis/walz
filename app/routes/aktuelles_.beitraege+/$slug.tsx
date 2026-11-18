@@ -1,12 +1,14 @@
 import { PortableText } from '@portabletext/react'
 import { getImageDimensions } from '@sanity/asset-utils'
 import { loadQuery } from '@sanity/react-loader'
+import { useState } from 'react'
 import {
   type LoaderFunctionArgs,
   type MetaArgs,
   useLoaderData,
 } from 'react-router'
 import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
+import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import { PhotoStrip } from '#app/components/photo-strip.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
@@ -99,23 +101,36 @@ export function PhotoStripBlock({ value }: { value: PhotoStripValue }) {
 
 export const ImageComponent = ({ value, isInline }: any) => {
   const { width, height } = getImageDimensions(value)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
   return (
     <figure className="bg-muted/30 rounded p-3">
-      <img
-        src={urlFor(value)
-          .width(isInline ? 100 : 800)
-          .fit('max')
-          .auto('format')
-          .url()}
-        alt={value.alt || ' '}
-        loading="lazy"
-        style={{
-          // Display alongside text if image appears inside a block text span
-          display: isInline ? 'inline-block' : 'block',
+      <button
+        type="button"
+        onClick={() => setLightboxOpen(true)}
+        aria-label={value.alt || value.caption || 'Foto vergrößern'}
+        className="block w-full cursor-zoom-in"
+      >
+        <img
+          src={urlFor(value)
+            .width(isInline ? 100 : 800)
+            .fit('max')
+            .auto('format')
+            .url()}
+          alt={value.alt || ' '}
+          loading="lazy"
+          style={{
+            // Display alongside text if image appears inside a block text span
+            display: isInline ? 'inline-block' : 'block',
 
-          // Avoid jumping around with aspect-ratio CSS property
-          aspectRatio: width / height,
-        }}
+            // Avoid jumping around with aspect-ratio CSS property
+            aspectRatio: width / height,
+          }}
+        />
+      </button>
+      <PhotoLightbox
+        photos={[{ image: value, alt: value.alt, caption: value.caption }]}
+        open={lightboxOpen}
+        onOpenChange={setLightboxOpen}
       />
       {(value.caption || value.attribution) && (
         <figcaption className="text-body-xs text-muted-foreground mt-2">
