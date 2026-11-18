@@ -1,15 +1,7 @@
 import React from 'react'
 import { useLoaderData } from 'react-router'
-import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
-import {
-  Carousel,
-  CarouselItem,
-  CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
-} from '#app/components/ui/carousel.tsx'
+import { PhotoStrip, type StripPhoto } from '#app/components/photo-strip.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
-import { urlFor } from '#app/sanity/instance.ts'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { curriculumQuery, type CurriculumQueryResult } from './query.ts'
 
@@ -58,13 +50,14 @@ function YearSection({
   }
   yearNumber: number
 }) {
-  const photos = React.useMemo(() => {
-    return year.projects.flatMap(p => {
-      if (p.photos && p.photos.length > 0) {
-        return p.photos.map(photo => ({ ...photo, projectName: p.name }))
-      }
-      return []
-    })
+  const photos = React.useMemo<StripPhoto[]>(() => {
+    return year.projects.flatMap(p =>
+      (p.photos ?? []).map((photo, index) => ({
+        key: photo?._key ?? `${p._id}-${index}`,
+        image: photo ?? {},
+        caption: `${p.name}${photo?.caption ? `, ${photo.caption}` : ''}`,
+      })),
+    )
   }, [year.projects])
 
   return (
@@ -85,7 +78,7 @@ function YearSection({
         <ExternalExamsList exams={year.externalExams} />
       </div>
       <div className="col-span-12">
-        {year.projects.length > 0 && <YearCarousel photos={photos} />}
+        {year.projects.length > 0 && <PhotoStrip photos={photos} />}
       </div>
     </article>
   )
@@ -124,76 +117,5 @@ function ExternalExamsList({ exams }: { exams: string[] }) {
         )}
       </ul>
     </div>
-  )
-}
-
-function YearCarousel({ photos }: { photos: any[] }) {
-  const validPhotos = React.useMemo(
-    () => photos?.filter(photo => photo?.asset) ?? [],
-    [photos],
-  )
-  const [lightboxIndex, setLightboxIndex] = React.useState<number | null>(null)
-
-  const caption = (photo: any) =>
-    `${photo.projectName}${photo.caption ? `, ${photo.caption}` : ''}`
-
-  return (
-    <>
-      <Carousel
-        opts={{
-          loop: true,
-          align: 'start',
-          duration: 20,
-        }}
-      >
-        <div className="bg-muted/30 rounded px-4 py-4 md:-mx-4">
-          <CarouselContent className="-ml-2">
-            {validPhotos.map((photo, index) => (
-              <CarouselItem
-                key={photo._key ?? index}
-                className="pl-2 sm:basis-1/2 md:basis-1/3"
-              >
-                <button
-                  type="button"
-                  onClick={() => setLightboxIndex(index)}
-                  className="group relative block w-full cursor-zoom-in overflow-hidden rounded"
-                >
-                  <img
-                    src={urlFor(photo)
-                      .height(512)
-                      .width(512)
-                      .format('webp')
-                      .url()}
-                    className="rounded object-cover shadow-sm"
-                  />
-                  <div className="font-condensed absolute right-0 bottom-0 left-0 flex appearance-none items-center justify-start gap-1 bg-black/10 p-1.5 px-3">
-                    <span className="text-card text-xs drop-shadow-sm">
-                      {caption(photo)}
-                    </span>
-                  </div>
-                </button>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </div>
-        <div className="mt-4 flex justify-center gap-2 px-8">
-          <CarouselPrevious variant="ghost" />
-          <CarouselNext variant="ghost" />
-        </div>
-      </Carousel>
-
-      <PhotoLightbox
-        photos={validPhotos.map(photo => ({
-          image: photo,
-          alt: caption(photo),
-          caption: caption(photo),
-        }))}
-        open={lightboxIndex !== null}
-        startIndex={lightboxIndex ?? 0}
-        onOpenChange={open => {
-          if (!open) setLightboxIndex(null)
-        }}
-      />
-    </>
   )
 }
