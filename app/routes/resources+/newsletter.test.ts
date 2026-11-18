@@ -132,6 +132,33 @@ test('pretends to subscribe a headless browser without passing it to Buttondown'
   )
 })
 
+test('drops a headless browser that disguises its user agent but not its client hints', async () => {
+  const result = await subscribe('opfer@example.com', {
+    'User-Agent':
+      'Mozilla/5.0 (Macintosh; U; Intel Mac OS X Mach-O; en-US; rv:1.8.1a2) Gecko/20060512 BonEcho/2.0a2',
+    'Sec-CH-UA':
+      '"HeadlessChrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
+  })
+
+  expect(result).toMatchObject({ data: { ok: true } })
+  expect(addSubscriber).not.toHaveBeenCalled()
+  expect(captureMessage).toHaveBeenCalledOnce()
+})
+
+test('subscribes a reader whose Chrome sends its usual client hints', async () => {
+  vi.mocked(addSubscriber).mockResolvedValue({ success: true })
+
+  const result = await subscribe('leser@example.com', {
+    'User-Agent': READER_UA,
+    'Sec-CH-UA':
+      '"Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
+  })
+
+  expect(result).toMatchObject({ data: { ok: true } })
+  expect(addSubscriber).toHaveBeenCalledOnce()
+  expect(captureMessage).not.toHaveBeenCalled()
+})
+
 test('rejects a malformed address from a headless browser like any other', async () => {
   const result = await subscribe('opfer@example', { 'User-Agent': HEADLESS_UA })
 

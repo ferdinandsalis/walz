@@ -61,6 +61,10 @@ export async function action({ request }: ActionFunctionArgs) {
   return data({ ok: true } as const)
 }
 
+// Bots can swap the user agent for any string, but headless Chrome still
+// names itself in its client hints (Sec-CH-UA), so both are checked.
 function isHeadlessBrowser(request: Request) {
-  return /HeadlessChrome/.test(request.headers.get('User-Agent') ?? '')
+  return ['User-Agent', 'Sec-CH-UA'].some(header =>
+    /HeadlessChrome/.test(request.headers.get(header) ?? ''),
+  )
 }
