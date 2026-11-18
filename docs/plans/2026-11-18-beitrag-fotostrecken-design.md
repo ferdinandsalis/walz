@@ -3,9 +3,9 @@
 ## Intent
 
 Agnes wants to show several photos at once inside a Beitrag without the post
-turning into a long column of images. Typical use: a few strips of a handful
-of photos each, placed between paragraphs. One giant 30-photo gallery is not
-the goal.
+turning into a long column of images. Typical use: a few strips of a handful of
+photos each, placed between paragraphs. One giant 30-photo gallery is not the
+goal.
 
 ## Goals
 
@@ -32,15 +32,15 @@ the goal.
 
 ## Design
 
-- **Schema** (`app/sanity/schema/post.ts`): add a body array member
-  `photoStrip` (title "Fotostrecke") with a `photos` array of images
-  (hotspot, plus `caption`, `alt`, `attribution` — same fields as single body
-  images; extract that field list so both use it). Require at least 2 photos.
-  Studio preview shows the first photo and the photo count.
+- **Schema** (`app/sanity/schema/post.ts`): add a body array member `photoStrip`
+  (title "Fotostrecke") with a `photos` array of images (hotspot, plus
+  `caption`, `alt`, `attribution` — same fields as single body images; extract
+  that field list so both use it). Require at least 2 photos. Studio preview
+  shows the first photo and the photo count.
 - **Shared component**: extract `YearCarousel` from
   `app/routes/curriculum/route.tsx` into a `PhotoStrip` component that takes
-  photos with a caption string. Curriculum keeps passing its
-  "Projektname, Bildbeschreibung" caption so it renders identically.
+  photos with a caption string. Curriculum keeps passing its "Projektname,
+  Bildbeschreibung" caption so it renders identically.
 - **Beitrag page** (`app/routes/aktuelles_.beitraege+/$slug.tsx`): render
   `photoStrip` blocks with `PhotoStrip`; ~2 thumbnails visible on mobile, 3 on
   larger screens (the Beitrag column is narrow). `ImageComponent` becomes a
@@ -49,16 +49,15 @@ the goal.
 
 ## Left to the builder
 
-- Exact thumbnail sizing/spacing inside the prose column, matching the
-  Projekte strip's look.
-- Whether attribution shows in the lightbox caption (lean: caption only,
-  as today).
+- Exact thumbnail sizing/spacing inside the prose column, matching the Projekte
+  strip's look.
+- Whether attribution shows in the lightbox caption (lean: caption only, as
+  today).
 
 ## Testing
 
-- Unit: strip renders all photos with captions; single image renders a
-  lightbox trigger; existing `ImageComponent` caption/attribution tests keep
-  passing.
+- Unit: strip renders all photos with captions; single image renders a lightbox
+  trigger; existing `ImageComponent` caption/attribution tests keep passing.
 - Check Curriculum strip unchanged (screenshot before/after).
-- Manual/e2e: a Beitrag with two strips — tap opens lightbox at the right
-  photo, swipe stays within the strip.
+- Manual/e2e: a Beitrag with two strips — tap opens lightbox at the right photo,
+  swipe stays within the strip.

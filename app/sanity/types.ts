@@ -125,6 +125,21 @@ export type Post = {
         _key: string
       }
     | {
+        photos?: Array<{
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          caption?: string
+          alt?: string
+          attribution?: string
+          _type: 'image'
+          _key: string
+        }>
+        _type: 'photoStrip'
+        _key: string
+      }
+    | {
         children?: Array<{
           marks?: Array<string>
           text?: string
@@ -988,6 +1003,21 @@ export type BeitraegeSlugQueryResult = {
         alt?: string
         attribution?: string
         _type: 'image'
+        _key: string
+      }
+    | {
+        photos?: Array<{
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          caption?: string
+          alt?: string
+          attribution?: string
+          _type: 'image'
+          _key: string
+        }>
+        _type: 'photoStrip'
         _key: string
       }
   > | null
