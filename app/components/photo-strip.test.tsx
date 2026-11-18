@@ -76,6 +76,24 @@ describe('PhotoStrip', () => {
     expect(screen.getByText('Hütte')).toBeTruthy()
   })
 
+  it('names each photo by its visible caption, followed by its alt text', () => {
+    render(
+      <PhotoStrip
+        photos={[
+          { ...photo('a', 'Forst'), alt: 'Kinder bauen eine Brücke' },
+          { ...photo('b'), alt: 'Werkstatt' },
+          photo('c'),
+        ]}
+      />,
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Forst – Kinder bauen eine Brücke' }),
+    ).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Werkstatt' })).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Foto vergrößern' })).toBeTruthy()
+  })
+
   it('skips photos without an uploaded image', () => {
     render(
       <PhotoStrip

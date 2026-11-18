@@ -9,7 +9,7 @@ import {
 } from 'react-router'
 import { NotFoundErrorBoundary } from '#app/components/error-boundary.tsx'
 import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
-import { PhotoStrip } from '#app/components/photo-strip.tsx'
+import { PhotoStrip, photoButtonLabel } from '#app/components/photo-strip.tsx'
 import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type QueryResult, beitraegeSlugQuery } from './$slug.query.ts'
@@ -109,7 +109,7 @@ export const ImageComponent = ({ value, isInline }: any) => {
       <button
         type="button"
         onClick={() => setLightboxOpen(true)}
-        aria-label={value.alt || value.caption || 'Foto vergrößern'}
+        aria-label={photoButtonLabel(value)}
         className={`block w-full cursor-zoom-in ${visibleFocusOutline}`}
       >
         <img

@@ -92,6 +92,18 @@ describe('ImageComponent', () => {
     expect(within(dialog).getByText('Foto: Agnes')).toBeTruthy()
   })
 
+  it('names the zoom button by its visible caption, followed by its alt text', () => {
+    render(
+      <ImageComponent
+        value={image({ caption: 'Im Garten', alt: 'Kinder pflanzen Salat' })}
+      />,
+    )
+
+    expect(
+      screen.getByRole('button', { name: 'Im Garten – Kinder pflanzen Salat' }),
+    ).toBeTruthy()
+  })
+
   it('names the zoom button even without caption or alt', () => {
     render(<ImageComponent value={image({})} />)
 

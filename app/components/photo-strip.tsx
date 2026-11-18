@@ -33,6 +33,21 @@ export function photoAspectRatio(image: StripPhoto['image']) {
 }
 
 /**
+ * Accessible name for a button that opens a photo. It starts with the visible
+ * caption, so voice control users can say what they see, and adds the alt
+ * text for screen reader users.
+ */
+export function photoButtonLabel({
+  caption,
+  alt,
+}: {
+  caption?: string
+  alt?: string
+}) {
+  return [caption, alt].filter(Boolean).join(' – ') || 'Foto vergrößern'
+}
+
+/**
  * First and last index of the items at least half inside the viewport.
  * Positions are relative to the start of the scrolled content.
  */
@@ -153,7 +168,7 @@ export function PhotoStrip({ photos }: { photos: StripPhoto[] }) {
                   <button
                     type="button"
                     onClick={() => setLightboxIndex(index)}
-                    aria-label={photo.alt || photo.caption || 'Foto vergrößern'}
+                    aria-label={photoButtonLabel(photo)}
                     className={`block cursor-zoom-in overflow-hidden rounded transition-opacity hover:opacity-90 ${visibleFocusOutline}`}
                   >
                     <img
