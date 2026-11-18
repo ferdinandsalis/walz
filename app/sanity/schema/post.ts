@@ -111,7 +111,7 @@ export default defineType({
                   fields: bodyImageFields,
                 }),
               ],
-              validation: Rule => Rule.min(2),
+              validation: Rule => Rule.required().min(2),
             }),
           ],
           preview: {
