@@ -1,7 +1,13 @@
 /**
  * @vitest-environment jsdom
  */
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { stubCarouselBrowserApis } from '#tests/setup/stub-carousel-apis.ts'
 import { PhotoStrip, type StripPhoto } from './photo-strip.tsx'
@@ -64,6 +70,19 @@ describe('PhotoStrip', () => {
 
     expect(container.querySelector('.bg-black\\/10')).toBeNull()
     expect(container.querySelector('img')?.getAttribute('alt')).toBe('')
+  })
+
+  it('returns focus to the tapped photo when the lightbox closes', async () => {
+    render(<PhotoStrip photos={[photo('a1', 'A1'), photo('a2', 'A2')]} />)
+    const thumbnail = screen.getByRole('button', { name: 'A2' })
+
+    thumbnail.focus()
+    fireEvent.click(thumbnail)
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })
+
+    expect(screen.queryByRole('dialog')).toBeNull()
+    // Radix moves focus on close in a timeout, after the dialog unmounts.
+    await waitFor(() => expect(document.activeElement).toBe(thumbnail))
   })
 
   it("opens the lightbox at the tapped photo with only this strip's photos", () => {

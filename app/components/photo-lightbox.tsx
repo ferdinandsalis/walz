@@ -1,5 +1,5 @@
 import { type SanityImageSource } from '@sanity/image-url'
-import { type ReactNode } from 'react'
+import { type ReactNode, useRef } from 'react'
 import {
   Carousel,
   CarouselContent,
@@ -36,10 +36,22 @@ export function PhotoLightbox({
   onOpenChange: (open: boolean) => void
   startIndex?: number
 }) {
+  // Opened without a DialogTrigger, so Radix has nothing to return focus to;
+  // remember what was focused on open (the tapped photo) and restore it.
+  const focusOnOpen = useRef<HTMLElement | null>(null)
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         aria-describedby={undefined}
+        onOpenAutoFocus={() => {
+          focusOnOpen.current = document.activeElement as HTMLElement | null
+        }}
+        onCloseAutoFocus={event => {
+          if (!focusOnOpen.current) return
+          event.preventDefault()
+          focusOnOpen.current.focus()
+        }}
         className="max-h-[95vh] w-[95vw] max-w-6xl overflow-hidden border-0 bg-transparent p-0 shadow-none"
       >
         <DialogTitle className="sr-only">Foto</DialogTitle>
