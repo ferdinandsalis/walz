@@ -132,7 +132,7 @@ export async function sendAufnahmeNotificationEmail(
         `Adresse: ${addressLine(student.address, student.sameAddressAsParent1)}`,
         `Derzeitige Klasse/Schulstufe: ${student.currentGrade}`,
       ].join('\n'),
-      ['SCHULEN NACH DER VOLKSSCHULE', student.schoolHistory].join('\n'),
+      ['ALLE BISHER BESUCHTEN SCHULEN', student.schoolHistory].join('\n'),
       ['ERZIEHUNGSBERECHTIGTE PERSON 1', ...guardianLines(parent1)].join('\n'),
       [
         'ERZIEHUNGSBERECHTIGTE PERSON 2',
