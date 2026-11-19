@@ -58,6 +58,11 @@ One `Toc` behaviour shared by the four pages, changing with available width:
   the right column too.
 - No sub-section entries (e.g. "Mentor:innen" under "Menschen").
 - No change to the existing `BackToTop` component or where it is used.
+- No change to the large pale page title. It is a typographic accent rather
+  than the reader's orientation (the navigation shows the current page). It
+  originally ran vertically beside the content column; bringing that back is
+  explored separately in the demo, together with the navigation. The demo's
+  solid dark title is not part of this change.
 
 ## Anti-goals
 
@@ -92,14 +97,6 @@ The demo's down-arrows were replaced by dots because they looked noisy.
   section names in Museo Sans Condensed.
 - Section list is passed once per page as `{ name, id }` items; all three
   places (in-flow, pill panel, rail) render from it.
-
-## Proposals for Ferdinand (decide yes/no before the plan)
-
-1. **Page title solid instead of 20% grey.** Today the 13 page titles use
-   `text-muted-foreground opacity-20`. Proposal: dark (`text-foreground`) on all
-   13 pages via one shared class or component, as in the demo, so the title
-   reads as the page's heading. Outside the four TOC pages, so it is a separate
-   commit that can be dropped.
 
 ## Left to the builder
 
