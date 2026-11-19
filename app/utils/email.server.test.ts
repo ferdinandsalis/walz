@@ -144,7 +144,7 @@ test('lists the school history under its own heading', async () => {
   const text = await notificationTextFor(aufnahme)
 
   expect(text).toContain(
-    'SCHULEN NACH DER VOLKSSCHULE\nVolksschule Test, 2018-2022\nNMS Test, 2022-2026\n\nERZIEHUNGSBERECHTIGTE PERSON 1',
+    'ALLE BISHER BESUCHTEN SCHULEN\nVolksschule Test, 2018-2022\nNMS Test, 2022-2026\n\nERZIEHUNGSBERECHTIGTE PERSON 1',
   )
 })
 
