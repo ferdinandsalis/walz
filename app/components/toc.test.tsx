@@ -1,11 +1,18 @@
 /**
  * @vitest-environment jsdom
  */
-import { act, render, screen, within } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  within,
+} from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { renderStatic } from '#tests/setup/render-static.ts'
 import {
   currentSectionId,
+  PageHead,
   TocRail,
   type TocSection,
   useCurrentSection,
@@ -157,5 +164,114 @@ describe('TocRail', () => {
     expect(html.querySelector('a[href="#menschen"]')?.textContent).toBe(
       'Menschen',
     )
+  })
+})
+
+const sections: TocSection[] = [
+  { name: 'Menschen', id: 'menschen' },
+  { name: 'Leitbild', id: 'leitbild' },
+  { name: 'Geschichte', id: 'geschichte' },
+]
+
+describe('PageHead', () => {
+  it('puts the in-flow list right after the title and before the intro', () => {
+    render(
+      <PageHead title="Über uns" sections={sections}>
+        <p>Intro</p>
+      </PageHead>,
+    )
+
+    const title = screen.getByRole('heading', { level: 1, name: 'Über uns' })
+    const list = screen.getByRole('navigation', { name: 'Auf dieser Seite' })
+    const intro = screen.getByText('Intro')
+    expect(title.compareDocumentPosition(list)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(list.compareDocumentPosition(intro)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+  })
+
+  it('renders title and list in the server HTML', () => {
+    const html = renderStatic(<PageHead title="Über uns" sections={sections} />)
+
+    expect(html.querySelector('h1')?.textContent).toBe('Über uns')
+    expect(html.querySelector('a[href="#menschen"]')?.textContent).toBe(
+      'Menschen',
+    )
+  })
+})
+
+describe('pill', () => {
+  /** Renders the page head with the in-flow list's bottom edge at `bottom`. */
+  function renderHead(bottom: number) {
+    layOutSections({ menschen: -900, leitbild: 100, geschichte: 900 })
+    render(<PageHead title="Über uns" sections={sections} />)
+    const list = screen.getByRole('navigation', { name: 'Auf dieser Seite' })
+    const moveList = (newBottom: number) => {
+      placeAt(list, newBottom - 100)
+      scroll()
+    }
+    moveList(bottom)
+    return { moveList }
+  }
+
+  const pill = () => screen.getByRole('button', { name: /Inhalt/ })
+  const isHidden = (element: HTMLElement) =>
+    element.closest('[inert]') !== null
+
+  it('stays hidden and out of the tab order while the list is in view', () => {
+    renderHead(300)
+
+    expect(isHidden(pill())).toBe(true)
+  })
+
+  it('appears with the current section once the list has scrolled away', () => {
+    renderHead(-10)
+
+    expect(isHidden(pill())).toBe(false)
+    expect(pill().textContent).toContain('Leitbild')
+  })
+
+  it('opens the section list and closes it again when a section is chosen', () => {
+    renderHead(-10)
+
+    fireEvent.click(pill())
+    expect(pill().getAttribute('aria-expanded')).toBe('true')
+    const panel = document.getElementById(pill().getAttribute('aria-controls')!)!
+    const current = within(panel).getByRole('link', { name: 'Leitbild' })
+    expect(current.getAttribute('aria-current')).toBe('location')
+
+    fireEvent.click(within(panel).getByRole('link', { name: 'Geschichte' }))
+    expect(pill().getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('closes on Escape and gives focus back to the button', () => {
+    renderHead(-10)
+    fireEvent.click(pill())
+
+    fireEvent.keyDown(document, { key: 'Escape' })
+
+    expect(pill().getAttribute('aria-expanded')).toBe('false')
+    expect(document.activeElement).toBe(pill())
+  })
+
+  it('closes on a click outside', () => {
+    renderHead(-10)
+    fireEvent.click(pill())
+
+    fireEvent.click(document.body)
+
+    expect(pill().getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('hides and closes when the list comes back into view', () => {
+    const { moveList } = renderHead(-10)
+    fireEvent.click(pill())
+
+    moveList(200)
+
+    expect(isHidden(pill())).toBe(true)
+    expect(pill().getAttribute('aria-expanded')).toBe('false')
   })
 })
