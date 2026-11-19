@@ -53,16 +53,25 @@ test.describe('at phone width', () => {
   })
 })
 
-test('no sideways scrolling on a narrow phone', async ({ page }) => {
+test('the button fits a narrow phone with the longest section name', async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 320, height: 640 })
-  await open(page, '/ueber-uns')
+  await open(page, '/alumni')
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-  await expect(pill(page)).toBeInViewport()
+  await expect(pill(page)).toContainText('Ehemalige Jahrgänge')
 
-  const width = await page.evaluate(
+  // The button is fixed, so it never widens the page; it has to stay on screen
+  const box = await pill(page).boundingBox()
+  expect(box!.x).toBeGreaterThanOrEqual(0)
+  expect(box!.x + box!.width).toBeLessThanOrEqual(320)
+  const name = pill(page).getByText('Ehemalige Jahrgänge')
+  await expect(name).toHaveCSS('text-overflow', 'ellipsis')
+  await expect(name).toHaveCSS('overflow', 'hidden')
+  const pageWidth = await page.evaluate(
     () => document.documentElement.scrollWidth,
   )
-  expect(width).toBeLessThanOrEqual(320)
+  expect(pageWidth).toBeLessThanOrEqual(320)
 })
 
 test.describe('at desktop width', () => {

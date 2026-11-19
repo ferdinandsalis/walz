@@ -1,13 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  within,
-} from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { renderStatic } from '#tests/setup/render-static.ts'
 import {
@@ -217,8 +211,7 @@ describe('pill', () => {
   }
 
   const pill = () => screen.getByRole('button', { name: /Inhalt/ })
-  const isHidden = (element: HTMLElement) =>
-    element.closest('[inert]') !== null
+  const isHidden = (element: HTMLElement) => element.closest('[inert]') !== null
 
   it('stays hidden and out of the tab order while the list is in view', () => {
     renderHead(300)
@@ -238,12 +231,27 @@ describe('pill', () => {
 
     fireEvent.click(pill())
     expect(pill().getAttribute('aria-expanded')).toBe('true')
-    const panel = document.getElementById(pill().getAttribute('aria-controls')!)!
+    const panel = document.getElementById(
+      pill().getAttribute('aria-controls')!,
+    )!
     const current = within(panel).getByRole('link', { name: 'Leitbild' })
     expect(current.getAttribute('aria-current')).toBe('location')
 
     fireEvent.click(within(panel).getByRole('link', { name: 'Geschichte' }))
     expect(pill().getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('lets the keyboard move from the button into the opened list', () => {
+    renderHead(-10)
+    fireEvent.click(pill())
+
+    const panel = document.getElementById(
+      pill().getAttribute('aria-controls')!,
+    )!
+    const firstLink = within(panel).getAllByRole('link')[0]!
+    expect(pill().compareDocumentPosition(firstLink)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
   })
 
   it('closes on Escape and gives focus back to the button', () => {
@@ -256,11 +264,12 @@ describe('pill', () => {
     expect(document.activeElement).toBe(pill())
   })
 
-  it('closes on a click outside', () => {
+  it('closes on a tap outside', () => {
     renderHead(-10)
     fireEvent.click(pill())
 
-    fireEvent.click(document.body)
+    // iOS sends no click to the document for taps on plain content
+    fireEvent.pointerDown(document.body)
 
     expect(pill().getAttribute('aria-expanded')).toBe('false')
   })

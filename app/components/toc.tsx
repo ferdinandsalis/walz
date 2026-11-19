@@ -2,6 +2,7 @@ import { BookOpen, CaretUp } from '@phosphor-icons/react'
 import {
   type ReactNode,
   type RefObject,
+  useCallback,
   useEffect,
   useId,
   useRef,
@@ -34,18 +35,28 @@ export function currentSectionId(
  * on the page are skipped; the server render reports the first section.
  */
 export function useCurrentSection(ids: string[]) {
-  const [current, setCurrent] = useState(ids[0] ?? '')
   const key = ids.join(' ')
+  const measure = useCallback(() => {
+    const sections = key.split(' ').flatMap(id => {
+      const element = document.getElementById(id)
+      return element ? [{ id, top: element.getBoundingClientRect().top }] : []
+    })
+    return currentSectionId(sections, window.innerHeight * CURRENT_SECTION_LINE)
+  }, [key])
+
+  return useWindowMeasure(measure, ids[0] ?? '')
+}
+
+/**
+ * Takes `measure` once after mount and again on every scroll and resize of
+ * the window; until then `initial`, which is also what the server renders.
+ */
+function useWindowMeasure<T>(measure: () => T, initial: T) {
+  const [value, setValue] = useState(initial)
 
   useEffect(() => {
     function update() {
-      const sections = key.split(' ').flatMap(id => {
-        const element = document.getElementById(id)
-        return element ? [{ id, top: element.getBoundingClientRect().top }] : []
-      })
-      setCurrent(
-        currentSectionId(sections, window.innerHeight * CURRENT_SECTION_LINE),
-      )
+      setValue(measure())
     }
 
     update()
@@ -55,30 +66,14 @@ export function useCurrentSection(ids: string[]) {
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
     }
-  }, [key])
+  }, [measure])
 
-  return current
+  return value
 }
 
 /** True once the reader has scrolled past the first screen of the page. */
-function useScrolledPastFirstScreen() {
-  const [scrolledPast, setScrolledPast] = useState(false)
-
-  useEffect(() => {
-    function update() {
-      setScrolledPast(window.scrollY > window.innerHeight)
-    }
-
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
-    }
-  }, [])
-
-  return scrolledPast
+function isPastFirstScreen() {
+  return window.scrollY > window.innerHeight
 }
 
 const tocLabel =
@@ -96,7 +91,7 @@ export function TocRail({
   className?: string
 }) {
   const current = useCurrentSection(sections.map(section => section.id))
-  const showToTop = useScrolledPastFirstScreen()
+  const showToTop = useWindowMeasure(isPastFirstScreen, false)
 
   return (
     <nav aria-label="Auf dieser Seite" className={cn('grid gap-3', className)}>
@@ -139,26 +134,12 @@ export function TocRail({
 
 /** True once the bottom of the given element has scrolled above the screen. */
 function useScrolledAway(ref: RefObject<HTMLElement | null>) {
-  const [scrolledAway, setScrolledAway] = useState(false)
-
-  useEffect(() => {
-    function update() {
-      const element = ref.current
-      setScrolledAway(
-        element ? element.getBoundingClientRect().bottom < 0 : false,
-      )
-    }
-
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
-    return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
-    }
+  const measure = useCallback(() => {
+    const element = ref.current
+    return element ? element.getBoundingClientRect().bottom < 0 : false
   }, [ref])
 
-  return scrolledAway
+  return useWindowMeasure(measure, false)
 }
 
 /**
@@ -240,7 +221,9 @@ function TocPill({
   useEffect(() => {
     if (!open) return
 
-    function closeOnOutsideClick(event: MouseEvent) {
+    // pointerdown, because iOS sends no click to the document for taps on
+    // plain content
+    function closeOnOutsideTap(event: PointerEvent) {
       if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false)
     }
     function closeOnEscape(event: KeyboardEvent) {
@@ -249,10 +232,10 @@ function TocPill({
       buttonRef.current?.focus()
     }
 
-    document.addEventListener('click', closeOnOutsideClick)
+    document.addEventListener('pointerdown', closeOnOutsideTap)
     document.addEventListener('keydown', closeOnEscape)
     return () => {
-      document.removeEventListener('click', closeOnOutsideClick)
+      document.removeEventListener('pointerdown', closeOnOutsideTap)
       document.removeEventListener('keydown', closeOnEscape)
     }
   }, [open])
@@ -268,6 +251,29 @@ function TocPill({
         !visible && 'pointer-events-none translate-y-[140%] opacity-0',
       )}
     >
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen(isOpen => !isOpen)}
+        className="bg-foreground text-background font-condensed inline-flex min-h-12 max-w-full items-center gap-2.5 rounded-full py-2 pr-4.5 pl-3.5 text-lg font-bold shadow-lg"
+      >
+        <BookOpen aria-hidden size={18} className="text-primary flex-none" />
+        <span className="font-sans text-xs font-normal tracking-widest uppercase opacity-60">
+          Inhalt
+        </span>
+        <span className="truncate">{currentName}</span>
+        <CaretUp
+          aria-hidden
+          size={14}
+          className={cn(
+            'text-primary flex-none transition-transform',
+            open && 'rotate-180',
+          )}
+        />
+      </button>
+      {/* After the button, so Tab moves from the button into the list */}
       <div
         id={panelId}
         hidden={!open}
@@ -311,28 +317,6 @@ function TocPill({
           </a>
         </div>
       </div>
-      <button
-        ref={buttonRef}
-        type="button"
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={() => setOpen(isOpen => !isOpen)}
-        className="bg-foreground text-background font-condensed inline-flex min-h-12 max-w-full items-center gap-2.5 rounded-full py-2 pr-4.5 pl-3.5 text-lg font-bold shadow-lg"
-      >
-        <BookOpen aria-hidden size={18} className="text-primary flex-none" />
-        <span className="font-sans text-xs font-normal tracking-widest uppercase opacity-60">
-          Inhalt
-        </span>
-        <span className="truncate">{currentName}</span>
-        <CaretUp
-          aria-hidden
-          size={14}
-          className={cn(
-            'text-primary flex-none transition-transform',
-            open && 'rotate-180',
-          )}
-        />
-      </button>
     </div>
   )
 }
