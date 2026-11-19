@@ -1,9 +1,15 @@
 /**
  * @vitest-environment jsdom
  */
-import { act, render, screen } from '@testing-library/react'
+import { act, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { currentSectionId, useCurrentSection } from './toc.tsx'
+import { renderStatic } from '#tests/setup/render-static.ts'
+import {
+  currentSectionId,
+  TocRail,
+  type TocSection,
+  useCurrentSection,
+} from './toc.tsx'
 
 /**
  * Puts a <section id> per entry on the page whose top edge sits where the
@@ -92,5 +98,64 @@ describe('useCurrentSection', () => {
     render(<CurrentSection ids={['a', 'missing', 'b']} />)
 
     expect(screen.getByRole('status').textContent).toBe('b')
+  })
+})
+
+const ueberUns: TocSection[] = [
+  { name: 'Menschen', id: 'menschen' },
+  { name: 'Philosophie', id: 'philosophie' },
+]
+
+describe('TocRail', () => {
+  it('lists every section as an anchor link under "Auf dieser Seite"', () => {
+    layOutSections({ menschen: 500, philosophie: 1500 })
+    render(<TocRail sections={ueberUns} />)
+
+    const nav = screen.getByRole('navigation', { name: 'Auf dieser Seite' })
+    const links = within(nav).getAllByRole('link', {
+      name: /Menschen|Philosophie/,
+    })
+    expect(links.map(link => link.getAttribute('href'))).toEqual([
+      '#menschen',
+      '#philosophie',
+    ])
+  })
+
+  it('marks the section in view as the current location', () => {
+    layOutSections({ menschen: -900, philosophie: 100 })
+    render(<TocRail sections={ueberUns} />)
+
+    expect(
+      screen
+        .getByRole('link', { name: 'Philosophie' })
+        .getAttribute('aria-current'),
+    ).toBe('location')
+    expect(
+      screen
+        .getByRole('link', { name: 'Menschen' })
+        .hasAttribute('aria-current'),
+    ).toBe(false)
+  })
+
+  it('offers "Nach oben" only after the first screen', () => {
+    layOutSections({ menschen: 500, philosophie: 1500 })
+    window.scrollY = 0
+    render(<TocRail sections={ueberUns} />)
+    // Hidden elements have no accessible name, so find it by its text
+    const toTop = () => screen.getByText(/Nach oben/).closest('a')!
+    expect(toTop().getAttribute('aria-hidden')).toBe('true')
+
+    window.scrollY = 1200
+    scroll()
+
+    expect(toTop().hasAttribute('aria-hidden')).toBe(false)
+  })
+
+  it('renders the links in the server HTML', () => {
+    const html = renderStatic(<TocRail sections={ueberUns} />)
+
+    expect(html.querySelector('a[href="#menschen"]')?.textContent).toBe(
+      'Menschen',
+    )
   })
 })

@@ -86,3 +86,80 @@ export function Toc({
     </nav>
   )
 }
+
+/** True once the reader has scrolled past the first screen of the page. */
+function useScrolledPastFirstScreen() {
+  const [scrolledPast, setScrolledPast] = useState(false)
+
+  useEffect(() => {
+    function update() {
+      setScrolledPast(window.scrollY > window.innerHeight)
+    }
+
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  return scrolledPast
+}
+
+const tocLabel =
+  'text-body-2xs text-muted-foreground font-bold tracking-widest uppercase'
+
+/**
+ * The page's sections in the right-hand column of wide screens, with the
+ * section the reader is in marked. The page places it and makes it sticky.
+ */
+export function TocRail({
+  sections,
+  className,
+}: {
+  sections: TocSection[]
+  className?: string
+}) {
+  const current = useCurrentSection(sections.map(section => section.id))
+  const showToTop = useScrolledPastFirstScreen()
+
+  return (
+    <nav aria-label="Auf dieser Seite" className={cn('grid gap-3', className)}>
+      <h2 className={tocLabel}>Auf dieser Seite</h2>
+      <ol className="border-border grid border-l-2">
+        {sections.map(section => {
+          const isCurrent = section.id === current
+          return (
+            <li key={section.id}>
+              <a
+                href={`#${section.id}`}
+                aria-current={isCurrent ? 'location' : undefined}
+                className={cn(
+                  'font-condensed text-body-md -ml-0.5 block border-l-2 py-1.5 pl-4 transition-colors',
+                  isCurrent
+                    ? 'border-primary text-foreground font-bold'
+                    : 'text-muted-foreground hover:text-foreground border-transparent',
+                )}
+              >
+                {section.name}
+              </a>
+            </li>
+          )
+        })}
+      </ol>
+      <a
+        href="#"
+        aria-hidden={showToTop ? undefined : true}
+        tabIndex={showToTop ? undefined : -1}
+        className={cn(
+          'font-condensed text-muted-foreground hover:text-primary mt-2 pl-4.5 transition-opacity',
+          !showToTop && 'pointer-events-none opacity-0',
+        )}
+      >
+        ↑ Nach oben
+      </a>
+    </nav>
+  )
+}
