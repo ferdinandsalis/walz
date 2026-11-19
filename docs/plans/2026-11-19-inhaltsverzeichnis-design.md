@@ -105,8 +105,9 @@ The demo's down-arrows were replaced by dots because they looked noisy.
 - How the current section is tracked (scroll listener or IntersectionObserver),
   as long as the rule in goal 5 holds; the rule itself is a pure function with
   unit tests.
-- Exact breakpoints may follow the existing Tailwind ones (`lg` = 1024px); the
-  700px switch may become `md` (768px) if that fits the page heads better.
+- Exact breakpoints follow the project's own Tailwind ones, which differ from
+  the demo: `md` = 768px for the switch to "beside the page head", `lg` = 896px
+  for the rail (that is where the existing right column starts).
 - Tests: unit tests for the current-section rule and pill visibility;
   Playwright checks on `/ueber-uns` at phone width (list under title, pill
   appears after scrolling, panel opens and jumps) and at 1440px (rail marks the
