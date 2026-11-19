@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { Link } from 'react-router'
 import { cn } from '#app/utils/misc.js'
 
 export type TocSection = { name: string; id: string }
@@ -59,39 +58,6 @@ export function useCurrentSection(ids: string[]) {
   }, [key])
 
   return current
-}
-
-export function Toc({
-  title = 'Inhalt',
-  links,
-  className,
-}: {
-  title?: string
-  links: { name: string; to: string }[]
-  className?: string
-}) {
-  return (
-    <nav className={cn('grid gap-3', className)}>
-      <h2 className="text-body-sm text-muted-foreground flex items-center gap-2 font-bold tracking-widest uppercase">
-        <BookOpen size={18} className="text-primary inline-block" />
-        {title}
-      </h2>
-      <ol className="list-inside list-disc space-y-0.5">
-        {links.map(link => {
-          return (
-            <li key={link.to} className="text-secondary">
-              <Link
-                to={link.to}
-                className="font-condensed text-body-md text-foreground"
-              >
-                {link.name}
-              </Link>
-            </li>
-          )
-        })}
-      </ol>
-    </nav>
-  )
 }
 
 /** True once the reader has scrolled past the first screen of the page. */
