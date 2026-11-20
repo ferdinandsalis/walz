@@ -33,9 +33,7 @@ export default function GetToKnowRoute() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <div>
-        <PageTitle />
-      </div>
+      <PageTitle />
       <div className="col-span-1 col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <div className="md:text-body-md lg:text-body-lg col-span-12 max-w-2xl space-y-4 text-base">
           <p>
