@@ -1,12 +1,15 @@
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
 import { z } from 'zod'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { YearCard } from '../aktuelles/route.tsx'
 import {
   type QueryResult,
   YearSchema,
   jahrgaengeQuery,
 } from './_index.query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Jahrgänge' }
 
 export function meta() {
   return [{ title: 'Jahrgänge | Walz' }]
@@ -29,9 +32,7 @@ export default function Jahrgaenge() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Jahrgänge
-      </h1>
+      <PageTitle />
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <section id="current" className="col-span-12 space-y-8">

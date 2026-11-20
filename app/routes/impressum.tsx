@@ -1,3 +1,7 @@
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Impressum' }
+
 export function meta() {
   return [{ title: 'Impressum | Walz' }]
 }
@@ -5,9 +9,7 @@ export function meta() {
 export default function Legal() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Impressum
-      </h1>
+      <PageTitle />
 
       <div className="col-start-1 grid grid-cols-1 gap-16">
         <div>

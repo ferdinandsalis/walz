@@ -24,6 +24,7 @@ import {
 } from 'react-router'
 import { z } from 'zod'
 import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
+import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
@@ -42,6 +43,8 @@ import {
   aktuellesQuery,
   currentSchoolYearQuery,
 } from './query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Aktuelles' }
 
 export function meta() {
   return [{ title: 'Aktuelles | Walz' }]
@@ -100,7 +103,7 @@ export default function Aktuelles() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <PageHead title="Aktuelles" sections={sections} />
+      <PageHead sections={sections} />
 
       <TocRail
         sections={sections}

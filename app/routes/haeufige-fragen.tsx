@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { BackToTop } from '#app/components/back-to-top.tsx'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { Divider } from '#app/components/ui/divider.js'
 import { faqAnswerText, faqs } from './__faqs.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Häufige Fragen' }
 
 export function meta() {
   return [
@@ -42,9 +45,7 @@ export default function Faq() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: faqPageJsonLd() }}
       />
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Häufige Fragen
-      </h1>
+      <PageTitle />
       <div className="md:text-body-md col-start-1 grid grid-cols-1 gap-16 text-balance">
         {faqs.map((faq, idx) => (
           <React.Fragment key={faq.slug}>

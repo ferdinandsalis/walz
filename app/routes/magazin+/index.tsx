@@ -1,12 +1,13 @@
 import { DownloadSimple } from '@phosphor-icons/react'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { PdfViewer } from '#app/components/pdf-viewer.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Magazin' }
 
 export default function Magazin() {
   return (
     <div className="relative grid items-start gap-8 text-balance lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Magazin
-      </h1>
+      <PageTitle />
       <div className="grid gap-16">
         <section className="space-y-4">
           <h2 className="font-condensed text-h2 text-primary font-bold">

@@ -2,10 +2,13 @@ import { Handshake } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { useLoaderData } from 'react-router'
 import { z } from 'zod'
+import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { YearCard } from '../aktuelles/route.tsx'
 import { alumniQuery, type AlumniQueryResult, YearSchema } from './query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Alumni' }
 
 export function meta() {
   return [{ title: 'Alumni | Walz' }]
@@ -33,7 +36,7 @@ export default function Alumni() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <PageHead title="Alumni" sections={sections} />
+      <PageHead sections={sections} />
 
       <TocRail
         sections={sections}

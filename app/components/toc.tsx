@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 import { cn } from '#app/utils/misc.js'
+import { PageTitle } from './page-title.tsx'
 
 export type TocSection = { name: string; id: string }
 
@@ -143,17 +144,16 @@ function useScrolledAway(ref: RefObject<HTMLElement | null>) {
 }
 
 /**
- * The page title, the page's sections and the optional intro. Below `md` the
+ * The page title (named by the route, see `PageTitle`), the page's sections
+ * and the optional intro. Below `md` the
  * sections sit between title and intro; from `md` beside them; from `lg` the
  * page shows them in its right column instead (see `TocRail`). While the
  * sections are scrolled away on small screens, a button follows the reader.
  */
 export function PageHead({
-  title,
   sections,
   children,
 }: {
-  title: string
   sections: TocSection[]
   children?: ReactNode
 }) {
@@ -161,9 +161,7 @@ export function PageHead({
 
   return (
     <div className="grid items-start gap-x-12 gap-y-6 md:grid-cols-[minmax(0,1fr)_12rem] lg:grid-cols-1">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        {title}
-      </h1>
+      <PageTitle />
       <nav
         ref={listRef}
         aria-label="Auf dieser Seite"

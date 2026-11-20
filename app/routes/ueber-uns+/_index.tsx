@@ -3,6 +3,7 @@ import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { type SanityImageSource } from '@sanity/image-url'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
+import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
@@ -10,6 +11,8 @@ import { type UeberUnsQueryResult } from '#app/sanity/types.ts'
 import { LinkPhotoCard } from '../_index/route.tsx'
 import { ueberUnsQuery } from './_index.query.ts'
 import { pillars } from './philosophie+/_layout.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Über uns' }
 
 export function meta() {
   return [{ title: 'Über uns | Walz' }]
@@ -38,8 +41,8 @@ export default function UeberUns() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <PageHead title="Über uns" sections={sections}>
-        <div className="max-w-2xl space-y-4 text-base text-balance hyphens-auto md:text-xl">
+      <PageHead sections={sections}>
+        <div className="max-w-xl space-y-4 text-base text-pretty hyphens-manual md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 25 Jugendlichen
             verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben

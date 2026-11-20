@@ -1,9 +1,12 @@
 import React from 'react'
 import { useLoaderData } from 'react-router'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { PhotoStrip, type StripPhoto } from '#app/components/photo-strip.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { loadQuery } from '#app/sanity/loader.server.ts'
 import { curriculumQuery, type CurriculumQueryResult } from './query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Curriculum' }
 
 export function meta() {
   return [{ title: 'Curriculum | Walz' }]
@@ -19,9 +22,7 @@ export default function Curriculum() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 text-balance lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Curriculum
-      </h1>
+      <PageTitle />
 
       <div className="md:text-body-md col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance sm:gap-x-6 lg:gap-x-8">
         {data.years.map((year, index) => (

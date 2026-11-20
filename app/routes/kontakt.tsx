@@ -1,5 +1,8 @@
 import { Link as LinkIcon } from '@phosphor-icons/react'
 import { Link } from 'react-router'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Kontakt' }
 
 export function meta() {
   return [{ title: 'Kontakt | Walz' }]
@@ -8,14 +11,14 @@ export function meta() {
 export default function Kontakt() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Kontakt
-      </h1>
+      <PageTitle />
 
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-8 sm:gap-x-6 lg:gap-x-8">
+      {/* From lg the address takes the page's right column, so it keeps its
+          lines whole instead of squeezing into a third of the text column */}
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-8 sm:gap-x-6 lg:col-span-2 lg:grid-cols-subgrid lg:gap-x-8">
         <Link
           to="https://goo.gl/maps/sb3LQfsePwU3zMPg8"
-          className="bg-muted/10 relative col-span-12 h-72 overflow-hidden rounded md:col-span-8 lg:h-96"
+          className="bg-muted/10 relative col-span-12 h-72 overflow-hidden rounded md:col-span-8 lg:col-span-1 lg:h-96"
         >
           <img
             src={`https://maps.googleapis.com/maps/api/staticmap?center=48.1984402,16.2922301&zoom=16&size=800x500&key=${ENV.GOOGLE_MAPS_API_KEY}&scale=2&map_id=8811b5d90ece1ea5`}
@@ -24,7 +27,7 @@ export default function Kontakt() {
           />
           <div className="shadow-muted/80 absolute top-0 left-0 h-full w-full overflow-hidden border shadow-inner"></div>
         </Link>
-        <div className="col-span-12 md:col-span-4">
+        <div className="col-span-12 md:col-span-4 lg:col-span-1">
           <h2 className="text-body-xs text-muted-foreground mb-4 font-bold tracking-widest uppercase">
             Kontakt
           </h2>
