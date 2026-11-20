@@ -1,4 +1,5 @@
 import { List } from '@phosphor-icons/react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Link,
   Links,
@@ -20,6 +21,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './components/ui/collapsible.tsx'
+import { useDismiss } from './components/use-dismiss.ts'
 import appStyleSheetUrl from './styles/app.css?url'
 import fontStyleSheetUrl from './styles/font.css?url'
 import { getEnv } from './utils/env.server.ts'
@@ -125,13 +127,33 @@ function App() {
   )
 }
 
+/**
+ * The phone menu's open state: it closes when a page is chosen, on a tap
+ * outside the header and on Escape.
+ */
+function usePhoneMenu() {
+  const [open, setOpen] = useState(false)
+  const header = useRef<HTMLElement>(null)
+  const button = useRef<HTMLButtonElement>(null)
+  const { pathname } = useLocation()
+
+  useEffect(() => setOpen(false), [pathname])
+  const close = useCallback(() => setOpen(false), [])
+  useDismiss({ open, close, container: header, button })
+
+  return { open, setOpen, header, button }
+}
+
 function Layout({ children }: any) {
+  const menu = usePhoneMenu()
+
   return (
     <div className="relative mx-auto mt-4 grid min-h-screen grid-cols-[0_1fr_0] items-start gap-x-4 gap-y-8 sm:mt-8 sm:gap-x-8 md:mt-12 md:grid-rows-[min-content_1fr_min-content] md:gap-y-12 lg:grid-cols-[0_minmax(min-content,732px)_minmax(min-content,320px)_0] lg:gap-y-16 xl:grid-cols-[0_248px_minmax(min-content,792px)_minmax(min-content,320px)_1fr]">
-      <Collapsible asChild>
+      <Collapsible asChild open={menu.open} onOpenChange={menu.setOpen}>
         <header
+          ref={menu.header}
           className={cn(
-            `col-span-1 col-start-2 row-start-1`,
+            `relative col-span-1 col-start-2 row-start-1`,
             'lg:col-span-2 lg:col-start-2',
             'flex flex-col gap-4 md:flex-row md:flex-wrap md:gap-0',
             'xl:col-span-1 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:flex-col xl:items-start xl:gap-8',
@@ -142,21 +164,23 @@ function Layout({ children }: any) {
           <div className="flex flex-1 items-center justify-between">
             <Link
               to="/"
-              className="group relative -top-1 flex items-center gap-2 py-1 outline-hidden"
-              tabIndex={-1}
+              aria-label="Walz Startseite"
+              className="group focus-visible:ring-primary/30 relative -top-1 flex items-center gap-2 rounded-md py-1 outline-hidden focus-visible:ring-2"
             >
               <LogoSymbol className="text-primary relative top-1 w-10" />
               <LogoType className="fill-foreground/80 w-20" />
             </Link>
             {/* 44px, a thumb-sized target; it fits the logo's row height. */}
             <CollapsibleTrigger
+              ref={menu.button}
               aria-label="Menü"
               className="bg-card/70 hover:bg-card grid size-11 place-items-center rounded-md md:hidden"
             >
               <List aria-hidden className="text-primary" />
             </CollapsibleTrigger>
           </div>
-          <CollapsibleContent className="md:hidden">
+          {/* Over the page, under the logo row, so opening it moves nothing */}
+          <CollapsibleContent className="absolute inset-x-0 top-full z-40 mt-2 md:hidden">
             <Navigation />
           </CollapsibleContent>
           <div className="hidden md:block">

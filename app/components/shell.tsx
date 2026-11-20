@@ -1,6 +1,5 @@
 import {
   ArrowSquareOut,
-  House,
   InstagramLogo,
   YoutubeLogo,
 } from '@phosphor-icons/react'
@@ -12,7 +11,7 @@ import { NewsletterForm } from './newsletter.tsx'
 const navigation = {
   main: [
     { name: 'Aktuelles', to: '/aktuelles' },
-    { name: 'Über Uns', to: '/ueber-uns' },
+    { name: 'Über uns', to: '/ueber-uns' },
     { name: 'Curriculum', to: '/curriculum' },
     { name: 'Aufnahme', to: '/aufnahme' },
     { name: 'Alumni', to: '/alumni' },
@@ -26,13 +25,14 @@ const navigation = {
 }
 
 /**
- * Marks the link to the page the reader is on: none in the phone menu, an
- * underline while the links run across the top, and from `xl` an orange bar
- * left of the link, like the one the section list uses for the current section.
+ * Marks the link to the page the reader is on: an orange bar left of the link
+ * in the phone menu and from `xl` (like the section list's mark for the
+ * current section), an underline while the links run across the top.
  */
 const currentPageMarker = cn(
-  'after:bg-primary relative after:absolute after:content-none md:after:content-[""]',
-  'after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10',
+  'after:bg-primary relative after:absolute after:content-[""]',
+  'after:top-[10px] after:bottom-[10px] after:left-0 after:w-[3px] after:rounded-full',
+  'md:after:top-auto md:after:bottom-[5px] md:after:left-1/2 md:after:-ml-5 md:after:h-[2px] md:after:w-10 md:after:rounded-none',
   'xl:after:top-[7px] xl:after:bottom-[7px] xl:after:left-0 xl:after:ml-0 xl:after:h-auto xl:after:w-[3px] xl:after:rounded-full',
 )
 
@@ -42,26 +42,6 @@ export function Navigation() {
       aria-label="Global"
       className="bg-card flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0 xl:overflow-visible"
     >
-      <NavLink
-        to="/"
-        prefetch="intent"
-        className={({ isActive }) =>
-          cn(
-            'group font-condensed focus:ring-primary/20 flex-none items-center px-3 py-2 text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:-ml-3 xl:aspect-auto xl:rounded-none xl:p-1 xl:pl-4',
-            'hover:text-primary',
-            {
-              'text-stone-900 ring-0': isActive,
-              [currentPageMarker]: isActive,
-            },
-          )
-        }
-      >
-        <House
-          size={24}
-          className="text-secondary order-1 hidden md:block md:group-hover:scale-105 xl:hidden"
-        />
-        <span className="md:sr-only xl:not-sr-only">Startseite</span>
-      </NavLink>
       {navigation.main.map(item => (
         <NavLink
           key={item.name}
