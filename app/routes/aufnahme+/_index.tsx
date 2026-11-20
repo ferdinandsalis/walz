@@ -1,7 +1,7 @@
 import { DownloadSimple, ArrowSquareOut, Info } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
-import { Toc } from '#app/components/toc.tsx'
+import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { Notice } from '#app/components/ui/notice.tsx'
@@ -28,26 +28,25 @@ export async function loader() {
   return AufnahmeQuerySchema.parse(queryResult.data)
 }
 
+const sections: TocSection[] = [
+  { name: 'Vorgehensweise', id: 'vorgehensweise' },
+  { name: 'Voraussetzungen', id: 'voraussetzungen' },
+  { name: 'Kosten', id: 'kosten' },
+  { name: 'Stipendien', id: 'stipendien' },
+]
+
 export default function Aufnahme() {
   const loaderData = useLoaderData<typeof loader>()
   const current = loaderData.currentSchoolYear
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Aufnahme
-      </h1>
+      <PageHead title="Aufnahme" sections={sections} />
 
-      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
-        <Toc
-          links={[
-            { name: 'Vorgehensweise', to: '#vorgehensweise' },
-            { name: 'Voraussetzungen', to: '#voraussetzungen' },
-            { name: 'Kosten', to: '#kosten' },
-            { name: 'Stipendien', to: '#stipendien' },
-          ]}
-        />
-      </div>
+      <TocRail
+        sections={sections}
+        className="hidden lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2 lg:grid"
+      />
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <article id="vorgehensweise" className="col-span-12 space-y-8">

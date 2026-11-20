@@ -2,7 +2,7 @@ import { Handshake } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { useLoaderData } from 'react-router'
 import { z } from 'zod'
-import { Toc } from '#app/components/toc.tsx'
+import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { YearCard } from '../aktuelles/route.tsx'
 import { alumniQuery, type AlumniQueryResult, YearSchema } from './query.ts'
@@ -22,24 +22,23 @@ export async function loader() {
   }
 }
 
+const sections: TocSection[] = [
+  { name: 'Ehrensache Walz', id: 'ehrensache' },
+  { name: 'Ehemalige Jahrgänge', id: 'jahrgaenge' },
+]
+
 export default function Alumni() {
   const loaderData = useLoaderData<typeof loader>()
   const { alumniYears } = loaderData.data
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Alumni
-      </h1>
+      <PageHead title="Alumni" sections={sections} />
 
-      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
-        <Toc
-          links={[
-            { name: 'Ehrensache Walz', to: '#ehrensache' },
-            { name: 'Ehemalige Jahrgänge', to: '#jahrgaenge' },
-          ]}
-        />
-      </div>
+      <TocRail
+        sections={sections}
+        className="hidden lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2 lg:grid"
+      />
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <section id="ehrensache" className="col-span-12 space-y-8">

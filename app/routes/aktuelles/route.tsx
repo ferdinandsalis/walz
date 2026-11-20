@@ -24,7 +24,7 @@ import {
 } from 'react-router'
 import { z } from 'zod'
 import { CopyLinkButton } from '#app/components/copy-link-button.tsx'
-import { Toc } from '#app/components/toc.tsx'
+import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type Event, EventSchema, tType } from '#app/sanity/models/event.ts'
@@ -86,6 +86,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 }
 
+const sections: TocSection[] = [
+  { name: 'Schuljahr', id: 'schuljahr' },
+  { name: 'Jahrgänge', id: 'jahrgaenge' },
+  { name: 'Blog', id: 'blog' },
+]
+
 export default function Aktuelles() {
   const loaderData = useLoaderData<typeof loader>()
   const location = useLocation()
@@ -94,19 +100,12 @@ export default function Aktuelles() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Aktuelles
-      </h1>
+      <PageHead title="Aktuelles" sections={sections} />
 
-      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
-        <Toc
-          links={[
-            { name: 'Schuljahr', to: '#schuljahr' },
-            { name: 'Jahrgänge', to: '#jahrgaenge' },
-            { name: 'Blog', to: '#blog' },
-          ]}
-        />
-      </div>
+      <TocRail
+        sections={sections}
+        className="hidden lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2 lg:grid"
+      />
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <section id="schuljahr" className="col-span-12 space-y-8">

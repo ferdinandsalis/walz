@@ -3,7 +3,7 @@ import * as ScrollArea from '@radix-ui/react-scroll-area'
 import { type SanityImageSource } from '@sanity/image-url'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
-import { Toc } from '#app/components/toc.tsx'
+import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type UeberUnsQueryResult } from '#app/sanity/types.ts'
@@ -24,6 +24,13 @@ export async function loader() {
   }
 }
 
+const sections: TocSection[] = [
+  { name: 'Menschen', id: 'menschen' },
+  { name: 'Philosophie', id: 'philosophie' },
+  { name: 'Leitbild', id: 'leitbild' },
+  { name: 'Geschichte', id: 'geschichte' },
+]
+
 export default function UeberUns() {
   const loaderData = useLoaderData<typeof loader>()
   const { leadership, mentor, project_lead, administrator, therapist } =
@@ -31,23 +38,8 @@ export default function UeberUns() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Über uns
-      </h1>
-
-      <div className="bg-muted/30 row-start-1 rounded-md p-6 lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2">
-        <Toc
-          links={[
-            { name: 'Menschen', to: '#menschen' },
-            { name: 'Philosophie', to: '#philosophie' },
-            { name: 'Leitbild', to: '#leitbild' },
-            { name: 'Geschichte', to: '#geschichte' },
-          ]}
-        />
-      </div>
-
-      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
-        <div className="col-span-12 max-w-2xl space-y-4 text-base md:text-xl">
+      <PageHead title="Über uns" sections={sections}>
+        <div className="max-w-2xl space-y-4 text-base text-balance hyphens-auto md:text-xl">
           <p>
             Die Walz bietet fünf Jahrgängen von jeweils ca. 25 Jugendlichen
             verschiedenste Lernwelten an, die sie auf ein selbstbestimmtes Leben
@@ -65,7 +57,14 @@ export default function UeberUns() {
             Werkerziehung.
           </p>
         </div>
+      </PageHead>
 
+      <TocRail
+        sections={sections}
+        className="hidden lg:sticky lg:top-4 lg:z-20 lg:col-start-2 lg:row-start-2 lg:grid"
+      />
+
+      <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <section id="menschen" className="col-span-12">
           <h1 className="font-condensed text-h2 text-primary mb-8 font-bold">
             Menschen
