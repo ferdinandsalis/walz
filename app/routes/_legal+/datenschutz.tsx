@@ -1,9 +1,11 @@
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Datenschutzerklärung' }
+
 export default function Datenschutz() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Datenschutzerklärung
-      </h1>
+      <PageTitle />
       <div className="prose col-start-1">
         <p>
           Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir

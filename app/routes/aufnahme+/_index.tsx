@@ -1,6 +1,7 @@
 import { DownloadSimple, ArrowSquareOut, Info } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
 import { Link, useLoaderData } from 'react-router'
+import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
@@ -14,6 +15,8 @@ import {
   AufnahmeQuerySchema,
   aufnahmeQuery,
 } from './_index.query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Aufnahme' }
 
 export function meta() {
   return [{ title: 'Aufnahme | Walz' }]
@@ -41,7 +44,7 @@ export default function Aufnahme() {
 
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <PageHead title="Aufnahme" sections={sections} />
+      <PageHead sections={sections} />
 
       <TocRail
         sections={sections}

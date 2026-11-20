@@ -2,6 +2,8 @@
  * @vitest-environment jsdom
  */
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { type ReactElement } from 'react'
+import { createRoutesStub } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { renderStatic } from '#tests/setup/render-static.ts'
 import {
@@ -167,12 +169,22 @@ const sections: TocSection[] = [
   { name: 'Geschichte', id: 'geschichte' },
 ]
 
+/** Shows the element on a page whose route names "Über uns" as its title. */
+function onUeberUns(element: ReactElement) {
+  const Stub = createRoutesStub([
+    { path: '/', Component: () => element, handle: { pageTitle: 'Über uns' } },
+  ])
+  return <Stub initialEntries={['/']} />
+}
+
 describe('PageHead', () => {
   it('puts the in-flow list right after the title and before the intro', () => {
     render(
-      <PageHead title="Über uns" sections={sections}>
-        <p>Intro</p>
-      </PageHead>,
+      onUeberUns(
+        <PageHead sections={sections}>
+          <p>Intro</p>
+        </PageHead>,
+      ),
     )
 
     const title = screen.getByRole('heading', { level: 1, name: 'Über uns' })
@@ -187,7 +199,7 @@ describe('PageHead', () => {
   })
 
   it('renders title and list in the server HTML', () => {
-    const html = renderStatic(<PageHead title="Über uns" sections={sections} />)
+    const html = renderStatic(onUeberUns(<PageHead sections={sections} />))
 
     expect(html.querySelector('h1')?.textContent).toBe('Über uns')
     expect(html.querySelector('a[href="#menschen"]')?.textContent).toBe(
@@ -200,7 +212,7 @@ describe('pill', () => {
   /** Renders the page head with the in-flow list's bottom edge at `bottom`. */
   function renderHead(bottom: number) {
     layOutSections({ menschen: -900, leitbild: 100, geschichte: 900 })
-    render(<PageHead title="Über uns" sections={sections} />)
+    render(onUeberUns(<PageHead sections={sections} />))
     const list = screen.getByRole('navigation', { name: 'Auf dieser Seite' })
     const moveList = (newBottom: number) => {
       placeAt(list, newBottom - 100)

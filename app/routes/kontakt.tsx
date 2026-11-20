@@ -1,5 +1,8 @@
 import { Link as LinkIcon } from '@phosphor-icons/react'
 import { Link } from 'react-router'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Kontakt' }
 
 export function meta() {
   return [{ title: 'Kontakt | Walz' }]
@@ -8,9 +11,7 @@ export function meta() {
 export default function Kontakt() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Kontakt
-      </h1>
+      <PageTitle />
 
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-8 sm:gap-x-6 lg:gap-x-8">
         <Link

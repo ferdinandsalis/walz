@@ -2,10 +2,13 @@ import { PortableText } from '@portabletext/react'
 import { loadQuery } from '@sanity/react-loader'
 import { evolve, map } from 'ramda'
 import { Link, type LoaderFunctionArgs, useLoaderData } from 'react-router'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { type Event, EventSchema } from '#app/sanity/models/event.ts'
 import { type KennenlernenQueryResult } from '#app/sanity/types.ts'
 import { kennenlernenQuery } from './query.ts'
+
+export const handle: PageTitleHandle = { pageTitle: 'Kennenlernen' }
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const queryResult = await loadQuery<KennenlernenQueryResult>(
@@ -31,9 +34,7 @@ export default function GetToKnowRoute() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
       <div>
-        <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-          Kennenlernen
-        </h1>
+        <PageTitle />
       </div>
       <div className="col-span-1 col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 sm:gap-x-6 lg:gap-x-8">
         <div className="md:text-body-md lg:text-body-lg col-span-12 max-w-2xl space-y-4 text-base">

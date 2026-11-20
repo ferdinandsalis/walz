@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
+import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
+
+export const handle: PageTitleHandle = { pageTitle: 'Unterstützer:innen' }
 
 export default function Unterstuetzer() {
   return (
     <div className="relative grid grid-cols-subgrid items-start gap-8 lg:col-span-2">
-      <h1 className="font-condensed text-h1 text-muted-foreground font-bold opacity-20">
-        Unterstützer:innen
-      </h1>
+      <PageTitle />
       <div className="col-start-1 grid grid-cols-12 gap-x-4 gap-y-16 text-balance hyphens-auto sm:gap-x-6 lg:gap-x-8">
         <div className="col-span-12 grid grid-cols-subgrid gap-y-12 text-base md:text-xl">
           <p className="text-body-md col-span-12 max-w-2xl">

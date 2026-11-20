@@ -13,6 +13,7 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { type Route } from '../.react-router/types/app/+types/root.ts'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
+import { PageTitleSpine } from './components/page-title.tsx'
 import { FooterNavigation, Navigation } from './components/shell.tsx'
 import {
   Collapsible,
@@ -126,7 +127,7 @@ function App() {
 
 function Layout({ children }: any) {
   return (
-    <div className="relative mx-auto mt-4 grid min-h-screen grid-cols-[0_1fr_0] items-start gap-x-4 gap-y-4 sm:mt-8 sm:gap-x-8 sm:gap-y-8 md:mt-12 md:grid-rows-[min-content_1fr_min-content] md:gap-y-12 lg:grid-cols-[0_minmax(min-content,732px)_minmax(min-content,320px)_0] lg:gap-y-16 xl:grid-cols-[0_248px_minmax(min-content,792px)_minmax(min-content,320px)_1fr]">
+    <div className="relative mx-auto mt-4 grid min-h-screen grid-cols-[0_1fr_0] items-start gap-x-4 gap-y-8 sm:mt-8 sm:gap-x-8 md:mt-12 md:grid-rows-[min-content_1fr_min-content] md:gap-y-12 lg:grid-cols-[0_minmax(min-content,732px)_minmax(min-content,320px)_0] lg:gap-y-16 xl:grid-cols-[0_248px_minmax(min-content,792px)_minmax(min-content,320px)_1fr]">
       <Collapsible asChild>
         <header
           className={cn(
@@ -161,6 +162,8 @@ function Layout({ children }: any) {
           <div className="hidden md:block">
             <Navigation />
           </div>
+          {/* Beside the text, in the room the logo and links leave free */}
+          <PageTitleSpine className="absolute top-0 right-0 hidden xl:block" />
         </header>
       </Collapsible>
 

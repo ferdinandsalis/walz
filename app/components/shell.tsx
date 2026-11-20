@@ -25,23 +25,33 @@ const navigation = {
   social: [],
 }
 
+/**
+ * Marks the link to the page the reader is on: none in the phone menu, an
+ * underline while the links run across the top, and from `xl` an orange bar
+ * left of the link, like the one the section list uses for the current section.
+ */
+const currentPageMarker = cn(
+  'after:bg-primary relative after:absolute after:content-none md:after:content-[""]',
+  'after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10',
+  'xl:after:top-[7px] xl:after:bottom-[7px] xl:after:left-0 xl:after:ml-0 xl:after:h-auto xl:after:w-[3px] xl:after:rounded-full',
+)
+
 export function Navigation() {
   return (
     <nav
       aria-label="Global"
-      className="bg-card flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0"
+      className="bg-card flex flex-col divide-y divide-stone-100 overflow-hidden rounded-lg shadow-lg shadow-stone-200 md:flex-row md:items-center md:gap-2 md:divide-none md:bg-transparent md:shadow-none lg:gap-3 xl:flex-col xl:items-start xl:gap-0 xl:overflow-visible"
     >
       <NavLink
         to="/"
         prefetch="intent"
         className={({ isActive }) =>
           cn(
-            'group font-condensed focus:ring-primary/20 flex-none items-center px-3 py-2 text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:aspect-auto xl:rounded-none xl:p-1',
+            'group font-condensed focus:ring-primary/20 flex-none items-center px-3 py-2 text-lg font-bold outline-hidden transition-colors hover:text-gray-900 focus:ring-2 focus:ring-inset md:mr-1 md:aspect-square md:rounded-full md:p-3 lg:text-xl xl:-ml-3 xl:aspect-auto xl:rounded-none xl:p-1 xl:pl-4',
             'hover:text-primary',
             {
               'text-stone-900 ring-0': isActive,
-              'after:bg-primary relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:content-none md:after:content-[""] xl:after:content-none':
-                isActive,
+              [currentPageMarker]: isActive,
             },
           )
         }
@@ -59,12 +69,11 @@ export function Navigation() {
           prefetch="intent"
           className={({ isActive }) =>
             cn(
-              'font-condensed ring-card focus:ring-primary/20 px-3 py-2 text-lg font-bold text-stone-800 outline-hidden transition-colors ring-inset focus:ring-2 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:p-1',
+              'font-condensed ring-card focus:ring-primary/20 px-3 py-2 text-lg font-bold text-stone-800 outline-hidden transition-colors ring-inset focus:ring-2 md:rounded-md md:px-1 md:py-2 lg:text-xl xl:-ml-3 xl:p-1 xl:pl-4',
               'hover:text-primary',
               {
                 'text-stone-900 ring-0': isActive,
-                'after:bg-primary relative after:absolute after:bottom-[5px] after:left-1/2 after:-ml-5 after:h-[2px] after:w-10 after:content-none md:after:content-[""] xl:after:content-none':
-                  isActive,
+                [currentPageMarker]: isActive,
               },
             )
           }
