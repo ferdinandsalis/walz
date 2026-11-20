@@ -10,6 +10,7 @@ import {
 } from 'react'
 import { cn } from '#app/utils/misc.js'
 import { PageTitle } from './page-title.tsx'
+import { useDismiss } from './use-dismiss.ts'
 
 export type TocSection = { name: string; id: string }
 
@@ -216,27 +217,8 @@ function TocPill({
 
   if (!visible && open) setOpen(false)
 
-  useEffect(() => {
-    if (!open) return
-
-    // pointerdown, because iOS sends no click to the document for taps on
-    // plain content
-    function closeOnOutsideTap(event: PointerEvent) {
-      if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false)
-    }
-    function closeOnEscape(event: KeyboardEvent) {
-      if (event.key !== 'Escape') return
-      setOpen(false)
-      buttonRef.current?.focus()
-    }
-
-    document.addEventListener('pointerdown', closeOnOutsideTap)
-    document.addEventListener('keydown', closeOnEscape)
-    return () => {
-      document.removeEventListener('pointerdown', closeOnOutsideTap)
-      document.removeEventListener('keydown', closeOnEscape)
-    }
-  }, [open])
+  const close = useCallback(() => setOpen(false), [])
+  useDismiss({ open, close, container: wrapperRef, button: buttonRef })
 
   const currentName = sections.find(section => section.id === current)?.name
 
