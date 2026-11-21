@@ -418,12 +418,13 @@ const keyFigures = [
     label: 'ihrer Kosten trägt die Walz als gemeinnütziger Verein selbst',
   },
   {
-    figure: '€ 700',
+    figure: 'ca. € 700',
     label: 'Förderung vom Bildungsministerium pro Jahr und Schüler:in',
   },
   {
     figure: '€ 15.729',
-    label: 'kostet die öffentliche Schule pro Jahr in der Sekundarstufe (OECD)',
+    label:
+      'kostete die öffentliche Schule pro Jahr in der Sekundarstufe (OECD, 2019)',
   },
 ]
 
