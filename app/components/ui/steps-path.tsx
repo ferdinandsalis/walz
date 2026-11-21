@@ -1,23 +1,19 @@
 import { useId } from 'react'
-import { cn } from '#app/utils/misc.tsx'
 import { PathDot, PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
 
 /**
  * The steps of a process as an ordered list on a dashed rail, labelled by its
- * heading. `compact` shows the titles beside small dots: everything lies
- * ahead. `full` shows titles and descriptions, with step 1 done, step 2 next
- * and a solid stretch drawing in between them.
+ * heading: titles and descriptions, with step 1 done, step 2 next and a solid
+ * stretch drawing in between them.
  */
 export function StepsPath({
   steps,
-  variant,
   heading,
   headingAs: Heading = 'h2',
   hanging = false,
   className,
 }: {
   steps: ReadonlyArray<{ title: string; description: string }>
-  variant: 'compact' | 'full'
   heading: string
   headingAs?: 'h2' | 'h3'
   /** From xl, hangs the rail in the left margin, as `PathRail` does. */
@@ -25,37 +21,30 @@ export function StepsPath({
   className?: string
 }) {
   const headingId = useId()
-  const full = variant === 'full'
 
   return (
     <div className={className}>
-      <Heading
-        id={headingId}
-        className={cn(
-          'font-condensed font-bold',
-          full ? 'text-h5' : 'text-body-sm',
-        )}
-      >
+      <Heading id={headingId} className="font-condensed text-h5 font-bold">
         {heading}
       </Heading>
-      <PathRail dashed hanging={hanging} className={full ? 'mt-5' : 'mt-3'}>
+      <PathRail dashed hanging={hanging} className="mt-5">
         {/* Safari drops the list role from a list without bullets. */}
         <ol
           role="list"
           aria-labelledby={headingId}
-          className={cn('flex flex-col', full ? 'gap-6' : 'gap-3')}
+          className="flex flex-col gap-6"
         >
           {steps.map((step, index) => (
             <li
               key={step.title}
               // The text size sets the line height that centres the marker
               // on the first line (`lh`).
-              className={cn('relative', full ? 'text-body-md' : 'text-body-xs')}
+              className="text-body-md relative"
             >
-              {full && index === 0 ? <DoneStretch /> : null}
+              {index === 0 ? <DoneStretch /> : null}
               {index === steps.length - 1 ? <RailEnd /> : null}
               <PathMarker>
-                {full && index < 2 ? (
+                {index < 2 ? (
                   <PathNode
                     state={index === 0 ? 'done' : 'open'}
                     number={index + 1}
@@ -64,19 +53,11 @@ export function StepsPath({
                   <PathDot />
                 )}
               </PathMarker>
-              {full ? (
-                <>
-                  {index === 0 ? (
-                    <span className="sr-only">Erledigt: </span>
-                  ) : null}
-                  <span className="font-condensed font-bold">{step.title}</span>
-                  <span className="text-body-xs/relaxed text-muted-foreground mt-0.5 block">
-                    {step.description}
-                  </span>
-                </>
-              ) : (
-                step.title
-              )}
+              {index === 0 ? <span className="sr-only">Erledigt: </span> : null}
+              <span className="font-condensed font-bold">{step.title}</span>
+              <span className="text-body-xs/relaxed text-muted-foreground mt-0.5 block">
+                {step.description}
+              </span>
             </li>
           ))}
         </ol>
@@ -85,16 +66,12 @@ export function StepsPath({
   )
 }
 
-/*
-  Both stretches below run along the rail from the centre of their item's
-  marker (half a line down). They come before the marker, so it paints over
-  them.
-*/
-
 /**
  * The solid stretch from step 1's node to step 2's, drawn over the dashed
- * rail. It reaches past the item by the list gap (`gap-6`) plus half of step
- * 2's first line, so it tracks the length of step 1's text.
+ * rail. It runs along the rail from the centre of step 1's marker (half a
+ * line down) and comes before the marker, so the marker paints over it. It
+ * reaches past the item by the list gap (`gap-6`) plus half of step 2's first
+ * line, so it tracks the length of step 1's text.
  */
 function DoneStretch() {
   return (
