@@ -14,7 +14,6 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { type Route } from '../.react-router/types/app/+types/root.ts'
 import { LogoSymbol, LogoType } from './components/brand.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
-import { PageTitleSpine } from './components/page-title.tsx'
 import { FooterNavigation, Navigation } from './components/shell.tsx'
 import {
   Collapsible,
@@ -186,8 +185,6 @@ function Layout({ children }: any) {
           <div className="hidden md:block">
             <Navigation />
           </div>
-          {/* Beside the text, in the room the logo and links leave free */}
-          <PageTitleSpine className="absolute top-0 right-0 hidden xl:block" />
         </header>
       </Collapsible>
 
