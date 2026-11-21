@@ -22,14 +22,9 @@ function byClass(container: Element, className: string) {
   )
 }
 
-function renderSteps(headingAs?: 'h2' | 'h3', hanging?: boolean) {
+function renderSteps(hanging?: boolean) {
   return renderStatic(
-    <StepsPath
-      steps={STEPS}
-      heading="So geht es weiter"
-      headingAs={headingAs}
-      hanging={hanging}
-    />,
+    <StepsPath steps={STEPS} heading="So geht es weiter" hanging={hanging} />,
   )
 }
 
@@ -49,16 +44,9 @@ describe('StepsPath', () => {
     expect(renderSteps().querySelector('ol')?.getAttribute('role')).toBe('list')
   })
 
-  it('renders the heading at the level asked for', () => {
-    const container = renderSteps('h3')
-
-    expect(container.querySelector('h2')).toBeNull()
-    expect(container.querySelector('h3')?.textContent).toBe('So geht es weiter')
-  })
-
   it('hangs the rail in the left margin only when asked', () => {
     expect(byClass(renderSteps(), 'xl:-ml-path-wide')).toHaveLength(0)
-    expect(byClass(renderSteps('h2', true), 'xl:-ml-path-wide')).toHaveLength(1)
+    expect(byClass(renderSteps(true), 'xl:-ml-path-wide')).toHaveLength(1)
   })
 
   it('lists titles with their descriptions', () => {

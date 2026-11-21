@@ -9,13 +9,11 @@ import { PathDot, PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
 export function StepsPath({
   steps,
   heading,
-  headingAs: Heading = 'h2',
   hanging = false,
   className,
 }: {
   steps: ReadonlyArray<{ title: string; description: string }>
   heading: string
-  headingAs?: 'h2' | 'h3'
   /** From xl, hangs the rail in the left margin, as `PathRail` does. */
   hanging?: boolean
   className?: string
@@ -24,9 +22,9 @@ export function StepsPath({
 
   return (
     <div className={className}>
-      <Heading id={headingId} className="font-condensed text-h5 font-bold">
+      <h2 id={headingId} className="font-condensed text-h5 font-bold">
         {heading}
-      </Heading>
+      </h2>
       <PathRail dashed hanging={hanging} className="mt-5">
         {/* Safari drops the list role from a list without bullets. */}
         <ol
