@@ -1,5 +1,4 @@
 import { Outlet, useMatches } from 'react-router'
-import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { SectionHeading } from '#app/components/section-heading.tsx'
 import { LinkPhotoCard } from '#app/routes/_index/route.tsx'
 import { handle as educationHandle } from './bildung.tsx'
@@ -7,9 +6,6 @@ import { handle as personalityHandle } from './persoenlichkeit.tsx'
 import { handle as practiceHandle } from './praxis.tsx'
 
 export const pillars = [educationHandle, personalityHandle, practiceHandle]
-
-// The sub-pages belong to Über uns: from `xl` its title runs beside them
-export const handle: PageTitleHandle = { pageTitle: 'Über uns' }
 
 export function meta() {
   return [{ title: 'Philosophie | Walz' }]
