@@ -47,12 +47,12 @@ async function expectSolidOutline(locator: Locator) {
 test.describe('Aufnahme Form', () => {
   test('should navigate to form from aufnahme page', async ({ page }) => {
     await page.goto('/aufnahme')
-    // Exact, as the "Aufnahmetermin" notice title is a heading too
+    // Exact, as the step heading "Aufnahmegespräch" contains "Aufnahme" too
     await expect(
       page.getByRole('heading', { name: 'Aufnahme', exact: true }),
     ).toBeVisible()
 
-    // Click the "Jetzt anmelden" button
+    // Click the "Zum Anmeldeformular" button
     await page.getByRole('link', { name: 'Zum Anmeldeformular' }).click()
 
     // Should be on the form page
