@@ -273,12 +273,12 @@ const admissionStepTexts: Record<string, ReactNode> = {
 /**
  * The admission steps on the Lernpfad, each numbered, with its title as a
  * heading and its text below. The titles are the ones the form and the
- * confirmation page show. The path does not hang in the margin, where the
- * page title runs.
+ * confirmation page show. From xl the path hangs in the left margin, as it
+ * does there.
  */
 function AdmissionSteps() {
   return (
-    <PathRail dashed>
+    <PathRail dashed hanging>
       {/* Safari drops the list role from a list without bullets. */}
       <ol
         role="list"

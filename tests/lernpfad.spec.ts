@@ -278,22 +278,23 @@ test.describe('the hanging path', () => {
 
     // /aufnahme has the page title running down the margin, so its path
     // stays beside the text instead of hanging over the title.
-    test('keeps the steps clear of the page title on /aufnahme', async ({
+    test('lines the steps up with the heading on /aufnahme, the nodes in the margin', async ({
       page,
     }) => {
       await page.goto('/aufnahme')
       await page.evaluate(() => document.fonts.ready)
-
-      const titleRight = await page.evaluate(() => {
-        const spine = Array.from(document.querySelectorAll('p')).find(
-          element => getComputedStyle(element).writingMode === 'vertical-rl',
-        )
-        return spine!.getBoundingClientRect().right
+      const heading = page.getByRole('heading', {
+        level: 1,
+        name: 'Vorgehensweise',
       })
+
+      await expectEveryStepOnTheHeadingEdge(page, 'Aufnahmeprozess', heading)
+      const headingLeft = await textLeft(heading)
       const nodes = page.locator('#vorgehensweise [data-node-state]')
       await expect(nodes).toHaveCount(4)
       for (const node of await nodes.all()) {
-        expect((await node.boundingBox())!.x).toBeGreaterThan(titleRight)
+        const box = (await node.boundingBox())!
+        expect(box.x + box.width).toBeLessThanOrEqual(headingLeft)
       }
     })
   })
