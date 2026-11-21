@@ -33,13 +33,11 @@ import {
   RailEnd,
 } from '#app/components/ui/path.tsx'
 import { SectionMap } from '#app/components/ui/section-map.tsx'
-import { StepsPath } from '#app/components/ui/steps-path.tsx'
 import { Textarea } from '#app/components/ui/textarea.tsx'
 import { visibleFocusOutline } from '#app/components/visible-focus.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import {
   AUFNAHME_FIELD_NAMES,
-  AUFNAHME_STEPS,
   type BirthdatePart,
   hasParent2Data,
   parseAufnahmeForm,
@@ -221,13 +219,6 @@ export default function AufnahmeFormular() {
           Formular als Elternteil oder erziehungsberechtigte Person aus. Es
           dauert etwa 5 Minuten.
         </p>
-
-        <StepsPath
-          steps={AUFNAHME_STEPS}
-          variant="compact"
-          heading="Aufnahmeprozess"
-          hanging
-        />
 
         <p className="text-body-xs text-muted-foreground">
           Felder ohne „optional“ müssen ausgefüllt werden.

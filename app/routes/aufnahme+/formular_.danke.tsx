@@ -59,9 +59,7 @@ export default function AufnahmeFormularDanke() {
 
       <StepsPath
         steps={AUFNAHME_STEPS}
-        variant="full"
         heading="So geht es weiter"
-        hanging
         className="mt-2"
       />
 

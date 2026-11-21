@@ -74,10 +74,21 @@ test('hides the section map on phones', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Anmeldung für die Walz' }),
   ).toBeVisible()
-  await expect(
-    page.getByRole('list', { name: 'Aufnahmeprozess' }),
-  ).toBeVisible()
+  await expect(page.locator('#abschnitt-1 legend h2')).toBeVisible()
   await expect(sectionMap(page)).toBeHidden()
+})
+
+// The form is step 1 of the admission process; /aufnahme tells the steps
+// before it and the confirmation page after it.
+test('shows only the path through the form on /aufnahme/formular', async ({
+  page,
+}) => {
+  await page.goto('/aufnahme/formular')
+
+  await expect(page.locator('#abschnitt-1 legend h2')).toBeVisible()
+  await expect(page.getByRole('list', { name: 'Aufnahmeprozess' })).toHaveCount(
+    0,
+  )
 })
 
 test("mirrors the form's section state", async ({ page }) => {
@@ -168,16 +179,16 @@ test.describe('on a narrow phone', () => {
     await expect(page.locator('#studentStreet')).toBeVisible()
   }
 
-  for (const [path, stepsName, prepare] of [
-    ['/aufnahme/formular', 'Aufnahmeprozess', openEveryReveal],
-    ['/aufnahme/formular/danke', 'So geht es weiter', undefined],
-    ['/aufnahme', 'Aufnahmeprozess', undefined],
+  for (const [path, pathPart, prepare] of [
+    ['/aufnahme/formular', '#abschnitt-1', openEveryReveal],
+    ['/aufnahme/formular/danke', 'ol[aria-labelledby]', undefined],
+    ['/aufnahme', 'ol[aria-label=Aufnahmeprozess]', undefined],
   ] as const) {
     test(`does not scroll sideways at 320px on ${path}`, async ({ page }) => {
       await page.goto(path)
       await page.evaluate(() => document.fonts.ready)
 
-      await expect(page.getByRole('list', { name: stepsName })).toBeVisible()
+      await expect(page.locator(pathPart)).toBeVisible()
       await prepare?.(page)
       const scrollWidth = await page.evaluate(
         () => document.documentElement.scrollWidth,
@@ -232,7 +243,6 @@ test.describe('the hanging path', () => {
         page.locator('label[for=parent1Name]'),
         heading,
       )
-      await expectEveryStepOnTheHeadingEdge(page, 'Aufnahmeprozess', heading)
 
       const node = page.locator('#abschnitt-1 [data-node-state]')
       const nodeBox = (await node.boundingBox())!
@@ -268,22 +278,23 @@ test.describe('the hanging path', () => {
 
     // /aufnahme has the page title running down the margin, so its path
     // stays beside the text instead of hanging over the title.
-    test('keeps the steps clear of the page title on /aufnahme', async ({
+    test('lines the steps up with the heading on /aufnahme, the nodes in the margin', async ({
       page,
     }) => {
       await page.goto('/aufnahme')
       await page.evaluate(() => document.fonts.ready)
-
-      const titleRight = await page.evaluate(() => {
-        const spine = Array.from(document.querySelectorAll('p')).find(
-          element => getComputedStyle(element).writingMode === 'vertical-rl',
-        )
-        return spine!.getBoundingClientRect().right
+      const heading = page.getByRole('heading', {
+        level: 1,
+        name: 'Vorgehensweise',
       })
+
+      await expectEveryStepOnTheHeadingEdge(page, 'Aufnahmeprozess', heading)
+      const headingLeft = await textLeft(heading)
       const nodes = page.locator('#vorgehensweise [data-node-state]')
       await expect(nodes).toHaveCount(4)
       for (const node of await nodes.all()) {
-        expect((await node.boundingBox())!.x).toBeGreaterThan(titleRight)
+        const box = (await node.boundingBox())!
+        expect(box.x + box.width).toBeLessThanOrEqual(headingLeft)
       }
     })
   })
