@@ -23,6 +23,19 @@ export const AufnahmeQuerySchema = z.object({
     })
     .optional()
     .nullable(),
+  // The graduate quoted on the page: the first testimonial in the Studio's order
+  testimonial: z
+    .object({
+      name: z.string(),
+      quote: z.string(),
+      year: z
+        .object({
+          letter: z.string(),
+          graduatedAt: z.coerce.date().nullable(),
+        })
+        .nullable(),
+    })
+    .nullable(),
 })
 
 export type AufnahmeQuery = z.infer<typeof AufnahmeQuerySchema>
@@ -38,5 +51,13 @@ export const aufnahmeQuery = defineQuery(`{
             definedAt,
             list
         }
-    }[0]
+    }[0],
+    "testimonial": *[_type == "testimonial"] | order(orderRank)[0] {
+        name,
+        quote,
+        year -> {
+            letter,
+            graduatedAt
+        }
+    }
 }`)

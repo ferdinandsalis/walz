@@ -139,11 +139,9 @@ test('tells the admission steps with their text on /aufnahme', async ({
     await expect(steps.nth(index)).toContainText(text)
   }
 
-  await expect(
-    page.locator('.bg-secondary-50').filter({
-      has: page.getByText('Plätze frei', { exact: true }),
-    }),
-  ).toHaveCount(1)
+  // The admission day notice in step 1 is the page's only notice; the free
+  // places sit in a tile under Voraussetzungen.
+  await expect(page.locator('.bg-secondary-50')).toHaveCount(1)
 
   // The way to the form starts at step 1, beside the current Jahrgang.
   const notice = steps.first().locator('.bg-secondary-50')

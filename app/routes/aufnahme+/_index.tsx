@@ -13,6 +13,7 @@ import {
   PathRail,
   RailEnd,
 } from '#app/components/ui/path.tsx'
+import { alphabetMap } from '#app/sanity/models/year.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 import {
@@ -67,9 +68,13 @@ export default function Aufnahme() {
         <Divider className="col-span-12" />
 
         <article id="voraussetzungen" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary text-4xl font-bold">
-            Voraussetzungen
-          </h1>
+          <ChapterOpener
+            title="Voraussetzungen"
+            image="/images/persoenlichkeit_theater.jpg"
+            alt="Drei Jugendliche in Kostümen und mit Hüten spielen Theater auf einer Bühne"
+            position="50% 35%"
+          />
+          <FactTiles />
           <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Der Besuch der Walz beginnt mit der 9. Schulstufe, d.h.
@@ -105,16 +110,18 @@ export default function Aufnahme() {
               </p>
             </div>
           </section>
-
-          <LateralEntryBox />
         </article>
 
         <Divider className="col-span-12" />
 
         <article id="kosten" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
-            Kosten und Finanzierung
-          </h1>
+          <ChapterOpener
+            title="Kosten und Finanzierung"
+            image="/images/walz_paint.jpg"
+            alt="Eine Jugendliche steht auf einer Leiter vor der Ziegelfassade der Walz und hält einen Pinsel in den Himmel"
+            position="50% 40%"
+          />
+          <KeyFigures />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Die Walz ist ein gemeinnütziger Verein und finanziert sich zu
@@ -146,7 +153,7 @@ export default function Aufnahme() {
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
-          <dl className="divide-border border-border max-w-prose divide-y border-y">
+          <dl className="divide-border border-border max-w-prose divide-y border-y text-base md:text-xl">
             {current?.costs.list.map(cost => (
               // Phones show the amount under the title, wider screens beside
               // it, so the description keeps the full width.
@@ -158,7 +165,7 @@ export default function Aufnahme() {
                   {cost.title}
                 </dt>
                 <dd className="flex flex-wrap items-baseline gap-x-2 sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:flex-col sm:items-end">
-                  <span className="font-condensed text-h5 font-bold">
+                  <span className="font-condensed text-h4 text-primary font-bold">
                     {Intl.NumberFormat('de-AT', {
                       style: 'currency',
                       currency: 'EUR',
@@ -172,18 +179,24 @@ export default function Aufnahme() {
                       : `${cost.quantity} × im Jahr`}
                   </span>
                 </dd>
-                <dd className="text-base md:text-xl">{cost.description}</dd>
+                <dd>{cost.description}</dd>
               </div>
             ))}
           </dl>
+          {loaderData.testimonial ? (
+            <TestimonialQuote testimonial={loaderData.testimonial} />
+          ) : null}
         </article>
 
         <Divider className="col-span-12" />
 
         <article id="stipendien" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
-            Stipendien
-          </h1>
+          <ChapterOpener
+            title="Stipendien"
+            image="/images/praxis_uhrenwerkstatt.jpg"
+            alt="Ein Jugendlicher setzt mit einer Pinzette ein Uhrwerk zusammen"
+            position="50% 70%"
+          />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Durch private Sponsoren und der Initiative{' '}
@@ -316,11 +329,69 @@ function AdmissionDay() {
   )
 }
 
-function LateralEntryBox() {
+/**
+ * The photo a section opens with. From sm its title sits on the photo's lower
+ * left edge in a tab of the page's background; phones set the title under the
+ * photo, where a long title cannot cover it.
+ */
+function ChapterOpener({
+  title,
+  image,
+  alt,
+  position,
+}: {
+  title: string
+  image: string
+  alt: string
+  /** Which part of the photo stays in view when it is cropped. */
+  position?: string
+}) {
   return (
-    <Notice icon={Info} title="Plätze frei" titleAs="h3" className="max-w-lg">
-      <div className="text-body-sm/normal space-y-4">
-        <p>
+    <figure className="relative">
+      <img
+        src={image}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        className="h-56 w-full rounded-lg object-cover md:h-[340px]"
+        style={{ objectPosition: position }}
+      />
+      <h1 className="font-condensed text-primary sm:bg-background mt-4 text-4xl font-bold sm:absolute sm:bottom-0 sm:left-0 sm:mt-0 sm:rounded-tr-lg sm:pt-3 sm:pr-5 md:pt-4 md:pr-7">
+        {title}
+      </h1>
+    </figure>
+  )
+}
+
+const tileClassName =
+  'bg-card rounded-lg border-t-4 p-4 sm:p-5 shadow-sm flex flex-col gap-3'
+const tileFigureClassName =
+  'font-condensed text-4xl/none font-black sm:text-5xl/none'
+
+/** The admission facts at a glance: where the Walz starts, where one can join. */
+function FactTiles() {
+  return (
+    <div className="grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
+      <div data-fact className={`${tileClassName} border-primary`}>
+        <span className={`${tileFigureClassName} text-primary`}>9.</span>
+        <span className="text-body-sm">
+          Schulstufe: der Einstieg in die Walz
+        </span>
+      </div>
+      <div data-fact className={`${tileClassName} border-primary`}>
+        <span className={`${tileFigureClassName} text-primary`}>9.–11.</span>
+        <span className="text-body-sm">Schulstufe: Quereinstieg möglich</span>
+      </div>
+      <div data-fact className={`${tileClassName} border-secondary col-span-2`}>
+        <span
+          className={`${tileFigureClassName} text-secondary-800`}
+          // The text below names both Jahrgänge in full.
+          aria-hidden="true"
+        >
+          <span className="font-greek">δ</span>2 ·{' '}
+          <span className="font-greek">γ</span>3
+        </span>
+        <span className="text-body-sm">
           Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe) sind
           Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei Agnes
           Chorherr:{' '}
@@ -331,8 +402,80 @@ function LateralEntryBox() {
             agnes.chorherr@walz.at
             <ArrowSquareOut size={16} className="text-primary" />
           </a>
-        </p>
+        </span>
       </div>
-    </Notice>
+    </div>
+  )
+}
+
+/**
+ * The figures the cost text argues with, set large above it: what the Walz
+ * carries itself, what the state gives and what a public school costs.
+ */
+const keyFigures = [
+  {
+    figure: 'über 90 %',
+    label: 'ihrer Kosten trägt die Walz als gemeinnütziger Verein selbst',
+  },
+  {
+    figure: '€ 700',
+    label: 'Förderung vom Bildungsministerium pro Jahr und Schüler:in',
+  },
+  {
+    figure: '€ 15.729',
+    label: 'kostet die öffentliche Schule pro Jahr in der Sekundarstufe (OECD)',
+  },
+]
+
+function KeyFigures() {
+  return (
+    // The text size makes `max-w-prose` as wide as the text column below.
+    <div className="divide-border border-border grid max-w-prose divide-y border-y text-base sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:text-xl">
+      {keyFigures.map(({ figure, label }) => (
+        <p
+          key={figure}
+          data-figure
+          // Phones set the figure beside its label, so the three stay short.
+          className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 sm:block sm:px-5 sm:py-5 sm:first:pl-0 sm:last:pr-0"
+        >
+          <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap sm:text-4xl/none">
+            {figure}
+          </span>
+          <span className="text-muted-foreground text-body-sm block sm:mt-2">
+            {label}
+          </span>
+        </p>
+      ))}
+    </div>
+  )
+}
+
+/** A graduate telling what the Walz gave them, with their Jahrgang. */
+function TestimonialQuote({
+  testimonial,
+}: {
+  testimonial: NonNullable<AufnahmeQuery['testimonial']>
+}) {
+  const { name, quote, year } = testimonial
+  return (
+    <figure className="border-secondary mt-16 max-w-3xl border-l-4 pl-6 md:pl-10">
+      <blockquote className="font-condensed text-h5 text-secondary-800 font-medium text-pretty">
+        „{quote.trim()}“
+      </blockquote>
+      <figcaption className="text-body-sm text-muted-foreground mt-4">
+        <span className="text-foreground font-bold">{name}</span>
+        {year ? (
+          <>
+            {' '}
+            <span className="font-greek text-secondary font-bold">
+              {alphabetMap[year.letter]}
+            </span>
+            {year.graduatedAt ? (
+              <>, Maturajahr {year.graduatedAt.getFullYear()}</>
+            ) : null}
+          </>
+        ) : null}
+      </figcaption>
+    </figure>
   )
 }
