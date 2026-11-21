@@ -102,7 +102,7 @@ test('draws the first segment fully under reduced motion', async ({ page }) => {
   await expect(segment).toHaveCSS('transform', 'none')
 })
 
-test('shows the steps path above the prose and both notices on /aufnahme', async ({
+test('tells the admission steps with their text on /aufnahme', async ({
   page,
 }) => {
   await page.goto('/aufnahme')
@@ -110,43 +110,34 @@ test('shows the steps path above the prose and both notices on /aufnahme', async
   const steps = page
     .locator('#vorgehensweise')
     .getByRole('list', { name: 'Aufnahmeprozess' })
-  await expect(steps.getByRole('listitem')).toHaveText([
+    .getByRole('listitem')
+  await expect(steps.getByRole('heading', { level: 2 })).toHaveText([
     'Anmeldung absenden',
     'Anruf von der Walz',
     'Aufnahmegespräch',
     'Zu- oder Absage',
   ])
-  // An overview at a glance, above the prose that tells the steps in full
-  const prose = page.getByText(
+  // Each step carries its part of the text, so it is told only once.
+  const texts = [
     'Wenn du dich an der Walz bewerben willst, fülle bitte das Anmeldeformular aus.',
-  )
-  const stepsFirst = await steps.evaluate(
-    (list, paragraph) =>
-      Boolean(
-        list.compareDocumentPosition(paragraph!) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-      ),
-    await prose.elementHandle(),
-  )
-  expect(stepsFirst).toBe(true)
-
-  // "Aufnahmetermin" also appears in the prose, so match the exact text.
-  for (const title of ['Aufnahmetermin', 'Plätze frei']) {
-    await expect(
-      page
-        .locator('.bg-secondary-50')
-        .filter({ has: page.getByText(title, { exact: true }) }),
-    ).toHaveCount(1)
+    'ab Mitte November',
+    'Bei dem persönlichen Aufnahmegespräch',
+    'Ab Jänner erhalten du und deine Eltern',
+  ]
+  for (const [index, text] of texts.entries()) {
+    await expect(steps.nth(index)).toContainText(text)
   }
 
-  // The form CTA stays inside the "Aufnahmetermin" notice.
-  await page
-    .locator('.bg-secondary-50')
-    .filter({
-      has: page.getByRole('heading', { name: 'Aufnahmetermin', exact: true }),
-    })
-    .getByRole('link', { name: 'Zum Anmeldeformular' })
-    .click()
+  await expect(
+    page.locator('.bg-secondary-50').filter({
+      has: page.getByText('Plätze frei', { exact: true }),
+    }),
+  ).toHaveCount(1)
+
+  // The way to the form starts at step 1, beside the current Jahrgang.
+  const notice = steps.first().locator('.bg-secondary-50')
+  await expect(notice).toContainText('Jahrgang Zeta')
+  await notice.getByRole('link', { name: 'Zum Anmeldeformular' }).click()
   await expect(page).toHaveURL('/aufnahme/formular')
 })
 
@@ -275,16 +266,25 @@ test.describe('the hanging path', () => {
       )
     })
 
-    test('lines the steps up with the heading on /aufnahme', async ({
+    // /aufnahme has the page title running down the margin, so its path
+    // stays beside the text instead of hanging over the title.
+    test('keeps the steps clear of the page title on /aufnahme', async ({
       page,
     }) => {
       await page.goto('/aufnahme')
+      await page.evaluate(() => document.fonts.ready)
 
-      await expectEveryStepOnTheHeadingEdge(
-        page,
-        'Aufnahmeprozess',
-        page.getByRole('heading', { level: 1, name: 'Vorgehensweise' }),
-      )
+      const titleRight = await page.evaluate(() => {
+        const spine = Array.from(document.querySelectorAll('p')).find(
+          element => getComputedStyle(element).writingMode === 'vertical-rl',
+        )
+        return spine!.getBoundingClientRect().right
+      })
+      const nodes = page.locator('#vorgehensweise [data-node-state]')
+      await expect(nodes).toHaveCount(4)
+      for (const node of await nodes.all()) {
+        expect((await node.boundingBox())!.x).toBeGreaterThan(titleRight)
+      }
     })
   })
 

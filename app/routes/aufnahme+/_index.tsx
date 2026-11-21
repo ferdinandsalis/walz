@@ -1,12 +1,18 @@
 import { DownloadSimple, ArrowSquareOut, Info } from '@phosphor-icons/react'
 import { loadQuery } from '@sanity/react-loader'
+import { type ReactNode } from 'react'
 import { Link, useLoaderData } from 'react-router'
 import { type PageTitleHandle } from '#app/components/page-title.tsx'
 import { PageHead, TocRail, type TocSection } from '#app/components/toc.tsx'
 import { Button } from '#app/components/ui/button.tsx'
 import { Divider } from '#app/components/ui/divider.tsx'
 import { Notice } from '#app/components/ui/notice.tsx'
-import { StepsPath } from '#app/components/ui/steps-path.tsx'
+import {
+  PathMarker,
+  PathNode,
+  PathRail,
+  RailEnd,
+} from '#app/components/ui/path.tsx'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 import { cn } from '#app/utils/misc.tsx'
@@ -56,42 +62,7 @@ export default function Aufnahme() {
           <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
             Vorgehensweise
           </h1>
-          {/* The steps at a glance; the prose below tells them in full. */}
-          <StepsPath
-            steps={AUFNAHME_STEPS}
-            variant="compact"
-            heading="Aufnahmeprozess"
-            hanging
-          />
-          <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
-            <p>
-              Wenn du dich an der Walz bewerben willst, fülle bitte das
-              Anmeldeformular aus.
-            </p>
-            <p>
-              Nach Absenden des Formulars senden wir dir und deinen Eltern eine
-              Bestätigung per Mail mit Details zum Aufnahmetermin zu. Für den
-              neuen Jahrgang beginnen wir ab Mitte November (nach dem Tag der
-              offenen Tür) das Aufnahmeverfahren. Dafür melden wir uns
-              telefonisch bei deinen Eltern, um einen Aufnahmetermin zu
-              vereinbaren.
-            </p>
-            <p>
-              Bei dem persönlichen Aufnahmegespräch mit der Schulleiterin und
-              dem/der Mentor:in werden die gegenseitigen Erwartungen abgeklärt
-              und bei kleinen Aufgaben bekommst du einen ersten Einblick in die
-              Arbeitsweise der Walz. Wir bitten deine Eltern, zum Aufnahmetermin
-              mitzukommen.
-            </p>
-            <p>
-              Ab Jänner erhalten du und deine Eltern eine Zu- oder Absage. Wenn
-              ihr euch für die Walz entscheidet, ist dein Platz fix reserviert,
-              sobald der Schulvertrag unterschrieben und der Aufnahmebeitrag
-              eingezahlt ist.
-            </p>
-          </div>
-
-          <AdmissionDay />
+          <AdmissionSteps />
         </article>
 
         <Divider className="col-span-12" />
@@ -260,14 +231,85 @@ export default function Aufnahme() {
   )
 }
 
+/** What happens at each admission step, keyed by its title. */
+const admissionStepTexts: Record<string, ReactNode> = {
+  'Anmeldung absenden': (
+    <>
+      <p>
+        Wenn du dich an der Walz bewerben willst, fülle bitte das
+        Anmeldeformular aus.
+      </p>
+      <p>
+        Nach Absenden des Formulars senden wir dir und deinen Eltern eine
+        Bestätigung per Mail mit Details zum Aufnahmetermin zu.
+      </p>
+      <AdmissionDay />
+    </>
+  ),
+  'Anruf von der Walz': (
+    <p>
+      Für den neuen Jahrgang beginnen wir ab Mitte November (nach dem Tag der
+      offenen Tür) das Aufnahmeverfahren. Dafür melden wir uns telefonisch bei
+      deinen Eltern, um einen Aufnahmetermin zu vereinbaren.
+    </p>
+  ),
+  Aufnahmegespräch: (
+    <p>
+      Bei dem persönlichen Aufnahmegespräch mit der Schulleiterin und dem/der
+      Mentor:in werden die gegenseitigen Erwartungen abgeklärt und bei kleinen
+      Aufgaben bekommst du einen ersten Einblick in die Arbeitsweise der Walz.
+      Wir bitten deine Eltern, zum Aufnahmetermin mitzukommen.
+    </p>
+  ),
+  'Zu- oder Absage': (
+    <p>
+      Ab Jänner erhalten du und deine Eltern eine Zu- oder Absage. Wenn ihr euch
+      für die Walz entscheidet, ist dein Platz fix reserviert, sobald der
+      Schulvertrag unterschrieben und der Aufnahmebeitrag eingezahlt ist.
+    </p>
+  ),
+}
+
+/**
+ * The admission steps on the Lernpfad, each numbered, with its title as a
+ * heading and its text below. The titles are the ones the form and the
+ * confirmation page show. The path does not hang in the margin, where the
+ * page title runs.
+ */
+function AdmissionSteps() {
+  return (
+    <PathRail dashed>
+      {/* Safari drops the list role from a list without bullets. */}
+      <ol
+        role="list"
+        aria-label="Aufnahmeprozess"
+        className="flex flex-col gap-12"
+      >
+        {AUFNAHME_STEPS.map((step, index) => (
+          <li
+            key={step.title}
+            // The title's size sets the line height that centres the node on
+            // the title (`lh`).
+            className="text-h5 md:text-h4 relative"
+          >
+            {index === AUFNAHME_STEPS.length - 1 ? <RailEnd /> : null}
+            <PathMarker>
+              <PathNode state="open" number={index + 1} />
+            </PathMarker>
+            <h2 className="font-condensed font-bold">{step.title}</h2>
+            <div className="mt-3 max-w-prose space-y-4 text-base font-normal md:text-xl">
+              {admissionStepTexts[step.title]}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </PathRail>
+  )
+}
+
 function AdmissionDay() {
   return (
-    <Notice
-      icon={Info}
-      title="Aufnahmetermin"
-      titleAs="h2"
-      className="max-w-lg"
-    >
+    <Notice icon={Info} className="max-w-lg">
       <div className="text-body-sm/normal space-y-4">
         <p>
           Für einen Aufnahmetermin für den Jahrgang Zeta (9. Schulstufe,
