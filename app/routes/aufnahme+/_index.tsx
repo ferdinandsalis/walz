@@ -15,7 +15,6 @@ import {
 } from '#app/components/ui/path.tsx'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
-import { cn } from '#app/utils/misc.tsx'
 import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
@@ -84,7 +83,7 @@ export default function Aufnahme() {
               <a
                 download="Schulvertrag September 2027.pdf"
                 href="/downloads/schulvertrag_september_2027.pdf"
-                className="text-muted-foreground inline-flex max-w-sm items-center gap-1 underline underline-offset-2"
+                className="inline-flex items-center gap-1 underline underline-offset-2"
               >
                 Hier herunterladen
                 <DownloadSimple size={16} className="text-primary flex-none" />
@@ -147,50 +146,36 @@ export default function Aufnahme() {
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
-          <div className="mb-8 text-base">
-            <dl className="grid grid-cols-1 gap-1">
-              {current?.costs.list.map(cost => {
-                //const first = idx === 0
-
-                return (
-                  <div
-                    className={cn('-mx-4 p-4', {
-                      'bg-card/90': true,
-                    })}
-                    key={cost.title}
-                  >
-                    <div className="grid grid-cols-2 py-2">
-                      <div className="inset-s-0 col-span-1 grid grid-cols-1 gap-2">
-                        <div className="">
-                          <dt className="font-condensed text-secondary text-xl font-bold md:text-2xl">
-                            {cost.title}
-                          </dt>
-                        </div>
-                        <dd className="">
-                          <p>{cost.description}</p>
-                        </dd>
-                      </div>
-                      <div className="flex flex-col items-end justify-start gap-2 justify-self-end">
-                        <span className="font-condensed text-xl font-bold md:text-2xl">
-                          {Intl.NumberFormat('de-AT', {
-                            style: 'currency',
-                            currency: 'EUR',
-                            maximumFractionDigits: 0,
-                            signDisplay: 'never',
-                          }).format(cost.cost)}
-                        </span>
-                        <span className="text-primary">
-                          {cost.interval === 'ONCE'
-                            ? `Einmalig`
-                            : `${cost.quantity} × im Jahr`}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </dl>
-          </div>
+          <dl className="divide-border border-border max-w-prose divide-y border-y">
+            {current?.costs.list.map(cost => (
+              // Phones show the amount under the title, wider screens beside
+              // it, so the description keeps the full width.
+              <div
+                key={cost.title}
+                className="grid gap-x-8 gap-y-2 py-6 sm:grid-cols-[1fr_auto]"
+              >
+                <dt className="font-condensed text-h5 font-bold">
+                  {cost.title}
+                </dt>
+                <dd className="flex flex-wrap items-baseline gap-x-2 sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:flex-col sm:items-end">
+                  <span className="font-condensed text-h5 font-bold">
+                    {Intl.NumberFormat('de-AT', {
+                      style: 'currency',
+                      currency: 'EUR',
+                      maximumFractionDigits: 0,
+                      signDisplay: 'never',
+                    }).format(cost.cost)}
+                  </span>
+                  <span className="text-muted-foreground text-body-sm">
+                    {cost.interval === 'ONCE'
+                      ? `Einmalig`
+                      : `${cost.quantity} × im Jahr`}
+                  </span>
+                </dd>
+                <dd className="text-base md:text-xl">{cost.description}</dd>
+              </div>
+            ))}
+          </dl>
         </article>
 
         <Divider className="col-span-12" />
@@ -204,7 +189,7 @@ export default function Aufnahme() {
               Durch private Sponsoren und der Initiative{' '}
               <Link
                 to="/alumni#ehrensache"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
+                className="underline underline-offset-2"
               >
                 „Ehrensache Walz"
               </Link>{' '}
@@ -217,7 +202,7 @@ export default function Aufnahme() {
               Hierfür melde dich mit deiner Anfrage bitte an{' '}
               <a
                 href="mailto:office@walz.at"
-                className="text-primary hover:text-primary/80 underline underline-offset-4"
+                className="underline underline-offset-2"
               >
                 office@walz.at
               </a>
@@ -341,7 +326,7 @@ function LateralEntryBox() {
           Chorherr:{' '}
           <a
             href="mailto:agnes.chorherr@walz.at"
-            className="text-muted-foreground inline-flex items-center gap-1 underline underline-offset-2"
+            className="inline-flex items-center gap-1 underline underline-offset-2"
           >
             agnes.chorherr@walz.at
             <ArrowSquareOut size={16} className="text-primary" />
