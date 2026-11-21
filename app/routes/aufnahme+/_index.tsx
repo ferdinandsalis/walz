@@ -371,38 +371,45 @@ const tileFigureClassName =
 /** The admission facts at a glance: where the Walz starts, where one can join. */
 function FactTiles() {
   return (
-    <div className="grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
-      <div data-fact className={`${tileClassName} border-primary`}>
-        <span className={`${tileFigureClassName} text-primary`}>9.</span>
-        <span className="text-body-sm">
-          Schulstufe: der Einstieg in die Walz
-        </span>
-      </div>
-      <div data-fact className={`${tileClassName} border-primary`}>
-        <span className={`${tileFigureClassName} text-primary`}>9.–11.</span>
-        <span className="text-body-sm">Schulstufe: Quereinstieg möglich</span>
-      </div>
-      <div data-fact className={`${tileClassName} border-secondary col-span-2`}>
-        <span
-          className={`${tileFigureClassName} text-secondary-800`}
-          // The text below names both Jahrgänge in full.
-          aria-hidden="true"
+    // The column, not the screen, decides on four in a row: just after the lg
+    // and xl breakpoints the column is narrow on a wide screen.
+    <div className="@container max-w-4xl">
+      <div className="grid grid-cols-2 gap-4 @2xl:grid-cols-4">
+        <div data-fact className={`${tileClassName} border-primary`}>
+          <span className={`${tileFigureClassName} text-primary`}>9.</span>
+          <span className="text-body-sm">
+            Schulstufe: der Einstieg in die Walz
+          </span>
+        </div>
+        <div data-fact className={`${tileClassName} border-primary`}>
+          <span className={`${tileFigureClassName} text-primary`}>9.–11.</span>
+          <span className="text-body-sm">Schulstufe: Quereinstieg möglich</span>
+        </div>
+        <div
+          data-fact
+          className={`${tileClassName} border-secondary col-span-2`}
         >
-          <span className="font-greek">δ</span>2 ·{' '}
-          <span className="font-greek">γ</span>3
-        </span>
-        <span className="text-body-sm">
-          Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe) sind
-          Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei Agnes
-          Chorherr:{' '}
-          <a
-            href="mailto:agnes.chorherr@walz.at"
-            className="inline-flex items-center gap-1 underline underline-offset-2"
+          <span
+            className={`${tileFigureClassName} text-secondary-800`}
+            // The text below names both Jahrgänge in full.
+            aria-hidden="true"
           >
-            agnes.chorherr@walz.at
-            <ArrowSquareOut size={16} className="text-primary" />
-          </a>
-        </span>
+            <span className="font-greek">δ</span>2 ·{' '}
+            <span className="font-greek">γ</span>3
+          </span>
+          <span className="text-body-sm">
+            Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe)
+            sind Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei
+            Agnes Chorherr:{' '}
+            <a
+              href="mailto:agnes.chorherr@walz.at"
+              className="inline-flex items-center gap-1 underline underline-offset-2"
+            >
+              agnes.chorherr@walz.at
+              <ArrowSquareOut size={16} className="text-primary" />
+            </a>
+          </span>
+        </div>
       </div>
     </div>
   )
@@ -430,23 +437,27 @@ const keyFigures = [
 
 function KeyFigures() {
   return (
-    // The text size makes `max-w-prose` as wide as the text column below.
-    <div className="divide-border border-border grid max-w-prose divide-y border-y text-base sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:text-xl">
-      {keyFigures.map(({ figure, label }) => (
-        <p
-          key={figure}
-          data-figure
-          // Phones set the figure beside its label, so the three stay short.
-          className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 sm:block sm:px-5 sm:py-5 sm:first:pl-0 sm:last:pr-0"
-        >
-          <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap sm:text-4xl/none">
-            {figure}
-          </span>
-          <span className="text-muted-foreground text-body-sm block sm:mt-2">
-            {label}
-          </span>
-        </p>
-      ))}
+    // The text size makes `max-w-prose` as wide as the text column below. The
+    // column, not the screen, decides on three in a row.
+    <div className="@container max-w-prose text-base md:text-xl">
+      <div className="divide-border border-border grid divide-y border-y @xl:grid-cols-3 @xl:divide-x @xl:divide-y-0">
+        {keyFigures.map(({ figure, label }) => (
+          <p
+            key={figure}
+            data-figure
+            // A narrow column sets the figure beside its label, so the three
+            // stay short.
+            className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
+          >
+            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
+              {figure}
+            </span>
+            <span className="text-muted-foreground text-body-sm block @xl:mt-2">
+              {label}
+            </span>
+          </p>
+        ))}
+      </div>
     </div>
   )
 }

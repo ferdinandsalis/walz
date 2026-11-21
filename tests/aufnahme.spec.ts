@@ -69,3 +69,31 @@ test('lets a graduate speak before the scholarships', async ({ page }) => {
   })
   expect(isBetween).toBe(true)
 })
+
+// The text column is narrowest just after the lg and xl breakpoints, where a
+// further column joins the page; the tiles and figures must fit there too.
+for (const width of [375, 900, 1160, 1440]) {
+  test(`fits the tiles and figures into the column at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.evaluate(() => document.fonts.ready)
+
+    const boxes = page.locator('[data-fact], [data-figure]')
+    await expect(boxes).toHaveCount(6)
+    for (const box of await boxes.all()) {
+      const fit = await box.evaluate(element => {
+        const figure = element.firstElementChild!
+        const lineHeight = parseFloat(getComputedStyle(figure).lineHeight)
+        return {
+          overflows: element.scrollWidth > element.clientWidth,
+          // The large figure stays on one line
+          figureLines: Math.round(
+            figure.getBoundingClientRect().height / lineHeight,
+          ),
+        }
+      })
+      expect(fit).toEqual({ overflows: false, figureLines: 1 })
+    }
+  })
+}
