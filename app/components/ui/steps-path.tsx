@@ -4,18 +4,15 @@ import { PathDot, PathMarker, PathNode, PathRail, RailEnd } from './path.tsx'
 /**
  * The steps of a process as an ordered list on a dashed rail, labelled by its
  * heading: titles and descriptions, with step 1 done, step 2 next and a solid
- * stretch drawing in between them.
+ * stretch drawing in between them. From xl the rail hangs in the left margin.
  */
 export function StepsPath({
   steps,
   heading,
-  hanging = false,
   className,
 }: {
   steps: ReadonlyArray<{ title: string; description: string }>
   heading: string
-  /** From xl, hangs the rail in the left margin, as `PathRail` does. */
-  hanging?: boolean
   className?: string
 }) {
   const headingId = useId()
@@ -25,7 +22,7 @@ export function StepsPath({
       <h2 id={headingId} className="font-condensed text-h5 font-bold">
         {heading}
       </h2>
-      <PathRail dashed hanging={hanging} className="mt-5">
+      <PathRail dashed hanging className="mt-5">
         {/* Safari drops the list role from a list without bullets. */}
         <ol
           role="list"

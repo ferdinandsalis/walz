@@ -22,10 +22,8 @@ function byClass(container: Element, className: string) {
   )
 }
 
-function renderSteps(hanging?: boolean) {
-  return renderStatic(
-    <StepsPath steps={STEPS} heading="So geht es weiter" hanging={hanging} />,
-  )
+function renderSteps() {
+  return renderStatic(<StepsPath steps={STEPS} heading="So geht es weiter" />)
 }
 
 describe('StepsPath', () => {
@@ -44,9 +42,8 @@ describe('StepsPath', () => {
     expect(renderSteps().querySelector('ol')?.getAttribute('role')).toBe('list')
   })
 
-  it('hangs the rail in the left margin only when asked', () => {
-    expect(byClass(renderSteps(), 'xl:-ml-path-wide')).toHaveLength(0)
-    expect(byClass(renderSteps(true), 'xl:-ml-path-wide')).toHaveLength(1)
+  it('hangs the rail in the left margin', () => {
+    expect(byClass(renderSteps(), 'xl:-ml-path-wide')).toHaveLength(1)
   })
 
   it('lists titles with their descriptions', () => {
