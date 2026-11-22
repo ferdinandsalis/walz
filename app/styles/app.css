@@ -10,6 +10,27 @@
   padding-inline: 2rem;
 }
 
+/*
+  White patterns that tell two fills of the same brand colour apart, fine
+  enough to read in a 10px swatch.
+*/
+@utility pattern-dots {
+  background-image: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.7) 1px,
+    transparent 1.25px
+  );
+  background-size: 5px 5px;
+}
+
+@utility pattern-stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(255 255 255 / 0.7) 0 1.5px,
+    transparent 1.5px 5px
+  );
+}
+
 @theme {
   --breakpoint-*: initial;
   --breakpoint-sm: 600px;
