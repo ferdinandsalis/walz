@@ -386,28 +386,108 @@ function ChapterOpener({
   )
 }
 
-type Figure = {
-  figure: string
-  label: string
-  /** Free places are news, so they stand out in blue */
-  current?: boolean
+type Figure = { figure: string; label: string }
+
+type YearKind = 'entry' | 'side' | 'free' | 'plain'
+
+/**
+ * The five Walz years and where one can join: the 9th is the way in, the 10th
+ * and 11th take side entrants and have places free this year.
+ */
+const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
+  { grade: '9.', label: 'Einstieg in die Walz', kind: 'entry' },
+  { grade: '10.', label: 'Restplätze Delta 2', kind: 'free' },
+  { grade: '11.', label: 'Restplätze Gamma 3', kind: 'free' },
+  { grade: '12.', kind: 'plain' },
+  { grade: '13.', label: 'Matura', kind: 'plain' },
+]
+
+const yearKindStyles: Record<YearKind, string> = {
+  entry: 'bg-primary border-primary text-white',
+  side: 'bg-primary-50 border-primary-200',
+  free: 'bg-primary-50 border-primary-200 ring-3 ring-secondary ring-inset text-secondary-800',
+  plain: 'bg-white border-border',
 }
 
-/** The admission facts at a glance: where the Walz starts, where one can join. */
-const admissionFacts: Figure[] = [
-  { figure: '9.', label: 'Schulstufe: der Einstieg in die Walz' },
-  { figure: '9.–11.', label: 'Schulstufe: Quereinstieg möglich' },
+/** The legend's swatches, so the colours never carry the meaning alone. */
+const yearLegend: { label: string; swatch: string }[] = [
+  { label: 'Einstieg', swatch: 'bg-primary' },
   {
-    figure: '10. · 11.',
-    label: 'Schulstufe: Restplätze im Jahrgang Delta 2 und Gamma 3',
-    current: true,
+    label: 'Quereinstieg möglich',
+    swatch: 'bg-primary-50 border border-primary-200',
   },
+  { label: 'gerade Plätze frei', swatch: 'ring-2 ring-secondary ring-inset' },
 ]
+
+function SchoolYearGrid() {
+  return (
+    // The text size makes `max-w-prose` as wide as the key figures and the
+    // text column below.
+    <div className="max-w-prose space-y-3 md:text-xl">
+      <p
+        id="walzjahre"
+        className="text-muted-foreground text-body-xs font-bold tracking-widest uppercase"
+      >
+        Fünf Walzjahre · wo du einsteigen kannst
+      </p>
+      {/* Safari drops the list role from a list without bullets. */}
+      <ol
+        role="list"
+        aria-labelledby="walzjahre"
+        // Phones stack the years, each label beside its grade; from sm the
+        // five sit side by side.
+        className="grid gap-1.5 sm:grid-cols-5"
+      >
+        {schoolYears.map(({ grade, label, kind }) => (
+          <li
+            key={grade}
+            data-year
+            data-year-kind={kind}
+            className={cn(
+              'flex min-w-0 items-baseline gap-3 rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-start sm:justify-between sm:gap-2 sm:p-3',
+              yearKindStyles[kind],
+            )}
+          >
+            <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:text-4xl/none">
+              {grade}
+            </span>
+            {label ? (
+              <span
+                className={cn(
+                  'text-body-xs/tight text-balance',
+                  kind === 'plain' && 'text-muted-foreground',
+                  kind === 'free' && 'font-semibold',
+                )}
+              >
+                {label}
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      <ul
+        role="list"
+        data-year-legend
+        className="text-muted-foreground text-body-xs flex flex-wrap gap-x-5 gap-y-1"
+      >
+        {yearLegend.map(({ label, swatch }) => (
+          <li key={label} className="flex items-center gap-1.5">
+            <span
+              aria-hidden="true"
+              className={cn('size-3 rounded-sm', swatch)}
+            />
+            {label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
 function AdmissionFacts() {
   return (
     <div className="space-y-4">
-      <FigureRow figures={admissionFacts} />
+      <SchoolYearGrid />
       <p className="text-body-sm max-w-prose">
         Weitere Infos & Vorstellungstermin bei Agnes Chorherr:{' '}
         <a
@@ -449,7 +529,7 @@ function FigureRow({ figures }: { figures: Figure[] }) {
     // column, not the screen, decides on three in a row.
     <div className="@container max-w-prose text-base md:text-xl">
       <div className="divide-border border-border grid divide-y border-y @xl:grid-cols-3 @xl:divide-x @xl:divide-y-0">
-        {figures.map(({ figure, label, current }) => (
+        {figures.map(({ figure, label }) => (
           <p
             key={figure}
             data-figure
@@ -457,12 +537,7 @@ function FigureRow({ figures }: { figures: Figure[] }) {
             // stay short.
             className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
           >
-            <span
-              className={cn(
-                'font-condensed block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none',
-                current ? 'text-secondary-800' : 'text-primary',
-              )}
-            >
+            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
               {figure}
             </span>
             <span className="text-muted-foreground text-body-sm block @xl:mt-2">

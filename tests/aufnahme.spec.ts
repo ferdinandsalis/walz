@@ -16,24 +16,30 @@ test('opens each section with a photo under its title', async ({ page }) => {
   }
 })
 
-test('shows the facts as a row of figures in Voraussetzungen', async ({
-  page,
-}) => {
-  const facts = page.locator('#voraussetzungen [data-figure]')
-  await expect(facts).toHaveCount(3)
-  await expect(facts.nth(0)).toContainText('9.')
-  await expect(facts.nth(1)).toContainText('9.–11.')
-  await expect(facts.nth(2)).toContainText('10. · 11.')
-  await expect(facts.nth(2)).toContainText(
-    'Restplätze im Jahrgang Delta 2 und Gamma 3',
-  )
-  // The contact follows the row as a line of its own
+test('shows where to join among the five years', async ({ page }) => {
+  const years = page.locator('#voraussetzungen [data-year]')
+  await expect(years).toHaveCount(5)
+  for (const [index, texts] of [
+    ['9.', 'Einstieg in die Walz'],
+    ['10.', 'Restplätze Delta 2'],
+    ['11.', 'Restplätze Gamma 3'],
+    ['12.'],
+    ['13.', 'Matura'],
+  ].entries()) {
+    for (const text of texts) await expect(years.nth(index)).toContainText(text)
+  }
+  // The legend tells what the colours mean, so they never stand alone
+  const legend = page.locator('#voraussetzungen [data-year-legend]')
+  await expect(legend).toContainText('Einstieg')
+  await expect(legend).toContainText('Quereinstieg möglich')
+  await expect(legend).toContainText('gerade Plätze frei')
+  // The contact follows the grid as a line of its own
   const contact = page
     .locator('#voraussetzungen')
     .getByRole('link', { name: 'agnes.chorherr@walz.at' })
   await expect(contact).toBeVisible()
-  await expect(facts.locator('a')).toHaveCount(0)
-  // The row takes over the notice, so the free places are told once
+  await expect(years.locator('a')).toHaveCount(0)
+  // The grid takes over the notice, so the free places are told once
   await expect(page.getByText('Plätze frei', { exact: true })).toHaveCount(0)
 })
 
@@ -86,7 +92,7 @@ for (const width of [375, 900, 1160, 1440]) {
     await page.evaluate(() => document.fonts.ready)
 
     const boxes = page.locator('[data-figure]')
-    await expect(boxes).toHaveCount(6)
+    await expect(boxes).toHaveCount(3)
     for (const box of await boxes.all()) {
       const fit = await box.evaluate(element => {
         const figure = element.firstElementChild!
@@ -100,6 +106,24 @@ for (const width of [375, 900, 1160, 1440]) {
         }
       })
       expect(fit).toEqual({ overflows: false, figureLines: 1 })
+    }
+  })
+
+  test(`fits the five years into the column at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.evaluate(() => document.fonts.ready)
+
+    const years = page.locator('[data-year]')
+    await expect(years).toHaveCount(5)
+    for (const year of await years.all()) {
+      expect(
+        await year.evaluate(
+          element => element.scrollWidth > element.clientWidth,
+        ),
+        (await year.textContent()) ?? undefined,
+      ).toBe(false)
     }
   })
 }
