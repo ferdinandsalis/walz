@@ -56,21 +56,21 @@ test('shows the key figures on costs', async ({ page }) => {
   expect(firstFigure.y).toBeLessThan(firstParagraph.y)
 })
 
-test('lets a graduate speak before the scholarships', async ({ page }) => {
+test('lets a graduate speak right after the steps', async ({ page }) => {
   const quote = page.locator('figure:has(> blockquote)')
   await expect(quote).toHaveCount(1)
   await expect(quote.locator('figcaption')).toContainText('Maturajahr')
 
   const isBetween = await quote.evaluate(element => {
-    const costs = document.getElementById('kosten')!
-    const scholarships = document.getElementById('stipendien')!
+    const steps = document.querySelector('ol[aria-label=Aufnahmeprozess]')!
+    const requirements = document.getElementById('voraussetzungen')!
     return (
       Boolean(
-        costs.compareDocumentPosition(element) &
+        steps.compareDocumentPosition(element) &
         Node.DOCUMENT_POSITION_FOLLOWING,
       ) &&
       Boolean(
-        element.compareDocumentPosition(scholarships) &
+        element.compareDocumentPosition(requirements) &
         Node.DOCUMENT_POSITION_FOLLOWING,
       )
     )

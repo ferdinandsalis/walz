@@ -150,6 +150,45 @@ test('tells the admission steps with their text on /aufnahme', async ({
   await expect(page).toHaveURL('/aufnahme/formular')
 })
 
+test('dates each admission step on /aufnahme', async ({ page }) => {
+  await page.goto('/aufnahme')
+  await page.evaluate(() => document.fonts.ready)
+
+  const steps = page
+    .locator('#vorgehensweise')
+    .getByRole('list', { name: 'Aufnahmeprozess' })
+    .getByRole('listitem')
+  await expect(steps.locator('[data-step-when]')).toHaveText([
+    'Jetzt',
+    'ab Mitte November',
+    'am Aufnahmetermin',
+    'ab Jänner',
+  ])
+  const states = await steps
+    .locator('[data-node-state]')
+    .evaluateAll(nodes => nodes.map(node => node.dataset.nodeState))
+  expect(states).toEqual(['current', 'open', 'open', 'open'])
+
+  for (const step of await steps.all()) {
+    // The date comes first, so it is read before the step's title
+    const dateFirst = await step.evaluate(element => {
+      const when = element.querySelector('[data-step-when]')!
+      const title = element.querySelector('h2')!
+      return Boolean(
+        when.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING,
+      )
+    })
+    expect(dateFirst).toBe(true)
+
+    // The node stays level with the title, not with the date above it
+    const node = (await step.locator('[data-node-state]').boundingBox())!
+    const title = (await step.getByRole('heading', { level: 2 }).boundingBox())!
+    const nodeMiddle = node.y + node.height / 2
+    expect(nodeMiddle).toBeGreaterThan(title.y)
+    expect(nodeMiddle).toBeLessThan(title.y + title.height)
+  }
+})
+
 // The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
 // scroll width alone could miss a box running off the screen; every box's
 // right edge is checked as well.

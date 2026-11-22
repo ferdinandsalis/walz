@@ -14,8 +14,16 @@ import { cn } from '#app/utils/misc.tsx'
   edge, so they follow without a change of their own.
 */
 
-/** The same states as a form section's `SectionStatus`, so they pass through. */
-export type PathNodeState = 'open' | 'done' | 'attention' | 'optional'
+/**
+ * The same states as a form section's `SectionStatus`, so they pass through,
+ * and `current`: the step a reader is at, filled but still numbered.
+ */
+export type PathNodeState =
+  | 'open'
+  | 'done'
+  | 'attention'
+  | 'optional'
+  | 'current'
 
 export function PathRail({
   children,
@@ -55,6 +63,7 @@ const nodeStateStyles: Record<PathNodeState, string> = {
   done: 'border-path-done bg-path-done text-white',
   attention: 'border-foreground-danger bg-danger-50 text-foreground-danger',
   optional: 'border-primary bg-(--path-gap) text-primary-800 border-dashed',
+  current: 'border-path-done bg-path-done text-white ring-primary-100',
 }
 
 /**

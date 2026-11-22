@@ -64,6 +64,9 @@ export default function Aufnahme() {
             Vorgehensweise
           </h1>
           <AdmissionSteps />
+          {loaderData.testimonial ? (
+            <TestimonialQuote testimonial={loaderData.testimonial} />
+          ) : null}
         </article>
 
         <Divider className="col-span-12" />
@@ -184,9 +187,6 @@ export default function Aufnahme() {
               </div>
             ))}
           </dl>
-          {loaderData.testimonial ? (
-            <TestimonialQuote testimonial={loaderData.testimonial} />
-          ) : null}
         </article>
 
         <Divider className="col-span-12" />
@@ -269,8 +269,16 @@ const admissionStepTexts: Record<string, ReactNode> = {
   ),
 }
 
+/** When each admission step comes, keyed by its title. */
+const admissionStepWhen: Record<string, string> = {
+  'Anmeldung absenden': 'Jetzt',
+  'Anruf von der Walz': 'ab Mitte November',
+  Aufnahmegespräch: 'am Aufnahmetermin',
+  'Zu- oder Absage': 'ab Jänner',
+}
+
 /**
- * The admission steps on the Lernpfad, each numbered, with its title as a
+ * The admission steps on the Lernpfad, each numbered and dated, with its title as a
  * heading and its text below. The titles are the ones the form and the
  * confirmation page show. From xl the path hangs in the left margin, as it
  * does there.
@@ -291,10 +299,24 @@ function AdmissionSteps() {
             // the title (`lh`).
             className="text-h5 md:text-h4 relative"
           >
-            {index === AUFNAHME_STEPS.length - 1 ? <RailEnd /> : null}
-            <PathMarker>
-              <PathNode state="open" number={index + 1} />
+            {/* The date takes the first 1.5rem (a 1.25rem line and its
+                margin), so the node and the rail's end sit level with the
+                title below it. */}
+            {index === AUFNAHME_STEPS.length - 1 ? (
+              <RailEnd className="top-[calc(1.5rem+0.5lh)]" />
+            ) : null}
+            <PathMarker className="top-6">
+              <PathNode
+                state={index === 0 ? 'current' : 'open'}
+                number={index + 1}
+              />
             </PathMarker>
+            <p
+              data-step-when
+              className="text-primary text-body-xs mb-1 h-5 leading-5 font-bold tracking-widest uppercase"
+            >
+              {admissionStepWhen[step.title]}
+            </p>
             <h2 className="font-condensed font-bold">{step.title}</h2>
             <div className="mt-3 max-w-prose space-y-4 text-base font-normal md:text-xl">
               {admissionStepTexts[step.title]}
