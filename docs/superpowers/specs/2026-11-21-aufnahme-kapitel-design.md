@@ -112,3 +112,8 @@ Zahlen, und eine Absolventin oder ein Absolvent kommt zu Wort.
   fremd). Beide nutzen dieselbe `FigureRow`.
   - Die Restplätze stehen in Blau als „10. · 11.“. Der Kontakt zu Agnes Chorherr
     folgt als eigene Zeile darunter.
+- Danach wurde die Seite insgesamt lebendiger (Ferdinand: zu gleichförmig).
+  Details in `2026-11-22-aufnahme-weg-design.md`:
+  - Der Lernpfad hat Zeitangaben, und das Zitat steht gleich nach den Schritten.
+  - Statt der Eckdaten-Zeile zeigt ein Raster die fünf Walzjahre.
+  - Die Beiträge stehen als Balken und als Tabelle zum Aufklappen.
