@@ -1,6 +1,6 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
-import { boxesPastTheRightEdge } from './aufnahme-helpers.ts'
+import { boxesPastTheRightEdge, resolvedColor } from './aufnahme-helpers.ts'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/aufnahme')
@@ -200,7 +200,7 @@ test.describe('on a narrow phone', () => {
 })
 
 // The new small text keeps to the colour rules in app.css: small orange text
-// in primary-700 or darker, white on orange only on the darker shades.
+// in primary-700 or darker, dark text on the brand colours.
 test('keeps the new small text readable', async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
   const { violations } = await new AxeBuilder({ page })
@@ -212,25 +212,29 @@ test('keeps the new small text readable', async ({ page }) => {
   expect(violations.flatMap(v => v.nodes.map(n => n.target))).toEqual([])
 
   // The bar is hidden from screen readers, so axe skips it; its labels are
-  // checked against the colour tokens directly.
-  const labelled = await page
-    .locator('[data-fee-bar] > *')
-    .evaluateAll(segments =>
-      segments
-        .filter(segment => segment.textContent)
-        .map(segment => getComputedStyle(segment).backgroundColor),
+  // checked against the colour tokens directly: dark text on the plain brand
+  // colour, clear of any pattern.
+  const labels = await page
+    .locator('[data-fee-bar] > * > span')
+    .evaluateAll(labels =>
+      labels.map(label => {
+        const style = getComputedStyle(label)
+        return {
+          text: style.color,
+          fill: style.backgroundColor,
+          pattern: style.backgroundImage,
+        }
+      }),
     )
-  const darkShades = await page.evaluate(() =>
-    ['primary-700', 'primary-800', 'secondary-700', 'secondary-800'].map(
-      token => {
-        const probe = document.createElement('span')
-        probe.style.backgroundColor = `var(--color-${token})`
-        document.body.append(probe)
-        const colour = getComputedStyle(probe).backgroundColor
-        probe.remove()
-        return colour
-      },
-    ),
-  )
-  for (const colour of labelled) expect(darkShades).toContain(colour)
+  expect(labels.length).toBeGreaterThan(0)
+  const foreground = await resolvedColor(page, '--color-foreground')
+  const brandColours = [
+    await resolvedColor(page, '--color-primary'),
+    await resolvedColor(page, '--color-secondary'),
+  ]
+  for (const label of labels) {
+    expect(label.text).toBe(foreground)
+    expect(brandColours).toContain(label.fill)
+    expect(label.pattern).toBe('none')
+  }
 })
