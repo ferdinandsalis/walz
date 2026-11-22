@@ -33,7 +33,7 @@ test('shows where to join among the five years', async ({ page }) => {
   // Each year that takes side entrants says so itself, and from sm one
   // bracket says it for all of them
   for (const index of [1, 2])
-    await expect(years.nth(index)).toContainText('Quereinstieg möglich')
+    await expect(years.nth(index)).toContainText('Quereinstieg')
   for (const index of [0, 3, 4])
     await expect(years.nth(index)).not.toContainText('Quereinstieg')
   await expect(page.locator('#voraussetzungen [data-year-bracket]')).toHaveText(

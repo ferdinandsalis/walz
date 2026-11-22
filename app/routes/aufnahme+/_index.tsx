@@ -366,10 +366,15 @@ type YearKind = 'entry' | 'side' | 'free' | 'plain'
  * The five Walz years and where one can join: the 9th is the way in, the 10th
  * and 11th take side entrants and have places free this year.
  */
-const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
+const schoolYears: {
+  grade: string
+  /** What the year says under its grade; for free places, the class. */
+  label?: string
+  kind: YearKind
+}[] = [
   { grade: '9.', label: 'Einstieg in die Walz', kind: 'entry' },
-  { grade: '10.', label: 'Restplätze Delta 2', kind: 'free' },
-  { grade: '11.', label: 'Restplätze Gamma 3', kind: 'free' },
+  { grade: '10.', label: 'Delta 2', kind: 'free' },
+  { grade: '11.', label: 'Gamma 3', kind: 'free' },
   { grade: '12.', kind: 'plain' },
   { grade: '13.', label: 'Matura', kind: 'plain' },
 ]
@@ -378,8 +383,9 @@ const yearKindStyles: Record<YearKind, string> = {
   // Dark text throughout: white is too faint on the brand orange at the
   // label's size (app.css)
   entry: 'bg-primary border-primary',
-  side: 'bg-white border-primary',
-  free: 'bg-white border-primary',
+  // The ring doubles the border inwards, so every year keeps the same size
+  side: 'bg-white border-primary ring-1 ring-primary ring-inset',
+  free: 'bg-white border-primary ring-1 ring-primary ring-inset',
   plain: 'bg-white border-border',
 }
 
@@ -388,7 +394,7 @@ const takesSideEntrants = (kind: YearKind) => kind === 'side' || kind === 'free'
 /**
  * The five years side by side: the way in filled orange, the years that take
  * side entrants outlined orange and bracketed underneath, free places as a
- * blue band in their year.
+ * blue chip in their year.
  */
 function SchoolYearGrid() {
   const sideEntry = schoolYears.map(({ kind }) => takesSideEntrants(kind))
@@ -417,7 +423,7 @@ function SchoolYearGrid() {
               data-year
               data-year-kind={kind}
               className={cn(
-                'flex min-w-0 items-center gap-3 overflow-hidden rounded-lg border-2 px-3 py-2 sm:min-h-28 sm:flex-col sm:items-stretch sm:justify-between sm:gap-2 sm:p-0',
+                'flex min-w-0 items-center gap-3 overflow-hidden rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-stretch sm:justify-between sm:gap-2 sm:p-0',
                 yearKindStyles[kind],
               )}
             >
@@ -426,8 +432,8 @@ function SchoolYearGrid() {
               </span>
               {/* Phones say it in each year; from sm the bracket below does */}
               {takesSideEntrants(kind) ? (
-                <span className="text-body-xs/tight sm:sr-only">
-                  Quereinstieg möglich
+                <span className="text-body-xs/tight whitespace-nowrap sm:sr-only">
+                  Quereinstieg
                 </span>
               ) : null}
               {label ? (
@@ -435,12 +441,20 @@ function SchoolYearGrid() {
                   className={cn(
                     'text-body-xs/tight text-balance',
                     kind === 'free'
-                      ? 'bg-secondary ml-auto rounded-full px-2.5 py-1 font-semibold whitespace-nowrap sm:ml-0 sm:flex sm:min-h-10 sm:items-center sm:rounded-none sm:py-1.5 sm:whitespace-normal'
+                      ? 'bg-secondary ml-auto rounded-md px-2 py-1 font-semibold whitespace-nowrap sm:m-1.5 sm:px-1.5 sm:whitespace-normal'
                       : 'sm:px-2.5 sm:pb-2.5',
                     kind === 'plain' && 'text-muted-foreground',
                   )}
                 >
-                  {label}
+                  {kind === 'free' ? (
+                    // From sm the class always takes the second line, so
+                    // the chips of all years are the same height
+                    <>
+                      Restplätze <span className="sm:block">{label}</span>
+                    </>
+                  ) : (
+                    label
+                  )}
                 </span>
               ) : null}
             </li>
@@ -456,8 +470,9 @@ function SchoolYearGrid() {
               style={{
                 gridColumn: `${sideEntry.indexOf(true) + 1} / ${sideEntry.lastIndexOf(true) + 2}`,
               }}
-              className="border-primary text-body-xs mx-1 rounded-b-md border-x-2 border-b-2 pt-1 pb-1.5 text-center font-semibold"
+              className="text-body-xs text-center font-semibold"
             >
+              <span className="border-primary mx-3 mb-1 block h-2 rounded-b-md border-x-2 border-b-2" />
               Quereinstieg möglich
             </p>
           </div>
