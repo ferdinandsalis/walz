@@ -31,7 +31,7 @@ export default function Kontakt() {
           <h2 className="text-body-xs text-muted-foreground mb-4 font-bold tracking-widest uppercase">
             Kontakt
           </h2>
-          <div className="lg:text-body-md">
+          <div className="lg:text-body-md lg:whitespace-nowrap">
             <p>
               <strong className="text-primary">Walz Wiener Lernzentrum</strong>
             </p>
