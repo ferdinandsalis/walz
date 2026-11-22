@@ -64,7 +64,8 @@ export default function Home() {
         <div
           id="intro-box"
           className={cn(
-            'col-span-12 grid grid-cols-1 grid-rows-1 place-self-center',
+            // stretches to the column: sized to its content, the card would take its width from the image, which has none until it has loaded
+            'col-span-12 grid grid-cols-1 grid-rows-1',
             '-mx-4 sm:mx-0',
             'relative sm:rounded-md sm:shadow-md',
           )}
