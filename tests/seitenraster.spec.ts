@@ -51,7 +51,7 @@ for (const width of [896, 1160]) {
           Array.from(range.getClientRects()).map(rect => Math.round(rect.top)),
         ).size
       })
-      expect(lineCount, await line.textContent()).toBe(1)
+      expect(lineCount, (await line.textContent()) ?? undefined).toBe(1)
     }
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
