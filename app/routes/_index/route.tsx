@@ -677,17 +677,18 @@ export function FaqSection({ nextOrientation = null }: FaqSectionProps) {
 function HeroImage({ image, caption }: { image: any; caption: string | null }) {
   const { width, height } = getImageDimensions(image)
   return (
-    <picture className="flex">
+    <picture className="flex h-full">
       <source
         srcSet={urlFor(image).quality(70).width(800).url()}
         media="(max-width: 800px)"
       />
+      {/* min-h-full: the headline overlay can be taller than the image's aspect ratio; the image then grows with it instead of leaving a gap */}
       <img
         src={urlFor(image).quality(70).width(1800).url()}
         width={width}
         height={height}
         alt={caption || ''}
-        className="aspect-square w-full object-cover sm:aspect-auto sm:h-auto sm:rounded-t-md md:aspect-21/12"
+        className="aspect-square min-h-full w-full object-cover sm:aspect-auto sm:h-auto sm:rounded-t-md md:aspect-21/12"
       />
     </picture>
   )
