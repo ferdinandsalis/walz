@@ -23,20 +23,20 @@ test('shows where to join among the five years', async ({ page }) => {
   await expect(years).toHaveCount(5)
   for (const [index, texts] of [
     ['9.', 'Einstieg in die Walz'],
-    ['10.', 'Restplätze Delta 2'],
-    ['11.', 'Restplätze Gamma 3'],
+    ['10.', 'Restplätze in Delta'],
+    ['11.', 'Restplätze in Gamma'],
     ['12.'],
     ['13.', 'Matura'],
   ].entries()) {
     for (const text of texts) await expect(years.nth(index)).toContainText(text)
   }
   // Each year that takes side entrants says so itself, and from sm one
-  // bracket says it for all of them
+  // caption says it for all of them
   for (const index of [1, 2])
     await expect(years.nth(index)).toContainText('Quereinstieg')
   for (const index of [0, 3, 4])
     await expect(years.nth(index)).not.toContainText('Quereinstieg')
-  await expect(page.locator('#voraussetzungen [data-year-bracket]')).toHaveText(
+  await expect(page.locator('#voraussetzungen [data-year-caption]')).toHaveText(
     'Quereinstieg möglich',
   )
   // The contact follows the grid as a line of its own

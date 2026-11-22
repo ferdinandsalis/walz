@@ -368,13 +368,17 @@ type YearKind = 'entry' | 'side' | 'free' | 'plain'
  */
 const schoolYears: {
   grade: string
-  /** What the year says under its grade; for free places, the class. */
+  /**
+   * What the year says under its grade; for free places, the cohort. Its
+   * name goes without the Walz year ("Delta 2"), which reads as a count of
+   * places.
+   */
   label?: string
   kind: YearKind
 }[] = [
   { grade: '9.', label: 'Einstieg in die Walz', kind: 'entry' },
-  { grade: '10.', label: 'Delta 2', kind: 'free' },
-  { grade: '11.', label: 'Gamma 3', kind: 'free' },
+  { grade: '10.', label: 'Delta', kind: 'free' },
+  { grade: '11.', label: 'Gamma', kind: 'free' },
   { grade: '12.', kind: 'plain' },
   { grade: '13.', label: 'Matura', kind: 'plain' },
 ]
@@ -393,7 +397,7 @@ const takesSideEntrants = (kind: YearKind) => kind === 'side' || kind === 'free'
 
 /**
  * The five years side by side: the way in filled orange, the years that take
- * side entrants outlined orange and bracketed underneath, free places as a
+ * side entrants outlined orange and captioned underneath, free places as a
  * blue chip in their year.
  */
 function SchoolYearGrid() {
@@ -408,7 +412,7 @@ function SchoolYearGrid() {
       >
         Fünf Walzjahre · wo du einsteigen kannst
       </p>
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {/* Safari drops the list role from a list without bullets. */}
         <ol
           role="list"
@@ -430,7 +434,7 @@ function SchoolYearGrid() {
               <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:px-2.5 sm:pt-2.5 sm:text-4xl/none">
                 {grade}
               </span>
-              {/* Phones say it in each year; from sm the bracket below does */}
+              {/* Phones say it in each year; from sm the caption below does */}
               {takesSideEntrants(kind) ? (
                 <span className="text-body-xs/tight whitespace-nowrap sm:sr-only">
                   Quereinstieg
@@ -447,10 +451,10 @@ function SchoolYearGrid() {
                   )}
                 >
                   {kind === 'free' ? (
-                    // From sm the class always takes the second line, so
+                    // From sm the cohort always takes the second line, so
                     // the chips of all years are the same height
                     <>
-                      Restplätze <span className="sm:block">{label}</span>
+                      Restplätze <span className="sm:block">in {label}</span>
                     </>
                   ) : (
                     label
@@ -462,17 +466,17 @@ function SchoolYearGrid() {
         </ol>
         {sideEntry.includes(true) ? (
           <div
-            data-year-bracket
+            data-year-caption
             aria-hidden="true"
             className="hidden grid-cols-5 gap-x-1.5 sm:grid"
           >
+            {/* As wide as the years it speaks for, edge to edge */}
             <p
               style={{
                 gridColumn: `${sideEntry.indexOf(true) + 1} / ${sideEntry.lastIndexOf(true) + 2}`,
               }}
-              className="text-body-xs text-center font-semibold"
+              className="bg-primary-100 text-body-xs rounded-md py-1 text-center font-semibold"
             >
-              <span className="border-primary mx-3 mb-1 block h-2 rounded-b-md border-x-2 border-b-2" />
               Quereinstieg möglich
             </p>
           </div>
