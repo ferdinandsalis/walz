@@ -510,7 +510,7 @@ function FigureRow({ figures }: { figures: Figure[] }) {
             // stay short.
             className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
           >
-            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
+            <span className="font-condensed text-foreground block text-2xl/none font-bold whitespace-nowrap @xl:text-3xl/none">
               {figure}
             </span>
             <span className="text-muted-foreground text-body-sm block @xl:mt-2">
