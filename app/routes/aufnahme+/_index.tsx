@@ -375,20 +375,18 @@ const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
 ]
 
 const yearKindStyles: Record<YearKind, string> = {
-  // White text on orange only on the darker shade (app.css)
-  entry: 'bg-primary-700 border-primary-700 text-white',
-  side: 'bg-primary-50 border-primary-200',
-  free: 'bg-primary-50 border-primary-200 ring-3 ring-secondary ring-inset text-secondary-800',
+  // Dark text throughout: white is too faint on the brand orange at the
+  // label's size (app.css)
+  entry: 'bg-primary border-primary',
+  side: 'bg-primary-200 border-primary-200',
+  free: 'bg-primary-200 border-primary-200 ring-3 ring-secondary ring-inset',
   plain: 'bg-white border-border',
 }
 
 /** The legend's swatches, so the colours never carry the meaning alone. */
 const yearLegend: { label: string; swatch: string }[] = [
-  { label: 'Einstieg', swatch: 'bg-primary-700' },
-  {
-    label: 'Quereinstieg möglich',
-    swatch: 'bg-primary-50 border border-primary-200',
-  },
+  { label: 'Einstieg', swatch: 'bg-primary' },
+  { label: 'Quereinstieg möglich', swatch: 'bg-primary-200' },
   { label: 'gerade Plätze frei', swatch: 'ring-2 ring-secondary ring-inset' },
 ]
 
