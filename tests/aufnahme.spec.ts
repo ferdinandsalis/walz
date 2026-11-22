@@ -127,3 +127,57 @@ for (const width of [375, 900, 1160, 1440]) {
     }
   })
 }
+
+const amount = (text: string | null) => Number(text?.replace(/\D/g, ''))
+
+test('adds up the fees of a year', async ({ page }) => {
+  const fees = page.locator('#kosten [data-fee]')
+  expect(await fees.count()).toBeGreaterThan(0)
+  expect(await page.locator('#kosten [data-fee-once]').count()).toBeGreaterThan(
+    0,
+  )
+  const perYear = await fees
+    .locator('[data-per-year]')
+    .evaluateAll(cells => cells.map(cell => cell.textContent))
+  const sum = await page
+    .locator('#kosten [data-fee-sum] [data-per-year]')
+    .textContent()
+  expect(amount(sum)).toBe(
+    perYear.reduce((total, text) => total + amount(text), 0),
+  )
+})
+
+test('opens a fee for its full description', async ({ page }) => {
+  const toggles = page.locator('#kosten details > summary')
+  expect(await toggles.count()).toBeGreaterThan(1)
+  for (const details of await page.locator('#kosten details').all()) {
+    await expect(details).not.toHaveAttribute('open')
+  }
+
+  await toggles.first().click()
+  const first = page.locator('#kosten details').first()
+  await expect(first).toHaveAttribute('open')
+  const description = await first.locator('[data-fee-description]').innerText()
+  expect(description.length).toBeGreaterThan(20)
+
+  // The keyboard opens a fee as well
+  await toggles.nth(1).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('#kosten details').nth(1)).toHaveAttribute('open')
+})
+
+test('keeps the page from scrolling sideways with every fee open at 320px', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 800 })
+  await page.evaluate(() => document.fonts.ready)
+  await expect(page.locator('#kosten details').first()).toBeAttached()
+  await page
+    .locator('#kosten details')
+    .evaluateAll((all: HTMLDetailsElement[]) =>
+      all.forEach(details => (details.open = true)),
+    )
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(320)
+})

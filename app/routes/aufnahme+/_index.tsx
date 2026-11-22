@@ -17,6 +17,7 @@ import { alphabetMap } from '#app/sanity/models/year.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
 import { cn } from '#app/utils/misc.tsx'
+import { FeeOverview } from './__fee-overview.tsx'
 import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
@@ -157,36 +158,7 @@ export default function Aufnahme() {
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
-          <dl className="divide-border border-border max-w-prose divide-y border-y text-base md:text-xl">
-            {current?.costs.list.map(cost => (
-              // Phones show the amount under the title, wider screens beside
-              // it, so the description keeps the full width.
-              <div
-                key={cost.title}
-                className="grid gap-x-8 gap-y-2 py-6 sm:grid-cols-[1fr_auto]"
-              >
-                <dt className="font-condensed text-h5 font-bold">
-                  {cost.title}
-                </dt>
-                <dd className="flex flex-wrap items-baseline gap-x-2 sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:flex-col sm:items-end">
-                  <span className="font-condensed text-h4 text-primary font-bold">
-                    {Intl.NumberFormat('de-AT', {
-                      style: 'currency',
-                      currency: 'EUR',
-                      maximumFractionDigits: 0,
-                      signDisplay: 'never',
-                    }).format(cost.cost)}
-                  </span>
-                  <span className="text-muted-foreground text-body-sm">
-                    {cost.interval === 'ONCE'
-                      ? `Einmalig`
-                      : `${cost.quantity} × im Jahr`}
-                  </span>
-                </dd>
-                <dd>{cost.description}</dd>
-              </div>
-            ))}
-          </dl>
+          {current ? <FeeOverview list={current.costs.list} /> : null}
         </article>
 
         <Divider className="col-span-12" />
