@@ -378,19 +378,20 @@ const yearKindStyles: Record<YearKind, string> = {
   // Dark text throughout: white is too faint on the brand orange at the
   // label's size (app.css)
   entry: 'bg-primary border-primary',
-  side: 'bg-primary-200 border-primary-200',
-  free: 'bg-primary-200 border-primary-200 ring-3 ring-secondary ring-inset',
+  side: 'bg-white border-primary',
+  free: 'bg-white border-primary',
   plain: 'bg-white border-border',
 }
 
-/** The legend's swatches, so the colours never carry the meaning alone. */
-const yearLegend: { label: string; swatch: string }[] = [
-  { label: 'Einstieg', swatch: 'bg-primary' },
-  { label: 'Quereinstieg möglich', swatch: 'bg-primary-200' },
-  { label: 'gerade Plätze frei', swatch: 'ring-2 ring-secondary ring-inset' },
-]
+const takesSideEntrants = (kind: YearKind) => kind === 'side' || kind === 'free'
 
+/**
+ * The five years side by side: the way in filled orange, the years that take
+ * side entrants outlined orange and bracketed underneath, free places as a
+ * blue band in their year.
+ */
 function SchoolYearGrid() {
+  const sideEntry = schoolYears.map(({ kind }) => takesSideEntrants(kind))
   return (
     // The text size makes `max-w-prose` as wide as the key figures and the
     // text column below.
@@ -401,56 +402,67 @@ function SchoolYearGrid() {
       >
         Fünf Walzjahre · wo du einsteigen kannst
       </p>
-      {/* Safari drops the list role from a list without bullets. */}
-      <ol
-        role="list"
-        aria-labelledby="walzjahre"
-        // Phones stack the years, each label beside its grade; from sm the
-        // five sit side by side.
-        className="grid gap-1.5 sm:grid-cols-5"
-      >
-        {schoolYears.map(({ grade, label, kind }) => (
-          <li
-            key={grade}
-            data-year
-            data-year-kind={kind}
-            className={cn(
-              'flex min-w-0 items-baseline gap-3 rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-start sm:justify-between sm:gap-2 sm:p-3',
-              yearKindStyles[kind],
-            )}
-          >
-            <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:text-4xl/none">
-              {grade}
-            </span>
-            {label ? (
-              <span
-                className={cn(
-                  'text-body-xs/tight text-balance',
-                  kind === 'plain' && 'text-muted-foreground',
-                  kind === 'free' && 'font-semibold',
-                )}
-              >
-                {label}
+      <div className="space-y-1">
+        {/* Safari drops the list role from a list without bullets. */}
+        <ol
+          role="list"
+          aria-labelledby="walzjahre"
+          // Phones stack the years, each label beside its grade; from sm the
+          // five sit side by side.
+          className="grid gap-1.5 sm:grid-cols-5"
+        >
+          {schoolYears.map(({ grade, label, kind }) => (
+            <li
+              key={grade}
+              data-year
+              data-year-kind={kind}
+              className={cn(
+                'flex min-w-0 items-center gap-3 overflow-hidden rounded-lg border-2 px-3 py-2 sm:min-h-28 sm:flex-col sm:items-stretch sm:justify-between sm:gap-2 sm:p-0',
+                yearKindStyles[kind],
+              )}
+            >
+              <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:px-2.5 sm:pt-2.5 sm:text-4xl/none">
+                {grade}
               </span>
-            ) : null}
-          </li>
-        ))}
-      </ol>
-      <ul
-        role="list"
-        data-year-legend
-        className="text-muted-foreground text-body-xs flex flex-wrap gap-x-5 gap-y-1"
-      >
-        {yearLegend.map(({ label, swatch }) => (
-          <li key={label} className="flex items-center gap-1.5">
-            <span
-              aria-hidden="true"
-              className={cn('size-3 rounded-sm', swatch)}
-            />
-            {label}
-          </li>
-        ))}
-      </ul>
+              {/* Phones say it in each year; from sm the bracket below does */}
+              {takesSideEntrants(kind) ? (
+                <span className="text-body-xs/tight sm:sr-only">
+                  Quereinstieg möglich
+                </span>
+              ) : null}
+              {label ? (
+                <span
+                  className={cn(
+                    'text-body-xs/tight text-balance',
+                    kind === 'free'
+                      ? 'bg-secondary ml-auto rounded-full px-2.5 py-1 font-semibold whitespace-nowrap sm:ml-0 sm:flex sm:min-h-10 sm:items-center sm:rounded-none sm:py-1.5 sm:whitespace-normal'
+                      : 'sm:px-2.5 sm:pb-2.5',
+                    kind === 'plain' && 'text-muted-foreground',
+                  )}
+                >
+                  {label}
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+        {sideEntry.includes(true) ? (
+          <div
+            data-year-bracket
+            aria-hidden="true"
+            className="hidden grid-cols-5 gap-x-1.5 sm:grid"
+          >
+            <p
+              style={{
+                gridColumn: `${sideEntry.indexOf(true) + 1} / ${sideEntry.lastIndexOf(true) + 2}`,
+              }}
+              className="border-primary text-body-xs mx-1 rounded-b-md border-x-2 border-b-2 pt-1 pb-1.5 text-center font-semibold"
+            >
+              Quereinstieg möglich
+            </p>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }

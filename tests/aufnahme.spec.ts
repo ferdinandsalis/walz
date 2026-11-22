@@ -30,11 +30,15 @@ test('shows where to join among the five years', async ({ page }) => {
   ].entries()) {
     for (const text of texts) await expect(years.nth(index)).toContainText(text)
   }
-  // The legend tells what the colours mean, so they never stand alone
-  const legend = page.locator('#voraussetzungen [data-year-legend]')
-  await expect(legend).toContainText('Einstieg')
-  await expect(legend).toContainText('Quereinstieg möglich')
-  await expect(legend).toContainText('gerade Plätze frei')
+  // Each year that takes side entrants says so itself, and from sm one
+  // bracket says it for all of them
+  for (const index of [1, 2])
+    await expect(years.nth(index)).toContainText('Quereinstieg möglich')
+  for (const index of [0, 3, 4])
+    await expect(years.nth(index)).not.toContainText('Quereinstieg')
+  await expect(page.locator('#voraussetzungen [data-year-bracket]')).toHaveText(
+    'Quereinstieg möglich',
+  )
   // The contact follows the grid as a line of its own
   const contact = page
     .locator('#voraussetzungen')
