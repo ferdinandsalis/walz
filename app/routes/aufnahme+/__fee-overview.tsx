@@ -14,15 +14,15 @@ const euro = Intl.NumberFormat('de-AT', {
 })
 
 /**
- * One colour per recurring fee, shared by its bar segment and its row. Only
- * the darker shades carry white text (app.css), and orange and blue take
- * turns so neighbouring segments stay apart.
+ * One fill per recurring fee, shared by its bar segment and its row: the two
+ * brand colours, first plain and then patterned (app.css), taking turns so
+ * neighbouring segments stay apart.
  */
-const FEE_COLOURS = [
-  'bg-primary-700',
-  'bg-secondary-700',
-  'bg-primary-800',
-  'bg-secondary-800',
+const FEE_FILLS = [
+  { colour: 'bg-primary' },
+  { colour: 'bg-secondary' },
+  { colour: 'bg-primary', pattern: 'pattern-dots' },
+  { colour: 'bg-secondary', pattern: 'pattern-stripes' },
 ]
 
 // Phones keep the title and the yearly amount in the row and set the amount
@@ -49,20 +49,27 @@ export function FeeOverview({ list }: { list: Cost[] }) {
           aria-hidden="true"
           className="flex h-12 overflow-hidden rounded-lg"
         >
-          {recurring.map((fee, index) => (
-            <div
-              key={fee.title}
-              style={{ flexGrow: fee.perYear }}
-              className={cn(
-                'font-condensed text-body-sm flex min-w-0 basis-0 items-center overflow-hidden px-2 font-bold whitespace-nowrap text-white',
-                FEE_COLOURS[index % FEE_COLOURS.length],
-              )}
-            >
-              {fee.share >= SEGMENT_LABEL_MIN_SHARE
-                ? euro.format(fee.perYear)
-                : null}
-            </div>
-          ))}
+          {recurring.map((fee, index) => {
+            const fill = FEE_FILLS[index % FEE_FILLS.length]!
+            return (
+              <div
+                key={fee.title}
+                style={{ flexGrow: fee.perYear }}
+                className={cn(
+                  'font-condensed text-body-sm text-foreground flex min-w-0 basis-0 items-center overflow-hidden px-1 font-bold whitespace-nowrap',
+                  fill.colour,
+                  fill.pattern,
+                )}
+              >
+                {fee.share >= SEGMENT_LABEL_MIN_SHARE ? (
+                  // The amount sits on the plain colour, clear of the pattern
+                  <span className={cn('rounded-xs px-1', fill.colour)}>
+                    {euro.format(fee.perYear)}
+                  </span>
+                ) : null}
+              </div>
+            )
+          })}
         </div>
       ) : null}
 
@@ -84,7 +91,10 @@ export function FeeOverview({ list }: { list: Cost[] }) {
             key={fee.title}
             kind="recurring"
             fee={fee}
-            swatch={FEE_COLOURS[index % FEE_COLOURS.length]!}
+            swatch={cn(
+              FEE_FILLS[index % FEE_FILLS.length]!.colour,
+              FEE_FILLS[index % FEE_FILLS.length]!.pattern,
+            )}
             often={`${fee.quantity} ×`}
             perYear={euro.format(fee.perYear)}
           />

@@ -1,6 +1,6 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
-import { boxesPastTheRightEdge } from './aufnahme-helpers.ts'
+import { boxesPastTheRightEdge, resolvedColor } from './aufnahme-helpers.ts'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/aufnahme')
@@ -23,18 +23,22 @@ test('shows where to join among the five years', async ({ page }) => {
   await expect(years).toHaveCount(5)
   for (const [index, texts] of [
     ['9.', 'Einstieg in die Walz'],
-    ['10.', 'Restplätze Delta 2'],
-    ['11.', 'Restplätze Gamma 3'],
+    ['10.', 'Restplätze in Delta'],
+    ['11.', 'Restplätze in Gamma'],
     ['12.'],
     ['13.', 'Matura'],
   ].entries()) {
     for (const text of texts) await expect(years.nth(index)).toContainText(text)
   }
-  // The legend tells what the colours mean, so they never stand alone
-  const legend = page.locator('#voraussetzungen [data-year-legend]')
-  await expect(legend).toContainText('Einstieg')
-  await expect(legend).toContainText('Quereinstieg möglich')
-  await expect(legend).toContainText('gerade Plätze frei')
+  // Each year that takes side entrants says so itself, and from sm one
+  // caption says it for all of them
+  for (const index of [1, 2])
+    await expect(years.nth(index)).toContainText('Quereinstieg')
+  for (const index of [0, 3, 4])
+    await expect(years.nth(index)).not.toContainText('Quereinstieg')
+  await expect(page.locator('#voraussetzungen [data-year-caption]')).toHaveText(
+    'Quereinstieg möglich',
+  )
   // The contact follows the grid as a line of its own
   const contact = page
     .locator('#voraussetzungen')
@@ -200,7 +204,7 @@ test.describe('on a narrow phone', () => {
 })
 
 // The new small text keeps to the colour rules in app.css: small orange text
-// in primary-700 or darker, white on orange only on the darker shades.
+// in primary-700 or darker, dark text on the brand colours.
 test('keeps the new small text readable', async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
   const { violations } = await new AxeBuilder({ page })
@@ -212,25 +216,29 @@ test('keeps the new small text readable', async ({ page }) => {
   expect(violations.flatMap(v => v.nodes.map(n => n.target))).toEqual([])
 
   // The bar is hidden from screen readers, so axe skips it; its labels are
-  // checked against the colour tokens directly.
-  const labelled = await page
-    .locator('[data-fee-bar] > *')
-    .evaluateAll(segments =>
-      segments
-        .filter(segment => segment.textContent)
-        .map(segment => getComputedStyle(segment).backgroundColor),
+  // checked against the colour tokens directly: dark text on the plain brand
+  // colour, clear of any pattern.
+  const labels = await page
+    .locator('[data-fee-bar] > * > span')
+    .evaluateAll(labels =>
+      labels.map(label => {
+        const style = getComputedStyle(label)
+        return {
+          text: style.color,
+          fill: style.backgroundColor,
+          pattern: style.backgroundImage,
+        }
+      }),
     )
-  const darkShades = await page.evaluate(() =>
-    ['primary-700', 'primary-800', 'secondary-700', 'secondary-800'].map(
-      token => {
-        const probe = document.createElement('span')
-        probe.style.backgroundColor = `var(--color-${token})`
-        document.body.append(probe)
-        const colour = getComputedStyle(probe).backgroundColor
-        probe.remove()
-        return colour
-      },
-    ),
-  )
-  for (const colour of labelled) expect(darkShades).toContain(colour)
+  expect(labels.length).toBeGreaterThan(0)
+  const foreground = await resolvedColor(page, '--color-foreground')
+  const brandColours = [
+    await resolvedColor(page, '--color-primary'),
+    await resolvedColor(page, '--color-secondary'),
+  ]
+  for (const label of labels) {
+    expect(label.text).toBe(foreground)
+    expect(brandColours).toContain(label.fill)
+    expect(label.pattern).toBe('none')
+  }
 })

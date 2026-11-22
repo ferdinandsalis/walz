@@ -366,33 +366,42 @@ type YearKind = 'entry' | 'side' | 'free' | 'plain'
  * The five Walz years and where one can join: the 9th is the way in, the 10th
  * and 11th take side entrants and have places free this year.
  */
-const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
+const schoolYears: {
+  grade: string
+  /**
+   * What the year says under its grade; for free places, the cohort. Its
+   * name goes without the Walz year ("Delta 2"), which reads as a count of
+   * places.
+   */
+  label?: string
+  kind: YearKind
+}[] = [
   { grade: '9.', label: 'Einstieg in die Walz', kind: 'entry' },
-  { grade: '10.', label: 'Restplätze Delta 2', kind: 'free' },
-  { grade: '11.', label: 'Restplätze Gamma 3', kind: 'free' },
+  { grade: '10.', label: 'Delta', kind: 'free' },
+  { grade: '11.', label: 'Gamma', kind: 'free' },
   { grade: '12.', kind: 'plain' },
   { grade: '13.', label: 'Matura', kind: 'plain' },
 ]
 
 const yearKindStyles: Record<YearKind, string> = {
-  // White text on orange only on the darker shade (app.css)
-  entry: 'bg-primary-700 border-primary-700 text-white',
-  side: 'bg-primary-50 border-primary-200',
-  free: 'bg-primary-50 border-primary-200 ring-3 ring-secondary ring-inset text-secondary-800',
+  // Dark text throughout: white is too faint on the brand orange at the
+  // label's size (app.css)
+  entry: 'bg-primary border-primary',
+  // The ring doubles the border inwards, so every year keeps the same size
+  side: 'bg-white border-primary ring-1 ring-primary ring-inset',
+  free: 'bg-white border-primary ring-1 ring-primary ring-inset',
   plain: 'bg-white border-border',
 }
 
-/** The legend's swatches, so the colours never carry the meaning alone. */
-const yearLegend: { label: string; swatch: string }[] = [
-  { label: 'Einstieg', swatch: 'bg-primary-700' },
-  {
-    label: 'Quereinstieg möglich',
-    swatch: 'bg-primary-50 border border-primary-200',
-  },
-  { label: 'gerade Plätze frei', swatch: 'ring-2 ring-secondary ring-inset' },
-]
+const takesSideEntrants = (kind: YearKind) => kind === 'side' || kind === 'free'
 
+/**
+ * The five years side by side: the way in filled orange, the years that take
+ * side entrants outlined orange and captioned underneath, free places as a
+ * blue chip in their year.
+ */
 function SchoolYearGrid() {
+  const sideEntry = schoolYears.map(({ kind }) => takesSideEntrants(kind))
   return (
     // The text size makes `max-w-prose` as wide as the key figures and the
     // text column below.
@@ -403,56 +412,76 @@ function SchoolYearGrid() {
       >
         Fünf Walzjahre · wo du einsteigen kannst
       </p>
-      {/* Safari drops the list role from a list without bullets. */}
-      <ol
-        role="list"
-        aria-labelledby="walzjahre"
-        // Phones stack the years, each label beside its grade; from sm the
-        // five sit side by side.
-        className="grid gap-1.5 sm:grid-cols-5"
-      >
-        {schoolYears.map(({ grade, label, kind }) => (
-          <li
-            key={grade}
-            data-year
-            data-year-kind={kind}
-            className={cn(
-              'flex min-w-0 items-baseline gap-3 rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-start sm:justify-between sm:gap-2 sm:p-3',
-              yearKindStyles[kind],
-            )}
-          >
-            <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:text-4xl/none">
-              {grade}
-            </span>
-            {label ? (
-              <span
-                className={cn(
-                  'text-body-xs/tight text-balance',
-                  kind === 'plain' && 'text-muted-foreground',
-                  kind === 'free' && 'font-semibold',
-                )}
-              >
-                {label}
+      <div className="space-y-1.5">
+        {/* Safari drops the list role from a list without bullets. */}
+        <ol
+          role="list"
+          aria-labelledby="walzjahre"
+          // Phones stack the years, each label beside its grade; from sm the
+          // five sit side by side.
+          className="grid gap-1.5 sm:grid-cols-5"
+        >
+          {schoolYears.map(({ grade, label, kind }) => (
+            <li
+              key={grade}
+              data-year
+              data-year-kind={kind}
+              className={cn(
+                'flex min-w-0 items-center gap-3 overflow-hidden rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-stretch sm:justify-between sm:gap-2 sm:p-0',
+                yearKindStyles[kind],
+              )}
+            >
+              <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:px-2.5 sm:pt-2.5 sm:text-4xl/none">
+                {grade}
               </span>
-            ) : null}
-          </li>
-        ))}
-      </ol>
-      <ul
-        role="list"
-        data-year-legend
-        className="text-muted-foreground text-body-xs flex flex-wrap gap-x-5 gap-y-1"
-      >
-        {yearLegend.map(({ label, swatch }) => (
-          <li key={label} className="flex items-center gap-1.5">
-            <span
-              aria-hidden="true"
-              className={cn('size-3 rounded-sm', swatch)}
-            />
-            {label}
-          </li>
-        ))}
-      </ul>
+              {/* Phones say it in each year; from sm the caption below does */}
+              {takesSideEntrants(kind) ? (
+                <span className="text-body-xs/tight whitespace-nowrap sm:sr-only">
+                  Quereinstieg
+                </span>
+              ) : null}
+              {label ? (
+                <span
+                  className={cn(
+                    'text-body-xs/tight text-balance',
+                    kind === 'free'
+                      ? 'bg-secondary ml-auto rounded-md px-2 py-1 font-semibold whitespace-nowrap sm:m-1.5 sm:px-1.5 sm:whitespace-normal'
+                      : 'sm:px-2.5 sm:pb-2.5',
+                    kind === 'plain' && 'text-muted-foreground',
+                  )}
+                >
+                  {kind === 'free' ? (
+                    // From sm the cohort always takes the second line, so
+                    // the chips of all years are the same height
+                    <>
+                      Restplätze <span className="sm:block">in {label}</span>
+                    </>
+                  ) : (
+                    label
+                  )}
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+        {sideEntry.includes(true) ? (
+          <div
+            data-year-caption
+            aria-hidden="true"
+            className="hidden grid-cols-5 gap-x-1.5 sm:grid"
+          >
+            {/* As wide as the years it speaks for, edge to edge */}
+            <p
+              style={{
+                gridColumn: `${sideEntry.indexOf(true) + 1} / ${sideEntry.lastIndexOf(true) + 2}`,
+              }}
+              className="bg-primary-100 text-body-xs rounded-md py-1 text-center font-semibold"
+            >
+              Quereinstieg möglich
+            </p>
+          </div>
+        ) : null}
+      </div>
     </div>
   )
 }
@@ -510,7 +539,7 @@ function FigureRow({ figures }: { figures: Figure[] }) {
             // stay short.
             className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
           >
-            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
+            <span className="font-condensed text-foreground block text-2xl/none font-bold whitespace-nowrap @xl:text-3xl/none">
               {figure}
             </span>
             <span className="text-muted-foreground text-body-sm block @xl:mt-2">
