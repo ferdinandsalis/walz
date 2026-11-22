@@ -16,6 +16,7 @@ import {
 import { alphabetMap } from '#app/sanity/models/year.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
+import { cn } from '#app/utils/misc.tsx'
 import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
@@ -74,7 +75,7 @@ export default function Aufnahme() {
             alt="Drei Jugendliche in Kostümen und mit Hüten spielen Theater auf einer Bühne"
             position="50% 35%"
           />
-          <FactTiles />
+          <AdmissionFacts />
           <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Der Besuch der Walz beginnt mit der 9. Schulstufe, d.h.
@@ -121,7 +122,7 @@ export default function Aufnahme() {
             alt="Eine Jugendliche steht auf einer Leiter vor der Ziegelfassade der Walz und hält einen Pinsel in den Himmel"
             position="50% 40%"
           />
-          <KeyFigures />
+          <FigureRow figures={keyFigures} />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Die Walz ist ein gemeinnütziger Verein und finanziert sich zu
@@ -363,54 +364,38 @@ function ChapterOpener({
   )
 }
 
-const tileClassName =
-  'bg-card rounded-lg border-t-4 p-4 sm:p-5 shadow-sm flex flex-col gap-3'
-const tileFigureClassName =
-  'font-condensed text-4xl/none font-black sm:text-5xl/none'
+type Figure = {
+  figure: string
+  label: string
+  /** Free places are news, so they stand out in blue */
+  current?: boolean
+}
 
 /** The admission facts at a glance: where the Walz starts, where one can join. */
-function FactTiles() {
+const admissionFacts: Figure[] = [
+  { figure: '9.', label: 'Schulstufe: der Einstieg in die Walz' },
+  { figure: '9.–11.', label: 'Schulstufe: Quereinstieg möglich' },
+  {
+    figure: '10. · 11.',
+    label: 'Schulstufe: Restplätze im Jahrgang Delta 2 und Gamma 3',
+    current: true,
+  },
+]
+
+function AdmissionFacts() {
   return (
-    // The column, not the screen, decides on four in a row: just after the lg
-    // and xl breakpoints the column is narrow on a wide screen.
-    <div className="@container max-w-4xl">
-      <div className="grid grid-cols-2 gap-4 @2xl:grid-cols-4">
-        <div data-fact className={`${tileClassName} border-primary`}>
-          <span className={`${tileFigureClassName} text-primary`}>9.</span>
-          <span className="text-body-sm">
-            Schulstufe: der Einstieg in die Walz
-          </span>
-        </div>
-        <div data-fact className={`${tileClassName} border-primary`}>
-          <span className={`${tileFigureClassName} text-primary`}>9.–11.</span>
-          <span className="text-body-sm">Schulstufe: Quereinstieg möglich</span>
-        </div>
-        <div
-          data-fact
-          className={`${tileClassName} border-secondary col-span-2`}
+    <div className="space-y-4">
+      <FigureRow figures={admissionFacts} />
+      <p className="text-body-sm max-w-prose">
+        Weitere Infos & Vorstellungstermin bei Agnes Chorherr:{' '}
+        <a
+          href="mailto:agnes.chorherr@walz.at"
+          className="inline-flex items-center gap-1 underline underline-offset-2"
         >
-          <span
-            className={`${tileFigureClassName} text-secondary-800`}
-            // The text below names both Jahrgänge in full.
-            aria-hidden="true"
-          >
-            <span className="font-greek">δ</span>2 ·{' '}
-            <span className="font-greek">γ</span>3
-          </span>
-          <span className="text-body-sm">
-            Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe)
-            sind Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei
-            Agnes Chorherr:{' '}
-            <a
-              href="mailto:agnes.chorherr@walz.at"
-              className="inline-flex items-center gap-1 underline underline-offset-2"
-            >
-              agnes.chorherr@walz.at
-              <ArrowSquareOut size={16} className="text-primary" />
-            </a>
-          </span>
-        </div>
-      </div>
+          agnes.chorherr@walz.at
+          <ArrowSquareOut size={16} className="text-primary" />
+        </a>
+      </p>
     </div>
   )
 }
@@ -419,7 +404,7 @@ function FactTiles() {
  * The figures the cost text argues with, set large above it: what the Walz
  * carries itself, what the state gives and what a public school costs.
  */
-const keyFigures = [
+const keyFigures: Figure[] = [
   {
     figure: 'über 90 %',
     label: 'ihrer Kosten trägt die Walz als gemeinnütziger Verein selbst',
@@ -435,13 +420,14 @@ const keyFigures = [
   },
 ]
 
-function KeyFigures() {
+/** Three figures set large in a row, each above its label. */
+function FigureRow({ figures }: { figures: Figure[] }) {
   return (
     // The text size makes `max-w-prose` as wide as the text column below. The
     // column, not the screen, decides on three in a row.
     <div className="@container max-w-prose text-base md:text-xl">
       <div className="divide-border border-border grid divide-y border-y @xl:grid-cols-3 @xl:divide-x @xl:divide-y-0">
-        {keyFigures.map(({ figure, label }) => (
+        {figures.map(({ figure, label, current }) => (
           <p
             key={figure}
             data-figure
@@ -449,7 +435,12 @@ function KeyFigures() {
             // stay short.
             className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
           >
-            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
+            <span
+              className={cn(
+                'font-condensed block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none',
+                current ? 'text-secondary-800' : 'text-primary',
+              )}
+            >
               {figure}
             </span>
             <span className="text-muted-foreground text-body-sm block @xl:mt-2">

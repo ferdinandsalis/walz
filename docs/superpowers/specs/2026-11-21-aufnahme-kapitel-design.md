@@ -107,3 +107,8 @@ Zahlen, und eine Absolventin oder ein Absolvent kommt zu Wort.
 - Am Handy stehen die Kacheln „9.“ und „9.–11.“ nebeneinander. Die Kachel mit
   den Restplätzen ist überall doppelt so breit.
 - Das Zitat ist eine Stufe kleiner (`text-h5`), weil die Testimonials lang sind.
+- Die Eckdaten der Voraussetzungen stehen nicht mehr als Kacheln, sondern als
+  schlichte Zeile wie die Kennzahlen der Kosten (Ferdinand: Kacheln wirkten
+  fremd). Beide nutzen dieselbe `FigureRow`.
+  - Die Restplätze stehen in Blau als „10. · 11.“. Der Kontakt zu Agnes Chorherr
+    folgt als eigene Zeile darunter.

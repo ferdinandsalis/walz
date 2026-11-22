@@ -16,16 +16,24 @@ test('opens each section with a photo under its title', async ({ page }) => {
   }
 })
 
-test('shows the facts as tiles in Voraussetzungen', async ({ page }) => {
-  const tiles = page.locator('#voraussetzungen [data-fact]')
-  await expect(tiles).toHaveCount(3)
-  await expect(tiles.nth(0)).toContainText('9.')
-  await expect(tiles.nth(1)).toContainText('9.–11.')
-  await expect(tiles.nth(2)).toContainText('Restplätze')
-  await expect(
-    tiles.nth(2).getByRole('link', { name: 'agnes.chorherr@walz.at' }),
-  ).toBeVisible()
-  // The tile takes over the notice, so the free places are told once
+test('shows the facts as a row of figures in Voraussetzungen', async ({
+  page,
+}) => {
+  const facts = page.locator('#voraussetzungen [data-figure]')
+  await expect(facts).toHaveCount(3)
+  await expect(facts.nth(0)).toContainText('9.')
+  await expect(facts.nth(1)).toContainText('9.–11.')
+  await expect(facts.nth(2)).toContainText('10. · 11.')
+  await expect(facts.nth(2)).toContainText(
+    'Restplätze im Jahrgang Delta 2 und Gamma 3',
+  )
+  // The contact follows the row as a line of its own
+  const contact = page
+    .locator('#voraussetzungen')
+    .getByRole('link', { name: 'agnes.chorherr@walz.at' })
+  await expect(contact).toBeVisible()
+  await expect(facts.locator('a')).toHaveCount(0)
+  // The row takes over the notice, so the free places are told once
   await expect(page.getByText('Plätze frei', { exact: true })).toHaveCount(0)
 })
 
@@ -71,15 +79,13 @@ test('lets a graduate speak before the scholarships', async ({ page }) => {
 })
 
 // The text column is narrowest just after the lg and xl breakpoints, where a
-// further column joins the page; the tiles and figures must fit there too.
+// further column joins the page; the figures must fit there too.
 for (const width of [375, 900, 1160, 1440]) {
-  test(`fits the tiles and figures into the column at ${width}px`, async ({
-    page,
-  }) => {
+  test(`fits the figures into the column at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.evaluate(() => document.fonts.ready)
 
-    const boxes = page.locator('[data-fact], [data-figure]')
+    const boxes = page.locator('[data-figure]')
     await expect(boxes).toHaveCount(6)
     for (const box of await boxes.all()) {
       const fit = await box.evaluate(element => {
