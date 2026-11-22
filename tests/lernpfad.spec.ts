@@ -1,5 +1,10 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
-import { fillParent1, gotoHydratedForm, textLeft } from './aufnahme-helpers.ts'
+import {
+  boxesPastTheRightEdge,
+  fillParent1,
+  gotoHydratedForm,
+  textLeft,
+} from './aufnahme-helpers.ts'
 
 test('the newsletter field keeps 16px and shows a visible focus outline', async ({
   page,
@@ -188,21 +193,6 @@ test('dates each admission step on /aufnahme', async ({ page }) => {
     expect(nodeMiddle).toBeLessThan(title.y + title.height)
   }
 })
-
-// The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
-// scroll width alone could miss a box running off the screen; every box's
-// right edge is checked as well.
-async function boxesPastTheRightEdge(page: Page) {
-  return page.evaluate(() => {
-    const width = document.documentElement.clientWidth
-    return Array.from(document.body.querySelectorAll('*'))
-      .filter(element => element.getBoundingClientRect().right > width + 0.5)
-      .map(
-        element =>
-          `${element.tagName.toLowerCase()} ${element.getAttribute('class') ?? ''}`,
-      )
-  })
-}
 
 test.describe('on a narrow phone', () => {
   test.use({ viewport: { width: 320, height: 640 } })

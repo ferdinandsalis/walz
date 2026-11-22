@@ -1,4 +1,6 @@
+import { AxeBuilder } from '@axe-core/playwright'
 import { test, expect } from '@playwright/test'
+import { boxesPastTheRightEdge } from './aufnahme-helpers.ts'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/aufnahme')
@@ -130,54 +132,105 @@ for (const width of [375, 900, 1160, 1440]) {
 
 const amount = (text: string | null) => Number(text?.replace(/\D/g, ''))
 
+// The fees come from Sanity, so these tests take whatever fees the page
+// shows: Agnes may drop a fee, its description or the one-off fee.
 test('adds up the fees of a year', async ({ page }) => {
-  const fees = page.locator('#kosten [data-fee]')
-  expect(await fees.count()).toBeGreaterThan(0)
-  expect(await page.locator('#kosten [data-fee-once]').count()).toBeGreaterThan(
-    0,
-  )
-  const perYear = await fees
-    .locator('[data-per-year]')
+  const perYear = await page
+    .locator('#kosten [data-fee] [data-per-year]')
     .evaluateAll(cells => cells.map(cell => cell.textContent))
-  const sum = await page
-    .locator('#kosten [data-fee-sum] [data-per-year]')
-    .textContent()
-  expect(amount(sum)).toBe(
+  const sum = page.locator('#kosten [data-fee-sum] [data-per-year]')
+  if (perYear.length === 0) {
+    await expect(sum).toHaveCount(0)
+    return
+  }
+  expect(amount(await sum.textContent())).toBe(
     perYear.reduce((total, text) => total + amount(text), 0),
   )
 })
 
 test('opens a fee for its full description', async ({ page }) => {
-  const toggles = page.locator('#kosten details > summary')
-  expect(await toggles.count()).toBeGreaterThan(1)
-  for (const details of await page.locator('#kosten details').all()) {
+  const fees = page.locator('#kosten details')
+  for (const details of await fees.all()) {
     await expect(details).not.toHaveAttribute('open')
   }
+  test.skip((await fees.count()) === 0, 'No fee has a description')
 
-  await toggles.first().click()
-  const first = page.locator('#kosten details').first()
-  await expect(first).toHaveAttribute('open')
-  const description = await first.locator('[data-fee-description]').innerText()
-  expect(description.length).toBeGreaterThan(20)
+  await fees.first().locator('summary').click()
+  await expect(fees.first()).toHaveAttribute('open')
+  await expect(fees.first().locator('[data-fee-description]')).toBeVisible()
 
   // The keyboard opens a fee as well
-  await toggles.nth(1).focus()
+  await fees.first().locator('summary').focus()
   await page.keyboard.press('Enter')
-  await expect(page.locator('#kosten details').nth(1)).toHaveAttribute('open')
+  await expect(fees.first()).not.toHaveAttribute('open')
+  await page.keyboard.press('Space')
+  await expect(fees.first()).toHaveAttribute('open')
 })
 
-test('keeps the page from scrolling sideways with every fee open at 320px', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 320, height: 800 })
+test.describe('on a narrow phone', () => {
+  test.use({ viewport: { width: 320, height: 640 } })
+
+  test('keeps every fee whole with every fee open', async ({ page }) => {
+    await page.evaluate(() => document.fonts.ready)
+    await page
+      .locator('#kosten details')
+      .evaluateAll((all: HTMLDetailsElement[]) =>
+        all.forEach(details => (details.open = true)),
+      )
+    expect(await boxesPastTheRightEdge(page)).toEqual([])
+  })
+
+  // A fee's title is one long word in German easily; it must wrap, not push
+  // the yearly amount off the screen.
+  test('wraps a fee title of one long word', async ({ page }) => {
+    await page.evaluate(() => document.fonts.ready)
+    const title = page.locator('#kosten [data-fee-title]').first()
+    const overlap = await title.evaluate(element => {
+      element.textContent = 'Ganztagesbetreuungskostenbeitrag'
+      const row = element.closest('summary, [data-fee]')!
+      const perYear = row.querySelector('[data-per-year]')!
+      return (
+        element.getBoundingClientRect().right -
+        perYear.getBoundingClientRect().left
+      )
+    })
+    expect(overlap).toBeLessThanOrEqual(0)
+    expect(await boxesPastTheRightEdge(page)).toEqual([])
+  })
+})
+
+// The new small text keeps to the colour rules in app.css: small orange text
+// in primary-700 or darker, white on orange only on the darker shades.
+test('keeps the new small text readable', async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
-  await expect(page.locator('#kosten details').first()).toBeAttached()
-  await page
-    .locator('#kosten details')
-    .evaluateAll((all: HTMLDetailsElement[]) =>
-      all.forEach(details => (details.open = true)),
+  const { violations } = await new AxeBuilder({ page })
+    .include('[data-step-when]')
+    .include('[data-year]')
+    .include('[data-per-year]')
+    .withRules(['color-contrast'])
+    .analyze()
+  expect(violations.flatMap(v => v.nodes.map(n => n.target))).toEqual([])
+
+  // The bar is hidden from screen readers, so axe skips it; its labels are
+  // checked against the colour tokens directly.
+  const labelled = await page
+    .locator('[data-fee-bar] > *')
+    .evaluateAll(segments =>
+      segments
+        .filter(segment => segment.textContent)
+        .map(segment => getComputedStyle(segment).backgroundColor),
     )
-  expect(
-    await page.evaluate(() => document.documentElement.scrollWidth),
-  ).toBeLessThanOrEqual(320)
+  const darkShades = await page.evaluate(() =>
+    ['primary-700', 'primary-800', 'secondary-700', 'secondary-800'].map(
+      token => {
+        const probe = document.createElement('span')
+        probe.style.backgroundColor = `var(--color-${token})`
+        document.body.append(probe)
+        const colour = getComputedStyle(probe).backgroundColor
+        probe.remove()
+        return colour
+      },
+    ),
+  )
+  for (const colour of labelled) expect(darkShades).toContain(colour)
 })

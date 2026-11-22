@@ -13,11 +13,15 @@ const euro = Intl.NumberFormat('de-AT', {
   signDisplay: 'never',
 })
 
-/** One colour per recurring fee, shared by its bar segment and its row. */
+/**
+ * One colour per recurring fee, shared by its bar segment and its row. Only
+ * the darker shades carry white text (app.css), and orange and blue take
+ * turns so neighbouring segments stay apart.
+ */
 const FEE_COLOURS = [
-  'bg-primary',
+  'bg-primary-700',
+  'bg-secondary-700',
   'bg-primary-800',
-  'bg-secondary',
   'bg-secondary-800',
 ]
 
@@ -96,7 +100,7 @@ export function FeeOverview({ list }: { list: Cost[] }) {
             <span>Summe im Jahr</span>
             <span className="hidden sm:block" />
             <span className="hidden sm:block" />
-            <span data-per-year className="text-primary text-right">
+            <span data-per-year className="text-primary-700 text-right">
               {euro.format(total)}
             </span>
           </div>
@@ -135,7 +139,12 @@ function FeeRow({
               swatch ?? 'ring-muted-foreground ring-2 ring-inset',
             )}
           />
-          <span className="font-condensed text-body-md font-bold">
+          {/* A one-word title (German has many) wraps instead of running
+              over the yearly amount */}
+          <span
+            data-fee-title
+            className="font-condensed text-body-md min-w-0 font-bold wrap-break-word hyphens-auto"
+          >
             {fee.title}
           </span>
         </span>
@@ -150,7 +159,7 @@ function FeeRow({
       <span className="hidden text-right sm:block">{often}</span>
       <span
         data-per-year={perYear ? true : undefined}
-        className="font-condensed text-primary text-body-md text-right font-bold"
+        className="font-condensed text-primary-700 text-body-md text-right font-bold"
       >
         {perYear}
       </span>

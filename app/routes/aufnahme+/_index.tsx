@@ -285,7 +285,7 @@ function AdmissionSteps() {
             </PathMarker>
             <p
               data-step-when
-              className="text-primary text-body-xs mb-1 h-5 leading-5 font-bold tracking-widest uppercase"
+              className="text-primary-700 text-body-xs mb-1 h-5 leading-5 font-bold tracking-widest uppercase"
             >
               {admissionStepWhen[step.title]}
             </p>
@@ -375,7 +375,8 @@ const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
 ]
 
 const yearKindStyles: Record<YearKind, string> = {
-  entry: 'bg-primary border-primary text-white',
+  // White text on orange only on the darker shade (app.css)
+  entry: 'bg-primary-700 border-primary-700 text-white',
   side: 'bg-primary-50 border-primary-200',
   free: 'bg-primary-50 border-primary-200 ring-3 ring-secondary ring-inset text-secondary-800',
   plain: 'bg-white border-border',
@@ -383,7 +384,7 @@ const yearKindStyles: Record<YearKind, string> = {
 
 /** The legend's swatches, so the colours never carry the meaning alone. */
 const yearLegend: { label: string; swatch: string }[] = [
-  { label: 'Einstieg', swatch: 'bg-primary' },
+  { label: 'Einstieg', swatch: 'bg-primary-700' },
   {
     label: 'Quereinstieg möglich',
     swatch: 'bg-primary-50 border border-primary-200',
