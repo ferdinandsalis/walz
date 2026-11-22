@@ -75,3 +75,18 @@ export async function expectFocusOutline(locator: Locator) {
       color: primary700,
     })
 }
+
+// The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
+// scroll width alone could miss a box running off the screen; every box's
+// right edge is checked as well.
+export async function boxesPastTheRightEdge(page: Page) {
+  return page.evaluate(() => {
+    const width = document.documentElement.clientWidth
+    return Array.from(document.body.querySelectorAll('*'))
+      .filter(element => element.getBoundingClientRect().right > width + 0.5)
+      .map(
+        element =>
+          `${element.tagName.toLowerCase()} ${element.getAttribute('class') ?? ''}`,
+      )
+  })
+}

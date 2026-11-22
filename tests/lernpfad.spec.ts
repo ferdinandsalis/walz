@@ -1,5 +1,10 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
-import { fillParent1, gotoHydratedForm, textLeft } from './aufnahme-helpers.ts'
+import {
+  boxesPastTheRightEdge,
+  fillParent1,
+  gotoHydratedForm,
+  textLeft,
+} from './aufnahme-helpers.ts'
 
 test('the newsletter field keeps 16px and shows a visible focus outline', async ({
   page,
@@ -139,11 +144,9 @@ test('tells the admission steps with their text on /aufnahme', async ({
     await expect(steps.nth(index)).toContainText(text)
   }
 
-  await expect(
-    page.locator('.bg-secondary-50').filter({
-      has: page.getByText('Plätze frei', { exact: true }),
-    }),
-  ).toHaveCount(1)
+  // The admission day notice in step 1 is the page's only notice; the free
+  // places sit in a tile under Voraussetzungen.
+  await expect(page.locator('.bg-secondary-50')).toHaveCount(1)
 
   // The way to the form starts at step 1, beside the current Jahrgang.
   const notice = steps.first().locator('.bg-secondary-50')
@@ -152,20 +155,44 @@ test('tells the admission steps with their text on /aufnahme', async ({
   await expect(page).toHaveURL('/aufnahme/formular')
 })
 
-// The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
-// scroll width alone could miss a box running off the screen; every box's
-// right edge is checked as well.
-async function boxesPastTheRightEdge(page: Page) {
-  return page.evaluate(() => {
-    const width = document.documentElement.clientWidth
-    return Array.from(document.body.querySelectorAll('*'))
-      .filter(element => element.getBoundingClientRect().right > width + 0.5)
-      .map(
-        element =>
-          `${element.tagName.toLowerCase()} ${element.getAttribute('class') ?? ''}`,
+test('dates each admission step on /aufnahme', async ({ page }) => {
+  await page.goto('/aufnahme')
+  await page.evaluate(() => document.fonts.ready)
+
+  const steps = page
+    .locator('#vorgehensweise')
+    .getByRole('list', { name: 'Aufnahmeprozess' })
+    .getByRole('listitem')
+  await expect(steps.locator('[data-step-when]')).toHaveText([
+    'Jetzt',
+    'ab Mitte November',
+    'am Aufnahmetermin',
+    'ab Jänner',
+  ])
+  const states = await steps
+    .locator('[data-node-state]')
+    .evaluateAll(nodes => nodes.map(node => node.dataset.nodeState))
+  expect(states).toEqual(['current', 'open', 'open', 'open'])
+
+  for (const step of await steps.all()) {
+    // The date comes first, so it is read before the step's title
+    const dateFirst = await step.evaluate(element => {
+      const when = element.querySelector('[data-step-when]')!
+      const title = element.querySelector('h2')!
+      return Boolean(
+        when.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING,
       )
-  })
-}
+    })
+    expect(dateFirst).toBe(true)
+
+    // The node stays level with the title, not with the date above it
+    const node = (await step.locator('[data-node-state]').boundingBox())!
+    const title = (await step.getByRole('heading', { level: 2 }).boundingBox())!
+    const nodeMiddle = node.y + node.height / 2
+    expect(nodeMiddle).toBeGreaterThan(title.y)
+    expect(nodeMiddle).toBeLessThan(title.y + title.height)
+  }
+})
 
 test.describe('on a narrow phone', () => {
   test.use({ viewport: { width: 320, height: 640 } })

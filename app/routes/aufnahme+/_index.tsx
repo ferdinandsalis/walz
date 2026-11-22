@@ -13,8 +13,11 @@ import {
   PathRail,
   RailEnd,
 } from '#app/components/ui/path.tsx'
+import { alphabetMap } from '#app/sanity/models/year.ts'
 import { trackEvent } from '#app/utils/analytics.ts'
 import { AUFNAHME_STEPS } from '#app/utils/aufnahme-form.ts'
+import { cn } from '#app/utils/misc.tsx'
+import { FeeOverview } from './__fee-overview.tsx'
 import {
   type AufnahmeQuery,
   AufnahmeQuerySchema,
@@ -62,14 +65,21 @@ export default function Aufnahme() {
             Vorgehensweise
           </h1>
           <AdmissionSteps />
+          {loaderData.testimonial ? (
+            <TestimonialQuote testimonial={loaderData.testimonial} />
+          ) : null}
         </article>
 
         <Divider className="col-span-12" />
 
         <article id="voraussetzungen" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary text-4xl font-bold">
-            Voraussetzungen
-          </h1>
+          <ChapterOpener
+            title="Voraussetzungen"
+            image="/images/persoenlichkeit_theater.jpg"
+            alt="Drei Jugendliche in Kostümen und mit Hüten spielen Theater auf einer Bühne"
+            position="50% 35%"
+          />
+          <AdmissionFacts />
           <div className="max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Der Besuch der Walz beginnt mit der 9. Schulstufe, d.h.
@@ -105,16 +115,18 @@ export default function Aufnahme() {
               </p>
             </div>
           </section>
-
-          <LateralEntryBox />
         </article>
 
         <Divider className="col-span-12" />
 
         <article id="kosten" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
-            Kosten und Finanzierung
-          </h1>
+          <ChapterOpener
+            title="Kosten und Finanzierung"
+            image="/images/walz_paint.jpg"
+            alt="Eine Jugendliche steht auf einer Leiter vor der Ziegelfassade der Walz und hält einen Pinsel in den Himmel"
+            position="50% 40%"
+          />
+          <FigureRow figures={keyFigures} />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Die Walz ist ein gemeinnütziger Verein und finanziert sich zu
@@ -146,44 +158,18 @@ export default function Aufnahme() {
             Beiträge Schuljahr {current?.start.getFullYear()}/
             {current?.end.getFullYear().toString().slice(-2)}
           </h2>
-          <dl className="divide-border border-border max-w-prose divide-y border-y">
-            {current?.costs.list.map(cost => (
-              // Phones show the amount under the title, wider screens beside
-              // it, so the description keeps the full width.
-              <div
-                key={cost.title}
-                className="grid gap-x-8 gap-y-2 py-6 sm:grid-cols-[1fr_auto]"
-              >
-                <dt className="font-condensed text-h5 font-bold">
-                  {cost.title}
-                </dt>
-                <dd className="flex flex-wrap items-baseline gap-x-2 sm:col-start-2 sm:row-span-2 sm:row-start-1 sm:flex-col sm:items-end">
-                  <span className="font-condensed text-h5 font-bold">
-                    {Intl.NumberFormat('de-AT', {
-                      style: 'currency',
-                      currency: 'EUR',
-                      maximumFractionDigits: 0,
-                      signDisplay: 'never',
-                    }).format(cost.cost)}
-                  </span>
-                  <span className="text-muted-foreground text-body-sm">
-                    {cost.interval === 'ONCE'
-                      ? `Einmalig`
-                      : `${cost.quantity} × im Jahr`}
-                  </span>
-                </dd>
-                <dd className="text-base md:text-xl">{cost.description}</dd>
-              </div>
-            ))}
-          </dl>
+          {current ? <FeeOverview list={current.costs.list} /> : null}
         </article>
 
         <Divider className="col-span-12" />
 
         <article id="stipendien" className="col-span-12 space-y-8">
-          <h1 className="font-condensed text-primary mb-8 text-4xl font-bold">
-            Stipendien
-          </h1>
+          <ChapterOpener
+            title="Stipendien"
+            image="/images/praxis_uhrenwerkstatt.jpg"
+            alt="Ein Jugendlicher setzt mit einer Pinzette ein Uhrwerk zusammen"
+            position="50% 70%"
+          />
           <div className="mb-8 max-w-prose space-y-4 text-base md:text-xl">
             <p>
               Durch private Sponsoren und der Initiative{' '}
@@ -255,8 +241,16 @@ const admissionStepTexts: Record<string, ReactNode> = {
   ),
 }
 
+/** When each admission step comes, keyed by its title. */
+const admissionStepWhen: Record<string, string> = {
+  'Anmeldung absenden': 'Jetzt',
+  'Anruf von der Walz': 'ab Mitte November',
+  Aufnahmegespräch: 'am Aufnahmetermin',
+  'Zu- oder Absage': 'ab Jänner',
+}
+
 /**
- * The admission steps on the Lernpfad, each numbered, with its title as a
+ * The admission steps on the Lernpfad, each numbered and dated, with its title as a
  * heading and its text below. The titles are the ones the form and the
  * confirmation page show. From xl the path hangs in the left margin, as it
  * does there.
@@ -277,10 +271,24 @@ function AdmissionSteps() {
             // the title (`lh`).
             className="text-h5 md:text-h4 relative"
           >
-            {index === AUFNAHME_STEPS.length - 1 ? <RailEnd /> : null}
-            <PathMarker>
-              <PathNode state="open" number={index + 1} />
+            {/* The date takes the first 1.5rem (a 1.25rem line and its
+                margin), so the node and the rail's end sit level with the
+                title below it. */}
+            {index === AUFNAHME_STEPS.length - 1 ? (
+              <RailEnd className="top-[calc(1.5rem+0.5lh)]" />
+            ) : null}
+            <PathMarker className="top-6">
+              <PathNode
+                state={index === 0 ? 'current' : 'open'}
+                number={index + 1}
+              />
             </PathMarker>
+            <p
+              data-step-when
+              className="text-primary-700 text-body-xs mb-1 h-5 leading-5 font-bold tracking-widest uppercase"
+            >
+              {admissionStepWhen[step.title]}
+            </p>
             <h2 className="font-condensed font-bold">{step.title}</h2>
             <div className="mt-3 max-w-prose space-y-4 text-base font-normal md:text-xl">
               {admissionStepTexts[step.title]}
@@ -316,23 +324,231 @@ function AdmissionDay() {
   )
 }
 
-function LateralEntryBox() {
+/**
+ * The photo a section opens with. From sm its title sits on the photo's lower
+ * left edge in a tab of the page's background; phones set the title under the
+ * photo, where a long title cannot cover it.
+ */
+function ChapterOpener({
+  title,
+  image,
+  alt,
+  position,
+}: {
+  title: string
+  image: string
+  alt: string
+  /** Which part of the photo stays in view when it is cropped. */
+  position?: string
+}) {
   return (
-    <Notice icon={Info} title="Plätze frei" titleAs="h3" className="max-w-lg">
-      <div className="text-body-sm/normal space-y-4">
-        <p>
-          Im Jahrgang Delta 2 (10. Schulstufe) und Gamma 3 (11. Schulstufe) sind
-          Restplätze verfügbar. Weitere Infos & Vorstellungstermin bei Agnes
-          Chorherr:{' '}
-          <a
-            href="mailto:agnes.chorherr@walz.at"
-            className="inline-flex items-center gap-1 underline underline-offset-2"
+    <figure className="relative">
+      <img
+        src={image}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        className="h-56 w-full rounded-lg object-cover md:h-[340px]"
+        style={{ objectPosition: position }}
+      />
+      <h1 className="font-condensed text-primary sm:bg-background mt-4 text-4xl font-bold sm:absolute sm:bottom-0 sm:left-0 sm:mt-0 sm:rounded-tr-lg sm:pt-3 sm:pr-5 md:pt-4 md:pr-7">
+        {title}
+      </h1>
+    </figure>
+  )
+}
+
+type Figure = { figure: string; label: string }
+
+type YearKind = 'entry' | 'side' | 'free' | 'plain'
+
+/**
+ * The five Walz years and where one can join: the 9th is the way in, the 10th
+ * and 11th take side entrants and have places free this year.
+ */
+const schoolYears: { grade: string; label?: string; kind: YearKind }[] = [
+  { grade: '9.', label: 'Einstieg in die Walz', kind: 'entry' },
+  { grade: '10.', label: 'Restplätze Delta 2', kind: 'free' },
+  { grade: '11.', label: 'Restplätze Gamma 3', kind: 'free' },
+  { grade: '12.', kind: 'plain' },
+  { grade: '13.', label: 'Matura', kind: 'plain' },
+]
+
+const yearKindStyles: Record<YearKind, string> = {
+  // White text on orange only on the darker shade (app.css)
+  entry: 'bg-primary-700 border-primary-700 text-white',
+  side: 'bg-primary-50 border-primary-200',
+  free: 'bg-primary-50 border-primary-200 ring-3 ring-secondary ring-inset text-secondary-800',
+  plain: 'bg-white border-border',
+}
+
+/** The legend's swatches, so the colours never carry the meaning alone. */
+const yearLegend: { label: string; swatch: string }[] = [
+  { label: 'Einstieg', swatch: 'bg-primary-700' },
+  {
+    label: 'Quereinstieg möglich',
+    swatch: 'bg-primary-50 border border-primary-200',
+  },
+  { label: 'gerade Plätze frei', swatch: 'ring-2 ring-secondary ring-inset' },
+]
+
+function SchoolYearGrid() {
+  return (
+    // The text size makes `max-w-prose` as wide as the key figures and the
+    // text column below.
+    <div className="max-w-prose space-y-3 md:text-xl">
+      <p
+        id="walzjahre"
+        className="text-muted-foreground text-body-xs font-bold tracking-widest uppercase"
+      >
+        Fünf Walzjahre · wo du einsteigen kannst
+      </p>
+      {/* Safari drops the list role from a list without bullets. */}
+      <ol
+        role="list"
+        aria-labelledby="walzjahre"
+        // Phones stack the years, each label beside its grade; from sm the
+        // five sit side by side.
+        className="grid gap-1.5 sm:grid-cols-5"
+      >
+        {schoolYears.map(({ grade, label, kind }) => (
+          <li
+            key={grade}
+            data-year
+            data-year-kind={kind}
+            className={cn(
+              'flex min-w-0 items-baseline gap-3 rounded-lg border px-3 py-2 sm:min-h-28 sm:flex-col sm:items-start sm:justify-between sm:gap-2 sm:p-3',
+              yearKindStyles[kind],
+            )}
           >
-            agnes.chorherr@walz.at
-            <ArrowSquareOut size={16} className="text-primary" />
-          </a>
-        </p>
+            <span className="font-condensed w-8 text-2xl/none font-black sm:w-auto sm:text-4xl/none">
+              {grade}
+            </span>
+            {label ? (
+              <span
+                className={cn(
+                  'text-body-xs/tight text-balance',
+                  kind === 'plain' && 'text-muted-foreground',
+                  kind === 'free' && 'font-semibold',
+                )}
+              >
+                {label}
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      <ul
+        role="list"
+        data-year-legend
+        className="text-muted-foreground text-body-xs flex flex-wrap gap-x-5 gap-y-1"
+      >
+        {yearLegend.map(({ label, swatch }) => (
+          <li key={label} className="flex items-center gap-1.5">
+            <span
+              aria-hidden="true"
+              className={cn('size-3 rounded-sm', swatch)}
+            />
+            {label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function AdmissionFacts() {
+  return (
+    <div className="space-y-4">
+      <SchoolYearGrid />
+      <p className="text-body-sm max-w-prose">
+        Weitere Infos & Vorstellungstermin bei Agnes Chorherr:{' '}
+        <a
+          href="mailto:agnes.chorherr@walz.at"
+          className="inline-flex items-center gap-1 underline underline-offset-2"
+        >
+          agnes.chorherr@walz.at
+          <ArrowSquareOut size={16} className="text-primary" />
+        </a>
+      </p>
+    </div>
+  )
+}
+
+/**
+ * The figures the cost text argues with, set large above it: what the Walz
+ * carries itself, what the state gives and what a public school costs.
+ */
+const keyFigures: Figure[] = [
+  {
+    figure: 'über 90 %',
+    label: 'ihrer Kosten trägt die Walz als gemeinnütziger Verein selbst',
+  },
+  {
+    figure: 'ca. € 700',
+    label: 'Förderung vom Bildungsministerium pro Jahr und Schüler:in',
+  },
+  {
+    figure: '€ 15.729',
+    label:
+      'kostete die öffentliche Schule pro Jahr in der Sekundarstufe (OECD, 2019)',
+  },
+]
+
+/** Three figures set large in a row, each above its label. */
+function FigureRow({ figures }: { figures: Figure[] }) {
+  return (
+    // The text size makes `max-w-prose` as wide as the text column below. The
+    // column, not the screen, decides on three in a row.
+    <div className="@container max-w-prose text-base md:text-xl">
+      <div className="divide-border border-border grid divide-y border-y @xl:grid-cols-3 @xl:divide-x @xl:divide-y-0">
+        {figures.map(({ figure, label }) => (
+          <p
+            key={figure}
+            data-figure
+            // A narrow column sets the figure beside its label, so the three
+            // stay short.
+            className="grid grid-cols-[7.5rem_1fr] items-baseline gap-x-4 py-4 @xl:block @xl:px-5 @xl:py-5 @xl:first:pl-0 @xl:last:pr-0"
+          >
+            <span className="font-condensed text-primary block text-3xl/none font-black whitespace-nowrap @xl:text-4xl/none">
+              {figure}
+            </span>
+            <span className="text-muted-foreground text-body-sm block @xl:mt-2">
+              {label}
+            </span>
+          </p>
+        ))}
       </div>
-    </Notice>
+    </div>
+  )
+}
+
+/** A graduate telling what the Walz gave them, with their Jahrgang. */
+function TestimonialQuote({
+  testimonial,
+}: {
+  testimonial: NonNullable<AufnahmeQuery['testimonial']>
+}) {
+  const { name, quote, year } = testimonial
+  return (
+    <figure className="border-secondary mt-16 max-w-3xl border-l-4 pl-6 md:pl-10">
+      <blockquote className="font-condensed text-h5 text-secondary-800 font-medium text-pretty">
+        „{quote.trim()}“
+      </blockquote>
+      <figcaption className="text-body-sm text-muted-foreground mt-4">
+        <span className="text-foreground font-bold">{name}</span>
+        {year ? (
+          <>
+            {' '}
+            <span className="font-greek text-secondary font-bold">
+              {alphabetMap[year.letter]}
+            </span>
+            {year.graduatedAt ? (
+              <>, Maturajahr {year.graduatedAt.getFullYear()}</>
+            ) : null}
+          </>
+        ) : null}
+      </figcaption>
+    </figure>
   )
 }
