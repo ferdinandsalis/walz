@@ -248,7 +248,7 @@
 .prose {
   @apply max-w-prose;
   h1 {
-    @apply font-condensed text-secondary mt-8 mb-6 text-2xl font-bold;
+    @apply font-condensed mt-8 mb-6 text-2xl font-bold;
   }
 
   h2 {
@@ -256,7 +256,7 @@
   }
 
   h3 {
-    @apply text-secondary mt-3 mb-2 text-lg font-bold;
+    @apply mt-3 mb-2 text-lg font-bold;
   }
 
   blockquote {

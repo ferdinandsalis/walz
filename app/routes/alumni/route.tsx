@@ -59,9 +59,7 @@ export default function Alumni() {
           </div>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-secondary text-2xl font-bold">
-              Der Gedanke
-            </h2>
+            <h2 className="font-condensed text-2xl font-bold">Der Gedanke</h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Vielen Eltern und ehemaligen Jugendlichen ist bewusst, dass der
@@ -83,9 +81,7 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-secondary text-2xl font-bold">
-              Ziel
-            </h2>
+            <h2 className="font-condensed text-2xl font-bold">Ziel</h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Die Initiative möchte möglichst vielen Jugendlichen, unabhängig
@@ -96,9 +92,7 @@ export default function Alumni() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-secondary text-2xl font-bold">
-              Erfolg
-            </h2>
+            <h2 className="font-condensed text-2xl font-bold">Erfolg</h2>
             <div className="max-w-2xl space-y-4 text-base md:text-xl">
               <p>
                 Im Schuljahr 24/25 konnten durch diese Unterstützung vier
