@@ -23,14 +23,14 @@ describe.each([
 })
 
 describe('Input', () => {
-  it('renders h-12, the primary-700 focus outline, the invalid fill and the inset shadow', () => {
+  it('renders h-12, the primary focus outline, the invalid fill and the inset shadow', () => {
     const markup = renderToStaticMarkup(<Input />)
 
     for (const className of [
       'h-12',
       'focus-visible:outline-2',
       'focus-visible:outline-offset-2',
-      'focus-visible:outline-primary-700',
+      'focus-visible:outline-primary',
       'aria-invalid:bg-danger-50',
       'aria-invalid:border-input-invalid',
       'inset-shadow-field',
@@ -48,7 +48,7 @@ describe('Textarea', () => {
     for (const className of [
       'focus-visible:outline-2',
       'focus-visible:outline-offset-2',
-      'focus-visible:outline-primary-700',
+      'focus-visible:outline-primary',
       'aria-invalid:bg-danger-50',
       'aria-invalid:border-input-invalid',
       'inset-shadow-field',

@@ -81,16 +81,12 @@ export const extendedTheme = {
       50: 'var(--color-primary-50)',
       100: 'var(--color-primary-100)',
       200: 'var(--color-primary-200)',
-      700: 'var(--color-primary-700)',
-      800: 'var(--color-primary-800)',
     },
     secondary: {
       DEFAULT: 'hsl(var(--secondary))',
       foreground: 'hsl(var(--secondary-foreground))',
       50: 'var(--color-secondary-50)',
       200: 'var(--color-secondary-200)',
-      700: 'var(--color-secondary-700)',
-      800: 'var(--color-secondary-800)',
     },
     danger: {
       50: 'var(--color-danger-50)',

@@ -59,10 +59,10 @@ export function PathRail({
 }
 
 const nodeStateStyles: Record<PathNodeState, string> = {
-  open: 'border-primary bg-(--path-gap) text-primary-800',
+  open: 'border-primary bg-(--path-gap) text-primary',
   done: 'border-path-done bg-path-done text-white',
   attention: 'border-foreground-danger bg-danger-50 text-foreground-danger',
-  optional: 'border-primary bg-(--path-gap) text-primary-800 border-dashed',
+  optional: 'border-primary bg-(--path-gap) text-primary border-dashed',
   current: 'border-path-done bg-path-done text-white ring-primary-100',
 }
 

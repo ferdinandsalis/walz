@@ -133,7 +133,7 @@ test('links the privacy policy and says how to unsubscribe', () => {
   ).toBe('/datenschutz')
 })
 
-test('outlines focused controls in the site-wide orange, not its darker shade', async () => {
+test('outlines focused controls in the brand orange', async () => {
   renderForm({ ok: false, reason: 'unavailable' })
   subscribe('leser@example.com')
   await screen.findByRole('alert')
@@ -146,6 +146,5 @@ test('outlines focused controls in the site-wide orange, not its darker shade', 
   ]
   for (const control of controls) {
     expect(control.className).toContain('focus-visible:outline-primary')
-    expect(control.className).not.toContain('outline-primary-700')
   }
 })

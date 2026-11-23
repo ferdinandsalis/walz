@@ -51,10 +51,10 @@ export function resolvedColor(page: Page, token: string) {
 }
 
 // The one focus look of the Aufnahme pages, the fields' own: a solid 2px
-// primary-700 outline at 2px offset, clear on the page and on the orange.
+// outline in the brand orange at 2px offset.
 export async function expectFocusOutline(locator: Locator) {
   await expect(locator).toBeFocused()
-  const primary700 = await resolvedColor(locator.page(), '--color-primary-700')
+  const primary = await resolvedColor(locator.page(), '--color-primary')
   // Polled, as a control may fade its outline colour in
   await expect
     .poll(() =>
@@ -72,7 +72,7 @@ export async function expectFocusOutline(locator: Locator) {
       style: 'solid',
       width: '2px',
       offset: '2px',
-      color: primary700,
+      color: primary,
     })
 }
 

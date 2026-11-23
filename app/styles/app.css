@@ -124,26 +124,27 @@
   --color-card-foreground: hsl(var(--card-foreground));
 
   /*
-    Lernpfad tints and shades are literal values with no dark-mode variant. They
-    derive from the brand colours and never replace them.
+    How the site uses colour.
 
-    - Blue is decoration: edges, washes, numerals.
-    - Blue text uses secondary-700 or -800.
-    - Small orange text uses primary-700 or -800.
-    - White text on orange only at 18.66px bold or larger.
-    - The -50 tints are surfaces, never text.
+    - Fills take the brand colours as they are, never a darker shade. A second
+      fill of the same colour gets a pattern (pattern-dots, pattern-stripes).
+    - Coloured text takes the brand colours as they are, too.
+    - Text on a brand fill is dark (foreground), not white.
+    - Orange is rationed: one orange headline per block. Figures and
+      supporting numbers are dark.
+    - Running text and quotes are dark; colour marks them (a rule, a symbol),
+      it never fills a paragraph.
+    - Filled is the main thing, outlined the secondary one.
+    - Label things where they are (a chip, a caption) instead of a legend.
+    - The -50, -100 and -200 tints are surfaces and ornament, never text.
+
+    The tints are literal values with no dark-mode variant.
   */
   --color-primary-50: hsl(15 90% 97%); /* surface: checked, selected */
   --color-primary-100: hsl(15 88% 93%); /* ornament */
   --color-primary-200: hsl(15 85% 84%); /* rail, decorative lines */
-  --color-primary-700: hsl(
-    15 85% 38%
-  ); /* small orange text, focus outline, 6.0:1 */
-  --color-primary-800: hsl(15 80% 30%); /* numbers in nodes, 8.5:1 */
   --color-secondary-50: hsl(198 76% 96%); /* notice surface */
   --color-secondary-200: hsl(198 70% 80%); /* decorative only */
-  --color-secondary-700: hsl(198 90% 28%); /* blue icons, 6.8:1 */
-  --color-secondary-800: hsl(198 85% 22%); /* blue headings and titles, 9.5:1 */
   --color-danger-50: hsl(345 80% 97%); /* invalid input fill */
 
   --color-path: var(--color-primary-200);

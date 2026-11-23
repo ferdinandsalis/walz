@@ -32,7 +32,7 @@ describe('Notice', () => {
     ).querySelector('svg')
 
     expect(icon?.getAttribute('aria-hidden')).toBe('true')
-    expect(classesOf(icon)).toContain('text-secondary-700')
+    expect(classesOf(icon)).toContain('text-secondary')
   })
 
   it('renders the title as a heading at the level asked for', () => {
@@ -44,7 +44,7 @@ describe('Notice', () => {
     const heading = container.querySelector('h2')
 
     expect(heading?.textContent).toBe('Für dich bis zum Gespräch')
-    expect(classesOf(heading)).toContain('text-secondary-800')
+    expect(classesOf(heading)).toContain('text-secondary')
     expect(container.querySelector('h3')).toBeNull()
   })
 

@@ -110,7 +110,7 @@ export function FeeOverview({ list }: { list: Cost[] }) {
             <span>Summe im Jahr</span>
             <span className="hidden sm:block" />
             <span className="hidden sm:block" />
-            <span data-per-year className="text-primary-700 text-right">
+            <span data-per-year className="text-primary text-right">
               {euro.format(total)}
             </span>
           </div>
@@ -169,7 +169,7 @@ function FeeRow({
       <span className="hidden text-right sm:block">{often}</span>
       <span
         data-per-year={perYear ? true : undefined}
-        className="font-condensed text-primary-700 text-body-md text-right font-bold"
+        className="font-condensed text-primary text-body-md text-right font-bold"
       >
         {perYear}
       </span>

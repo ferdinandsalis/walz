@@ -16,14 +16,10 @@ describe('extendedTheme', () => {
       50: 'var(--color-primary-50)',
       100: 'var(--color-primary-100)',
       200: 'var(--color-primary-200)',
-      700: 'var(--color-primary-700)',
-      800: 'var(--color-primary-800)',
     })
     expect(extendedTheme.colors.secondary).toMatchObject({
       50: 'var(--color-secondary-50)',
       200: 'var(--color-secondary-200)',
-      700: 'var(--color-secondary-700)',
-      800: 'var(--color-secondary-800)',
     })
     expect(extendedTheme.colors.danger).toEqual({
       50: 'var(--color-danger-50)',
