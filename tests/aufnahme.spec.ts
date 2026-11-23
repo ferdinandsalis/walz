@@ -203,14 +203,14 @@ test.describe('on a narrow phone', () => {
   })
 })
 
-// The small text stays readable: the steps, years and yearly amounts pass
-// axe's contrast check, and the bar sets dark text on the brand colours.
-test('keeps the new small text readable', async ({ page }) => {
+// Text on a fill stays readable: the years pass axe's contrast check, and
+// the bar sets dark text on the brand colours. Coloured text on the page (the
+// step labels, the yearly amounts) takes the brand colours, which fall below
+// the WCAG contrast minimums by the owner's decision, so it is not checked.
+test('keeps the text on fills readable', async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
   const { violations } = await new AxeBuilder({ page })
-    .include('[data-step-when]')
     .include('[data-year]')
-    .include('[data-per-year]')
     .withRules(['color-contrast'])
     .analyze()
   expect(violations.flatMap(v => v.nodes.map(n => n.target))).toEqual([])

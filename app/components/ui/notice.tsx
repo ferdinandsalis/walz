@@ -33,11 +33,11 @@ export function Notice({
         className={cn('flex shrink-0 items-center', title ? 'h-7' : 'h-lh')}
       >
         {/* Sized in em, so it scales with the notice's text size. */}
-        <Icon aria-hidden className="text-secondary-700 size-[1.25em]" />
+        <Icon aria-hidden className="text-secondary size-[1.25em]" />
       </span>
       <div className="min-w-0 flex-1">
         {title ? (
-          <Title className="font-condensed text-body-md text-secondary-800 mb-1 font-bold">
+          <Title className="font-condensed text-body-md text-secondary mb-1 font-bold">
             {title}
           </Title>
         ) : null}

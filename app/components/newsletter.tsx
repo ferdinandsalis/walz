@@ -15,10 +15,6 @@ import { visibleFocusOutline } from './visible-focus.ts'
 const FIELD_ID = 'newsletter-email'
 const ERROR_ID = `${FIELD_ID}-error`
 
-// The Aufnahme pages' solid outline, but in the site-wide orange rather than
-// their darker primary-700
-const focusOutline = cn(visibleFocusOutline, 'focus-visible:outline-primary')
-
 const MISSING_ADDRESS = 'Gib deine E-Mail-Adresse ein.'
 const MALFORMED_ADDRESS =
   'Gib deine E-Mail-Adresse im Format name@beispiel.at ein.'
@@ -112,7 +108,7 @@ export function NewsletterForm() {
             aria-disabled={isBusy ? true : undefined}
             className={cn(
               'focus-visible:ring-card/20 w-full gap-2 text-[1.25rem] font-bold focus-visible:ring-offset-0 aria-disabled:cursor-wait aria-disabled:opacity-70 sm:w-auto sm:self-start',
-              focusOutline,
+              visibleFocusOutline,
             )}
           >
             {showSpinner ? (
@@ -131,7 +127,11 @@ export function NewsletterForm() {
             >
               Das hat leider nicht geklappt. Bitte versuch es später noch einmal
               oder schreib uns an{' '}
-              <MailLink address="office@walz.at" className={focusOutline} />.
+              <MailLink
+                address="office@walz.at"
+                className={visibleFocusOutline}
+              />
+              .
             </p>
           ) : null}
         </fetcher.Form>
@@ -144,7 +144,7 @@ export function NewsletterForm() {
           to="/datenschutz"
           className={cn(
             'text-foreground underline underline-offset-2',
-            focusOutline,
+            visibleFocusOutline,
           )}
         >
           Datenschutzerklärung
@@ -165,8 +165,7 @@ function SubscribedNotice({ email }: { email: string }) {
   }, [])
 
   return (
-    // Laid out like the Aufnahme form's Notice, but in the site-wide blue
-    // rather than its darker shades
+    // Laid out like the Aufnahme form's Notice
     <div
       ref={ref}
       tabIndex={-1}

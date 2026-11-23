@@ -33,7 +33,7 @@ export function ChoiceCard({
   return (
     <div
       className={cn(
-        'border-border bg-card rounded-choice has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:outline-primary-700 border transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2',
+        'border-border bg-card rounded-choice has-[:checked]:border-primary has-[:checked]:bg-primary-50 has-[:focus-visible]:outline-primary border transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2',
         className,
       )}
     >
@@ -96,7 +96,7 @@ export function ChoiceList({
       {options.map(option => (
         <div
           key={option.value}
-          className="has-[:checked]:bg-primary-50 has-[[type=radio]:focus-visible]:outline-primary-700 transition-colors first:rounded-t-[calc(var(--radius-choice)-1px)] last:rounded-b-[calc(var(--radius-choice)-1px)] has-[[type=radio]:focus-visible]:outline-2 has-[[type=radio]:focus-visible]:outline-offset-2"
+          className="has-[:checked]:bg-primary-50 has-[[type=radio]:focus-visible]:outline-primary transition-colors first:rounded-t-[calc(var(--radius-choice)-1px)] last:rounded-b-[calc(var(--radius-choice)-1px)] has-[[type=radio]:focus-visible]:outline-2 has-[[type=radio]:focus-visible]:outline-offset-2"
         >
           <label className="text-body-sm flex min-h-12 cursor-pointer items-center gap-3 px-3.5 py-2">
             <input

@@ -27,13 +27,13 @@ describe('cn', () => {
     expect(cn('sm:pl-4', 'sm:pl-path-wide')).toBe('sm:pl-path-wide')
   })
 
-  it('keeps a brand shade colour next to a font size', () => {
-    expect(cn('text-primary-700', 'text-sm')).toBe('text-primary-700 text-sm')
+  it('keeps a brand tint next to a font size', () => {
+    expect(cn('text-primary-200', 'text-sm')).toBe('text-primary-200 text-sm')
   })
 
-  it('lets a later text colour replace a brand shade', () => {
-    expect(cn('text-primary-700', 'text-secondary-800')).toBe(
-      'text-secondary-800',
+  it('lets a later text colour replace a brand tint', () => {
+    expect(cn('text-primary-200', 'text-secondary-200')).toBe(
+      'text-secondary-200',
     )
   })
 

@@ -70,7 +70,7 @@ describe('ChoiceCard', () => {
         'rounded-choice',
         'has-[:checked]:bg-primary-50',
         'has-[:checked]:border-primary',
-        'has-[:focus-visible]:outline-primary-700',
+        'has-[:focus-visible]:outline-primary',
       ]),
     )
   })
@@ -163,7 +163,7 @@ describe('ChoiceList', () => {
         expect.arrayContaining([
           'has-[[type=radio]:focus-visible]:outline-2',
           'has-[[type=radio]:focus-visible]:outline-offset-2',
-          'has-[[type=radio]:focus-visible]:outline-primary-700',
+          'has-[[type=radio]:focus-visible]:outline-primary',
         ]),
       )
       expect(classesOf(radio)).toContain('focus-visible:outline-hidden')
