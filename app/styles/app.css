@@ -124,14 +124,23 @@
   --color-card-foreground: hsl(var(--card-foreground));
 
   /*
-    Lernpfad tints and shades are literal values with no dark-mode variant. They
-    derive from the brand colours and never replace them.
+    How the site uses colour.
 
-    - Blue is decoration: edges, washes, numerals.
-    - Blue text uses secondary-700 or -800.
-    - Small orange text uses primary-700 or -800.
-    - White text on orange only at 18.66px bold or larger.
-    - The -50 tints are surfaces, never text.
+    - Fills take the brand colours as they are, never a darker shade. A second
+      fill of the same colour gets a pattern (pattern-dots, pattern-stripes).
+    - Coloured text takes the brand colours as they are, too.
+    - Text on a brand fill is dark (foreground), not white.
+    - Orange is rationed: one orange headline per block. Figures and
+      supporting numbers are dark.
+    - Filled is the main thing, outlined the secondary one.
+    - Label things where they are (a chip, a caption) instead of a legend.
+    - The -50, -100 and -200 tints are surfaces and ornament, never text.
+
+    The -700 and -800 shades are not part of this. They exist for the places
+    that use them (focus outlines, Lernpfad numerals, notices, fee amounts)
+    and take no new uses.
+
+    Tints and shades are literal values with no dark-mode variant.
   */
   --color-primary-50: hsl(15 90% 97%); /* surface: checked, selected */
   --color-primary-100: hsl(15 88% 93%); /* ornament */

@@ -203,8 +203,8 @@ test.describe('on a narrow phone', () => {
   })
 })
 
-// The new small text keeps to the colour rules in app.css: small orange text
-// in primary-700 or darker, dark text on the brand colours.
+// The small text stays readable: the steps, years and yearly amounts pass
+// axe's contrast check, and the bar sets dark text on the brand colours.
 test('keeps the new small text readable', async ({ page }) => {
   await page.evaluate(() => document.fonts.ready)
   const { violations } = await new AxeBuilder({ page })
