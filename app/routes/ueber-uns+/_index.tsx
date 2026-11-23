@@ -91,10 +91,7 @@ export default function UeberUns() {
 
             <div className="space-y-8">
               <div className="space-y-4">
-                <h2
-                  id="mentor"
-                  className="font-condensed text-h3 text-secondary font-bold"
-                >
+                <h2 id="mentor" className="font-condensed text-h3 font-bold">
                   <a href="#mentor">Mentor:innen</a>
                 </h2>
                 <p className="mb-4 max-w-prose hyphens-auto">
@@ -113,7 +110,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="project_lead"
-                  className="font-condensed text-h3 text-secondary font-bold"
+                  className="font-condensed text-h3 font-bold"
                 >
                   <a href="#project_lead">Projektleiter:innen</a>
                 </h2>
@@ -138,7 +135,7 @@ export default function UeberUns() {
               <div className="space-y-4">
                 <h2
                   id="administrator"
-                  className="font-condensed text-h3 text-secondary font-bold"
+                  className="font-condensed text-h3 font-bold"
                 >
                   <a href="#administrator">Administrator:innen</a>
                 </h2>
@@ -160,10 +157,7 @@ export default function UeberUns() {
               </div>
 
               <div className="space-y-4">
-                <h2
-                  id="therapist"
-                  className="font-condensed text-h3 text-secondary font-bold"
-                >
+                <h2 id="therapist" className="font-condensed text-h3 font-bold">
                   <a href="#therapist">Therapeut:innen</a>
                 </h2>
                 <div className="max-w-prose space-y-2 hyphens-auto">
@@ -237,7 +231,7 @@ export default function UeberUns() {
           </div>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-secondary text-2xl font-bold">
+            <h2 className="font-condensed text-2xl font-bold">
               Fundamentaler Wandel
             </h2>
 
@@ -283,7 +277,7 @@ export default function UeberUns() {
           </article>
 
           <article className="space-y-4">
-            <h2 className="font-condensed text-secondary text-2xl font-bold">
+            <h2 className="font-condensed text-2xl font-bold">
               Lernen ist zweifach Programm
             </h2>
 

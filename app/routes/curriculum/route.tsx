@@ -92,9 +92,7 @@ function ProjectsList({
 }) {
   return (
     <div className="col-span-12 space-y-2 md:col-span-6">
-      <h2 className="font-condensed text-h4 text-secondary font-bold">
-        Projekte
-      </h2>
+      <h2 className="font-condensed text-h4 font-bold">Projekte</h2>
       <ul className="list-inside list-disc" aria-label="Projekte">
         {projects?.map(project => (
           <li key={project.name}>{project.name}</li>
@@ -107,9 +105,7 @@ function ProjectsList({
 function ExternalExamsList({ exams }: { exams: string[] }) {
   return (
     <div className="col-span-12 space-y-2 md:col-span-6">
-      <h2 className="font-condensed text-h4 text-secondary font-bold">
-        Externe Prüfungen
-      </h2>
+      <h2 className="font-condensed text-h4 font-bold">Externe Prüfungen</h2>
       <ul className="list-inside list-disc">
         {exams?.length > 0 ? (
           exams.map(exam => <li key={exam}>{exam}</li>)
