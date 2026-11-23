@@ -132,6 +132,8 @@
     - Text on a brand fill is dark (foreground), not white.
     - Orange is rationed: one orange headline per block. Figures and
       supporting numbers are dark.
+    - Running text and quotes are dark; colour marks them (a rule, a symbol),
+      it never fills a paragraph.
     - Filled is the main thing, outlined the secondary one.
     - Label things where they are (a chip, a caption) instead of a legend.
     - The -50, -100 and -200 tints are surfaces and ornament, never text.

@@ -564,7 +564,7 @@ function TestimonialQuote({
   const { name, quote, year } = testimonial
   return (
     <figure className="border-secondary mt-16 max-w-3xl border-l-4 pl-6 md:pl-10">
-      <blockquote className="font-condensed text-h5 text-secondary font-medium text-pretty">
+      <blockquote className="font-condensed text-h5 font-medium text-pretty">
         „{quote.trim()}“
       </blockquote>
       <figcaption className="text-body-sm text-muted-foreground mt-4">
