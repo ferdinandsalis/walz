@@ -54,7 +54,7 @@ test('shows the key figures on costs', async ({ page }) => {
   await expect(figures).toHaveCount(3)
   await expect(figures.nth(0)).toContainText('über 90 %')
   await expect(figures.nth(1)).toContainText('€ 700')
-  await expect(figures.nth(2)).toContainText('€ 15.729')
+  await expect(figures.nth(2)).toContainText('€ 19.380')
 
   // The figures lead the section, straight under its photo
   const opener = page.locator('#kosten figure').first()

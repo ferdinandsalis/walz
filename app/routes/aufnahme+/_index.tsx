@@ -146,12 +146,15 @@ export default function Aufnahme() {
             <p>
               Wir bemühen uns sehr, die Kosten so niedrig wie möglich zu halten.
               Zum Vergleich betragen laut{' '}
-              <abbr title="Organisation for Economic Co-operation and Development">
-                OECD
-              </abbr>{' '}
-              die Kosten der öffentlichen Schule für die Sekundarstufe €
-              15.729,&ndash; pro Jahr (letzter verfügbarer Wert aus dem Jahr
-              2019).
+              <a
+                href="https://www.agenda-austria.at/grafiken/bildungsausgaben-pro-schueler-falsch-verteilt/"
+                className="underline underline-offset-2"
+              >
+                Agenda Austria
+              </a>{' '}
+              die Ausgaben pro Schüler:in in der Sekundarstufe € 19.380,&ndash;
+              pro Jahr (Wert für 2023, kaufkraftbereinigt, auf Basis von
+              OECD-Daten).
             </p>
           </div>
           <h2 className="font-condensed text-h5 md:text-h4 font-bold">
@@ -518,9 +521,9 @@ const keyFigures: Figure[] = [
     label: 'Förderung vom Bildungsministerium pro Jahr und Schüler:in',
   },
   {
-    figure: '€ 15.729',
+    figure: '€ 19.380',
     label:
-      'kostete die öffentliche Schule pro Jahr in der Sekundarstufe (OECD, 2019)',
+      'gibt Österreich pro Schüler:in der Sekundarstufe im Jahr aus (Agenda Austria, 2023)',
   },
 ]
 
