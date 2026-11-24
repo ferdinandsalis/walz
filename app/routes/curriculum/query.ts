@@ -5,7 +5,7 @@ export const curriculumQuery = groq`*[_type == "curriculum"][0]{
   name,
   description,
   years[] {
-    _id,
+    _key,
     _type,
     _ref,
     yearNumber,
@@ -27,7 +27,8 @@ export type CurriculumQueryResult = {
   name: string
   description: string
   years: {
-    _id: string
+    // Years are objects inside the curriculum, so Sanity gives them a _key
+    _key: string
     _type: string
     _ref: string
     yearNumber: number

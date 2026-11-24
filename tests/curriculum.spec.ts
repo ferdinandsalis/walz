@@ -20,6 +20,19 @@ test('shows five years with their numerals', async ({ page }) => {
   ).toBeVisible()
 })
 
+test('renders the years without React key errors', async ({ page }) => {
+  const keyErrors: string[] = []
+  page.on('console', message => {
+    if (message.type() === 'error' && message.text().includes('same key')) {
+      keyErrors.push(message.text())
+    }
+  })
+  await page.goto('/curriculum')
+  await page.waitForFunction(() => '__reactRouterDataRouter' in window)
+  await expect(page.locator('#jahr-5')).toBeVisible()
+  expect(keyErrors).toEqual([])
+})
+
 test('says the first year has no exams', async ({ page }) => {
   await expect(page.locator('#jahr-1')).toContainText(
     'Keine – ein Jahr Time-out vom Prüfungsstress',

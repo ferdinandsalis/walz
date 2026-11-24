@@ -33,7 +33,7 @@ export default function Curriculum() {
 
         {data.years.map((year, i) => (
           <YearSection
-            key={year._id}
+            key={year._key}
             year={year}
             n={i + 1}
             noExamsText={noExamsText}
