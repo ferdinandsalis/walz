@@ -33,7 +33,7 @@ export type CurriculumQueryResult = {
     yearNumber: number
     description: string
     title: string
-    externalExams: string[]
+    externalExams: string[] | null
     projects: {
       _id: string
       _type: string

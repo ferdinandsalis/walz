@@ -32,7 +32,7 @@ export function ExamPath({
               <span className="font-condensed text-primary text-5xl/none font-black">
                 {i + 1}
               </span>
-              <span className="font-condensed text-body-sm/tight font-bold text-balance">
+              <span className="font-condensed text-body-sm/tight font-bold text-balance hyphens-auto">
                 {year.title}
               </span>
               <span className="mt-auto space-y-1">

@@ -81,7 +81,8 @@ export function YearSection({
               <span className="text-muted-foreground text-body-xs block font-bold tracking-widest uppercase">
                 {n}. Jahr
               </span>
-              <span className="font-condensed block text-3xl/tight font-bold text-balance">
+              {/* Hyphenated so "naturwissenschaftliche" fits beside the numeral */}
+              <span className="font-condensed block text-3xl/tight font-bold text-balance hyphens-auto">
                 {year.title}
               </span>
             </h2>
@@ -123,24 +124,23 @@ export function YearSection({
                   loading="lazy"
                   className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
                 />
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 bg-linear-to-t from-black/75 via-black/30 to-transparent p-3 pt-12 text-left">
-                  <span
-                    className={cn(
-                      'font-condensed min-w-0 font-bold text-white',
-                      i === 0
-                        ? 'text-2xl/tight'
-                        : project.name.length > LONG_NAME
-                          ? 'text-body-sm/tight'
-                          : 'text-body-md/tight',
-                    )}
-                  >
-                    {project.name}
+                {/* The count sits in the top corner so the name has the full width */}
+                {more > 0 ? (
+                  <span className="text-body-xs absolute top-2 right-2 rounded-full bg-white/90 px-2 py-0.5 font-semibold">
+                    +{more} {more === 1 ? 'Foto' : 'Fotos'}
                   </span>
-                  {more > 0 ? (
-                    <span className="text-body-xs shrink-0 rounded-full bg-white/90 px-2 py-0.5 font-semibold">
-                      +{more} {more === 1 ? 'Foto' : 'Fotos'}
-                    </span>
-                  ) : null}
+                ) : null}
+                <span
+                  className={cn(
+                    'font-condensed absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 via-black/30 to-transparent p-3 pt-12 text-left font-bold break-words text-white',
+                    i === 0
+                      ? 'text-2xl/tight'
+                      : project.name.length > LONG_NAME
+                        ? 'text-body-sm/tight'
+                        : 'text-body-md/tight',
+                  )}
+                >
+                  {project.name}
                 </span>
               </button>
             </li>
