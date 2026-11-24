@@ -37,10 +37,14 @@ test('jumps from the strip to the year', async ({ page }) => {
 
 test('opens the photos of a project', async ({ page }) => {
   await page.waitForFunction(() => '__reactRouterDataRouter' in window)
-  await page.locator('#jahr-1').getByRole('button', { name: /Forst/ }).click()
+  // Handwerk comes after Forst's three photos, so the viewer opens at the 4th
+  await page
+    .locator('#jahr-1')
+    .getByRole('button', { name: /Handwerk/ })
+    .click()
   const dialog = page.getByRole('dialog')
   await expect(dialog).toBeVisible()
-  await expect(dialog.locator('figcaption').first()).toContainText(/^Forst/)
+  await expect(dialog.getByText(/^4 \/ \d+$/)).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(dialog).toBeHidden()
 })
