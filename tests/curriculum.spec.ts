@@ -85,6 +85,21 @@ test('leaves no gaps in a mosaic', async ({ page }) => {
   }
 })
 
+test('keeps a longer opening inside its corner', async ({ page }) => {
+  for (const width of [390, 896, 1160]) {
+    await page.setViewportSize({ width, height: 900 })
+    const corner = page.locator('#jahr-4 ul > li').first()
+    // Agnes may lengthen the first sentence; the corner has to grow with it
+    const spill = await corner.evaluate(li => {
+      const lead = li.querySelector('p')!
+      lead.textContent += ' ' + lead.textContent
+      const top = li.firstElementChild!.getBoundingClientRect().top
+      return li.getBoundingClientRect().top - top
+    })
+    expect(spill, `${width}px`).toBeLessThanOrEqual(0)
+  }
+})
+
 test('fits a phone screen', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 900 })
   await expect(page.locator('#jahr-5')).toBeAttached()
