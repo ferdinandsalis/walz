@@ -20,19 +20,10 @@ test('shows five years with their numerals', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('counts the exams on the way to the Matura', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: /17 externe Prüfungen/ }),
-  ).toBeVisible()
+test('says the first year has no exams', async ({ page }) => {
   await expect(page.locator('#jahr-1')).toContainText(
     'Keine – ein Jahr Time-out vom Prüfungsstress',
   )
-})
-
-test('jumps from the strip to the year', async ({ page }) => {
-  await page.locator('a[href="#jahr-3"]').click()
-  await expect(page).toHaveURL(/#jahr-3$/)
-  await expect(page.locator('#jahr-3')).toBeInViewport()
 })
 
 test('opens the photos of a project', async ({ page }) => {

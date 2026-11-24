@@ -67,6 +67,13 @@ Vorlage. Was hier steht, hat Vorrang vor dem Prototyp.
 
 ### Seitenkopf
 
+> **Zurückgestellt (24.11.2026):** Karte und Weg zur Matura sind nicht Teil
+> dieses Schritts. Mehrere Anordnungen (oben, rechts, unten, zwischen den
+> Jahren, als Linie durch die Seite) wirkten nicht wie ein Teil der Geschichte.
+> Die Seite geht mit Titel, Überschrift und den fünf Jahren online; Karte und
+> Leiste werden eigens neu gedacht. Die Abschnitte dazu unten beschreiben den
+> verworfenen Stand.
+
 - `PageTitle` bleibt wie auf den anderen Seiten.
 - Darunter die Überschrift „Fünf Jahre Walz – von Wien in die Welt und zur
   Matura“ in Orange. Das ist neuer Text, den Agnes noch absegnen soll.

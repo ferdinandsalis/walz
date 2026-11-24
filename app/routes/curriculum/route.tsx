@@ -1,8 +1,6 @@
 import { useLoaderData } from 'react-router'
 import { type PageTitleHandle, PageTitle } from '#app/components/page-title.tsx'
 import { loadQuery } from '#app/sanity/loader.server.ts'
-import { EuropeMap } from './europe-map.tsx'
-import { ExamPath } from './exam-path.tsx'
 import { curriculumQuery, type CurriculumQueryResult } from './query.ts'
 import { YearSection } from './year-section.tsx'
 
@@ -29,14 +27,9 @@ export default function Curriculum() {
       <PageTitle />
 
       <div className="col-start-1 space-y-24 pb-16">
-        <header className="space-y-6">
-          <h2 className="font-condensed text-primary max-w-prose text-4xl/tight font-bold text-balance sm:text-5xl/tight">
-            {journeyHeading}
-          </h2>
-          <EuropeMap />
-        </header>
-
-        <ExamPath years={data.years} />
+        <h2 className="font-condensed text-primary max-w-prose text-4xl/tight font-bold text-balance sm:text-5xl/tight">
+          {journeyHeading}
+        </h2>
 
         {data.years.map((year, i) => (
           <YearSection

@@ -11,22 +11,6 @@ export function realExams(exams: string[] | null | undefined): string[] {
   )
 }
 
-/**
- * For each year, the share of all exams taken in the years before it and in
- * the year itself, from 0 to 1.
- */
-export function examProgress(
-  counts: number[],
-): { before: number; current: number }[] {
-  const total = counts.reduce((sum, count) => sum + count, 0)
-  let taken = 0
-  return counts.map(count => {
-    const before = total ? taken / total : 0
-    taken += count
-    return { before, current: total ? count / total : 0 }
-  })
-}
-
 /** The description's first sentence, set large, and the rest. */
 export function splitLead(text: string | null | undefined): {
   lead: string

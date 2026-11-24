@@ -1,6 +1,5 @@
 import { describe, it } from 'vitest'
 import {
-  examProgress,
   photoRatio,
   photosOf,
   projectsOf,
@@ -19,22 +18,6 @@ describe.concurrent('external exams', () => {
     expect(realExams(['Englisch', '', ' Keine ', 'Matura'])).toEqual([
       'Englisch',
       'Matura',
-    ])
-  })
-})
-
-describe.concurrent('progress towards the Matura', () => {
-  it('gives each year its share and the share of the years before', async ({
-    expect,
-  }) => {
-    const progress = examProgress([0, 5, 4, 5, 3])
-    expect(progress[1]).toEqual({ before: 0, current: 5 / 17 })
-    expect(progress[4]).toEqual({ before: 14 / 17, current: 3 / 17 })
-  })
-  it('stays empty when there are no exams at all', async ({ expect }) => {
-    expect(examProgress([0, 0])).toEqual([
-      { before: 0, current: 0 },
-      { before: 0, current: 0 },
     ])
   })
 })
