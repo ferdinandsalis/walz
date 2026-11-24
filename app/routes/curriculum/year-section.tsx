@@ -2,7 +2,13 @@ import { type CSSProperties, useState } from 'react'
 import { PhotoLightbox } from '#app/components/photo-lightbox.tsx'
 import { urlFor } from '#app/sanity/instance.ts'
 import { cn } from '#app/utils/misc.tsx'
-import { photoRatio, photosOf, realExams, splitLead } from './curriculum.ts'
+import {
+  photoRatio,
+  photosOf,
+  projectsOf,
+  realExams,
+  splitLead,
+} from './curriculum.ts'
 import { gridArea, mosaicLayout, type GridArea } from './mosaic.ts'
 import { type CurriculumQueryResult } from './query.ts'
 
@@ -37,8 +43,9 @@ export function YearSection({
 }) {
   const [openAt, setOpenAt] = useState<number | null>(null)
   const { lead, rest } = splitLead(year.description)
-  const withPhotos = year.projects.filter(p => photosOf(p).length > 0)
-  const withoutPhotos = year.projects.filter(p => photosOf(p).length === 0)
+  const projects = projectsOf(year)
+  const withPhotos = projects.filter(p => photosOf(p).length > 0)
+  const withoutPhotos = projects.filter(p => photosOf(p).length === 0)
   const exams = realExams(year.externalExams)
 
   const ratios = withPhotos.map(p => photoRatio(photosOf(p)[0]))
@@ -87,9 +94,11 @@ export function YearSection({
               </span>
             </h2>
           </span>
-          <p className="font-condensed text-xl/tight font-bold text-balance">
-            {lead}
-          </p>
+          {lead ? (
+            <p className="font-condensed text-xl/tight font-bold text-balance">
+              {lead}
+            </p>
+          ) : null}
         </li>
 
         {withPhotos.map((project, i) => {

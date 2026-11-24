@@ -28,8 +28,11 @@ export function examProgress(
 }
 
 /** The description's first sentence, set large, and the rest. */
-export function splitLead(text: string): { lead: string; rest: string } {
-  const trimmed = text.trim()
+export function splitLead(text: string | null | undefined): {
+  lead: string
+  rest: string
+} {
+  const trimmed = (text ?? '').trim()
   const match = /^(.+?[.!?])\s+(.*)$/s.exec(trimmed)
   return match
     ? { lead: match[1]!, rest: match[2]!.trim() }
@@ -51,5 +54,17 @@ export function photosOf(project: {
   return (project.photos ?? []).filter(
     (photo): photo is SanityPhoto =>
       typeof photo === 'object' && photo !== null && 'asset' in photo,
+  )
+}
+
+/**
+ * The year's projects; Sanity gives null for no list and for references to
+ * projects that were deleted or unpublished.
+ */
+export function projectsOf<Project>(year: {
+  projects?: (Project | null)[] | null
+}): Project[] {
+  return (year.projects ?? []).filter(
+    (project): project is Project => project !== null,
   )
 }

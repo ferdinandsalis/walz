@@ -3,6 +3,7 @@ import {
   examProgress,
   photoRatio,
   photosOf,
+  projectsOf,
   realExams,
   splitLead,
 } from './curriculum.ts'
@@ -48,6 +49,11 @@ describe.concurrent('lead sentence', () => {
   it('takes the whole text when it has no sentence end', async ({ expect }) => {
     expect(splitLead('Ohne Punkt')).toEqual({ lead: 'Ohne Punkt', rest: '' })
   })
+  it('has nothing to show when Sanity has no description', async ({
+    expect,
+  }) => {
+    expect(splitLead(null)).toEqual({ lead: '', rest: '' })
+  })
   it('leaves no rest after a single sentence', async ({ expect }) => {
     expect(splitLead('Ein Satz.')).toEqual({ lead: 'Ein Satz.', rest: '' })
   })
@@ -71,5 +77,18 @@ describe.concurrent('photos', () => {
   })
   it('has no photos when Sanity has no list', async ({ expect }) => {
     expect(photosOf({ photos: null })).toEqual([])
+  })
+})
+
+describe.concurrent('projects of a year', () => {
+  it('has none when Sanity has no list', async ({ expect }) => {
+    expect(projectsOf({ projects: null })).toEqual([])
+  })
+  it('skips references to projects that no longer exist', async ({
+    expect,
+  }) => {
+    expect(
+      projectsOf({ projects: [null, { _id: 'a', name: 'Forst' }] }),
+    ).toEqual([{ _id: 'a', name: 'Forst' }])
   })
 })
