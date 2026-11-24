@@ -8,8 +8,8 @@ gleich gebaut: Titel, Fließtext, zwei Aufzählungslisten (Projekte, Externe
 Prüfungen) und ein Fotostreifen ganz unten. Was die Walz ausmacht, nämlich
 Forst, Irland, Theater, Steinhauen und am Ende die Matura, geht in Listen unter.
 
-Die Seite soll zeigen, was man in fünf Jahren erlebt und wie man nebenbei
-zur Matura kommt. Grundlage sind die Inhalte, die heute schon in Sanity stehen.
+Die Seite soll zeigen, was man in fünf Jahren erlebt und wie man nebenbei zur
+Matura kommt. Grundlage sind die Inhalte, die heute schon in Sanity stehen.
 
 In einem Wegwerf-Prototyp (Route `curriculum-spike`, nie in main) hat Ferdinand
 drei Richtungen gesehen: A · Reise, B · Karte, C · Übersicht. Er hat „A, mit der
@@ -79,22 +79,22 @@ Vorlage. Was hier steht, hat Vorrang vor dem Prototyp.
 
 - Eine Zeile „Der Weg zur Matura · N externe Prüfungen“. N wird aus Sanity
   gezählt; „keine“ und leere Einträge zählen nicht.
-- Fünf weiße Kacheln (am Handy untereinander), jede ein Sprungziel zu ihrem
-  Jahr (`#jahr-N`): orange Ziffer, Jahrestitel und ein blauer Balken.
+- Fünf weiße Kacheln (am Handy untereinander), jede ein Sprungziel zu ihrem Jahr
+  (`#jahr-N`): orange Ziffer, Jahrestitel und ein blauer Balken.
 - Der Balken zeigt, wie viele Prüfungen bis zu diesem Jahr geschafft sind: der
   Anteil früherer Jahre und der Anteil dieses Jahres an allen Prüfungen. Die
   Beschriftung lautet „+N Prüfungen“ oder „keine Prüfungen“.
 - Abweichung vom Prototyp: Der Anteil früherer Jahre ist dort mit `/40`
-  aufgehellt. Nach den Farbregeln bekommt eine zweite Fläche derselben Farbe
-  ein Muster, hier also Blau mit `pattern-dots` oder `pattern-stripes`.
+  aufgehellt. Nach den Farbregeln bekommt eine zweite Fläche derselben Farbe ein
+  Muster, hier also Blau mit `pattern-dots` oder `pattern-stripes`.
 
 ### Ein Jahr
 
 - Mosaik: vier Spalten am Desktop, zwei am Handy, feste Reihenhöhe, kleine
   Lücken, `grid-flow-dense`.
-- Die Ecke mit dem Jahresanfang nimmt 2 × 2 Zellen ein, oben links in
-  ungeraden und oben rechts in geraden Jahren. Am Handy steht sie über den
-  Fotos. Sie enthält:
+- Die Ecke mit dem Jahresanfang nimmt 2 × 2 Zellen ein, oben links in ungeraden
+  und oben rechts in geraden Jahren. Am Handy steht sie über den Fotos. Sie
+  enthält:
   - die Ziffer in Orange (am Handy kleiner),
   - „N. Jahr“ klein in Versalien,
   - den Jahrestitel dunkel,
@@ -106,9 +106,9 @@ Vorlage. Was hier steht, hat Vorrang vor dem Prototyp.
   weitere Fotos, steht daneben ein Chip „+N Foto(s)“.
 - Unter dem Mosaik zwei Spalten:
   - links der Rest der Beschreibung,
-  - rechts „Außerdem in diesem Jahr“ (Projekte ohne Foto, mit „ · “
-    verbunden, nur wenn es welche gibt) und „Externe Prüfungen“ als gefüllte
-    Chips: Blau, Matura Orange.
+  - rechts „Außerdem in diesem Jahr“ (Projekte ohne Foto, mit „ · “ verbunden,
+    nur wenn es welche gibt) und „Externe Prüfungen“ als gefüllte Chips: Blau,
+    Matura Orange.
 - Ein Jahr ohne Prüfungen zeigt den Chip „Keine – ein Jahr Time-out vom
   Prüfungsstress“. Das ist neuer Text für Agnes.
 - Ein Jahr mit nur einer Foto-Kachel lässt sie über die ganze freie Breite
@@ -138,12 +138,12 @@ Panorama. Deshalb gilt:
 ### Bekannte Schwächen des Prototyps, die der Bau löst
 
 - Im 2. Jahr hängt das Hochformat „Sprachpraktikum Spanisch/Französisch“ eine
-  Reihe unter den anderen Kacheln. Links daneben bleibt eine große leere
-  Fläche, bevor der Text beginnt. Das Mosaik soll den Umriss bewusst
-  unregelmäßig halten, aber keine Löcher über dem Text lassen.
+  Reihe unter den anderen Kacheln. Links daneben bleibt eine große leere Fläche,
+  bevor der Text beginnt. Das Mosaik soll den Umriss bewusst unregelmäßig
+  halten, aber keine Löcher über dem Text lassen.
 - Lange Projektnamen werden am Handy getrennt („Landwirt-schaft“). Das
-  funktioniert, sieht aber nicht gut aus. Lösung ist dem Bau überlassen,
-  z. B. kleinere Schrift für lange Namen.
+  funktioniert, sieht aber nicht gut aus. Lösung ist dem Bau überlassen, z. B.
+  kleinere Schrift für lange Namen.
 
 ## Technik
 
