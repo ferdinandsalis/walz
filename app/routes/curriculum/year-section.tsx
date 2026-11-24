@@ -68,8 +68,10 @@ export function YearSection({
       aria-labelledby={`jahr-${n}-titel`}
       className="scroll-mt-8 space-y-8"
     >
-      {/* The opening's two rows grow with its text; the photo rows stay fixed */}
-      <ul className="grid auto-rows-[8.5rem] grid-cols-2 grid-rows-[repeat(2,minmax(8.5rem,auto))] gap-1.5 sm:auto-rows-[10.5rem] sm:grid-rows-[repeat(2,minmax(10.5rem,auto))] lg:grid-cols-4">
+      {/* The opening's two rows grow with its text; the photo rows stay fixed.
+          Below lg the opening spans the full width above the photos, so its
+          rows are only as tall as its text. */}
+      <ul className="grid auto-rows-[8.5rem] grid-cols-2 grid-rows-[repeat(2,auto)] gap-1.5 sm:auto-rows-[10.5rem] lg:grid-cols-4 lg:grid-rows-[repeat(2,minmax(10.5rem,auto))]">
         <li
           style={areaStyle(narrow.corner, wide.corner)}
           className={cn(
