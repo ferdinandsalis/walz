@@ -15,8 +15,12 @@ export async function loader() {
   return { data: queryResult.data }
 }
 
-// The page's two own texts; the years' texts come from Sanity
-const journeyHeading = 'Fünf Jahre Walz – von Wien in die Welt und zur Matura'
+// The page's two own texts; the years' texts come from Sanity. The heading's
+// line break takes the place of a dash.
+const journeyHeading = [
+  'Fünf Jahre Walz',
+  'von Wien in die Welt und zur Matura',
+]
 const noExamsText = 'Keine – ein Jahr Time-out vom Prüfungsstress'
 
 export default function Curriculum() {
@@ -28,7 +32,9 @@ export default function Curriculum() {
 
       <div className="col-start-1 space-y-24 pb-16">
         <h2 className="font-condensed text-primary max-w-prose text-4xl/tight font-bold text-balance sm:text-5xl/tight">
-          {journeyHeading}
+          {journeyHeading[0]}
+          <br />
+          {journeyHeading[1]}
         </h2>
 
         {data.years.map((year, i) => (

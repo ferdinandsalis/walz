@@ -75,8 +75,9 @@ Vorlage. Was hier steht, hat Vorrang vor dem Prototyp.
 > verworfenen Stand.
 
 - `PageTitle` bleibt wie auf den anderen Seiten.
-- Darunter die Überschrift „Fünf Jahre Walz – von Wien in die Welt und zur
-  Matura“ in Orange. Das ist neuer Text, den Agnes noch absegnen soll.
+- Darunter die Überschrift „Fünf Jahre Walz“ und in der zweiten Zeile „von Wien
+  in die Welt und zur Matura“ in Orange. Der Zeilenumbruch steht statt eines
+  Gedankenstrichs. Agnes hat den Text gesehen.
 - Darunter die Karte: ein SVG mit Punktraster und gestrichelten Bögen von Wien
   zu Kamp, Kühtai, Irland (2. Jahr), Palfau (3.), Toskana (4.) und Paris (5.),
   jeweils mit Jahr beschriftet. Die Orte und Jahre stehen fest im Code, weil
