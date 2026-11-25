@@ -19,18 +19,18 @@ const LONG_NAME = 20
 /** Image pixels per grid cell, enough for the widest column. */
 const CELL_PX = 320
 
-/** Places an item at its area on phones and at its area from `lg` on. */
-function areaStyle(narrow: GridArea, wide: GridArea) {
-  return {
-    '--area': gridArea(narrow),
-    '--area-lg': gridArea(wide),
-  } as CSSProperties
+/** Places an item at its area in the mosaic, which exists from `lg` on. */
+function areaStyle(area: GridArea) {
+  return { '--area': gridArea(area) } as CSSProperties
 }
-const areaClass = '[grid-area:var(--area)] lg:[grid-area:var(--area-lg)]'
+const areaClass = 'lg:[grid-area:var(--area)]'
 
 /**
- * One Walz year: its opening sits in a corner of a photo mosaic (left in odd
- * years, right in even ones), the rest of the text and the exams follow.
+ * One Walz year: from `lg` on its opening sits in a corner of a photo mosaic
+ * (left in odd years, right in even ones). Below `lg` the opening comes first
+ * and the photos follow in one row to swipe through, so a year with many
+ * projects stays as short as one with few. The rest of the text and the exams
+ * follow.
  */
 export function YearSection({
   year,
@@ -49,7 +49,6 @@ export function YearSection({
   const exams = realExams(year.externalExams)
 
   const ratios = withPhotos.map(p => photoRatio(photosOf(p)[0]))
-  const narrow = mosaicLayout(ratios, { columns: 2, corner: 'left' })
   const wide = mosaicLayout(ratios, {
     columns: 4,
     corner: n % 2 ? 'left' : 'right',
@@ -68,15 +67,15 @@ export function YearSection({
       aria-labelledby={`jahr-${n}-titel`}
       className="scroll-mt-8 space-y-8"
     >
-      {/* The opening's two rows grow with its text; the photo rows stay fixed.
-          Below lg the opening spans the full width above the photos, so its
-          rows are only as tall as its text. */}
-      <ul className="grid auto-rows-[8.5rem] grid-cols-2 grid-rows-[repeat(2,auto)] gap-1.5 sm:auto-rows-[10.5rem] lg:grid-cols-4 lg:grid-rows-[repeat(2,minmax(10.5rem,auto))]">
-        <li
-          style={areaStyle(narrow.corner, wide.corner)}
+      {/* In the mosaic the opening's two rows grow with its text; the photo
+          rows stay fixed. The list of photos dissolves into the mosaic there,
+          so opening and photos share one grid. */}
+      <div className="flex flex-col gap-4 lg:grid lg:auto-rows-[10.5rem] lg:grid-cols-4 lg:grid-rows-[repeat(2,minmax(10.5rem,auto))] lg:gap-1.5">
+        <div
+          style={areaStyle(wide.corner)}
           className={cn(
             areaClass,
-            'flex flex-col justify-end gap-3 pb-2',
+            'flex flex-col justify-end gap-3 lg:pb-2',
             n % 2 ? 'lg:pr-6' : 'lg:pl-6',
           )}
         >
@@ -102,63 +101,72 @@ export function YearSection({
               {lead}
             </p>
           ) : null}
-        </li>
+        </div>
 
-        {withPhotos.map((project, i) => {
-          const photos = photosOf(project)
-          const more = photos.length - 1
-          const area = wide.tiles[i]!
-          return (
-            <li
-              key={project._id}
-              style={areaStyle(narrow.tiles[i]!, area)}
-              className={areaClass}
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setOpenAt(
-                    lightboxPhotos.findIndex(
-                      photo => photo.project === project._id,
-                    ),
-                  )
-                }
-                className="group relative block size-full overflow-hidden rounded-lg"
+        {/* The next photo peeks in at the edge, so it's clear the row goes on */}
+        <ul
+          aria-label={`Projekte im ${n}. Jahr`}
+          className="flex snap-x snap-mandatory gap-1.5 overflow-x-auto lg:contents"
+        >
+          {withPhotos.map((project, i) => {
+            const photos = photosOf(project)
+            const more = photos.length - 1
+            const area = wide.tiles[i]!
+            return (
+              <li
+                key={project._id}
+                style={areaStyle(area)}
+                className={cn(
+                  areaClass,
+                  'h-56 w-[70%] shrink-0 snap-start only:w-full sm:w-[45%] lg:h-auto lg:w-auto',
+                )}
               >
-                <img
-                  src={urlFor(photos[0]!)
-                    .width(area.colSpan * CELL_PX)
-                    .height(area.rowSpan * CELL_PX)
-                    .fit('crop')
-                    .auto('format')
-                    .url()}
-                  alt=""
-                  loading="lazy"
-                  className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
-                />
-                {/* The count sits in the top corner so the name has the full width */}
-                {more > 0 ? (
-                  <span className="text-body-xs absolute top-2 right-2 rounded-full bg-white/90 px-2 py-0.5 font-semibold">
-                    +{more} {more === 1 ? 'Foto' : 'Fotos'}
-                  </span>
-                ) : null}
-                <span
-                  className={cn(
-                    'font-condensed absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 via-black/30 to-transparent p-3 pt-12 text-left font-bold break-words text-white',
-                    i === 0
-                      ? 'text-2xl/tight'
-                      : project.name.length > LONG_NAME
-                        ? 'text-body-sm/tight'
-                        : 'text-body-md/tight',
-                  )}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenAt(
+                      lightboxPhotos.findIndex(
+                        photo => photo.project === project._id,
+                      ),
+                    )
+                  }
+                  className="group relative block size-full overflow-hidden rounded-lg"
                 >
-                  {project.name}
-                </span>
-              </button>
-            </li>
-          )
-        })}
-      </ul>
+                  <img
+                    src={urlFor(photos[0]!)
+                      .width(area.colSpan * CELL_PX)
+                      .height(area.rowSpan * CELL_PX)
+                      .fit('crop')
+                      .auto('format')
+                      .url()}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                  {/* The count sits in the top corner so the name has the full width */}
+                  {more > 0 ? (
+                    <span className="text-body-xs absolute top-2 right-2 rounded-full bg-white/90 px-2 py-0.5 font-semibold">
+                      +{more} {more === 1 ? 'Foto' : 'Fotos'}
+                    </span>
+                  ) : null}
+                  <span
+                    className={cn(
+                      'font-condensed absolute inset-x-0 bottom-0 bg-linear-to-t from-black/75 via-black/30 to-transparent p-3 pt-12 text-left font-bold break-words text-white',
+                      i === 0
+                        ? 'text-2xl/tight'
+                        : project.name.length > LONG_NAME
+                          ? 'text-body-sm/tight'
+                          : 'text-body-md/tight',
+                    )}
+                  >
+                    {project.name}
+                  </span>
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
 
       <div className="grid gap-8 md:grid-cols-2">
         {rest ? <p className="max-w-prose md:text-lg">{rest}</p> : null}

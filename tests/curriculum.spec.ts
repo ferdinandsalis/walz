@@ -56,15 +56,18 @@ test('opens the photos of a project', async ({ page }) => {
 test('leaves no gaps in a mosaic', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 })
   for (const n of [1, 2, 3, 4, 5]) {
+    // The photo list dissolves into the mosaic, so the opening and its
+    // photos are placed in the list's parent grid
     const holes = await page
-      .locator(`#jahr-${n} ul`)
-      .first()
-      .evaluate(grid => {
+      .getByRole('list', { name: `Projekte im ${n}. Jahr` })
+      .evaluate(list => {
+        const grid = list.parentElement!
         const columns =
           getComputedStyle(grid).gridTemplateColumns.split(' ').length
         const taken = new Set<string>()
         let lastRow = 0
-        for (const item of Array.from(grid.children)) {
+        const items = [grid.firstElementChild!, ...Array.from(list.children)]
+        for (const item of items) {
           const style = getComputedStyle(item)
           const row = Number(style.gridRowStart)
           const col = Number(style.gridColumnStart)
@@ -92,16 +95,40 @@ test('leaves no gaps in a mosaic', async ({ page }) => {
 test('keeps a longer opening inside its corner', async ({ page }) => {
   for (const width of [390, 896, 1160]) {
     await page.setViewportSize({ width, height: 900 })
-    const corner = page.locator('#jahr-4 ul > li').first()
+    const corner = page.locator('#jahr-4 > div:first-child > div:first-child')
     // Agnes may lengthen the first sentence; the corner has to grow with it
-    const spill = await corner.evaluate(li => {
-      const lead = li.querySelector('p')!
+    const spill = await corner.evaluate(opening => {
+      const lead = opening.querySelector('p')!
       lead.textContent += ' ' + lead.textContent
-      const top = li.firstElementChild!.getBoundingClientRect().top
-      return li.getBoundingClientRect().top - top
+      const top = opening.firstElementChild!.getBoundingClientRect().top
+      return opening.getBoundingClientRect().top - top
     })
     expect(spill, `${width}px`).toBeLessThanOrEqual(0)
   }
+})
+
+test('puts the photos of a year in one swipeable row on phones', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  for (const n of [1, 2, 3, 4, 5]) {
+    const row = page.getByRole('list', { name: `Projekte im ${n}. Jahr` })
+    const { tops, height } = await row.evaluate(list => ({
+      tops: new Set(
+        Array.from(list.children).map(item => item.getBoundingClientRect().top),
+      ).size,
+      height: list.getBoundingClientRect().height,
+    }))
+    expect({ tops, short: height <= 260 }, `year ${n}`).toEqual({
+      tops: 1,
+      short: true,
+    })
+  }
+  // Year 1 has more projects than fit, so the row scrolls sideways
+  const firstYear = page.getByRole('list', { name: 'Projekte im 1. Jahr' })
+  expect(
+    await firstYear.evaluate(list => list.scrollWidth > list.clientWidth),
+  ).toBe(true)
 })
 
 test('fits a phone screen', async ({ page }) => {
