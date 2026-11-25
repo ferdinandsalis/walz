@@ -78,12 +78,23 @@ export async function expectFocusOutline(locator: Locator) {
 
 // The root clips sideways overflow (`overflow-x-hidden` on <html>), so the
 // scroll width alone could miss a box running off the screen; every box's
-// right edge is checked as well.
+// right edge is checked as well. Boxes inside a row that scrolls sideways on
+// its own don't widen the page and are left out.
 export async function boxesPastTheRightEdge(page: Page) {
   return page.evaluate(() => {
     const width = document.documentElement.clientWidth
+    const scrollsSideways = (element: Element) =>
+      ['auto', 'scroll'].includes(getComputedStyle(element).overflowX)
+    const insideASideRow = (element: Element) => {
+      for (let up = element.parentElement; up; up = up.parentElement) {
+        if (up === document.documentElement) return false
+        if (scrollsSideways(up)) return true
+      }
+      return false
+    }
     return Array.from(document.body.querySelectorAll('*'))
       .filter(element => element.getBoundingClientRect().right > width + 0.5)
+      .filter(element => !insideASideRow(element))
       .map(
         element =>
           `${element.tagName.toLowerCase()} ${element.getAttribute('class') ?? ''}`,
